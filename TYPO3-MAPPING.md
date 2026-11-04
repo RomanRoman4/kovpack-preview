@@ -23,8 +23,9 @@ and verification: copying this directory into the CMS does not create editable b
 | Page shell, header, menu, language switch | Page titles/tree/order, translated links, logo | Keep shared Fluid layout/partials; derive navigation from the actual page tree |
 | Homepage hero | Heading, subline, CTA label/target, repeatable slide images and alt text | Preserve slideshow timing/transitions, controls, responsive crop and reduced motion |
 | Products overview intro | Heading, subline, image, alt text | Preserve the split layout, entrance and mobile stacking |
-| Roll product cards | Title, description, photo/alt, roll appearance, repeatable specs, CTA | Keep hover/tap/keyboard/Escape and the sheet animation; support varying card/spec counts |
-| Shelf product view and view switch | Same product content, appearance choice where required | Reuse the product model; preserve roll/shelf switching and touch behaviour |
+| Roll product cards | Title, short description, square photo/alt, roll appearance, repeatable specs, detail-page link | Sheets are a summary: render only the first 3 spec records (editor order); keep hover/tap/keyboard/Escape and the sheet animation; photo column optional |
+| Shelf product view and view switch | Same product record: name, short text, photo (taped print left of the text), first 3 specs, link | Reuse the product model; preserve roll/shelf switching and touch behaviour; label colour comes from the roll appearance; photo is hidden on 1024–1239px desktops only |
+| Product detail page (`.kovpack-pdp`) | Same product record: name, full description, photo/alt, all spec records, enquiry link target | One page per product; breadcrumb to the product overview; all specs in editor order; tolerate missing photo and any spec count |
 | News cards/scroller | Repeatable translated title, date, text, image/alt, link | Preserve scrolling and empty/single/many item states; connect the approved CMS news model |
 | Contact and forms | Contact text/links, labels, fields, consent and response text | Reuse supported TYPO3 form editing; configure actual sending and error handling separately |
 | Footer/certification images | Editable footer blocks, links, images/alt and captions | Keep inherited footer editing; do not turn demo claims into approved production claims |

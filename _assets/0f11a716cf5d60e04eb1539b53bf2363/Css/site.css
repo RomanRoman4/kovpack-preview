@@ -1158,3 +1158,42 @@ body[class] {
     .kovpack-to-top { display: none; }
     .header.is-stuck { position: static; }
 }
+
+/* ------------------------------------------------------------------------
+ * Product detail page (owner request 2026-11-04). The roll and shelf sheets
+ * show a summary; this page carries the full record: photo, name, text, all
+ * technical values and the enquiry link. Kraft palette, like the sheets.
+ * ---------------------------------------------------------------------- */
+.kovpack-pdp { --pdp-label: var(--kovpack-accent); padding-block: 40px 96px; }
+.kovpack-pdp--blue { --pdp-label: #5d9bd6; }
+.kovpack-pdp--teal { --pdp-label: #2fb2a3; }
+.kovpack-pdp--orange { --pdp-label: #f0813c; }
+.kovpack-pdp__crumbs { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 40px; color: var(--kovpack-muted); font-size: 14px; }
+.kovpack-pdp__crumbs a { color: inherit; text-decoration: none; border-bottom: 1px solid currentColor; }
+.kovpack-pdp__crumbs a:hover { color: var(--kovpack-ink); }
+.kovpack-pdp__crumbs [aria-current] { color: var(--kovpack-ink); font-weight: 600; }
+.kovpack-pdp__layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 96px); align-items: start; }
+.kovpack-pdp__photo { position: sticky; top: 110px; margin: 0; padding: 12px 12px 40px; border-radius: 4px; background: #f6f1e7; box-shadow: 0 1px 2px rgb(60 40 20 / 14%), 0 30px 50px -30px rgb(40 25 10 / 45%); transform: rotate(-1.2deg); }
+.kovpack-pdp__photo img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 2px; }
+.kovpack-pdp__eyebrow { display: flex; align-items: center; gap: 10px; margin: 0; color: var(--kovpack-muted); font-size: 12px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; }
+.kovpack-pdp__eyebrow::before { content: ""; width: 22px; height: 7px; border-radius: 2px; background: var(--pdp-label); }
+.kovpack-pdp .kovpack-pdp__title { margin: 16px 0 0; font-family: var(--kovpack-font-display); font-size: clamp(38px, 5vw, 64px); font-weight: 600; line-height: 1.02; overflow-wrap: normal; hyphens: auto; text-wrap: balance; }
+.kovpack-pdp__lead { margin-top: 20px; color: var(--kovpack-muted); font-size: 18px; line-height: 1.6; }
+.kovpack-pdp__lead p { margin: 0; font-size: inherit; line-height: inherit; }
+.kovpack-pdp .kovpack-pdp__subhead { margin: 48px 0 0; font-family: var(--kovpack-font); font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
+.kovpack-pdp__specs { margin: 14px 0 0; padding: 0; border-top: 1px solid var(--kovpack-ink); }
+.kovpack-pdp__specs > div { display: flex; justify-content: space-between; gap: 24px; padding: 14px 0; border-bottom: 1px dashed var(--kovpack-line); }
+.kovpack-pdp__specs dt { color: var(--kovpack-muted); font-size: 14px; }
+.kovpack-pdp__specs dd { margin: 0; font-size: 15px; font-weight: 600; text-align: right; }
+.kovpack-pdp__note { margin: 18px 0 0; color: var(--kovpack-muted); font-size: 14px; }
+.kovpack-pdp__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 28px; margin-top: 32px; }
+.kovpack-pdp__back { color: var(--kovpack-ink); font-weight: 600; text-decoration: none; border-bottom: 1px solid var(--kovpack-line); transition: border-color .2s; }
+.kovpack-pdp__back:hover { color: var(--kovpack-ink); border-color: var(--kovpack-ink); }
+@media (max-width: 900px) {
+    .kovpack-pdp { padding-block: 24px 64px; }
+    .kovpack-pdp__layout { grid-template-columns: 1fr; }
+    .kovpack-pdp__photo { position: relative; top: auto; max-width: 520px; padding: 8px 8px 26px; }
+    .kovpack-pdp__lead { font-size: 16px; }
+    .kovpack-pdp__specs > div { flex-direction: column; gap: 2px; }
+    .kovpack-pdp__specs dd { text-align: left; }
+}
