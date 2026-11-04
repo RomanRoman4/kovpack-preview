@@ -1,6 +1,6 @@
 {
   "sourceCommit": "b00e97044d946f60bfd5c61f79a0d6dc6a9f11b5",
-  "workingTreeChanges": false,
-  "builtAt": "2026-11-04T14:39:18.713599+00:00",
+  "workingTreeChanges": true,
+  "builtAt": "2026-11-04T15:02:12.150707+00:00",
   "purpose": "Static design preview; contact forms do not send messages."
 }
