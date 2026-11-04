@@ -1050,7 +1050,7 @@ body[class] {
 /* ------------------------------------------------------------------------
  * Sticky header and back-to-top button (owner request 2026-11-04).
  * scroll.js adds .is-stuck once the full header has left the screen: it then
- * returns as a compact bar of the same dark glass as the desktop menu.
+ * returns as a compact light-glass bar in the page's paper tone.
  * ---------------------------------------------------------------------- */
 :root { scroll-padding-top: 96px; }
 .header.is-stuck,
@@ -1064,20 +1064,34 @@ body[class] {
     width: 100%;
     padding-top: 10px;
     padding-bottom: 10px;
-    background: rgb(36 74 86 / 72%);
-    border-bottom: 1px solid rgb(255 255 255 / 16%);
-    box-shadow: 0 12px 32px -20px rgb(0 0 0 / 45%);
-    -webkit-backdrop-filter: blur(16px) saturate(140%);
-    backdrop-filter: blur(16px) saturate(140%);
+    color: var(--kovpack-ink);
+    background: rgb(255 253 248 / 78%);
+    border-bottom: 1px solid rgb(20 26 27 / 8%);
+    box-shadow: 0 10px 30px -22px rgb(15 42 51 / 45%);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+    backdrop-filter: blur(18px) saturate(160%);
     animation: kovpack-header-in .45s var(--kovpack-ease) both;
 }
 @keyframes kovpack-header-in { from { transform: translateY(-100%); } to { transform: none; } }
 .header.is-stuck .header__logo { max-width: 150px; }
-.header.is-stuck .header__logo :is(img, svg) { filter: none; }
+/* The white logo file is turned to brand ink on the light glass bar. */
+.header.is-stuck .header__logo :is(img, svg) { filter: brightness(0); opacity: .88; }
+.header.is-stuck .header__language-button { color: var(--kovpack-ink); background: rgb(20 26 27 / 7%); }
+@media (max-width: 1279px) {
+    .header.is-stuck .header__menu-button .button { --button-primary-content-color: var(--kovpack-ink); --button-primary-border-color: rgb(20 26 27 / 22%); }
+}
 @media (min-width: 1280px) {
     .header.is-stuck .header__content { align-items: center; }
     .header.is-stuck .header__logo { margin: 0 0 0 37px; max-width: 190px; }
-    .header.is-stuck .header__nav { margin-top: 0; }
+    .header.is-stuck .header__nav {
+        --link-color: var(--kovpack-ink);
+        --link-color-hover: var(--kovpack-ink);
+        margin-top: 0;
+        color: var(--kovpack-ink);
+        background: rgb(255 255 255 / 55%);
+        border-color: rgb(20 26 27 / 9%);
+    }
+    .header.is-stuck .header__nav-item:hover { background: rgb(20 26 27 / 6%); }
 }
 
 .kovpack-to-top {
