@@ -220,15 +220,16 @@
     --icon-fill: #2a1d10;
     --link-color: #2a1d10;
     --link-color-hover: #2a1d10;
-    display: flex;
-    justify-content: space-between;
+    /* A compact tab sized to its label, like the shelf view's button. */
+    display: inline-flex;
     align-items: center;
-    gap: 12px;
+    gap: max(20px, calc(28 * var(--u)));
     box-sizing: border-box;
-    width: 100%;
+    width: auto;
+    max-width: 100%;
     min-height: 44px;
     margin-top: calc(8 * var(--u));
-    padding: calc(10 * var(--u)) calc(10 * var(--u)) calc(10 * var(--u)) calc(20 * var(--u));
+    padding: 7px 7px 7px max(16px, calc(18 * var(--u)));
     border: 1px solid rgb(36 26 15 / 14%);
     border-radius: var(--corners-s, 8px);
     background: linear-gradient(rgb(255 252 245 / 86%), rgb(246 238 224 / 78%));
@@ -246,12 +247,12 @@
     display: grid;
     flex: none;
     place-items: center;
-    width: max(28px, calc(32 * var(--u)));
-    height: max(28px, calc(32 * var(--u)));
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
     background: #2a1d10;
     color: #f6eedf;
-    font-size: max(14px, calc(16 * var(--u)));
+    font-size: 14px;
     transition: transform .3s var(--roll-ease), background .3s;
 }
 .kovpack-roll__action .button:hover {
@@ -275,7 +276,7 @@
         .kovpack-roll__text { display: block; }
         .kovpack-roll__specs > div { padding-block: calc(7 * var(--u)); }
         .kovpack-roll__action { padding-top: calc(16 * var(--u)); }
-        .kovpack-roll__action .button { margin-top: calc(8 * var(--u)); padding-block: calc(10 * var(--u)); }
+        .kovpack-roll__action .button { margin-top: calc(8 * var(--u)); }
         .kovpack-roll__specs { grid-column: 2; grid-row: 1 / span 2; align-self: center; margin: 0; }
         .kovpack-roll__action { grid-column: 1; grid-row: 2; align-self: end; }
     }
@@ -334,7 +335,7 @@
     /* The full list stays on the product page. */
     .kovpack-roll__specs > div:nth-child(n + 4) { display: none; }
     .kovpack-roll__specs > div:nth-child(3) { border-bottom: 1px dashed rgb(36 26 15 / 38%); }
-    .kovpack-roll__action .button { gap: 8px; padding-left: max(12px, calc(20 * var(--u))); white-space: nowrap; }
+    .kovpack-roll__action .button { gap: 16px; white-space: nowrap; }
     .kovpack-roll__action .button::after { width: max(24px, calc(30 * var(--u))); height: max(24px, calc(30 * var(--u))); }
     /* The narrowest sheets keep the button at full size and readable type;
      * they drop the button's redundant note and show two specifications. */
