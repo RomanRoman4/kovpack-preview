@@ -1065,18 +1065,20 @@ body[class] {
     padding-top: 10px;
     padding-bottom: 10px;
     color: var(--kovpack-ink);
-    background: rgb(255 253 248 / 78%);
-    border-bottom: 1px solid rgb(20 26 27 / 8%);
-    box-shadow: 0 10px 30px -22px rgb(15 42 51 / 45%);
-    -webkit-backdrop-filter: blur(18px) saturate(160%);
-    backdrop-filter: blur(18px) saturate(160%);
-    animation: kovpack-header-in .45s var(--kovpack-ease) both;
+    /* Warm kraft-grey glass, not white, so it sits calmly on photos and paper. */
+    background: linear-gradient(rgb(226 220 209 / 74%), rgb(235 231 223 / 66%));
+    border-bottom: 1px solid rgb(20 26 27 / 7%);
+    box-shadow: 0 10px 30px -24px rgb(15 42 51 / 40%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    backdrop-filter: blur(20px) saturate(150%);
+    animation: kovpack-header-in .7s var(--kovpack-ease) both;
 }
-@keyframes kovpack-header-in { from { transform: translateY(-100%); } to { transform: none; } }
+/* A short drop with a fade instead of sliding the whole bar in. */
+@keyframes kovpack-header-in { from { opacity: 0; transform: translateY(-28px); } to { opacity: 1; transform: none; } }
 .header.is-stuck .header__logo { max-width: 150px; }
 /* The white logo file is turned to brand ink on the light glass bar. */
 .header.is-stuck .header__logo :is(img, svg) { filter: brightness(0); opacity: .88; }
-.header.is-stuck .header__language-button { color: var(--kovpack-ink); background: rgb(20 26 27 / 7%); }
+.header.is-stuck .header__language-button { color: var(--kovpack-ink); background: rgb(20 26 27 / 8%); }
 @media (max-width: 1279px) {
     .header.is-stuck .header__menu-button .button { --button-primary-content-color: var(--kovpack-ink); --button-primary-border-color: rgb(20 26 27 / 22%); }
 }
@@ -1088,10 +1090,10 @@ body[class] {
         --link-color-hover: var(--kovpack-ink);
         margin-top: 0;
         color: var(--kovpack-ink);
-        background: rgb(255 255 255 / 55%);
-        border-color: rgb(20 26 27 / 9%);
+        background: rgb(20 26 27 / 4%);
+        border-color: rgb(20 26 27 / 8%);
     }
-    .header.is-stuck .header__nav-item:hover { background: rgb(20 26 27 / 6%); }
+    .header.is-stuck .header__nav-item:hover { background: rgb(20 26 27 / 7%); }
 }
 
 .kovpack-to-top {
