@@ -49,8 +49,14 @@
     padding: 0 calc(var(--kovpack-gutter, 32px) / 2) var(--kovpack-gutter, 32px);
 }
 .kovpack-shelf {
+    /* Standing roll photo: 465 x 1754 px, so width = height / 3.772. */
+    --roll-x: 24px;
+    --roll-y: 34px;
+    --roll-w: 148px;
+    --roll-h: 558px;
     --shelf-ink: #1d1a17;
-    --shelf-paper: #c3a885;
+    /* Unrolled kraft, a little lighter than the roll it comes from (#b29a84). */
+    --shelf-paper: #bfa58b;
     --shelf-dark: #241a12;
     --shelf-ease: cubic-bezier(.65, 0, .25, 1);
     color: var(--shelf-ink);
@@ -100,38 +106,51 @@
     bottom: 28px;
     width: 160px;
     font-family: var(--kovpack-font-display, sans-serif);
+    color: var(--shelf-ink);
     font-size: 21px;
     font-weight: 600;
     line-height: 1.1;
 }
 
-/* The kraft web: shaded where it leaves the roll, torn zigzag at its end. */
+/* The kraft web. It leaves the roll at its right side, between the rims of
+ * the cylinder (14 and 534 of the 558px roll), so its top and bottom meet the
+ * roll's side exactly. Gently wavy edges with matching light and shade make it
+ * read as a real sheet; the roll casts a soft shadow onto its start, and the
+ * free end has the serrated edge of a cutter bar. */
 .kovpack-shelf__paper {
     position: absolute;
     z-index: 1;
-    top: 52px;
-    left: 100px;
+    top: calc(var(--roll-y) + 14px);
+    left: calc(var(--roll-x) + var(--roll-w) / 2);
     width: 0;
-    height: 494px;
-    filter: drop-shadow(0 14px 20px rgb(60 40 20 / 16%));
+    height: 520px;
+    filter: drop-shadow(0 2px 2px rgb(60 40 20 / 14%)) drop-shadow(0 18px 22px rgb(60 40 20 / 18%));
     transition: width .8s var(--shelf-ease);
 }
 .kovpack-shelf__item:not(.is-active):hover .kovpack-shelf__paper { width: 136px; }
-.kovpack-shelf__item.is-active .kovpack-shelf__paper { width: calc(100% - 132px); }
+.kovpack-shelf__item.is-active .kovpack-shelf__paper { width: calc(100% - var(--roll-x) - var(--roll-w) / 2 - 34px); }
 .kovpack-shelf__paper::before {
+    --wave-top: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 8' preserveAspectRatio='none'%3E%3Cpath d='M0 4C40 1.5 120 1 170 4.5S280 6.5 320 4V8H0Z'/%3E%3C/svg%3E");
+    --wave-bottom: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 8' preserveAspectRatio='none'%3E%3Cpath d='M0 4C40 1.5 120 1 170 4.5S280 6.5 320 4V0H0Z'/%3E%3C/svg%3E");
+    --paper-mask:
+        linear-gradient(#000 0 0) 0 8px / calc(100% - 9px) calc(100% - 16px) no-repeat,
+        var(--wave-top) 0 0 / 320px 8px repeat-x,
+        var(--wave-bottom) 0 100% / 320px 8px repeat-x,
+        conic-gradient(from 225deg at right, #0000, #000 1deg 89deg, #0000 90deg) right / 9px 16px repeat-y;
     content: "";
     position: absolute;
     inset: 0;
     background:
-        linear-gradient(90deg, rgb(50 32 15 / 42%), rgb(50 32 15 / 0%) 16%, rgb(255 255 255 / 7%) 75%, rgb(50 32 15 / 10%)),
+        /* Shadow of the roll, then the sheet curving away from it. */
+        linear-gradient(90deg, rgb(40 25 10 / 62%) calc(var(--roll-w) / 2), rgb(40 25 10 / 26%) calc(var(--roll-w) / 2 + 14px), rgb(40 25 10 / 0%) calc(var(--roll-w) / 2 + 60px)),
+        /* Soft undulation, in step with the wavy edges. */
+        linear-gradient(90deg, rgb(255 250 240 / 10%), rgb(60 40 20 / 11%) 30%, rgb(60 40 20 / 3%) 50%, rgb(255 250 240 / 15%) 76%, rgb(255 250 240 / 10%)) 0 0 / 320px 100% repeat-x,
+        /* Light from above: the top edge is a touch brighter than the bottom. */
+        linear-gradient(rgb(255 250 240 / 10%), rgb(255 250 240 / 0%) 30%, rgb(60 40 20 / 0%) 75%, rgb(60 40 20 / 12%)),
         url("../Images/kovpack-paper-grain.png"),
         var(--shelf-paper);
-    -webkit-mask:
-        linear-gradient(#000 0 0) left / calc(100% - 10px) 100% no-repeat,
-        conic-gradient(from 225deg at right, #0000, #000 1deg 89deg, #0000 90deg) right / 10px 20px repeat-y;
-    mask:
-        linear-gradient(#000 0 0) left / calc(100% - 10px) 100% no-repeat,
-        conic-gradient(from 225deg at right, #0000, #000 1deg 89deg, #0000 90deg) right / 10px 20px repeat-y;
+    -webkit-mask: var(--paper-mask);
+    mask: var(--paper-mask);
 }
 .kovpack-shelf__content {
     position: absolute;
@@ -143,7 +162,7 @@
     width: 100%;
     min-width: 420px;
     max-width: 600px;
-    padding: 34px 40px 34px 112px;
+    padding: 36px 40px 36px calc(var(--roll-w) / 2 + 26px);
     /* Closed items hide their details completely once the fade is over. */
     visibility: hidden;
     opacity: 0;
@@ -213,21 +232,34 @@
 .kovpack-shelf__button:hover span { transform: translate(2px, -2px); }
 .kovpack-shelf__button:focus-visible { outline: 3px solid var(--shelf-dark); outline-offset: 3px; }
 
-/* The standing roll. The orange and blue label bands are pre-tinted copies of
- * the teal roll (the design's hue-rotate filters, applied along the band's
- * curved edges), so no rectangular overlay shows teal or tinted kraft edges. */
+/* The standing roll (owner's photo, 2026-11-04). The orange and blue labels
+ * are recoloured copies of the teal one, made from the same photo. It casts a
+ * soft shadow to the right and stands on a contact shadow. */
 .kovpack-shelf__roll {
     position: absolute;
     z-index: 2;
-    top: 40px;
-    left: 18px;
-    width: 165px;
-    height: 520px;
-    filter: drop-shadow(8px 16px 18px rgb(40 25 10 / 25%));
+    top: var(--roll-y);
+    left: var(--roll-x);
+    width: var(--roll-w);
+    height: var(--roll-h);
+    filter: drop-shadow(1px 2px 2px rgb(40 25 10 / 22%)) drop-shadow(12px 16px 18px rgb(40 25 10 / 22%));
     pointer-events: none;
     transition: transform .5s cubic-bezier(.3, 1.4, .5, 1);
 }
-.kovpack-shelf__item:not(.is-active):hover .kovpack-shelf__roll { transform: translateY(-8px) rotate(-1.5deg); }
+.kovpack-shelf__roll::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    left: -6%;
+    right: -14%;
+    bottom: -14px;
+    height: 34px;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, rgb(40 25 10 / 42%), rgb(40 25 10 / 16%) 60%, rgb(40 25 10 / 0%));
+    transition: transform .5s cubic-bezier(.3, 1.4, .5, 1), opacity .5s;
+}
+.kovpack-shelf__item:not(.is-active):hover .kovpack-shelf__roll { transform: translateY(-6px) rotate(-1deg); }
+.kovpack-shelf__item:not(.is-active):hover .kovpack-shelf__roll::before { transform: translateY(6px) scaleX(.9); opacity: .7; }
 .kovpack-shelf__roll img { display: block; width: 100%; height: 100%; }
 
 @media (max-width: 1200px) {
@@ -250,7 +282,8 @@
     .kovpack-shelf__item.is-active,
     .kovpack-shelf__item:not(.is-active):hover { flex: none; background: #ece7df; }
     .kovpack-shelf__toggle { display: none; }
-    .kovpack-shelf__roll { top: 24px; left: 16px; width: 95px; height: 299px; transform: none !important; }
+    .kovpack-shelf { --roll-x: 16px; --roll-y: 24px; --roll-w: 80px; --roll-h: 302px; }
+    .kovpack-shelf__roll { transform: none !important; }
     .kovpack-shelf__paper,
     .kovpack-shelf__item:not(.is-active):hover .kovpack-shelf__paper,
     .kovpack-shelf__item.is-active .kovpack-shelf__paper {
@@ -259,7 +292,7 @@
         left: auto;
         width: auto;
         height: auto;
-        margin: 24px 16px 24px 64px;
+        margin: 24px 16px 24px calc(var(--roll-x) + var(--roll-w) / 2);
         transition: none;
     }
     .kovpack-shelf__content,
@@ -269,7 +302,7 @@
         min-width: 0;
         max-width: none;
         min-height: 300px;
-        padding: 28px 34px 28px 64px;
+        padding: 30px 34px 30px calc(var(--roll-w) / 2 + 20px);
         visibility: visible;
         opacity: 1;
         transition: none;
@@ -286,11 +319,11 @@
 }
 @media (max-width: 480px) {
     .kovpack-shelf .kovpack-shelf__name { font-size: 30px; hyphens: auto; }
+    .kovpack-shelf { --roll-x: 14px; --roll-w: 68px; --roll-h: 256px; }
     .kovpack-shelf__content,
-    .kovpack-shelf__item.is-active .kovpack-shelf__content { padding: 24px 22px 24px 52px; }
+    .kovpack-shelf__item.is-active .kovpack-shelf__content { padding: 26px 22px 26px calc(var(--roll-w) / 2 + 16px); }
     .kovpack-shelf__paper,
-    .kovpack-shelf__item.is-active .kovpack-shelf__paper { margin: 24px 12px 24px 56px; }
-    .kovpack-shelf__roll { width: 80px; height: 252px; }
+    .kovpack-shelf__item.is-active .kovpack-shelf__paper { margin-right: 12px; }
     .kovpack-shelf__specs > div { flex-direction: column; gap: 2px; }
     .kovpack-shelf__specs dd { text-align: left; }
 }
@@ -299,5 +332,6 @@
     .kovpack-shelf *,
     .kovpack-shelf *::before,
     .kovpack-shelf *::after { transition-duration: .01ms !important; transition-delay: 0s !important; }
-    .kovpack-shelf__item:not(.is-active):hover .kovpack-shelf__roll { transform: none; }
+    .kovpack-shelf__item:not(.is-active):hover .kovpack-shelf__roll,
+    .kovpack-shelf__item:not(.is-active):hover .kovpack-shelf__roll::before { transform: none; }
 }
