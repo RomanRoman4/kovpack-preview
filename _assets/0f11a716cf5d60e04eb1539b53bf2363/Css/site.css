@@ -1064,9 +1064,9 @@ body[class] {
     width: 100%;
     padding-top: 10px;
     padding-bottom: 10px;
-    background: rgb(15 42 51 / 80%);
-    border-bottom: 1px solid rgb(255 255 255 / 10%);
-    box-shadow: 0 12px 32px -20px rgb(0 0 0 / 65%);
+    background: rgb(36 74 86 / 72%);
+    border-bottom: 1px solid rgb(255 255 255 / 16%);
+    box-shadow: 0 12px 32px -20px rgb(0 0 0 / 45%);
     -webkit-backdrop-filter: blur(16px) saturate(140%);
     backdrop-filter: blur(16px) saturate(140%);
     animation: kovpack-header-in .45s var(--kovpack-ease) both;
