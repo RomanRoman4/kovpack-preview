@@ -1,0 +1,15 @@
+# Local editor, credentials and review output
+.vscode/
+.idea/
+.claude/
+.env
+.env.*
+!.env.example
+node_modules/
+test-results/
+playwright-report/
+screenshots/
+__pycache__/
+.DS_Store
+Thumbs.db
+*:Zone.Identifier
