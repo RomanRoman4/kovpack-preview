@@ -1,7 +1,8 @@
 (() => {
 "use strict";
 // Sticky header and back-to-top button (owner request 2026-11-04). Home page
-// only: inner pages have a slim bar that CSS keeps sticky (2026-11-05).
+// only switches the bar: inner pages keep one sticky slim bar that fades from
+// dark to light (.is-scrolled) once the page scrolls (2026-11-05).
 //
 // Once the full header has scrolled out of view, it returns as a compact bar
 // fixed to the top (.is-stuck) and stays until the visitor is back at the top
@@ -75,7 +76,8 @@ const update = () => {
     const y = window.scrollY;
     // Stick once the full header is gone; release only back at the very top.
     if (!switching) {
-        // nothing to switch
+        // Inner pages: the bar stays in place and only fades from dark to light.
+        header?.classList.toggle('is-scrolled', y > 2);
     } else if (y > headerHeight) {
         cancelRelease();
         header?.classList.remove('is-returning');

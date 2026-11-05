@@ -825,19 +825,32 @@ body[class] {
     .header__nav-item { font-weight: 450; }
 }
 
-/* Inner pages (no full-height hero): one slim dark bar in the footer's colour,
- * as high as the scrolled bar on the home page. It sticks to the top and never
- * changes, so scrolling down and back up is seamless (owner, 2026-11-05).
- * scroll.js leaves it alone; the home page keeps its large logo over the photo
- * and the light glass bar once scrolled. */
+/* Inner pages (no full-height hero): one slim bar, as high as the scrolled bar
+ * on the home page. At the top it is dark in the footer's colour; once the page
+ * scrolls (scroll.js adds .is-scrolled) it fades into the same light glass bar,
+ * and back again at the top. Its size never changes, so only the colours cross
+ * over (owner, 2026-11-05). The home page keeps its large logo over the photo. */
 .header:not(:has(+ .hero:not(.hero--text-only, .hero--small))) {
     --header-height: 52px;
     --header-padding-vertical: 10px;
     position: sticky;
     top: 0;
     z-index: 30;
-    background: var(--kovpack-primary, #0f2a33);
+    background-color: var(--kovpack-primary, #0f2a33);
+    box-shadow: inset 0 -1px 0 rgb(20 26 27 / 0%), 0 10px 30px -24px rgb(15 42 51 / 0%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    backdrop-filter: blur(20px) saturate(150%);
+    transition: background-color .5s ease, box-shadow .5s ease;
 }
+.header:not(:has(+ .hero:not(.hero--text-only, .hero--small))).is-scrolled {
+    color: var(--kovpack-ink);
+    /* The light glass of the home page's scrolled bar, as one colour so it can fade. */
+    background-color: rgb(230 225 216 / 76%);
+    box-shadow: inset 0 -1px 0 rgb(20 26 27 / 7%), 0 10px 30px -24px rgb(15 42 51 / 40%);
+}
+.header:not(:has(+ .hero:not(.hero--text-only, .hero--small))) .header__logo :is(img, svg) { filter: brightness(1); opacity: 1; transition: filter .5s ease, opacity .5s ease; }
+.header:not(:has(+ .hero:not(.hero--text-only, .hero--small))).is-scrolled .header__logo :is(img, svg) { filter: brightness(0); opacity: .88; }
+.header:not(:has(+ .hero:not(.hero--text-only, .hero--small))) :is(.header__nav, .header__nav-item, .header__language-button, .header__menu-button .button) { transition: color .5s ease, background-color .5s ease, border-color .5s ease; }
 .header:not(:has(+ .hero:not(.hero--text-only, .hero--small))) .header__content { align-items: center; }
 .header:not(:has(+ .hero:not(.hero--text-only, .hero--small))) .header__logo { height: auto; margin: 0; max-width: min(48vw, 190px); line-height: normal; }
 .header:not(:has(+ .hero:not(.hero--text-only, .hero--small))) .header__nav { margin-top: 0; }
@@ -1154,15 +1167,15 @@ body[class] {
 @keyframes kovpack-header-return { from { opacity: 0; } to { opacity: 1; } }
 .header.is-stuck .header__logo { max-width: 150px; }
 /* The white logo file is turned to brand ink on the light glass bar. */
-.header.is-stuck .header__logo :is(img, svg) { filter: brightness(0); opacity: .88; }
-.header.is-stuck .header__language-button { color: var(--kovpack-ink); background: rgb(20 26 27 / 8%); }
+.header:is(.is-stuck, .is-scrolled) .header__logo :is(img, svg) { filter: brightness(0); opacity: .88; }
+.header:is(.is-stuck, .is-scrolled) .header__language-button { color: var(--kovpack-ink); background: rgb(20 26 27 / 8%); }
 @media (max-width: 1279px) {
-    .header.is-stuck .header__menu-button .button { --button-primary-content-color: var(--kovpack-ink); --button-primary-border-color: rgb(20 26 27 / 22%); }
+    .header:is(.is-stuck, .is-scrolled) .header__menu-button .button { --button-primary-content-color: var(--kovpack-ink); --button-primary-border-color: rgb(20 26 27 / 22%); }
 }
 @media (min-width: 1280px) {
     .header.is-stuck .header__content { align-items: center; }
     .header.is-stuck .header__logo { margin: 0; max-width: 190px; }
-    .header.is-stuck .header__nav {
+    .header:is(.is-stuck, .is-scrolled) .header__nav {
         --link-color: var(--kovpack-ink);
         --link-color-hover: var(--kovpack-ink);
         margin-top: 0;
@@ -1170,7 +1183,7 @@ body[class] {
         background: rgb(20 26 27 / 4%);
         border-color: rgb(20 26 27 / 8%);
     }
-    .header.is-stuck .header__nav-item:hover { background: rgb(20 26 27 / 7%); }
+    .header:is(.is-stuck, .is-scrolled) .header__nav-item:hover { background: rgb(20 26 27 / 7%); }
 }
 
 .kovpack-to-top {
@@ -1257,13 +1270,13 @@ body[class] {
 .kovpack-pdp__eyebrow { display: flex; align-items: center; gap: 10px; margin: 0; color: var(--kovpack-muted); font-size: 12px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; }
 .kovpack-pdp__eyebrow::before { content: ""; width: 22px; height: 7px; border-radius: 2px; background: var(--pdp-label); }
 .kovpack-pdp .kovpack-pdp__title { margin: 16px 0 0; font-family: var(--kovpack-font-display); font-size: clamp(34px, 4vw, 56px); font-weight: 600; line-height: 1.02; overflow-wrap: normal; hyphens: auto; text-wrap: balance; }
-.kovpack-pdp__lead { margin-top: 20px; color: var(--kovpack-muted); font-size: 18px; line-height: 1.6; }
+.kovpack-pdp__lead { margin-top: 16px; color: var(--kovpack-muted); font-size: 18px; line-height: 1.4; }
 .kovpack-pdp__lead p { margin: 0; font-size: inherit; line-height: inherit; }
-.kovpack-pdp .kovpack-pdp__subhead { margin: 36px 0 0; font-family: var(--kovpack-font); font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
+.kovpack-pdp .kovpack-pdp__subhead { margin: 28px 0 0; font-family: var(--kovpack-font); font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
 .kovpack-pdp__specs { margin: 14px 0 0; padding: 0; border-top: 1px solid var(--kovpack-ink); }
-.kovpack-pdp__specs > div { display: flex; justify-content: space-between; gap: 24px; padding: 11px 0; border-bottom: 1px dashed var(--kovpack-line); }
-.kovpack-pdp__specs dt { color: var(--kovpack-muted); font-size: 14px; }
-.kovpack-pdp__specs dd { margin: 0; font-size: 15px; font-weight: 600; text-align: right; }
+.kovpack-pdp__specs > div { display: flex; justify-content: space-between; gap: 24px; padding: 7px 0; border-bottom: 1px dashed var(--kovpack-line); }
+.kovpack-pdp__specs dt { color: var(--kovpack-muted); font-size: 14px; line-height: 1.35; }
+.kovpack-pdp__specs dd { margin: 0; font-size: 15px; font-weight: 600; line-height: 1.35; text-align: right; }
 .kovpack-pdp__note { margin: 18px 0 0; color: var(--kovpack-muted); font-size: 14px; }
 .kovpack-pdp__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 28px; margin-top: 32px; }
 .kovpack-pdp__back { color: var(--kovpack-ink); font-weight: 600; text-decoration: none; border-bottom: 1px solid var(--kovpack-line); transition: border-color .2s; }
