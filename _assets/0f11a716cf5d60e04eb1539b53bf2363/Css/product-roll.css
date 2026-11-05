@@ -2,9 +2,9 @@
  *
  * Every rule is scoped to .kovpack-roll. The roll photo, the sheet and the floor
  * shadow are positioned in "roll units": --u is one pixel of the approved demo,
- * where the roll is 176 × 565 and the sheet 514 high. The sheet's bottom edge
- * meets the roll's side exactly in that geometry, so it is only ever scaled as a
- * whole through --u, never per value. --rest is the closed roll's left edge and
+ * where the roll is 176 × 565 and the sheet 514 high, from the roll's top to a
+ * little above its foot. The geometry is only ever scaled as a whole through
+ * --u, never per value. --rest is the closed roll's left edge and
  * --slide the distance it travels while the sheet unrolls, both in roll units.
  *
  * Each label colour is its own photo. --img-* place the photo in the roll button
@@ -161,7 +161,9 @@
     --sheet-paper: #c3a688;
     position: absolute;
     z-index: 2;
-    top: calc(33 * var(--u));
+    /* From the roll's very top to a little above its foot: the roll is seen
+     * from slightly above (owner, 2026-11-05). */
+    top: calc(14 * var(--u));
     left: calc((var(--rest) + var(--body) - 12.1) * var(--u));
     width: var(--sheet-width);
     height: calc(514 * var(--u));
