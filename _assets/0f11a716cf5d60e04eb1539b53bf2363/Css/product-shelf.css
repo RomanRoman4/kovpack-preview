@@ -410,14 +410,21 @@
 .kovpack-shelf__roll img { display: block; width: 100%; height: 100%; }
 
 /* Desktop row: a closed card shows its roll and name centred. On hover the
- * roll glides left to its place at the card's edge (and lifts, as above) to
- * let the web peek out; opening the card keeps it there (owner, 2026-11-05). */
+ * roll glides a little to the left (and lifts, as above) to let the web peek
+ * out from its middle; opening the card takes it to the card's edge
+ * (owner, 2026-11-05: a short slide, not all the way). */
 @media (min-width: 1024px) {
+    .kovpack-shelf { --hover-slide: 22px; }
     .kovpack-shelf__roll {
         left: calc(50% - var(--roll-w) / 2);
         transition: transform .5s cubic-bezier(.3, 1.4, .5, 1), left .65s cubic-bezier(.22, .75, .22, 1);
     }
-    .kovpack-shelf__item:is(:hover, .is-active) .kovpack-shelf__roll { left: var(--roll-x); }
+    .kovpack-shelf__item:not(.is-active):hover .kovpack-shelf__roll { left: calc(50% - var(--roll-w) / 2 - var(--hover-slide)); }
+    .kovpack-shelf__item.is-active .kovpack-shelf__roll { left: var(--roll-x); }
+    /* The web leaves from the roll's middle wherever the roll stands. */
+    .kovpack-shelf__paper { left: calc(50% - var(--hover-slide)); transition: width .8s var(--shelf-ease), top .8s var(--shelf-ease), height .8s var(--shelf-ease), left .65s cubic-bezier(.22, .75, .22, 1); }
+    .kovpack-shelf__item:not(.is-active):hover .kovpack-shelf__paper { width: min(136px, 50% + var(--hover-slide) - 20px); }
+    .kovpack-shelf__item.is-active .kovpack-shelf__paper { left: calc(var(--roll-x) + var(--roll-w) / 2); }
     .kovpack-shelf__label { text-align: center; }
     /* Preview option (product-shelf.js): the name above the roll instead of
      * below it; the roll and its web move down to make room. */
