@@ -101,7 +101,9 @@
     background: #efebe5;
     transition: flex-basis .7s var(--shelf-ease), flex-grow .7s var(--shelf-ease), background .4s;
 }
-.kovpack-shelf__item:not(.is-active):hover { flex-basis: clamp(210px, 23%, 360px); background: #ebe6de; }
+/* Hover never changes a card's width: the open sheet must not move or reflow
+ * while the pointer passes over the other rolls (owner, 2026-11-05). */
+.kovpack-shelf__item:not(.is-active):hover { background: #ebe6de; }
 .kovpack-shelf__item.is-active { flex: 1 0 0; background: #ece7df; }
 
 /* The whole closed item is one button; open, it lets clicks through to the link. */
@@ -154,7 +156,8 @@
     filter: drop-shadow(0 2px 2px rgb(60 40 20 / 14%)) drop-shadow(0 18px 22px rgb(60 40 20 / 18%));
     transition: width .8s var(--shelf-ease);
 }
-.kovpack-shelf__item:not(.is-active):hover .kovpack-shelf__paper { width: 136px; }
+/* A short peek of the web, inside the closed card's own width. */
+.kovpack-shelf__item:not(.is-active):hover .kovpack-shelf__paper { width: min(136px, 100% - var(--roll-x) - var(--roll-w) / 2 - 24px); }
 .kovpack-shelf__item.is-active .kovpack-shelf__paper { width: calc(100% - var(--roll-x) - var(--roll-w) / 2 - 34px); }
 .kovpack-shelf__paper::before {
     --wave-top: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 8' preserveAspectRatio='none'%3E%3Cpath d='M0 4C40 1.5 120 1 170 4.5S280 6.5 320 4V8H0Z'/%3E%3C/svg%3E");
@@ -376,7 +379,6 @@
 }
 @media (max-width: 1200px) {
     .kovpack-shelf__label { font-size: 18px; }
-    .kovpack-shelf__item:not(.is-active):hover .kovpack-shelf__paper { width: 110px; }
 }
 
 /* Phones and tablets: every product open, stacked, nothing to click but the link. */
