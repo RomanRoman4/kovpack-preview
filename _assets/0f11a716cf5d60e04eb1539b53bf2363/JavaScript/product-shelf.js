@@ -90,6 +90,13 @@ const LOOKS = {
         label: { de: 'Abriss am Ende', en: 'Cut end' },
         options: { serrated: { de: 'Zackenschnitt', en: 'Serrated' }, torn: { de: 'Gerissen', en: 'Torn' }, clean: { de: 'Glatter Schnitt', en: 'Clean cut' } }
     },
+    // Display face of names and section headings, on every page (scroll.js
+    // restores the stored choice on pages without products).
+    displayFont: {
+        storageKey: 'kovpack-display-font',
+        label: { de: 'Schrift für Namen und Überschriften', en: 'Font for names and headings' },
+        options: { archivo: { de: 'Archivo', en: 'Archivo' }, shoulders: { de: 'Big Shoulders', en: 'Big Shoulders' }, saira: { de: 'Saira', en: 'Saira' }, barlow: { de: 'Barlow (bisher)', en: 'Barlow (current)' } }
+    },
     // Shelf view only: the product name below or above the standing roll.
     shelfLabel: {
         storageKey: 'kovpack-shelf-label',
@@ -195,7 +202,7 @@ const addControls = (group, view, shelfContent) => {
     const switchTemplate = view ? null : group[0].querySelector('template[data-shelf-switch]');
     const controls = document.createElement('div');
     controls.className = 'kovpack-product-controls';
-    controls.append(createNameSwitch(), createLookSwitch('paperStyle'), createLookSwitch('paperCut'));
+    controls.append(createNameSwitch(), createLookSwitch('displayFont'), createLookSwitch('paperStyle'), createLookSwitch('paperCut'));
     if (view !== 'rolls') controls.append(createLookSwitch('shelfLabel'));
     const before = group[0].previousElementSibling;
     const heading = before?.matches('.frame') && before.querySelector('h1, h2') ? before : null;

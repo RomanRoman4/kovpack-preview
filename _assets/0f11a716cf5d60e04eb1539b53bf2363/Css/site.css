@@ -1,6 +1,6 @@
 /*
  * KOVPACK design layer: warm paper neutrals, deep petrol and kraft accents.
- * Display type Barlow Semi Condensed, text type Geist, hosted locally (SIL OFL).
+ * Display type Archivo (wide, bold), text type Geist, hosted locally (SIL OFL).
  * Camino owns markup, content and interaction; this file is loaded after it.
  */
 @font-face {
@@ -19,6 +19,34 @@
     font-display: swap;
 }
 
+/* Industrial display faces for names and section headings (owner,
+ * 2026-11-05), all SIL OFL. Archivo is variable in weight and width; the
+ * other two are single bold cuts, used for every heading weight. */
+@font-face {
+    font-family: "Archivo";
+    src: url("../Fonts/archivo-variable.woff2") format("woff2");
+    font-style: normal;
+    font-weight: 100 900;
+    font-stretch: 62% 125%;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Big Shoulders Display";
+    src: url("../Fonts/big-shoulders-display-800.woff2") format("woff2");
+    font-style: normal;
+    font-weight: 500 900;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Saira Condensed";
+    src: url("../Fonts/saira-condensed-700.woff2") format("woff2");
+    font-style: normal;
+    font-weight: 500 900;
+    font-display: swap;
+}
+
 @font-face {
     font-family: "Geist";
     src: url("../Fonts/geist-variable.woff2") format("woff2");
@@ -26,6 +54,15 @@
     font-weight: 100 900;
     font-display: swap;
 }
+
+/* Display face choices (design preview switch, product-shelf.js; kept for
+ * the visitor by scroll.js on every page). Archivo is the default, set wide:
+ * font-stretch is inherited but only Archivo has a width axis. */
+:root:not([data-display-font]),
+:root[data-display-font="archivo"] { font-stretch: 105%; }
+:root[data-display-font="shoulders"] { --kovpack-font-display: "Big Shoulders Display", "Arial Narrow", Arial, sans-serif; }
+:root[data-display-font="saira"] { --kovpack-font-display: "Saira Condensed", "Arial Narrow", Arial, sans-serif; }
+:root[data-display-font="barlow"] { --kovpack-font-display: "Barlow Semi Condensed", "Arial Narrow", "Helvetica Neue", Arial, sans-serif; }
 
 :root {
     --kovpack-bg: #f5f3ee;
@@ -43,7 +80,9 @@
     --kovpack-kraft-light: #e2c69c;
     --kovpack-kraft-ink: #241a0f;
     --kovpack-font: "Geist", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    --kovpack-font-display: "Barlow Semi Condensed", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+    /* Archivo, set wide and bold: an industrial grotesk in the spirit of the
+     * product labels. data-display-font on <html> (preview switch) swaps it. */
+    --kovpack-font-display: "Archivo", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
     --kovpack-ease: cubic-bezier(.22, .8, .24, 1);
     /* Layout grid (owner, 2026-11-05). One set of page edges for the header,
      * every section and the footer, so all of them line up on the same

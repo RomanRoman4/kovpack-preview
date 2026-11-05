@@ -211,8 +211,8 @@
         var(--cut-shade),
         /* Light from above: the top edge is a touch brighter than the bottom. */
         linear-gradient(rgb(255 250 240 / 12%), rgb(255 250 240 / 0%) 30%, rgb(60 40 20 / 0%) 72%, rgb(60 40 20 / 13%)),
-        /* The free end turns up slightly towards the light. */
-        linear-gradient(90deg, rgb(60 40 20 / 0%) calc(100% - 40px), rgb(60 40 20 / 7%) calc(100% - 16px), rgb(255 248 235 / 22%) calc(100% - var(--cut-w))),
+        /* The free end turns up slightly towards the light (not on a clean cut). */
+        var(--end-curl, linear-gradient(90deg, rgb(60 40 20 / 0%) calc(100% - 40px), rgb(60 40 20 / 7%) calc(100% - 16px), rgb(255 248 235 / 22%) calc(100% - var(--cut-w)))),
         url("../Images/kovpack-paper-grain.png"),
         var(--sheet-paper);
 }
@@ -263,11 +263,12 @@
     --cut-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 260' preserveAspectRatio='none'%3E%3Cpath d='M0 0H4.0L4.0 0.0L4.3 5.8L7.6 12.5L6.0 19.7L5.0 29.2L9.8 37.4L5.5 41.2L7.9 49.5L6.2 54.7L5.4 57.8L4.1 67.2L7.7 78.2L12.8 80.6L10.3 84.0L13.2 86.3L6.0 95.6L13.4 98.0L11.0 105.2L5.8 112.1L10.7 115.3L10.1 121.4L13.0 123.9L8.8 129.4L7.0 140.1L7.0 152.0L5.6 159.6L11.2 161.9L6.5 163.6L7.3 170.0L12.1 171.2L7.9 178.1L10.9 182.0L8.0 192.0L8.5 202.7L7.7 208.5L8.0 220.2L5.1 224.5L6.0 233.7L10.2 240.0L5.6 247.6L13.4 249.9L9.3 252.9L4.0 260H0Z'/%3E%3C/svg%3E") right top / 14px 260px repeat-y;
     --cut-shade: linear-gradient(90deg, rgb(240 226 202 / 0%) calc(100% - 20px), rgb(240 226 202 / 40%) calc(100% - 9px), rgb(240 226 202 / 60%));
 }
-/* Clean cut: a knife or scissors, straight with the slightest unevenness. */
+/* Clean cut: a knife or scissors. A plain straight end, flat like the rest
+ * of the sheet: no rim, no shade, no turned-up edge (owner, 2026-11-05). */
 :root[data-paper-cut="clean"] :is(.kovpack-roll__sheet, .kovpack-shelf__paper) {
-    --cut-w: 6px;
-    --cut-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 6 1000' preserveAspectRatio='none'%3E%3Cpath d='M0 0H5.4L5.8 260 5 610 5.6 1000H0Z'/%3E%3C/svg%3E") right top / 6px 100% no-repeat;
-    --cut-shade: linear-gradient(90deg, rgb(60 40 20 / 0%) calc(100% - 8px), rgb(60 40 20 / 12%));
+    --cut-w: 0px;
+    --cut-mask: linear-gradient(#0000 0 0);
+    --end-curl: linear-gradient(#0000 0 0);
 }
 
 /* Sheet content: product name, specifications from the record, product link. */
