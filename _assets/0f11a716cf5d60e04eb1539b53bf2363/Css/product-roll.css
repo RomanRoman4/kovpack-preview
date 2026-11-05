@@ -376,6 +376,14 @@
     box-shadow: 0 1px 0 rgb(255 255 255 / 80%) inset, 0 14px 24px -12px rgb(36 26 15 / 55%);
 }
 .kovpack-roll__action .button:hover::after { transform: translate(2px, -2px); background: var(--kovpack-accent, #1d7a74); }
+/* Pressed: the tab sinks into the kraft (as the shelf view button). */
+.kovpack-roll__action .button:active {
+    background-color: rgb(238 228 211 / 92%);
+    transform: translateY(1px) scale(.97);
+    box-shadow: inset 0 2px 4px rgb(36 26 15 / 22%), inset 0 0 0 1px rgb(36 26 15 / 6%), 0 1px 2px rgb(36 26 15 / 18%);
+    transition-duration: .08s;
+}
+.kovpack-roll__action .button:active::after { transform: scale(.92); transition-duration: .08s; }
 .kovpack-roll__action .button:focus-visible { outline: 3px solid var(--kovpack-kraft-ink, #241a0f); outline-offset: 3px; }
 
 /* Wide desktop sheets: name, text and link on the left, specifications on the right. */
