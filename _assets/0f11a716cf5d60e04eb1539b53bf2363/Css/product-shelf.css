@@ -147,21 +147,26 @@
 .kovpack-shelf__paper {
     position: absolute;
     z-index: 1;
-    /* The mask's wavy top band starts 4px down, so the box starts 4px above
-     * the roll: the visible edge then meets the roll's very top. */
-    top: calc(var(--roll-y) - 4px);
+    top: var(--roll-y);
     left: calc(var(--roll-x) + var(--roll-w) / 2);
     width: 0;
-    height: calc(var(--roll-h) - 46px);
+    height: calc(var(--roll-h) - 50px);
     /* The sheet's contents are laid out by the sheet's own width. */
     container: kovpack-sheet / inline-size;
     filter: drop-shadow(0 2px 2px rgb(60 40 20 / 14%)) drop-shadow(0 18px 22px rgb(60 40 20 / 18%));
-    transition: width .8s var(--shelf-ease), transform .5s cubic-bezier(.3, 1.4, .5, 1);
+    transition: width .8s var(--shelf-ease), top .8s var(--shelf-ease), height .8s var(--shelf-ease);
 }
-/* A short peek of the web, inside the closed card's own width. It rises with
- * the lifted roll, so it still leaves the roll at its very top. */
-.kovpack-shelf__item:not(.is-active):hover .kovpack-shelf__paper { width: min(136px, 100% - var(--roll-x) - var(--roll-w) / 2 - 24px); transform: translateY(-6px); }
-.kovpack-shelf__item.is-active .kovpack-shelf__paper { width: calc(100% - var(--roll-x) - var(--roll-w) / 2 - 34px); }
+/* A short peek of the web, inside the closed card's own width. It stays put
+ * while the roll lifts and tips, so its start sits a little lower then
+ * (owner, 2026-11-05: realistic). */
+.kovpack-shelf__item:not(.is-active):hover .kovpack-shelf__paper { width: min(136px, 100% - var(--roll-x) - var(--roll-w) / 2 - 24px); }
+/* Open: the mask's wavy top band starts 4px down, so the box starts 4px above
+ * the roll and the visible edge meets the roll's very top. */
+.kovpack-shelf__item.is-active .kovpack-shelf__paper {
+    top: calc(var(--roll-y) - 4px);
+    width: calc(100% - var(--roll-x) - var(--roll-w) / 2 - 34px);
+    height: calc(var(--roll-h) - 46px);
+}
 .kovpack-shelf__paper::before {
     /* Edges and cut come from the paper-look properties (product-roll.css).
      * Composited bottom-up: body, plus both edges, cut off before the end,
