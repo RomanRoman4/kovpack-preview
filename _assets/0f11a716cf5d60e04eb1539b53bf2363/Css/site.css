@@ -1085,6 +1085,11 @@ body[class] {
 }
 /* A short drop with a fade instead of sliding the whole bar in. */
 @keyframes kovpack-header-in { from { opacity: 0; transform: translateY(-28px); } to { opacity: 1; transform: none; } }
+/* Back at the top: the bar dissolves in place, then the full header fades in. */
+.header.is-stuck.is-leaving { animation: kovpack-header-out .35s ease-in both; }
+.header.is-returning { animation: kovpack-header-return .5s ease-out both; }
+@keyframes kovpack-header-out { from { opacity: 1; } to { opacity: 0; } }
+@keyframes kovpack-header-return { from { opacity: 0; } to { opacity: 1; } }
 .header.is-stuck .header__logo { max-width: 150px; }
 /* The white logo file is turned to brand ink on the light glass bar. */
 .header.is-stuck .header__logo :is(img, svg) { filter: brightness(0); opacity: .88; }
@@ -1160,8 +1165,8 @@ body[class] {
     .kovpack-to-top { width: 48px; height: 48px; }
 }
 @media (prefers-reduced-motion: reduce) {
-    .header.is-stuck { animation: none; }
-    .kovpack-to-top, .kovpack-to-top.is-visible, .kovpack-to-top.is-visible:hover, .kovpack-to-top.is-visible:active { transform: none; }
+    .header.is-stuck, .header.is-returning { animation: none; }
+    .kovpack-to-top,.kovpack-to-top.is-visible, .kovpack-to-top.is-visible:hover, .kovpack-to-top.is-visible:active { transform: none; }
     .kovpack-to-top.is-launching .kovpack-to-top__arrow { animation: none; }
 }
 @media print {

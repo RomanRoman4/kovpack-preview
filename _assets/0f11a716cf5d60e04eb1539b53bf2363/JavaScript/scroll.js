@@ -38,11 +38,36 @@ const setStuck = (stuck) => {
     header.classList.toggle('is-stuck', stuck);
 };
 
+// Back at the top the bar dissolves first (.is-leaving), then the full header
+// fades in at its place (.is-returning), so nothing switches abruptly.
+const release = () => {
+    if (!header?.classList.contains('is-stuck') || header.classList.contains('is-leaving')) return;
+    if (reducedMotion.matches) {
+        setStuck(false);
+        return;
+    }
+    header.classList.add('is-leaving');
+};
+const cancelRelease = () => header?.classList.remove('is-leaving');
+header?.addEventListener('animationend', (event) => {
+    if (event.target !== header) return;
+    if (event.animationName === 'kovpack-header-out' && header.classList.contains('is-leaving')) {
+        header.classList.remove('is-leaving');
+        setStuck(false);
+        header.classList.add('is-returning');
+    } else if (event.animationName === 'kovpack-header-return') {
+        header.classList.remove('is-returning');
+    }
+});
+
 const update = () => {
     const y = window.scrollY;
     // Stick once the full header is gone; release only back at the very top.
-    if (y > headerHeight) setStuck(true);
-    else if (y <= 2) setStuck(false);
+    if (y > headerHeight) {
+        cancelRelease();
+        header?.classList.remove('is-returning');
+        setStuck(true);
+    } else if (y <= 2) release();
     if (toTop) toTop.classList.toggle('is-visible', y > window.innerHeight * 0.8);
 };
 
