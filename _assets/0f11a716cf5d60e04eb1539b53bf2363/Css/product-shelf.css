@@ -418,6 +418,13 @@
 }
 
 /* Wide screens: a larger, more generous sheet layout. */
+@media (min-width: 1400px) {
+    /* The closed cards are 1.5x wider (200px -> 300px), leaving a shorter
+     * kraft web for the active product while preserving the flexible row. */
+    .kovpack-shelf__item { flex-basis: 300px; }
+    .kovpack-shelf__item:not(.is-active):hover { flex-basis: 375px; }
+    .kovpack-shelf__label { width: calc(100% - 48px); }
+}
 @media (min-width: 1600px) {
     .kovpack-shelf__content { padding-left: calc(var(--roll-w) / 2 + 56px); }
     .kovpack-shelf__photo { padding: 11px 11px 36px; }
