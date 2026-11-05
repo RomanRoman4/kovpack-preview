@@ -382,6 +382,22 @@
 .kovpack-shelf__item:not(.is-active):hover .kovpack-shelf__roll::before { transform: translateY(6px) scaleX(.9); opacity: .7; }
 .kovpack-shelf__roll img { display: block; width: 100%; height: 100%; }
 
+/* Desktop row: a closed card shows its roll and name centred. On hover the
+ * roll glides left to its place at the card's edge (and lifts, as above) to
+ * let the web peek out; opening the card keeps it there (owner, 2026-11-05). */
+@media (min-width: 1024px) {
+    .kovpack-shelf__roll {
+        left: calc(50% - var(--roll-w) / 2);
+        transition: transform .5s cubic-bezier(.3, 1.4, .5, 1), left .65s cubic-bezier(.22, .75, .22, 1);
+    }
+    .kovpack-shelf__item:is(:hover, .is-active) .kovpack-shelf__roll { left: var(--roll-x); }
+    .kovpack-shelf__label { text-align: center; }
+    /* Preview option (product-shelf.js): the name above the roll instead of
+     * below it; the roll and its web move down to make room. */
+    :root[data-shelf-label="above"] .kovpack-shelf { --roll-y: 80px; }
+    :root[data-shelf-label="above"] .kovpack-shelf__label { top: 30px; bottom: auto; }
+}
+
 /* Sheet sizes (desktop row only; stacked items have their own rules below).
  * Too narrow for the print beside readable text: the text alone, centred;
  * the product page still shows the photo. Wide: a little more air. */
@@ -409,6 +425,8 @@
     .kovpack-shelf__item.is-active,
     .kovpack-shelf__item:not(.is-active):hover { flex: none; background: #ece7df; }
     .kovpack-shelf__toggle { display: none; }
+    /* The name position only applies to the desktop row. */
+    .kovpack-look-switch:has([data-look="shelfLabel"]) { display: none; }
     .kovpack-shelf { --roll-x: 16px; --roll-y: 24px; --roll-w: 80px; --roll-h: 302px; }
     .kovpack-shelf__roll { transform: none !important; }
     .kovpack-shelf__paper,

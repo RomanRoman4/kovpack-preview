@@ -89,6 +89,12 @@ const LOOKS = {
         storageKey: 'kovpack-paper-cut',
         label: { de: 'Abriss am Ende', en: 'Cut end' },
         options: { serrated: { de: 'Zackenschnitt', en: 'Serrated' }, torn: { de: 'Gerissen', en: 'Torn' }, clean: { de: 'Glatter Schnitt', en: 'Clean cut' } }
+    },
+    // Shelf view only: the product name below or above the standing roll.
+    shelfLabel: {
+        storageKey: 'kovpack-shelf-label',
+        label: { de: 'Position des Namens', en: 'Name position' },
+        options: { below: { de: 'Name unten', en: 'Name below' }, above: { de: 'Name oben', en: 'Name above' } }
     }
 };
 const lookSwitches = [];
@@ -190,6 +196,7 @@ const addControls = (group, view, shelfContent) => {
     const controls = document.createElement('div');
     controls.className = 'kovpack-product-controls';
     controls.append(createNameSwitch(), createLookSwitch('paperStyle'), createLookSwitch('paperCut'));
+    if (view !== 'rolls') controls.append(createLookSwitch('shelfLabel'));
     const before = group[0].previousElementSibling;
     const heading = before?.matches('.frame') && before.querySelector('h1, h2') ? before : null;
     const placement = { controls, heading, shelfContent, rollContent };
