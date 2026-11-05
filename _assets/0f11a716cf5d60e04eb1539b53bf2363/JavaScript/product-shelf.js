@@ -82,7 +82,7 @@ const createNameSwitch = () => {
 const LOOKS = {
     paperStyle: {
         storageKey: 'kovpack-paper-style',
-        label: { de: 'Papieroberfläche', en: 'Paper surface' },
+        label: { de: 'Papier', en: 'Paper' },
         options: { calm: { de: 'Glatt', en: 'Flat' }, waves: { de: 'Leicht wellig', en: 'Slight waves' }, curl: { de: 'Gewölbt', en: 'Curled' } }
     },
     paperCut: {
@@ -94,13 +94,13 @@ const LOOKS = {
     // restores the stored choice on pages without products).
     displayFont: {
         storageKey: 'kovpack-display-font',
-        label: { de: 'Schrift für Namen und Überschriften', en: 'Font for names and headings' },
+        label: { de: 'Schrift (Namen, Überschriften)', en: 'Font (names, headings)' },
         options: { archivo: { de: 'Archivo', en: 'Archivo' }, shoulders: { de: 'Big Shoulders', en: 'Big Shoulders' }, saira: { de: 'Saira', en: 'Saira' }, barlow: { de: 'Barlow (bisher)', en: 'Barlow (current)' } }
     },
     // Shelf view only: the product name below or above the standing roll.
     shelfLabel: {
         storageKey: 'kovpack-shelf-label',
-        label: { de: 'Position des Namens', en: 'Name position' },
+        label: { de: 'Name im Regal', en: 'Name on the shelf' },
         options: { below: { de: 'Name unten', en: 'Name below' }, above: { de: 'Name oben', en: 'Name above' } }
     }
 };
@@ -146,6 +146,19 @@ for (const name of Object.keys(LOOKS)) {
     try { stored = window.localStorage.getItem(LOOKS[name].storageKey); } catch { /* private mode */ }
     setLook(name, stored, false);
 }
+
+// Each preview switch with a small caption above it, saying what it changes.
+const captioned = (text, control) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'kovpack-control';
+    const caption = document.createElement('span');
+    caption.className = 'kovpack-control__caption';
+    caption.setAttribute('aria-hidden', 'true');
+    caption.textContent = text;
+    wrap.append(caption, control);
+    return wrap;
+};
+const lookControl = (name) => captioned(LOOKS[name].label[lang], createLookSwitch(name));
 
 // Hides whichever view of a block is not shown.
 const showView = (block, view) => {
@@ -202,8 +215,13 @@ const addControls = (group, view, shelfContent) => {
     const switchTemplate = view ? null : group[0].querySelector('template[data-shelf-switch]');
     const controls = document.createElement('div');
     controls.className = 'kovpack-product-controls';
-    controls.append(createNameSwitch(), createLookSwitch('displayFont'), createLookSwitch('paperStyle'), createLookSwitch('paperCut'));
-    if (view !== 'rolls') controls.append(createLookSwitch('shelfLabel'));
+    controls.append(
+        captioned(lang === 'de' ? 'Schreibweise' : 'Name style', createNameSwitch()),
+        lookControl('displayFont'),
+        lookControl('paperStyle'),
+        lookControl('paperCut')
+    );
+    if (view !== 'rolls') controls.append(lookControl('shelfLabel'));
     const before = group[0].previousElementSibling;
     const heading = before?.matches('.frame') && before.querySelector('h1, h2') ? before : null;
     const placement = { controls, heading, shelfContent, rollContent };
