@@ -3,9 +3,12 @@
 // "Regal" (shelf) view of the product cards and the Rollen/Regal switch.
 // Each product record ships its shelf item and the switch in inert <template>
 // elements; consecutive product records become one shelf placed before them.
-// The chosen view is kept per visitor; #regal or #rollen at the end of the URL
-// selects it directly (handy for sharing the design preview). A fragment, not a
-// query parameter, because TYPO3 answers unknown parameters without cHash with 404.
+// A product block can fix its view with data-product-view="rolls" or "shelf"
+// on its first record (an editor setting): then that view is shown and there
+// is no switch. Otherwise the visitor's choice is kept; #regal or #rollen at
+// the end of the URL selects it directly (handy for sharing the design
+// preview). A fragment, not a query parameter, because TYPO3 answers unknown
+// parameters without cHash with 404.
 const STORAGE_KEY = 'kovpack-products-view';
 const NAME_STORAGE_KEY = 'kovpack-product-name-style';
 const VIEWS = ['rolls', 'shelf'];
@@ -74,16 +77,27 @@ const createNameSwitch = () => {
     return control;
 };
 
-// The switch joins the section heading ("Produkte") when one stands right
-// before the products; otherwise it sits at the top of whichever block is
-// shown. It never gets a component of its own, which would add Camino's full
-// section spacing around it.
+// Hides whichever view of a block is not shown.
+const showView = (block, view) => {
+    for (const section of block.sections) section.toggleAttribute('data-view-off', view === 'shelf');
+    block.shelfSection?.toggleAttribute('data-view-off', view !== 'shelf');
+};
+
+// The controls join the section heading ("Produkte") when one stands right
+// before the products; otherwise they sit at the top of whichever view is
+// shown. They never get a component of their own, which would add Camino's
+// full section spacing around them.
+const placeControls = (group, view) => {
+    if (!group.heading) (view === 'shelf' ? group.shelfContent : group.rollContent)?.prepend(group.controls);
+};
+
+const switchable = [];
 const setView = (view, remember) => {
     if (!VIEWS.includes(view)) view = 'rolls';
-    root.dataset.productsView = view;
+    for (const block of switchable) showView(block, view);
     for (const group of switches) {
         const hadFocus = group.controls.contains(document.activeElement) ? document.activeElement : null;
-        if (!group.heading) (view === 'shelf' ? group.shelfContent : group.rollContent).prepend(group.controls);
+        placeControls(group, view);
         hadFocus?.focus();
         for (const option of group.control.querySelectorAll('[data-view]')) option.setAttribute('aria-pressed', String(option.dataset.view === view));
     }
@@ -112,8 +126,38 @@ for (const section of sections) {
     else groups.push([section]);
 }
 
+// The product-name control (and, for a switchable block, the view switch).
+const addControls = (group, view, shelfContent) => {
+    const rollContent = group[0].querySelector('.component__content');
+    const switchTemplate = view ? null : group[0].querySelector('template[data-shelf-switch]');
+    const controls = document.createElement('div');
+    controls.className = 'kovpack-product-controls';
+    controls.append(createNameSwitch());
+    const before = group[0].previousElementSibling;
+    const heading = before?.matches('.frame') && before.querySelector('h1, h2') ? before : null;
+    const placement = { controls, heading, shelfContent, rollContent };
+    if (switchTemplate) {
+        const control = switchTemplate.content.firstElementChild.cloneNode(true);
+        control.addEventListener('click', (event) => {
+            const option = event.target.closest('[data-view]');
+            if (option) setView(option.dataset.view, true);
+        });
+        controls.append(control);
+        switches.push({ ...placement, control });
+    }
+    if (heading) heading.append(controls);
+    else if (view) placeControls(placement, view);
+};
+
 for (const group of groups) {
-    const switchTemplate = group[0].querySelector('template[data-shelf-switch]');
+    const fixed = VIEWS.includes(group[0].dataset.productView) ? group[0].dataset.productView : null;
+    const block = { sections: group, shelfSection: null };
+    // A block fixed to the roll cards needs no shelf.
+    if (fixed === 'rolls') {
+        showView(block, 'rolls');
+        addControls(group, 'rolls', null);
+        continue;
+    }
     const shelfSection = document.createElement('section');
     shelfSection.className = 'component kovpack-shelf';
     const content = document.createElement('div');
@@ -134,22 +178,11 @@ for (const group of groups) {
     }
     if (!items.length) continue;
     const shelf = { items };
+    block.shelfSection = shelfSection;
 
-    const rollContent = group[0].querySelector('.component__content');
-    if (switchTemplate && rollContent) {
-        const control = switchTemplate.content.firstElementChild.cloneNode(true);
-        const controls = document.createElement('div');
-        controls.className = 'kovpack-product-controls';
-        controls.append(createNameSwitch(), control);
-        control.addEventListener('click', (event) => {
-            const option = event.target.closest('[data-view]');
-            if (option) setView(option.dataset.view, true);
-        });
-        const before = group[0].previousElementSibling;
-        const heading = before?.matches('.frame') && before.querySelector('h1, h2') ? before : null;
-        heading?.append(controls);
-        switches.push({ control, controls, heading, shelfContent: content, rollContent });
-    }
+    if (fixed) showView(block, fixed);
+    else switchable.push(block);
+    addControls(group, fixed, content);
     // After the cards, so the heading's "frame + .kovpack-product" styling still applies.
     group.at(-1).after(shelfSection);
 

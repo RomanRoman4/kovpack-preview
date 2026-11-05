@@ -6,9 +6,10 @@
  * switch; every rule is scoped to .kovpack-shelf or .kovpack-view-switch.
  */
 
-/* The switch decides which view is shown; the roll cards stay the default. */
-:root[data-products-view="shelf"] .kovpack-product[data-roll] { display: none; }
-:root:not([data-products-view="shelf"]) .kovpack-shelf { display: none; }
+/* product-shelf.js marks the view that is not shown; without it the roll
+ * cards stay visible. */
+.kovpack-product[data-roll][data-view-off],
+.kovpack-shelf[data-view-off] { display: none; }
 
 .kovpack-product-controls {
     display: flex;
@@ -91,14 +92,16 @@
 
 .kovpack-shelf__item {
     position: relative;
-    flex: 0 0 200px;
+    /* Closed cards take a share of the row (at most 300px), so the open one
+     * keeps enough room at every width and for any number of products. */
+    flex: 0 0 clamp(180px, 19%, 300px);
     min-width: 0;
     overflow: hidden;
     border-radius: 18px;
     background: #efebe5;
     transition: flex-basis .7s var(--shelf-ease), flex-grow .7s var(--shelf-ease), background .4s;
 }
-.kovpack-shelf__item:not(.is-active):hover { flex-basis: 250px; background: #ebe6de; }
+.kovpack-shelf__item:not(.is-active):hover { flex-basis: clamp(210px, 23%, 360px); background: #ebe6de; }
 .kovpack-shelf__item.is-active { flex: 1 0 0; background: #ece7df; }
 
 /* The whole closed item is one button; open, it lets clicks through to the link. */
@@ -123,7 +126,7 @@
     position: absolute;
     left: 24px;
     bottom: 28px;
-    width: 160px;
+    right: 24px;
     font-family: var(--kovpack-font-display, sans-serif);
     color: var(--shelf-ink);
     font-size: 21px;
@@ -146,6 +149,8 @@
     left: calc(var(--roll-x) + var(--roll-w) / 2);
     width: 0;
     height: 520px;
+    /* The sheet's contents are laid out by the sheet's own width. */
+    container: kovpack-sheet / inline-size;
     filter: drop-shadow(0 2px 2px rgb(60 40 20 / 14%)) drop-shadow(0 18px 22px rgb(60 40 20 / 18%));
     transition: width .8s var(--shelf-ease);
 }
@@ -184,13 +189,13 @@
     left: 0;
     display: flex;
     align-items: center;
-    gap: clamp(36px, 3.4vw, 64px);
+    gap: clamp(28px, 5cqi, 56px);
     /* The print and text sit as one group in the middle of the free sheet. */
     justify-content: center;
     width: 100%;
-    min-width: 420px;
+    min-width: 0;
     max-width: none;
-    padding: 36px 44px 36px calc(var(--roll-w) / 2 + 34px);
+    padding: 32px 44px 32px calc(var(--roll-w) / 2 + 40px);
     /* Closed items hide their details completely once the fade is over. */
     visibility: hidden;
     opacity: 0;
@@ -201,7 +206,7 @@
 .kovpack-shelf__photo {
     position: relative;
     flex: none;
-    width: clamp(250px, 19vw, 340px);
+    width: clamp(170px, 30cqi, 320px);
     margin: 0;
     padding: 9px 9px 30px;
     border-radius: 3px;
@@ -233,7 +238,8 @@
 }
 .kovpack-shelf__photo img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 1px; }
 
-.kovpack-shelf__body { display: flex; flex: 1; flex-direction: column; min-width: 0; max-width: 540px; }
+/* Words wrap whole (German compounds hyphenate), never letter by letter. */
+.kovpack-shelf__body { display: flex; flex: 1; flex-direction: column; min-width: 0; max-width: 480px; overflow-wrap: normal; hyphens: auto; }
 .kovpack-shelf__eyebrow {
     display: flex;
     align-items: center;
@@ -262,7 +268,7 @@
     margin: 14px 0 0;
     color: #1f160e;
     font-family: var(--kovpack-font-display, sans-serif);
-    font-size: clamp(40px, 2.7vw, 50px);
+    font-size: clamp(30px, 5cqi, 46px);
     overflow-wrap: normal;
     hyphens: auto;
     font-weight: 600;
@@ -352,22 +358,25 @@
 .kovpack-shelf__item:not(.is-active):hover .kovpack-shelf__roll::before { transform: translateY(6px) scaleX(.9); opacity: .7; }
 .kovpack-shelf__roll img { display: block; width: 100%; height: 100%; }
 
-@media (max-width: 1399px) {
-    .kovpack-shelf__content { gap: 24px; padding-right: 28px; }
-    .kovpack-shelf__photo { width: 150px; padding: 6px 6px 18px; }
-    .kovpack-shelf__photo::before { top: -9px; width: 70px; height: 18px; }
-    .kovpack-shelf .kovpack-shelf__name { font-size: 30px; }
-    .kovpack-shelf__desc { -webkit-line-clamp: 2; }
+/* Sheet sizes (desktop row only; stacked items have their own rules below).
+ * Too narrow for the print beside readable text: the text alone, centred;
+ * the product page still shows the photo. Wide: a little more air. */
+@media (min-width: 1024px) {
+    @container kovpack-sheet (max-width: 639px) {
+        .kovpack-shelf__photo { display: none; }
+        .kovpack-shelf__desc { -webkit-line-clamp: 2; }
+    }
+    @container kovpack-sheet (min-width: 860px) {
+        .kovpack-shelf__photo { padding: 11px 11px 36px; }
+        .kovpack-shelf__desc { font-size: 16px; }
+        .kovpack-shelf__specs > div { padding-block: 11px; }
+        .kovpack-shelf__specs dd { font-size: 14px; }
+        .kovpack-shelf__button { min-height: 48px; font-size: 16px; }
+    }
 }
 @media (max-width: 1200px) {
-    .kovpack-shelf__label { width: calc(100% - 36px); font-size: 18px; }
-    .kovpack-shelf__item { flex-basis: 180px; }
-    .kovpack-shelf__item:not(.is-active):hover { flex-basis: 210px; }
+    .kovpack-shelf__label { font-size: 18px; }
     .kovpack-shelf__item:not(.is-active):hover .kovpack-shelf__paper { width: 110px; }
-}
-@media (min-width: 1024px) and (max-width: 1239px) {
-    /* Too narrow for the print beside the text; the product page shows it. */
-    .kovpack-shelf__photo { display: none; }
 }
 
 /* Phones and tablets: every product open, stacked, nothing to click but the link. */
@@ -441,24 +450,3 @@
     .kovpack-shelf__item:not(.is-active):hover .kovpack-shelf__roll::before { transform: none; }
 }
 
-/* Wide screens: a larger, more generous sheet layout. */
-@media (min-width: 1400px) {
-    /* The closed cards are 1.5x wider (200px -> 300px), leaving a shorter
-     * kraft web for the active product while preserving the flexible row. */
-    .kovpack-shelf__item { flex-basis: 300px; }
-    .kovpack-shelf__item:not(.is-active):hover { flex-basis: 375px; }
-    .kovpack-shelf__label { width: calc(100% - 48px); }
-}
-@media (min-width: 1600px) {
-    .kovpack-shelf__content { padding-left: calc(var(--roll-w) / 2 + 56px); }
-    .kovpack-shelf__photo { padding: 11px 11px 36px; }
-    .kovpack-shelf__desc { font-size: 16px; }
-    .kovpack-shelf__specs > div { padding-block: 11px; }
-    .kovpack-shelf__specs dd { font-size: 14px; }
-    .kovpack-shelf__button { min-height: 48px; font-size: 16px; }
-}
-@media (min-width: 1400px) and (max-width: 1599px) {
-    .kovpack-shelf__content { gap: 32px; }
-    .kovpack-shelf__photo { width: 220px; }
-    .kovpack-shelf .kovpack-shelf__name { font-size: 36px; }
-}
