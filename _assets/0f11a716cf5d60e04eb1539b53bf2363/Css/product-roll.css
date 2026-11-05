@@ -86,7 +86,10 @@
     border-radius: 25% / 5%;
     background: none;
     cursor: pointer;
-    filter: drop-shadow(calc(10 * var(--u)) calc(10 * var(--u)) calc(10 * var(--u)) #4a36201c);
+    /* A tight shade along the cylinder plus a soft one, light from upper left. */
+    filter:
+        drop-shadow(calc(3 * var(--u)) calc(2 * var(--u)) calc(3 * var(--u)) rgb(60 40 20 / 16%))
+        drop-shadow(calc(14 * var(--u)) calc(10 * var(--u)) calc(16 * var(--u)) rgb(60 40 20 / 20%));
     -webkit-tap-highlight-color: transparent;
 }
 .kovpack-roll__reel:focus-visible { outline: 3px solid var(--roll-accent); outline-offset: 6px; }
@@ -113,15 +116,40 @@
     color: var(--roll-accent);
     font-size: max(15px, calc(20 * var(--u)));
 }
+/* Where the roll stands: a dark contact shadow right under its base, and a
+ * long soft shadow cast to the back right across the floor (owner, 2026-11-05). */
 .kovpack-roll__shadow {
     position: absolute;
-    bottom: calc(9 * var(--u));
-    left: calc((var(--rest) + var(--body) / 2 - 108) * var(--u));
-    width: calc(220 * var(--u));
-    height: calc(20 * var(--u));
+    bottom: calc(4 * var(--u));
+    left: calc((var(--rest) - 10) * var(--u));
+    width: calc((var(--body) + 20) * var(--u));
+    height: calc(26 * var(--u));
     border-radius: 50%;
-    background: #57452f28;
-    filter: blur(calc(13 * var(--u)));
+    background: radial-gradient(closest-side, rgb(45 30 15 / 62%), rgb(45 30 15 / 30%) 60%, rgb(45 30 15 / 0%));
+    filter: blur(calc(3 * var(--u)));
+}
+.kovpack-roll__shadow::before,
+.kovpack-roll__shadow::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+}
+/* Ambient occlusion: a wide, faint pool around the base. */
+.kovpack-roll__shadow::before {
+    inset: calc(-12 * var(--u)) calc(-40 * var(--u));
+    background: radial-gradient(closest-side, rgb(60 40 20 / 26%), rgb(60 40 20 / 0%));
+    filter: blur(calc(8 * var(--u)));
+}
+/* Cast shadow, stretched away from the light. */
+.kovpack-roll__shadow::after {
+    top: calc(-10 * var(--u));
+    left: 40%;
+    width: calc(260 * var(--u));
+    height: calc(40 * var(--u));
+    background: radial-gradient(closest-side, rgb(60 40 20 / 34%), rgb(60 40 20 / 14%) 55%, rgb(60 40 20 / 0%));
+    transform: rotate(-4deg);
+    transform-origin: left center;
+    filter: blur(calc(9 * var(--u)));
 }
 
 /* The kraft sheet waits behind the roll, squeezed to its own edge. It is drawn
@@ -381,7 +409,13 @@
     object-fit: cover;
     border-radius: var(--corners-l, 16px);
     background: var(--kovpack-surface, #ebe6dc);
-    box-shadow: 0 2px 4px rgb(20 26 27 / 6%), 0 30px 56px -30px rgb(20 26 27 / 45%);
+    /* Layered like a print lying on the page: a crisp edge, a close shade and
+     * a long soft one below, light from upper left (owner, 2026-11-05). */
+    box-shadow:
+        0 1px 2px rgb(45 30 15 / 12%),
+        2px 6px 12px -4px rgb(45 30 15 / 16%),
+        6px 22px 36px -12px rgb(45 30 15 / 26%),
+        14px 48px 70px -36px rgb(45 30 15 / 42%);
 }
 @media (min-width: 901px) {
     .kovpack-product__layout--photo {
