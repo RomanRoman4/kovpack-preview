@@ -165,9 +165,13 @@
     /* From the roll's very top to a little above its foot: the roll is seen
      * from slightly above (owner, 2026-11-05). */
     /* 4 units above the roll: the mask's wavy top band starts that far down. */
-    top: calc(10 * var(--u));
-    left: calc((var(--rest) + var(--body) - 12.1) * var(--u));
-    width: var(--sheet-width);
+    top: calc(12.5 * var(--u));
+    /* The sheet starts --tuck units behind the roll, at its centre: above the
+     * roll's right shoulder the paper then runs on from the roll's top point
+     * instead of beginning with a corner beside it (owner, 2026-11-05). */
+    --tuck: 66;
+    left: calc((var(--rest) + var(--body) - 12.1 - var(--tuck)) * var(--u));
+    width: calc(var(--sheet-width) + var(--tuck) * var(--u));
     height: calc(518 * var(--u));
     filter: drop-shadow(0 2px 2px rgb(60 40 20 / 14%)) drop-shadow(calc(6 * var(--u)) calc(16 * var(--u)) calc(18 * var(--u)) rgb(60 40 20 / 20%));
     opacity: 0;
@@ -204,7 +208,7 @@
 .kovpack-roll__sheet::before {
     background:
         /* Shadow of the roll on the sheet, then the curl lifting off it. */
-        linear-gradient(90deg, rgb(40 25 10 / 66%) calc(12 * var(--u)), rgb(40 25 10 / 30%) calc(20 * var(--u)), rgb(255 248 235 / 14%) calc(42 * var(--u)), rgb(255 248 235 / 0%) calc(78 * var(--u))),
+        linear-gradient(90deg, rgb(40 25 10 / 8%), rgb(40 25 10 / 40%) calc((var(--tuck) + 12) * var(--u)), rgb(40 25 10 / 30%) calc((var(--tuck) + 20) * var(--u)), rgb(255 248 235 / 14%) calc((var(--tuck) + 42) * var(--u)), rgb(255 248 235 / 0%) calc((var(--tuck) + 78) * var(--u))),
         /* Swells, curl and cut-end shade of the chosen paper look. */
         var(--paper-swell),
         var(--paper-curl),
@@ -279,7 +283,7 @@
     display: grid;
     grid-template-rows: auto 1fr auto;
     height: 100%;
-    padding: calc(42 * var(--u)) calc(38 * var(--u)) calc(32 * var(--u)) calc(52 * var(--u));
+    padding: calc(42 * var(--u)) calc(38 * var(--u)) calc(32 * var(--u)) calc((var(--tuck) + 52) * var(--u));
     opacity: 0;
     transform: translateX(-15px);
 }
@@ -453,7 +457,7 @@
     .kovpack-roll .kovpack-roll__title { font-size: 28px; }
     .kovpack-roll__teaser { margin-top: 10px; font-size: 15px; }
     .kovpack-roll__scene { width: calc(489 * var(--u)); margin: 0 auto; }
-    .kovpack-roll__sheet-content { padding: calc(32 * var(--u)) calc(28 * var(--u)) calc(25 * var(--u)) calc(35 * var(--u)); }
+    .kovpack-roll__sheet-content { padding: calc(32 * var(--u)) calc(28 * var(--u)) calc(25 * var(--u)) calc((var(--tuck) + 35) * var(--u)); }
     .kovpack-roll__name { font-size: calc(34 * var(--u)); }
     .kovpack-roll__specs > div { flex-direction: column; gap: 0; }
     .kovpack-roll__specs dd { text-align: left; }
