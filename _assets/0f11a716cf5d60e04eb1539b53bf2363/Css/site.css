@@ -1283,7 +1283,7 @@ body[class] {
 .kovpack-pdp__back:hover { color: var(--kovpack-ink); border-color: var(--kovpack-ink); }
 /* Product videos (owner, 2026-11-05): room for several clips under the
  * product. Each slot is 16:9; until a clip is attached it shows a quiet
- * placeholder. In TYPO3 these are repeatable video records (file or embed). */
+ * photo preview. In TYPO3 these are repeatable video records (file or embed). */
 .kovpack-pdp__media { margin-top: clamp(56px, 7vw, 96px); padding-top: 32px; border-top: 1px solid var(--kovpack-line); }
 .kovpack-pdp__media-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px; }
 .kovpack-pdp .kovpack-pdp__media-title { margin: 0; font-family: var(--kovpack-font-display); font-size: clamp(26px, 2.6vw, 36px); font-weight: 600; line-height: 1.1; }
@@ -1297,13 +1297,15 @@ body[class] {
     aspect-ratio: 16 / 9;
     overflow: hidden;
     border-radius: var(--corners-s, 8px);
-    background: radial-gradient(120% 90% at 30% 20%, #23434d, var(--kovpack-primary, #0f2a33));
+    background: #b6a58d;
     color: var(--kovpack-on-primary, #eef0ea);
 }
 .kovpack-pdp__video-frame :is(video, iframe, img) { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; object-fit: cover; }
-.kovpack-pdp__video-play { display: grid; place-items: center; width: 56px; height: 56px; border: 1px solid rgb(255 255 255 / 28%); border-radius: 50%; background: rgb(255 255 255 / 8%); }
+.kovpack-pdp__video-poster { object-position: var(--poster-focus, center); transform: scale(var(--poster-zoom, 1)); transform-origin: var(--poster-focus, center); }
+.kovpack-pdp__video-frame--preview::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgb(24 22 18 / 4%) 30%, rgb(24 22 18 / 65%)); pointer-events: none; }
+.kovpack-pdp__video-play { position: relative; z-index: 1; display: grid; place-items: center; width: 56px; height: 56px; border: 1px solid rgb(255 255 255 / 65%); border-radius: 50%; background: rgb(24 22 18 / 32%); }
 .kovpack-pdp__video-play::before { content: ""; margin-left: 4px; border-style: solid; border-width: 9px 0 9px 15px; border-color: transparent transparent transparent currentColor; }
-.kovpack-pdp__video-soon { position: absolute; left: 14px; bottom: 12px; font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; opacity: .75; }
+.kovpack-pdp__video-soon { position: absolute; z-index: 1; left: 14px; right: 14px; bottom: 12px; font-size: 11px; font-weight: 600; line-height: 1.4; letter-spacing: .14em; text-transform: uppercase; color: #fff; }
 .kovpack-pdp__video-caption { margin: 10px 0 0; font-size: 15px; font-weight: 600; }
 @media (max-width: 1100px) and (min-width: 901px) {
     .kovpack-pdp__videos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
