@@ -1,6 +1,7 @@
 (() => {
 "use strict";
-// Sticky header and back-to-top button (owner request 2026-11-04).
+// Sticky header and back-to-top button (owner request 2026-11-04). Home page
+// only: inner pages have a slim bar that CSS keeps sticky (2026-11-05).
 //
 // Once the full header has scrolled out of view, it returns as a compact bar
 // fixed to the top (.is-stuck) and stays until the visitor is back at the top
@@ -66,10 +67,16 @@ header?.addEventListener('animationend', (event) => {
     }
 });
 
+// Inner pages (no full-height hero) have a slim bar that site.css keeps
+// sticky at the top; it never switches, so only the home page header does.
+const switching = Boolean(header?.matches(':has(+ .hero:not(.hero--text-only, .hero--small))'));
+
 const update = () => {
     const y = window.scrollY;
     // Stick once the full header is gone; release only back at the very top.
-    if (y > headerHeight) {
+    if (!switching) {
+        // nothing to switch
+    } else if (y > headerHeight) {
         cancelRelease();
         header?.classList.remove('is-returning');
         setStuck(true);

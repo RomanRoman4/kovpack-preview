@@ -825,18 +825,27 @@ body[class] {
     .header__nav-item { font-weight: 450; }
 }
 
-/* Inner pages (no full-height hero): a compact bar. The logo is sized like the
- * navigation and centred on the same line, so the header takes little height
- * (owner, 2026-11-05). The home page keeps its large logo over the photo. */
+/* Inner pages (no full-height hero): one slim dark bar in the footer's colour,
+ * as high as the scrolled bar on the home page. It sticks to the top and never
+ * changes, so scrolling down and back up is seamless (owner, 2026-11-05).
+ * scroll.js leaves it alone; the home page keeps its large logo over the photo
+ * and the light glass bar once scrolled. */
 .header:not(:has(+ .hero:not(.hero--text-only, .hero--small))) {
-    --header-padding-vertical: 16px;
+    --header-height: 52px;
+    --header-padding-vertical: 10px;
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    background: var(--kovpack-primary, #0f2a33);
 }
 .header:not(:has(+ .hero:not(.hero--text-only, .hero--small))) .header__content { align-items: center; }
-.header:not(:has(+ .hero:not(.hero--text-only, .hero--small))) .header__logo { height: auto; margin: 0; max-width: min(48vw, 220px); line-height: normal; }
+.header:not(:has(+ .hero:not(.hero--text-only, .hero--small))) .header__logo { height: auto; margin: 0; max-width: min(48vw, 190px); line-height: normal; }
 .header:not(:has(+ .hero:not(.hero--text-only, .hero--small))) .header__nav { margin-top: 0; }
-@media (max-width: 900px) {
-    .header:not(:has(+ .hero:not(.hero--text-only, .hero--small))) { --header-padding-vertical: 12px; }
-    .header:not(:has(+ .hero:not(.hero--text-only, .hero--small))) .header__logo { max-width: min(48vw, 170px); }
+/* With the menu open Camino locks the body (overflow: hidden), which turns
+ * sticky off; the bar is pinned to the viewport until the menu closes. */
+.header:not(:has(+ .hero:not(.hero--text-only, .hero--small))):has(.header__menu--open) { position: fixed; right: 0; left: 0; }
+@media (max-width: 1279px) {
+    .header:not(:has(+ .hero:not(.hero--text-only, .hero--small))) .header__logo { max-width: min(48vw, 150px); }
 }
 
 /* A soft, feathered shadow lifts the white logo off bright hero photos. */
