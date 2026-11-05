@@ -45,7 +45,16 @@
     --kovpack-font: "Geist", "Helvetica Neue", Helvetica, Arial, sans-serif;
     --kovpack-font-display: "Barlow Semi Condensed", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
     --kovpack-ease: cubic-bezier(.22, .8, .24, 1);
+    /* Layout grid (owner, 2026-11-05). One set of page edges for the header,
+     * every section and the footer, so all of them line up on the same
+     * vertical lines. --kovpack-container is the widest the content gets;
+     * --kovpack-inset the minimum side space on narrower screens;
+     * --kovpack-edge the resulting side space, for full-width elements only
+     * (its percentage resolves against the element's full-width box). */
+    --kovpack-container: 1600px;
     --kovpack-inset: 48px;
+    --kovpack-edge: max(var(--kovpack-inset), (100% - var(--kovpack-container)) / 2);
+    --kovpack-gutter: 20px;
     --kovpack-section-gap: 96px;
 
     --headline-family: var(--kovpack-font-display);
@@ -64,8 +73,8 @@
     --corners-m: 16px;
     --corners-l: 16px;
     --content-max-width: 100%;
-    --component-neutral-padding-horizontal: var(--kovpack-inset);
-    --component-colored-padding-horizontal: var(--kovpack-inset);
+    --component-neutral-padding-horizontal: var(--kovpack-edge);
+    --component-colored-padding-horizontal: var(--kovpack-edge);
     --component-margin-vertical: var(--kovpack-section-gap);
     --header-height: 92px;
     --header-padding-vertical: 30px;
@@ -109,7 +118,7 @@ html {
 
 /* Core Fluid Styled Content records remain supported alongside Camino CTypes. */
 .page__content > .frame {
-    padding-inline: var(--kovpack-inset);
+    padding-inline: var(--kovpack-edge);
     overflow-wrap: anywhere;
 }
 
@@ -229,7 +238,6 @@ html {
  */
 .component--page-footer {
     --component-padding-vertical: 56px;
-    --component-padding-horizontal: 64px;
     --text-color: var(--kovpack-on-primary);
     --link-color: var(--kovpack-on-primary);
     --link-color-hover: var(--kovpack-bg);
@@ -298,7 +306,6 @@ html {
  */
 @media (min-width: 1280px) {
     .header__content {
-        padding-right: calc(var(--kovpack-inset) + 48px);
         gap: 32px;
     }
 
@@ -359,6 +366,7 @@ html {
 @media (max-width: 900px) {
     :root {
         --kovpack-inset: 20px;
+        --kovpack-edge: var(--kovpack-inset);
         --kovpack-section-gap: 64px;
         --headline-large-size: 42px;
         --headline-medium-size: 38px;
@@ -369,7 +377,6 @@ html {
 
     .component--page-footer {
         --component-padding-vertical: 36px;
-        --component-padding-horizontal: 24px;
     }
 }
 
@@ -439,7 +446,7 @@ html {
     width: 900px;
     max-width: 100%;
     margin: 0;
-    padding: 230px calc(var(--kovpack-inset) + 48px) 180px var(--kovpack-inset);
+    padding: 230px var(--kovpack-edge) 180px var(--kovpack-inset);
     text-align: right;
     overflow-wrap: anywhere;
 }
@@ -458,14 +465,14 @@ html {
     --button-primary-border-color: var(--kovpack-accent);
 }
 
-/* Grid pairs the two separately editable contact records. All other content
- * remains full-width, regardless of how many records the editor adds. */
-/* Named page grid: full-bleed records span "full"; product cards sit in the
- * 12 columns between the insets; the contact pair splits the full width. */
+/* Named page grid: the edge tracks are the page edges, so "content" is
+ * exactly the column the header and footer use. Full-bleed records span
+ * "full" and inset their text by the same edge; product cards span the 12
+ * content columns; the contact pair splits them 5 + 7 as subgrids. Any number
+ * and order of records works. */
 .page__content {
-    --kovpack-gutter: 20px;
     display: grid;
-    grid-template-columns: [full-start] calc(var(--kovpack-inset) - var(--kovpack-gutter) / 2) [content-start] repeat(12, minmax(0, 1fr)) [content-end] calc(var(--kovpack-inset) - var(--kovpack-gutter) / 2) [full-end];
+    grid-template-columns: [full-start] var(--kovpack-edge) [content-start] repeat(12, minmax(0, 1fr)) [content-end] var(--kovpack-edge) [full-end];
     align-content: start;
 }
 .page__content > * { grid-column: full; min-width: 0; }
@@ -505,8 +512,12 @@ html {
     padding: 96px 64px;
     overflow-wrap: anywhere;
 }
-.page__content > .frame-kovpack-contact-info { grid-column: full-start / span 6; border-top-left-radius: var(--corners-m); padding-right: 36px; }
-.page__content > .frame-kovpack-contact-form { grid-column: span 8 / full-end; border-top-right-radius: var(--corners-m); padding-left: 36px; }
+/* Both records keep their full-bleed surface; as subgrids their content
+ * starts and ends on the page's content lines. Grid line 7 is the split. */
+.page__content > .frame-kovpack-contact-info { grid-column: full-start / 7; display: grid; grid-template-columns: subgrid; align-content: start; border-top-left-radius: var(--corners-m); }
+.page__content > .frame-kovpack-contact-form { grid-column: 7 / full-end; display: grid; grid-template-columns: subgrid; align-content: start; border-top-right-radius: var(--corners-m); }
+.page__content > .frame-kovpack-contact-info > * { grid-column: content-start / -1; }
+.page__content > .frame-kovpack-contact-form > * { grid-column: 1 / content-end; }
 .frame-kovpack-contact-info p { color: var(--kovpack-muted); }
 .frame-kovpack-contact-form form { margin: 0; }
 .frame-kovpack-contact-form fieldset { padding: 0; margin: 0; min-width: 0; }
@@ -537,8 +548,8 @@ html {
     .hero:not(.hero--text-only, .hero--small) { min-height: 640px; }
     .hero:not(.hero--text-only, .hero--small) .hero__content { padding: 180px var(--kovpack-inset) 72px; }
     .kovpack-news__track { grid-auto-columns: 82%; gap: 14px; }
-    .page__content > .frame-kovpack-contact-info { grid-column: full; border-radius: var(--corners-m) var(--corners-m) 0 0; padding: 48px 20px 20px; }
-    .page__content > .frame-kovpack-contact-form { grid-column: full; border-radius: 0; margin-top: 0; padding: 20px 20px 48px; }
+    .page__content > .frame-kovpack-contact-info { grid-column: full; display: block; border-radius: var(--corners-m) var(--corners-m) 0 0; padding: 48px var(--kovpack-edge) 20px; }
+    .page__content > .frame-kovpack-contact-form { grid-column: full; display: block; border-radius: 0; margin-top: 0; padding: 20px var(--kovpack-edge) 48px; }
 }
 
 /* Keep component gaps consistent in the page grid (grid margins do not collapse). */
@@ -651,8 +662,8 @@ html {
 .kovpack-news__arrow svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 1px 2px rgb(0 0 0 / 35%)); }
 .kovpack-news__arrow:hover { transform: translateY(-50%) scale(1.08); background: linear-gradient(145deg, rgb(255 255 255 / 50%), rgb(255 255 255 / 16%)); }
 
-.page__content > .frame-kovpack-contact-info { padding-right: 64px; }
-.page__content > .frame-kovpack-contact-form { padding-left: 64px; }
+.page__content > .frame-kovpack-contact-info { padding-inline: 0 64px; }
+.page__content > .frame-kovpack-contact-form { padding-inline: 64px 0; }
 .page__content .frame-kovpack-contact-info h2 { font-size: 42px; line-height: 1.14; margin-bottom: 30px; }
 .frame-kovpack-contact-info p { margin: 0; line-height: 2.1; }
 .frame-kovpack-contact-info p + p { margin-top: 20px; }
@@ -685,7 +696,7 @@ html {
 
 @media (min-width: 1280px) {
     .header__content { align-items: flex-start; }
-    .header__logo { margin: 34px 0 0 37px; max-width: min(42vw, 409px); height: auto; line-height: normal; }
+    .header__logo { margin: 34px 0 0; max-width: min(42vw, 409px); height: auto; line-height: normal; }
     .header__nav { margin-top: 15px; gap: 4px; }
     .header__nav-list { gap: 0; }
     .header__nav-item { padding: 11px 18px; min-height: 0; line-height: 18px; }
@@ -699,8 +710,7 @@ html {
     .hero:not(.hero--text-only, .hero--small) .subline { margin-top: 30px; margin-bottom: 40px; }
     .kovpack-news__follow { display: none; }
     .page__content .frame-kovpack-contact-info h2 { font-size: 32px; }
-    .page__content > .frame-kovpack-contact-info { padding-right: 20px; }
-    .page__content > .frame-kovpack-contact-form { padding-left: 20px; }
+    .page__content > :is(.frame-kovpack-contact-info, .frame-kovpack-contact-form) { padding-inline: var(--kovpack-edge); }
     .frame-kovpack-contact-form .actions, .frame-kovpack-contact-form .form-element-check { grid-column: 1; grid-row: auto; }
     .footer__col--1 .frame-type-textmedia { padding-left: 20px; }
 }
@@ -844,7 +854,7 @@ body[class] {
 .kovpack-hero-controls {
     position: absolute;
     z-index: 2;
-    left: var(--kovpack-inset);
+    left: var(--kovpack-edge);
     bottom: 40px;
     display: flex;
     align-items: center;
@@ -930,7 +940,7 @@ body[class] {
     column-gap: clamp(32px, 4vw, 72px);
     min-height: 0;
     margin-bottom: 64px;
-    padding: 64px var(--kovpack-inset) 0;
+    padding: 64px var(--kovpack-edge) 0;
     border-radius: 0;
     background: none;
     overflow: visible;
@@ -1001,7 +1011,7 @@ body[class] {
     --component-margin-vertical: 0;
     grid-column: content;
     margin: 0;
-    padding: 0 calc(var(--kovpack-gutter) / 2) var(--kovpack-gutter);
+    padding: 0 0 var(--kovpack-gutter);
 }
 .page__content > .kovpack-product { display: flex; flex-direction: column; }
 .kovpack-product > .component__content { flex: 1 1 auto; display: flex; flex-direction: column; box-sizing: border-box; width: 100%; }
@@ -1084,7 +1094,7 @@ body[class] {
 }
 @media (min-width: 1280px) {
     .header.is-stuck .header__content { align-items: center; }
-    .header.is-stuck .header__logo { margin: 0 0 0 37px; max-width: 190px; }
+    .header.is-stuck .header__logo { margin: 0; max-width: 190px; }
     .header.is-stuck .header__nav {
         --link-color: var(--kovpack-ink);
         --link-color-hover: var(--kovpack-ink);

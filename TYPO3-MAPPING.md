@@ -20,6 +20,7 @@ and verification: copying this directory into the CMS does not create editable b
 
 | Component | Editor-controlled content | Migration/behaviour contract |
 | --- | --- | --- |
+| Layout grid (all pages) | None: layout only | Header, every section and the footer share one pair of page edges: `--kovpack-container` (max content width, 1600px) and `--kovpack-inset` (min side space, 48px / 20px on phones) give `--kovpack-edge`. Full-width wrappers pad by `--kovpack-edge`; `.page__content` is a grid of edge + 12 columns + edge (`full` / `content` lines). New blocks must use these lines, not their own side paddings or margins |
 | Page shell, header, menu, language switch | Page titles/tree/order, translated links, logo | Keep shared Fluid layout/partials; derive navigation from the actual page tree |
 | Homepage hero | Heading, subline, CTA label/target, repeatable slide images and alt text | Preserve slideshow timing/transitions, controls, responsive crop and reduced motion |
 | Products overview intro | Heading, subline, image, alt text | Preserve the split layout, entrance and mobile stacking |

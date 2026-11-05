@@ -46,7 +46,7 @@
     --component-margin-vertical: 0;
     grid-column: content;
     margin: 0;
-    padding: 0 calc(var(--kovpack-gutter, 32px) / 2) var(--kovpack-gutter, 32px);
+    padding: 0 0 var(--kovpack-gutter, 20px);
 }
 .kovpack-shelf {
     /* Standing roll photo: 465 x 1754 px, so width = height / 3.772. */
