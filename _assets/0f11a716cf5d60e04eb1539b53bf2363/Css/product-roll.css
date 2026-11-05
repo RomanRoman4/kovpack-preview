@@ -193,6 +193,13 @@
     mask: var(--paper-mask);
     -webkit-mask-composite: source-over, source-in, source-over, source-over, source-over;
     mask-composite: add, intersect, add, add, add;
+    /* The cut end spans only between the long edges (4px in from the box), so
+     * it never sticks out above or below them. */
+    padding-block: 4px;
+    -webkit-mask-clip: content-box, border-box, border-box, border-box, border-box;
+    mask-clip: content-box, border-box, border-box, border-box, border-box;
+    -webkit-mask-origin: content-box, border-box, border-box, border-box, border-box;
+    mask-origin: content-box, border-box, border-box, border-box, border-box;
 }
 .kovpack-roll__sheet::before {
     background:
