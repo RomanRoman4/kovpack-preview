@@ -345,14 +345,17 @@
     padding: 7px 7px 7px max(16px, calc(18 * var(--u)));
     border: 1px solid rgb(36 26 15 / 14%);
     border-radius: var(--corners-s, 8px);
-    background: linear-gradient(rgb(255 252 245 / 86%), rgb(246 238 224 / 78%));
+    /* A gradient cannot be faded into a plain colour, so the light sheen
+     * stays and only the paper tone underneath changes on hover. */
+    background-color: rgb(248 241 229 / 84%);
+    background-image: linear-gradient(rgb(255 255 255 / 34%), rgb(255 255 255 / 0%));
     color: #2a1d10;
     font-size: max(14px, calc(15 * var(--u)));
     font-weight: 600;
     letter-spacing: .02em;
     text-decoration: none;
     box-shadow: 0 1px 0 rgb(255 255 255 / 70%) inset, 0 8px 18px -12px rgb(36 26 15 / 50%);
-    transition: transform .3s var(--roll-ease), background .3s, box-shadow .3s var(--roll-ease);
+    transition: transform .4s var(--roll-ease), background-color .4s ease, box-shadow .4s var(--roll-ease);
 }
 .kovpack-roll__action .button__text { padding: 0; border: 0; color: inherit; text-decoration: none; }
 .kovpack-roll__action .button::after {
@@ -366,11 +369,10 @@
     background: #2a1d10;
     color: #f6eedf;
     font-size: 14px;
-    transition: transform .3s var(--roll-ease), background .3s;
+    transition: transform .4s var(--roll-ease), background-color .4s ease;
 }
 .kovpack-roll__action .button:hover {
-    transform: translateY(-1px);
-    background: #fffcf6;
+    background-color: rgb(253 249 241 / 94%);
     box-shadow: 0 1px 0 rgb(255 255 255 / 80%) inset, 0 14px 24px -12px rgb(36 26 15 / 55%);
 }
 .kovpack-roll__action .button:hover::after { transform: translate(2px, -2px); background: var(--kovpack-accent, #1d7a74); }

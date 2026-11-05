@@ -328,13 +328,16 @@
     border: 1px solid rgb(36 26 15 / 14%);
     border-radius: 10px;
     /* A light paper tab: visible on the kraft, quieter than dark ink. */
-    background: linear-gradient(rgb(255 252 245 / 86%), rgb(246 238 224 / 78%));
+    /* A gradient cannot be faded into a plain colour, so the light sheen
+     * stays and only the paper tone underneath changes on hover. */
+    background-color: rgb(248 241 229 / 84%);
+    background-image: linear-gradient(rgb(255 255 255 / 34%), rgb(255 255 255 / 0%));
     color: #2a1d10;
     font-size: 15px;
     font-weight: 600;
     text-decoration: none;
     box-shadow: 0 1px 0 rgb(255 255 255 / 70%) inset, 0 8px 18px -12px rgb(36 26 15 / 50%);
-    transition: background .3s, transform .3s, box-shadow .3s;
+    transition: background-color .4s ease, transform .4s ease, box-shadow .4s ease;
 }
 .kovpack-shelf__button span {
     display: flex;
@@ -346,9 +349,9 @@
     background: #2a1d10;
     color: #f6eedf;
     font-size: 13px;
-    transition: transform .3s, background .3s;
+    transition: transform .4s ease, background-color .4s ease;
 }
-.kovpack-shelf__button:hover { background: #fffcf6; color: #2a1d10; transform: translateY(-1px); box-shadow: 0 1px 0 rgb(255 255 255 / 80%) inset, 0 14px 24px -12px rgb(36 26 15 / 55%); }
+.kovpack-shelf__button:hover { background-color: rgb(253 249 241 / 94%); color: #2a1d10; box-shadow: 0 1px 0 rgb(255 255 255 / 80%) inset, 0 14px 24px -12px rgb(36 26 15 / 55%); }
 .kovpack-shelf__button:hover span { transform: translate(2px, -2px); background: var(--kovpack-accent, #1d7a74); }
 .kovpack-shelf__button:focus-visible { outline: 3px solid var(--shelf-dark); outline-offset: 3px; }
 
