@@ -77,6 +77,63 @@ const createNameSwitch = () => {
     return control;
 };
 
+// Paper look of the unrolled sheet (design preview options, owner 2026-11-05):
+// the surface and the cut end, set on <html> and kept for the visitor.
+const LOOKS = {
+    paperStyle: {
+        storageKey: 'kovpack-paper-style',
+        label: { de: 'Papieroberfläche', en: 'Paper surface' },
+        options: { calm: { de: 'Glatt', en: 'Flat' }, waves: { de: 'Leicht wellig', en: 'Slight waves' }, curl: { de: 'Gewölbt', en: 'Curled' } }
+    },
+    paperCut: {
+        storageKey: 'kovpack-paper-cut',
+        label: { de: 'Abriss am Ende', en: 'Cut end' },
+        options: { serrated: { de: 'Zackenschnitt', en: 'Serrated' }, torn: { de: 'Gerissen', en: 'Torn' }, clean: { de: 'Glatter Schnitt', en: 'Clean cut' } }
+    }
+};
+const lookSwitches = [];
+const lang = root.lang === 'de' ? 'de' : 'en';
+const setLook = (name, value, remember) => {
+    const look = LOOKS[name];
+    if (!(value in look.options)) value = Object.keys(look.options)[0];
+    root.dataset[name] = value;
+    for (const control of lookSwitches) {
+        for (const option of control.querySelectorAll(`[data-look="${name}"]`)) option.setAttribute('aria-pressed', String(option.dataset.value === value));
+    }
+    if (remember) {
+        try { window.localStorage.setItem(look.storageKey, value); } catch { /* private mode: keep it for this page only */ }
+    }
+};
+const createLookSwitch = (name) => {
+    const look = LOOKS[name];
+    const control = document.createElement('div');
+    control.className = 'kovpack-name-switch kovpack-look-switch';
+    control.setAttribute('role', 'group');
+    control.setAttribute('aria-label', look.label[lang]);
+    control.title = look.label[lang];
+    for (const [value, text] of Object.entries(look.options)) {
+        const option = document.createElement('button');
+        option.type = 'button';
+        option.className = 'kovpack-name-switch__option';
+        option.dataset.look = name;
+        option.dataset.value = value;
+        option.textContent = text[lang];
+        option.setAttribute('aria-pressed', String(root.dataset[name] === value));
+        control.append(option);
+    }
+    control.addEventListener('click', (event) => {
+        const option = event.target.closest('[data-look]');
+        if (option) setLook(name, option.dataset.value, true);
+    });
+    lookSwitches.push(control);
+    return control;
+};
+for (const name of Object.keys(LOOKS)) {
+    let stored = null;
+    try { stored = window.localStorage.getItem(LOOKS[name].storageKey); } catch { /* private mode */ }
+    setLook(name, stored, false);
+}
+
 // Hides whichever view of a block is not shown.
 const showView = (block, view) => {
     for (const section of block.sections) section.toggleAttribute('data-view-off', view === 'shelf');
@@ -132,7 +189,7 @@ const addControls = (group, view, shelfContent) => {
     const switchTemplate = view ? null : group[0].querySelector('template[data-shelf-switch]');
     const controls = document.createElement('div');
     controls.className = 'kovpack-product-controls';
-    controls.append(createNameSwitch());
+    controls.append(createNameSwitch(), createLookSwitch('paperStyle'), createLookSwitch('paperCut'));
     const before = group[0].previousElementSibling;
     const heading = before?.matches('.frame') && before.querySelector('h1, h2') ? before : null;
     const placement = { controls, heading, shelfContent, rollContent };
