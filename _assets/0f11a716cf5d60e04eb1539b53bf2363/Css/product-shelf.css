@@ -10,7 +10,19 @@
 :root[data-products-view="shelf"] .kovpack-product[data-roll] { display: none; }
 :root:not([data-products-view="shelf"]) .kovpack-shelf { display: none; }
 
-.kovpack-view-switch {
+.kovpack-product-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    width: max-content;
+    max-width: 100%;
+    margin: 0 0 32px auto;
+}
+.frame > .kovpack-product-controls { align-self: center; margin: 0 0 0 auto; }
+.kovpack-view-switch,
+.kovpack-name-switch {
     display: flex;
     gap: 4px;
     width: max-content;
@@ -23,8 +35,11 @@
 }
 /* Beside the section heading: same line, right-aligned (wraps below on phones). */
 .frame > .kovpack-view-switch { align-self: center; margin: 0 0 0 auto; }
+.kovpack-product-controls > .kovpack-view-switch,
+.kovpack-product-controls > .kovpack-name-switch { margin: 0; }
 
-.kovpack-view-switch__option {
+.kovpack-view-switch__option,
+.kovpack-name-switch__option {
     min-height: 40px;
     padding: 0 18px;
     border: 0;
@@ -37,9 +52,13 @@
     cursor: pointer;
     transition: background .25s, color .25s;
 }
-.kovpack-view-switch__option:hover { color: var(--kovpack-ink, #141a1b); }
-.kovpack-view-switch__option[aria-pressed="true"] { background: var(--kovpack-primary, #0f2a33); color: var(--kovpack-on-primary, #eef0ea); }
-.kovpack-view-switch__option:focus-visible { outline: 3px solid var(--kovpack-accent, #1d7a74); outline-offset: 2px; }
+.kovpack-name-switch__option { min-height: 36px; padding-inline: 10px; font-size: 12px; }
+.kovpack-view-switch__option:hover,
+.kovpack-name-switch__option:hover { color: var(--kovpack-ink, #141a1b); }
+.kovpack-view-switch__option[aria-pressed="true"],
+.kovpack-name-switch__option[aria-pressed="true"] { background: var(--kovpack-primary, #0f2a33); color: var(--kovpack-on-primary, #eef0ea); }
+.kovpack-view-switch__option:focus-visible,
+.kovpack-name-switch__option:focus-visible { outline: 3px solid var(--kovpack-accent, #1d7a74); outline-offset: 2px; }
 
 /* Same place in the page grid as the roll cards it replaces. */
 .page__content > .kovpack-shelf {
@@ -407,6 +426,11 @@
     .kovpack-shelf__item.is-active .kovpack-shelf__paper { margin-right: 12px; }
     .kovpack-shelf__specs > div { flex-direction: column; gap: 2px; }
     .kovpack-shelf__specs dd { text-align: left; }
+}
+@media (max-width: 600px) {
+    .frame > .kovpack-product-controls { width: 100%; margin: 16px 0 0; justify-content: flex-start; }
+    .kovpack-name-switch { max-width: 100%; }
+    .kovpack-name-switch__option { min-height: 34px; padding-inline: 7px; font-size: 10px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
