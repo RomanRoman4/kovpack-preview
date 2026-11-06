@@ -1280,33 +1280,57 @@ body[class] {
 .kovpack-pdp__note { margin: 18px 0 0; color: var(--kovpack-muted); font-size: 14px; }
 .kovpack-pdp__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 28px; margin-top: 32px; }
 /* The enquiry button takes the product colour (owner, 2026-11-06). The label
- * colours are light, so the text is dark ink; hover keeps the site's dark blue. */
+ * colours are light, so the text stays dark ink; hover only deepens the colour. */
 .kovpack-pdp__actions .button {
     --button-primary-color: var(--pdp-label);
     --button-primary-border-color: var(--pdp-label);
+    --button-primary-color-hover: color-mix(in srgb, var(--pdp-label) 88%, #000);
+    --button-primary-border-color-hover: var(--button-primary-color-hover);
+    --button-primary-color-pressed: var(--button-primary-color-hover);
+    --button-primary-border-color-pressed: var(--button-primary-color-hover);
     --button-primary-content-color: var(--kovpack-ink);
-    --button-primary-content-color-hover: var(--kovpack-on-primary);
-    --button-primary-content-color-pressed: var(--kovpack-on-primary);
-    --button-primary-border-color-hover: var(--kovpack-primary);
-    --button-primary-border-color-pressed: var(--kovpack-primary);
-    --pdp-button-edge: color-mix(in srgb, var(--pdp-label) 62%, #000);
+    --button-primary-content-color-hover: var(--kovpack-ink);
+    --button-primary-content-color-pressed: var(--kovpack-ink);
     font-weight: 600;
-    /* Raised key: a darker bottom edge and a soft shadow; pressing pushes it down. */
-    box-shadow: 0 4px 0 var(--pdp-button-edge), 0 10px 18px -10px rgb(20 26 27 / 55%);
-    transition: transform .15s var(--kovpack-ease), box-shadow .15s var(--kovpack-ease), background .2s, border-color .2s, color .2s;
 }
-.kovpack-pdp__actions .button:hover {
-    --pdp-button-edge: #04141a;
+/* Pressable buttons (owner, 2026-11-06): solid buttons look like a raised key
+ * with a darker bottom edge; hover lifts them gently, pressing pushes them
+ * down. --press-face is the button colour the edge is derived from. */
+.page__content .button:not(.button--text, .button--icon-only, .hero .button),
+.frame-kovpack-contact-form button[type=submit] {
+    --press-edge: color-mix(in srgb, var(--press-face, var(--button-primary-color, var(--kovpack-accent))) 60%, #000);
+    box-shadow: 0 4px 0 var(--press-edge), 0 10px 18px -10px rgb(20 26 27 / 55%);
+    transition: transform .4s var(--kovpack-ease), box-shadow .4s var(--kovpack-ease), background-color .4s ease, border-color .4s ease, color .4s ease;
+}
+.page__content .button:not(.button--text, .button--icon-only, .hero .button) {
+    --button-primary-color-hover: color-mix(in srgb, var(--button-primary-color, var(--kovpack-accent)) 88%, #000);
+    --button-primary-border-color-hover: var(--button-primary-color-hover);
+}
+.kovpack-pdp__actions .button { --press-face: var(--pdp-label); }
+.frame-kovpack-contact-form button[type=submit] { --press-face: var(--kovpack-primary); }
+.page__content .button:not(.button--text, .button--icon-only, .hero .button):hover,
+.frame-kovpack-contact-form button[type=submit]:hover {
     transform: translateY(-1px);
-    box-shadow: 0 5px 0 var(--pdp-button-edge), 0 14px 22px -12px rgb(20 26 27 / 60%);
+    box-shadow: 0 5px 0 var(--press-edge), 0 14px 22px -12px rgb(20 26 27 / 55%);
 }
-.kovpack-pdp__actions .button:active {
+.frame-kovpack-contact-form button[type=submit]:hover { background: color-mix(in srgb, var(--kovpack-primary) 86%, #fff); }
+.page__content .button:not(.button--text, .button--icon-only, .hero .button):active,
+.frame-kovpack-contact-form button[type=submit]:active {
     transform: translateY(4px);
-    box-shadow: 0 0 0 var(--pdp-button-edge), inset 0 2px 5px rgb(0 0 0 / 30%);
-    transition-duration: .05s;
+    box-shadow: 0 0 0 var(--press-edge), inset 0 2px 5px rgb(0 0 0 / 30%);
+    transition-duration: .06s;
+}
+/* The hero call to action keeps its lit gradient; it gets the same press. */
+.hero:not(.hero--text-only, .hero--small) .button { transition: transform .45s var(--kovpack-ease), box-shadow .45s var(--kovpack-ease), filter .45s ease; }
+.hero:not(.hero--text-only, .hero--small) .button:hover { transform: translateY(-2px); }
+.hero:not(.hero--text-only, .hero--small) .button:active {
+    transform: translateY(3px);
+    filter: brightness(.95);
+    box-shadow: 0 2px 4px rgb(0 0 0 / 35%) inset, 0 4px 10px -6px rgb(0 0 0 / 50%);
+    transition-duration: .06s;
 }
 @media (prefers-reduced-motion: reduce) {
-    .kovpack-pdp__actions .button { transition: none; }
+    .page__content .button, .frame-kovpack-contact-form button[type=submit], .hero .button { transition: none; }
 }
 .kovpack-pdp__back { color: var(--kovpack-ink); font-weight: 600; text-decoration: none; border-bottom: 1px solid var(--kovpack-line); transition: border-color .2s; }
 .kovpack-pdp__back:hover { color: var(--kovpack-ink); border-color: var(--kovpack-ink); }
