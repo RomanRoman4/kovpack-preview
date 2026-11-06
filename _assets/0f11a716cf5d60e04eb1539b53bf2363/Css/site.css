@@ -1404,16 +1404,16 @@ body[class] {
  * start on the same line in every tile of a row, whatever their length.
  * Centred (owner, 2026-11-06): icon, title and text share one axis, so wide
  * tiles on pages with few records do not leave an empty right half. */
-.kovpack-pdp__use { --use-accent: var(--pdp-label); --use-surface: var(--kovpack-paper); --use-stroke: .9; display: grid; grid-row: span 3; grid-template-rows: subgrid; row-gap: 0; align-content: start; justify-items: center; margin: 0; padding: 28px 22px 26px; border: 1px solid var(--kovpack-line); border-radius: var(--corners-s, 8px); background: var(--kovpack-paper); text-align: center; }
+.kovpack-pdp__use { --use-accent: var(--pdp-label); --use-surface: var(--kovpack-paper); --use-stroke: .9; display: grid; grid-row: span 3; grid-template-rows: subgrid; row-gap: 0; align-content: start; justify-items: center; margin: 0; padding: 24px 16px 24px; border: 1px solid var(--kovpack-line); border-radius: var(--corners-s, 8px); background: var(--kovpack-paper); text-align: center; }
 /* Icon viewBoxes are cropped to the drawing: every icon fills the same square and shares the bottom line. */
-.kovpack-pdp__use-icon { display: block; width: 64px; height: 64px; color: var(--kovpack-ink); }
+.kovpack-pdp__use-icon { display: block; width: clamp(64px, 5.4vw, 84px); height: clamp(64px, 5.4vw, 84px); color: var(--kovpack-ink); }
 /* Between tablet and wide desktop five or six tiles would leave one alone in a
  * second row; three columns split them evenly instead. */
 @media (min-width: 901px) and (max-width: 1279px) {
     .kovpack-pdp__uses-list:has(> :nth-child(5)) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
-.kovpack-pdp .kovpack-pdp__use-title { align-self: start; max-width: 24ch; margin: 18px 0 0; font-family: var(--kovpack-font); font-size: 16px; font-weight: 600; line-height: 1.25; hyphens: auto; overflow-wrap: normal; text-wrap: balance; }
-.kovpack-pdp__use-text { align-self: start; max-width: 30ch; margin: 6px 0 0; color: var(--kovpack-muted); font-size: 14px; line-height: 1.45; text-wrap: pretty; }
+.kovpack-pdp .kovpack-pdp__use-title { align-self: start; max-width: 24ch; margin: 16px 0 0; font-family: var(--kovpack-font); font-size: clamp(16px, 1.1vw, 19px); font-weight: 600; line-height: 1.25; hyphens: auto; overflow-wrap: normal; text-wrap: balance; }
+.kovpack-pdp__use-text { align-self: start; max-width: 32ch; margin: 8px 0 0; color: var(--kovpack-muted); font-size: clamp(14px, 1.05vw, 16px); line-height: 1.45; text-wrap: pretty; }
 /* Material properties: a quieter row under the tiles (repeatable: icon key, title, text). */
 .kovpack-pdp .kovpack-pdp__traits-title { margin-top: 36px; }
 /* One continuous strip between an ink rule and a light rule, like the spec
