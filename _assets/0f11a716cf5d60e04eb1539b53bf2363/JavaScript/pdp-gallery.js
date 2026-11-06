@@ -36,7 +36,7 @@
             return getComputedStyle(card).transform;
         }
 
-        function fly(card, from, to, tuckUnder, endZ) {
+        function fly(card, from, to, tuckUnder) {
             var outFrom = tuckUnder ? from : to;
             var out = outFrom + ' translate(58%, -5%) rotate(7deg)';
             var top = cards.length + 1;
@@ -53,10 +53,14 @@
             ];
             var animation = card.animate(keyframes, { duration: DURATION });
             running = animation;
+            card.pdpAnimation = animation;
+            /* Finish events arrive late; a card that already flies again keeps
+             * its class. Its z-index always comes from layout(). */
             animation.onfinish = animation.oncancel = function () {
-                card.classList.remove('is-moving');
-                card.style.zIndex = String(endZ);
                 if (running === animation) running = null;
+                if (card.pdpAnimation !== animation) return;
+                card.pdpAnimation = null;
+                card.classList.remove('is-moving');
             };
         }
 
@@ -84,9 +88,8 @@
                 if (canAnimate) fade(cards[order[0]]);
                 return;
             }
-            var endZ = moving.style.zIndex;
             var to = restingTransform(moving);
-            fly(moving, from, to, step > 0, endZ);
+            fly(moving, from, to, step > 0);
         }
 
         layout();
