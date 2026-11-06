@@ -1289,6 +1289,13 @@ body[class] {
 .kovpack-pdp__gallery.is-ready .kovpack-pdp__card[data-depth="0"] { cursor: pointer; }
 /* While the script flies a print, it drives the transform itself. */
 .kovpack-pdp__card.is-moving { transition: filter .6s ease; }
+/* On hover the top print lifts aside and the next one fans out, so the stack
+ * reads as more photos to flip through. */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .kovpack-pdp__gallery.is-ready .kovpack-pdp__deck:hover .kovpack-pdp__card[data-depth="0"] { --stack-r: -2.6deg; --stack-x: -6px; --stack-y: -6px; }
+    .kovpack-pdp__gallery.is-ready .kovpack-pdp__deck:hover .kovpack-pdp__card[data-depth="1"] { --stack-r: 4.6deg; --stack-x: 30px; --stack-y: 2px; filter: none; }
+    .kovpack-pdp__gallery.is-ready .kovpack-pdp__deck:hover .kovpack-pdp__card[data-depth="2"] { --stack-r: -5deg; --stack-x: -14px; --stack-y: 12px; }
+}
 /* A flying print may pass the page edge; never let it widen the page. */
 .kovpack-pdp { overflow-x: clip; }
 .kovpack-pdp__deck { touch-action: pan-y; user-select: none; }

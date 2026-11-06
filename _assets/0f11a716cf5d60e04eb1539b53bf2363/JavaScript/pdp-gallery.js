@@ -69,6 +69,7 @@
         }
 
         function go(step) {
+            stopHint();
             if (running) running.finish();
             var plain = reduceMotion.matches || !canAnimate;
             var moving, from;
@@ -90,6 +91,45 @@
             }
             var to = restingTransform(moving);
             fly(moving, from, to, step > 0);
+        }
+
+        /* Hint (owner, 2026-11-06): the first time the stack is well in view,
+         * the top print lifts aside once so the next photo shows, then settles.
+         * It never runs again after the visitor flips, or under reduced motion. */
+        var touched = false;
+        var hints = [];
+        var hintTimer = null;
+        function stopHint() {
+            touched = true;
+            clearTimeout(hintTimer);
+            hints.forEach(function (animation) { animation.cancel(); });
+            hints = [];
+        }
+        function nudge(card, shift, duration) {
+            var rest = getComputedStyle(card).transform;
+            var aside = rest + ' ' + shift;
+            return card.animate([
+                { transform: rest, easing: 'cubic-bezier(.2, 0, 0, 1)' },
+                { transform: aside, offset: 0.34 },
+                { transform: aside, offset: 0.52, easing: 'cubic-bezier(.22, .8, .24, 1)' },
+                { transform: rest }
+            ], { duration: duration });
+        }
+        function peek() {
+            if (touched || reduceMotion.matches || !canAnimate) return;
+            touched = true;
+            hints = [
+                nudge(cards[order[0]], 'translate(20%, -3%) rotate(5deg)', 1500),
+                nudge(cards[order[1]], 'translate(-3%, 1%) rotate(-1.5deg)', 1500)
+            ];
+        }
+        if ('IntersectionObserver' in window) {
+            var watcher = new IntersectionObserver(function (entries) {
+                if (touched) { watcher.disconnect(); return; }
+                if (entries[0].isIntersecting) hintTimer = setTimeout(peek, 900);
+                else clearTimeout(hintTimer);
+            }, { threshold: 0.6 });
+            watcher.observe(deck);
         }
 
         layout();
