@@ -1401,17 +1401,29 @@ body[class] {
 .kovpack-pdp__uses-lead { margin: 0; color: var(--kovpack-muted); font-size: 15px; }
 .kovpack-pdp__uses-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(176px, 1fr)); gap: var(--kovpack-gutter, 20px); max-width: none; margin: 24px 0 0; padding: 0; list-style: none; }
 /* Each tile spans three shared rows (icon, title, text), so titles and texts
- * start on the same line in every tile of a row, whatever their length. */
-.kovpack-pdp__use { --use-accent: var(--pdp-label); --use-surface: var(--kovpack-paper); --use-stroke: .9; display: grid; grid-row: span 3; grid-template-rows: subgrid; row-gap: 0; align-content: start; margin: 0; padding: 20px 20px 22px; border: 1px solid var(--kovpack-line); border-radius: var(--corners-s, 8px); background: var(--kovpack-paper); }
+ * start on the same line in every tile of a row, whatever their length.
+ * Centred (owner, 2026-11-06): icon, title and text share one axis, so wide
+ * tiles on pages with few records do not leave an empty right half. */
+.kovpack-pdp__use { --use-accent: var(--pdp-label); --use-surface: var(--kovpack-paper); --use-stroke: .9; display: grid; grid-row: span 3; grid-template-rows: subgrid; row-gap: 0; align-content: start; justify-items: center; margin: 0; padding: 28px 22px 26px; border: 1px solid var(--kovpack-line); border-radius: var(--corners-s, 8px); background: var(--kovpack-paper); text-align: center; }
 /* Icon viewBoxes are cropped to the drawing: every icon fills the same square and shares the bottom line. */
-.kovpack-pdp__use-icon { display: block; width: 60px; height: 60px; color: var(--kovpack-ink); }
-.kovpack-pdp .kovpack-pdp__use-title { align-self: start; margin: 16px 0 0; font-family: var(--kovpack-font); font-size: 16px; font-weight: 600; line-height: 1.25; hyphens: auto; overflow-wrap: normal; text-wrap: balance; }
-.kovpack-pdp__use-text { align-self: start; margin: 6px 0 0; color: var(--kovpack-muted); font-size: 14px; line-height: 1.45; text-wrap: pretty; }
+.kovpack-pdp__use-icon { display: block; width: 64px; height: 64px; color: var(--kovpack-ink); }
+/* Between tablet and wide desktop five or six tiles would leave one alone in a
+ * second row; three columns split them evenly instead. */
+@media (min-width: 901px) and (max-width: 1279px) {
+    .kovpack-pdp__uses-list:has(> :nth-child(5)) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+.kovpack-pdp .kovpack-pdp__use-title { align-self: start; max-width: 24ch; margin: 18px 0 0; font-family: var(--kovpack-font); font-size: 16px; font-weight: 600; line-height: 1.25; hyphens: auto; overflow-wrap: normal; text-wrap: balance; }
+.kovpack-pdp__use-text { align-self: start; max-width: 30ch; margin: 6px 0 0; color: var(--kovpack-muted); font-size: 14px; line-height: 1.45; text-wrap: pretty; }
 /* Material properties: a quieter row under the tiles (repeatable: icon key, title, text). */
 .kovpack-pdp .kovpack-pdp__traits-title { margin-top: 36px; }
-.kovpack-pdp__traits { --use-accent: var(--pdp-label); --use-surface: var(--kovpack-bg); display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0 var(--kovpack-gutter, 20px); max-width: none; margin: 14px 0 0; padding: 0; border-top: 1px solid var(--kovpack-ink); list-style: none; }
-.kovpack-pdp__trait { display: grid; grid-template-columns: 40px minmax(0, 1fr); align-items: start; column-gap: 14px; margin: 0; padding: 16px 0; border-bottom: 1px dashed var(--kovpack-line); }
-.kovpack-pdp__trait-icon { display: block; width: 40px; height: 40px; color: var(--kovpack-ink); }
+/* One continuous strip between an ink rule and a light rule, like the spec
+ * table; thin column rules separate the records instead of broken dashes. */
+.kovpack-pdp__traits { --use-accent: var(--pdp-label); --use-surface: var(--kovpack-bg); display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0; max-width: none; margin: 14px 0 0; padding: 0; border-top: 1px solid var(--kovpack-ink); border-bottom: 1px solid var(--kovpack-line); list-style: none; }
+.kovpack-pdp__trait { display: grid; grid-template-columns: 44px minmax(0, 1fr); align-items: start; column-gap: 16px; margin: 20px 0; padding: 0 24px; }
+.kovpack-pdp__trait:first-child { padding-left: 0; }
+.kovpack-pdp__trait:last-child { padding-right: 0; }
+.kovpack-pdp__trait + .kovpack-pdp__trait { border-left: 1px solid var(--kovpack-line); }
+.kovpack-pdp__trait-icon { display: block; width: 44px; height: 44px; color: var(--kovpack-ink); }
 .kovpack-pdp__trait-text { margin: 0; color: var(--kovpack-muted); font-size: 14px; line-height: 1.45; text-wrap: pretty; }
 .kovpack-pdp__trait-text strong { display: block; margin-bottom: 2px; color: var(--kovpack-ink); font-size: 15px; font-weight: 600; line-height: 1.3; }
 
@@ -1447,6 +1459,9 @@ body[class] {
 @media (max-width: 900px) {
     .kovpack-pdp { padding-block: 16px 64px; }
     .kovpack-pdp__layout { grid-template-columns: 1fr; }
+    .kovpack-pdp__traits { grid-template-columns: 1fr; }
+    .kovpack-pdp__trait { margin: 0; padding: 16px 0; }
+    .kovpack-pdp__trait + .kovpack-pdp__trait { border-left: 0; border-top: 1px dashed var(--kovpack-line); }
     .kovpack-pdp__photo { position: relative; top: auto; max-width: 520px; padding: 8px 8px 26px; }
     .kovpack-pdp__gallery { padding: 0; }
     .kovpack-pdp__card { padding: 8px 8px 26px; }
