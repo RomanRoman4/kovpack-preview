@@ -1281,6 +1281,19 @@ body[class] {
 .kovpack-pdp__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 28px; margin-top: 32px; }
 .kovpack-pdp__back { color: var(--kovpack-ink); font-weight: 600; text-decoration: none; border-bottom: 1px solid var(--kovpack-line); transition: border-color .2s; }
 .kovpack-pdp__back:hover { color: var(--kovpack-ink); border-color: var(--kovpack-ink); }
+/* Applications strip (owner, 2026-11-06): where the product is used. Own line
+ * icons from Icons/pdp-uses.svg; the paper sheet in each icon takes the
+ * product label colour. In TYPO3: repeatable records (icon key, title, text). */
+.kovpack-pdp__uses { margin-top: clamp(56px, 7vw, 96px); padding-top: 32px; border-top: 1px solid var(--kovpack-line); }
+.kovpack-pdp__uses-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px; }
+.kovpack-pdp .kovpack-pdp__uses-title { margin: 0; font-family: var(--kovpack-font-display); font-size: clamp(26px, 2.6vw, 36px); font-weight: 600; line-height: 1.1; }
+.kovpack-pdp__uses-lead { margin: 0; color: var(--kovpack-muted); font-size: 15px; }
+.kovpack-pdp__uses-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(176px, 1fr)); gap: var(--kovpack-gutter, 20px); max-width: none; margin: 24px 0 0; padding: 0; list-style: none; }
+.kovpack-pdp__use { --use-accent: var(--pdp-label); --use-surface: var(--kovpack-paper); display: flex; flex-direction: column; margin: 0; padding: 22px 20px 24px; border: 1px solid var(--kovpack-line); border-radius: var(--corners-s, 8px); background: var(--kovpack-paper); }
+.kovpack-pdp__use-icon { display: block; width: 64px; height: 64px; color: var(--kovpack-ink); overflow: visible; }
+.kovpack-pdp .kovpack-pdp__use-title { margin: 18px 0 0; font-family: var(--kovpack-font); font-size: 16px; font-weight: 600; line-height: 1.25; hyphens: auto; overflow-wrap: normal; }
+.kovpack-pdp__use-text { margin: 6px 0 0; color: var(--kovpack-muted); font-size: 14px; line-height: 1.45; }
+
 /* Product videos (owner, 2026-11-05): room for several clips under the
  * product. Each slot is 16:9; until a clip is attached it shows a quiet
  * photo preview. In TYPO3 these are repeatable video records (file or embed). */
