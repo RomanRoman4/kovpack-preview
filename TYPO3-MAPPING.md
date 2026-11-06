@@ -42,6 +42,25 @@ The phone checks in the final integration checklist remain required before CMS a
 | Sticky header/back to top | Page content remains editor-driven | Preserve sticky/spacer logic, smooth return, keyboard and reduced-motion behaviour |
 | Other/new pages | Shared blocks plus page-specific editable fields | Record new block contracts here; do not bake whole pages into uneditable HTML blobs |
 
+## Page addresses (URL slugs)
+
+The preview file names are historical. Two of them no longer describe the product.
+Do not copy them into the CMS. In the TYPO3 page tree, give each product page the
+slug below. Each slug is the main search term for that product in its language,
+so search engines and link previews show what the page is about.
+
+| Product | Preview file (do not reuse) | TYPO3 slug DE | TYPO3 slug EN |
+| --- | --- | --- | --- |
+| PROTECT Paper (surface protection, ca. 180 g/m²) | `de/produkte/bodenschutzpapier`, `en/products/floor-protection-paper` | `/produkte/bodenschutzpapier` | `/en/products/floor-protection-paper` |
+| PACKING Paper (wrapping, lining, interleaving) | `de/produkte/lackier-abdeckpapier`, `en/products/masking-paper` (wrong: masking paper) | `/produkte/packpapier` | `/en/products/packing-paper` |
+| FILL Paper (void fill, cushioning, blocking) | `de/produkte/verpackungs-polsterpapier`, `en/products/packaging-paper` (too general) | `/produkte/polsterpapier` | `/en/products/void-fill-paper` |
+
+Rules:
+- Lowercase, hyphens only, umlauts transliterated (`ä` → `ae`, `ß` → `ss`).
+- The DE and EN pages of one product are linked as translations, so the language switch and `hreflang` find each other.
+- Set the page title and meta description with the same search term as the slug.
+- If an address has already been public on the live site, add a 301 redirect from the old address before changing it.
+
 ## Integration procedure
 
 1. Freeze an approved preview Git commit as the reference and collect desktop/phone
