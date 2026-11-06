@@ -1267,6 +1267,51 @@ body[class] {
 .kovpack-pdp__layout { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(32px, 5vw, 80px); align-items: start; }
 .kovpack-pdp__photo { position: sticky; top: 96px; margin: 0; padding: 12px 12px 40px; border-radius: 4px; background: #f6f1e7; box-shadow: 0 1px 2px rgb(60 40 20 / 14%), 0 30px 50px -30px rgb(40 25 10 / 45%); transform: rotate(-1.2deg); }
 .kovpack-pdp__photo img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 2px; }
+/* Photo stack (owner, 2026-11-06): several product photos lie as a stack of
+ * prints. "Next" slides the top print out and tucks it under the stack; "back"
+ * pulls the bottom one out and lays it on top (pdp-gallery.js). In TYPO3: the
+ * product photo plus repeatable gallery images (file, alt); any count; with
+ * one image the stack and controls stay hidden. */
+.kovpack-pdp__gallery { padding: 0; background: none; box-shadow: none; transform: none; }
+.kovpack-pdp__deck { display: grid; }
+.kovpack-pdp__card {
+    --stack-r: -1.2deg; --stack-x: 0px; --stack-y: 0px;
+    grid-area: 1 / 1; padding: 12px 12px 40px; border-radius: 4px; background: #f6f1e7;
+    box-shadow: 0 1px 2px rgb(60 40 20 / 14%), 0 30px 50px -30px rgb(40 25 10 / 45%);
+    transform: translate(var(--stack-x), var(--stack-y)) rotate(var(--stack-r));
+    transition: transform .6s var(--kovpack-ease), filter .6s ease;
+}
+.kovpack-pdp__card img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 2px; outline: 1px solid rgb(0 0 0 / 10%); outline-offset: -1px; }
+/* Prints under the top one peek out with their own tilt and sit in slight shade. */
+.kovpack-pdp__card[data-depth="1"] { --stack-r: 2.4deg; --stack-x: 10px; --stack-y: 6px; filter: brightness(.97); }
+.kovpack-pdp__card[data-depth="2"] { --stack-r: -3.8deg; --stack-x: -8px; --stack-y: 10px; filter: brightness(.94); }
+.kovpack-pdp__card[data-depth="3"] { --stack-r: 1deg; --stack-x: 4px; --stack-y: 12px; filter: brightness(.92); }
+.kovpack-pdp__gallery.is-ready .kovpack-pdp__card[data-depth="0"] { cursor: pointer; }
+/* While the script flies a print, it drives the transform itself. */
+.kovpack-pdp__card.is-moving { transition: filter .6s ease; }
+/* A flying print may pass the page edge; never let it widen the page. */
+.kovpack-pdp { overflow-x: clip; }
+.kovpack-pdp__deck { touch-action: pan-y; user-select: none; }
+.kovpack-pdp__gallery:not(.is-ready) .kovpack-pdp__card:not(:first-child) { visibility: hidden; }
+.kovpack-pdp__gallery-nav { display: flex; align-items: center; justify-content: center; gap: 18px; margin-top: 30px; }
+.kovpack-pdp__gallery-nav[hidden] { display: none; }
+.kovpack-pdp .kovpack-pdp__gallery-count { min-width: 4.5em; margin: 0; color: var(--kovpack-muted); font-size: 14px; font-variant-numeric: tabular-nums; text-align: center; }
+.kovpack-pdp__gallery-count [data-pdp-gallery-current] { color: var(--kovpack-ink); font-weight: 600; }
+.kovpack-pdp__gallery-btn {
+    display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 1px solid var(--kovpack-line); border-radius: 50%;
+    color: var(--kovpack-ink); background: #fffdf8; cursor: pointer; -webkit-tap-highlight-color: transparent;
+    transition: scale .15s ease-out, border-color .2s ease, background-color .2s ease;
+}
+.kovpack-pdp__gallery-btn svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+@media (hover: hover) {
+    .kovpack-pdp__gallery-btn:hover { border-color: var(--kovpack-ink); background: #fff; }
+}
+.kovpack-pdp__gallery-btn:not(:disabled):active { scale: .96; }
+.kovpack-pdp__gallery-btn:focus-visible { outline: 2px solid var(--kovpack-ink); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) {
+    .kovpack-pdp__card { transition: filter .3s ease; }
+    .kovpack-pdp__gallery-btn { transition: none; }
+}
 .kovpack-pdp__eyebrow { display: flex; align-items: center; gap: 10px; margin: 0; color: var(--kovpack-muted); font-size: 12px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; }
 .kovpack-pdp__eyebrow::before { content: ""; width: 22px; height: 7px; border-radius: 2px; background: var(--pdp-label); }
 .kovpack-pdp .kovpack-pdp__title { margin: 16px 0 0; font-family: var(--kovpack-font-display); font-size: clamp(34px, 4vw, 56px); font-weight: 600; line-height: 1.02; overflow-wrap: normal; hyphens: auto; text-wrap: balance; }
@@ -1396,6 +1441,8 @@ body[class] {
     .kovpack-pdp { padding-block: 16px 64px; }
     .kovpack-pdp__layout { grid-template-columns: 1fr; }
     .kovpack-pdp__photo { position: relative; top: auto; max-width: 520px; padding: 8px 8px 26px; }
+    .kovpack-pdp__gallery { padding: 0; }
+    .kovpack-pdp__card { padding: 8px 8px 26px; }
     .kovpack-pdp__lead { font-size: 16px; }
     .kovpack-pdp__specs > div { flex-direction: column; gap: 2px; }
     .kovpack-pdp__specs dd { text-align: left; }
