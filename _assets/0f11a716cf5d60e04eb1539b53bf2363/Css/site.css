@@ -1279,6 +1279,18 @@ body[class] {
 .kovpack-pdp__specs dd { margin: 0; font-size: 15px; font-weight: 600; line-height: 1.35; text-align: right; }
 .kovpack-pdp__note { margin: 18px 0 0; color: var(--kovpack-muted); font-size: 14px; }
 .kovpack-pdp__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 28px; margin-top: 32px; }
+/* The enquiry button takes the product colour (owner, 2026-11-06). The label
+ * colours are light, so the text is dark ink; hover keeps the site's dark blue. */
+.kovpack-pdp__actions .button {
+    --button-primary-color: var(--pdp-label);
+    --button-primary-border-color: var(--pdp-label);
+    --button-primary-content-color: var(--kovpack-ink);
+    --button-primary-content-color-hover: var(--kovpack-on-primary);
+    --button-primary-content-color-pressed: var(--kovpack-on-primary);
+    --button-primary-border-color-hover: var(--kovpack-primary);
+    --button-primary-border-color-pressed: var(--kovpack-primary);
+    font-weight: 600;
+}
 .kovpack-pdp__back { color: var(--kovpack-ink); font-weight: 600; text-decoration: none; border-bottom: 1px solid var(--kovpack-line); transition: border-color .2s; }
 .kovpack-pdp__back:hover { color: var(--kovpack-ink); border-color: var(--kovpack-ink); }
 /* Applications strip (owner, 2026-11-06): where the product is used. Own line
