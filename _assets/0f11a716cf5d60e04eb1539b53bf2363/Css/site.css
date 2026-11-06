@@ -1308,12 +1308,14 @@ body[class] {
 }
 .kovpack-pdp__actions .button { --press-face: var(--pdp-label); }
 .frame-kovpack-contact-form button[type=submit] { --press-face: var(--kovpack-primary); }
-.page__content .button:not(.button--text, .button--icon-only, .hero .button):hover,
-.frame-kovpack-contact-form button[type=submit]:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 5px 0 var(--press-edge), 0 14px 22px -12px rgb(20 26 27 / 55%);
+@media (hover: hover) {
+    .page__content .button:not(.button--text, .button--icon-only, .hero .button):hover,
+    .frame-kovpack-contact-form button[type=submit]:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 5px 0 var(--press-edge), 0 14px 22px -12px rgb(20 26 27 / 55%);
+    }
+    .frame-kovpack-contact-form button[type=submit]:hover { background: color-mix(in srgb, var(--kovpack-primary) 86%, #fff); }
 }
-.frame-kovpack-contact-form button[type=submit]:hover { background: color-mix(in srgb, var(--kovpack-primary) 86%, #fff); }
 .page__content .button:not(.button--text, .button--icon-only, .hero .button):active,
 .frame-kovpack-contact-form button[type=submit]:active {
     transform: translateY(4px);
@@ -1322,7 +1324,9 @@ body[class] {
 }
 /* The hero call to action keeps its lit gradient; it gets the same press. */
 .hero:not(.hero--text-only, .hero--small) .button { transition: transform .45s var(--kovpack-ease), box-shadow .45s var(--kovpack-ease), filter .45s ease; }
-.hero:not(.hero--text-only, .hero--small) .button:hover { transform: translateY(-2px); }
+@media (hover: hover) {
+    .hero:not(.hero--text-only, .hero--small) .button:hover { transform: translateY(-2px); }
+}
 .hero:not(.hero--text-only, .hero--small) .button:active {
     transform: translateY(3px);
     filter: brightness(.95);
@@ -1342,18 +1346,20 @@ body[class] {
 .kovpack-pdp .kovpack-pdp__uses-title { margin: 0; font-family: var(--kovpack-font-display); font-size: clamp(26px, 2.6vw, 36px); font-weight: 600; line-height: 1.1; }
 .kovpack-pdp__uses-lead { margin: 0; color: var(--kovpack-muted); font-size: 15px; }
 .kovpack-pdp__uses-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(176px, 1fr)); gap: var(--kovpack-gutter, 20px); max-width: none; margin: 24px 0 0; padding: 0; list-style: none; }
-.kovpack-pdp__use { --use-accent: var(--pdp-label); --use-surface: var(--kovpack-paper); display: flex; flex-direction: column; margin: 0; padding: 10px 10px 16px; border: 1px solid var(--kovpack-line); border-radius: var(--corners-s, 8px); background: var(--kovpack-paper); }
-/* Icon sits large on a calm band at the top of the tile; strokes are thinned so they keep the weight of the small icons. */
-.kovpack-pdp__use-icon { --use-surface: var(--kovpack-bg); --use-stroke: .78; display: block; box-sizing: border-box; width: 100%; height: clamp(84px, 6vw, 100px); padding: 10px; border-radius: 6px; background: var(--kovpack-bg); color: var(--kovpack-ink); }
-.kovpack-pdp .kovpack-pdp__use-title { margin: 12px 6px 0; font-family: var(--kovpack-font); font-size: 16px; font-weight: 600; line-height: 1.25; hyphens: auto; overflow-wrap: normal; }
-.kovpack-pdp__use-text { margin: 4px 6px 0; color: var(--kovpack-muted); font-size: 14px; line-height: 1.45; }
+/* Each tile spans three shared rows (icon, title, text), so titles and texts
+ * start on the same line in every tile of a row, whatever their length. */
+.kovpack-pdp__use { --use-accent: var(--pdp-label); --use-surface: var(--kovpack-paper); --use-stroke: .9; display: grid; grid-row: span 3; grid-template-rows: subgrid; row-gap: 0; align-content: start; margin: 0; padding: 20px 20px 22px; border: 1px solid var(--kovpack-line); border-radius: var(--corners-s, 8px); background: var(--kovpack-paper); }
+/* Icon viewBoxes are cropped to the drawing: every icon fills the same square and shares the bottom line. */
+.kovpack-pdp__use-icon { display: block; width: 60px; height: 60px; color: var(--kovpack-ink); }
+.kovpack-pdp .kovpack-pdp__use-title { align-self: start; margin: 16px 0 0; font-family: var(--kovpack-font); font-size: 16px; font-weight: 600; line-height: 1.25; hyphens: auto; overflow-wrap: normal; text-wrap: balance; }
+.kovpack-pdp__use-text { align-self: start; margin: 6px 0 0; color: var(--kovpack-muted); font-size: 14px; line-height: 1.45; text-wrap: pretty; }
 /* Material properties: a quieter row under the tiles (repeatable: icon key, title, text). */
 .kovpack-pdp .kovpack-pdp__traits-title { margin-top: 36px; }
 .kovpack-pdp__traits { --use-accent: var(--pdp-label); --use-surface: var(--kovpack-bg); display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0 var(--kovpack-gutter, 20px); max-width: none; margin: 14px 0 0; padding: 0; border-top: 1px solid var(--kovpack-ink); list-style: none; }
-.kovpack-pdp__trait { display: flex; align-items: flex-start; gap: 14px; margin: 0; padding: 16px 0; border-bottom: 1px dashed var(--kovpack-line); }
-.kovpack-pdp__trait-icon { flex: none; width: 44px; height: 44px; color: var(--kovpack-ink); overflow: visible; }
-.kovpack-pdp__trait-text { margin: 0; color: var(--kovpack-muted); font-size: 14px; line-height: 1.45; }
-.kovpack-pdp__trait-text strong { display: block; color: var(--kovpack-ink); font-size: 15px; font-weight: 600; }
+.kovpack-pdp__trait { display: grid; grid-template-columns: 40px minmax(0, 1fr); align-items: start; column-gap: 14px; margin: 0; padding: 16px 0; border-bottom: 1px dashed var(--kovpack-line); }
+.kovpack-pdp__trait-icon { display: block; width: 40px; height: 40px; color: var(--kovpack-ink); }
+.kovpack-pdp__trait-text { margin: 0; color: var(--kovpack-muted); font-size: 14px; line-height: 1.45; text-wrap: pretty; }
+.kovpack-pdp__trait-text strong { display: block; margin-bottom: 2px; color: var(--kovpack-ink); font-size: 15px; font-weight: 600; line-height: 1.3; }
 
 /* Product videos (owner, 2026-11-05): room for several clips under the
  * product. Each slot is 16:9; until a clip is attached it shows a quiet
