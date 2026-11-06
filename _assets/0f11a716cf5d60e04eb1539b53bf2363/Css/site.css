@@ -1293,6 +1293,13 @@ body[class] {
 .kovpack-pdp__use-icon { display: block; width: 64px; height: 64px; color: var(--kovpack-ink); overflow: visible; }
 .kovpack-pdp .kovpack-pdp__use-title { margin: 18px 0 0; font-family: var(--kovpack-font); font-size: 16px; font-weight: 600; line-height: 1.25; hyphens: auto; overflow-wrap: normal; }
 .kovpack-pdp__use-text { margin: 6px 0 0; color: var(--kovpack-muted); font-size: 14px; line-height: 1.45; }
+/* Material properties: a quieter row under the tiles (repeatable: icon key, title, text). */
+.kovpack-pdp .kovpack-pdp__traits-title { margin-top: 36px; }
+.kovpack-pdp__traits { --use-accent: var(--pdp-label); --use-surface: var(--kovpack-bg); display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0 var(--kovpack-gutter, 20px); max-width: none; margin: 14px 0 0; padding: 0; border-top: 1px solid var(--kovpack-ink); list-style: none; }
+.kovpack-pdp__trait { display: flex; align-items: flex-start; gap: 14px; margin: 0; padding: 16px 0; border-bottom: 1px dashed var(--kovpack-line); }
+.kovpack-pdp__trait-icon { flex: none; width: 44px; height: 44px; color: var(--kovpack-ink); overflow: visible; }
+.kovpack-pdp__trait-text { margin: 0; color: var(--kovpack-muted); font-size: 14px; line-height: 1.45; }
+.kovpack-pdp__trait-text strong { display: block; color: var(--kovpack-ink); font-size: 15px; font-weight: 600; }
 
 /* Product videos (owner, 2026-11-05): room for several clips under the
  * product. Each slot is 16:9; until a clip is attached it shows a quiet
