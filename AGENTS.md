@@ -12,6 +12,11 @@ and in Russian. Read this file and TYPO3-MAPPING.md; inspect only files relevant
 - After a completed, verified visible change, automatically create a small English commit
   of the intended preview changes and push `origin main`. This permission applies only to
   `RomanRoman4/kovpack-preview`. Report success/failure; GitHub Pages updates the same URL.
+- Before every commit run `node tools/stamp-assets.mjs`. It adds `?v=<content hash>` to
+  every local CSS/JS/image/font URL in the pages and stylesheets, so the owner sees a
+  change after a plain reload (GitHub Pages lets browsers cache files for 10 minutes).
+  Commit the stamp changes together with the design change. When replacing a photo,
+  still prefer a new file name over overwriting the old file.
 - Source commits, merges and pushes in the separate private TYPO3 repository require an
   explicit owner request. Do not start TYPO3 exports: they would replace this design.
 - Preserve the existing Git author. Do not add AI attribution or Co-Authored-By trailers.

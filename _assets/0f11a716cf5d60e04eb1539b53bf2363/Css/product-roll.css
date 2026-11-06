@@ -217,7 +217,7 @@
         linear-gradient(rgb(255 250 240 / 12%), rgb(255 250 240 / 0%) 30%, rgb(60 40 20 / 0%) 72%, rgb(60 40 20 / 13%)),
         /* The free end turns up slightly towards the light (not on a clean cut). */
         var(--end-curl, linear-gradient(90deg, rgb(60 40 20 / 0%) calc(100% - 40px), rgb(60 40 20 / 7%) calc(100% - 16px), rgb(255 248 235 / 22%) calc(100% - var(--cut-w)))),
-        url("../Images/kovpack-paper-grain.png"),
+        url("../Images/kovpack-paper-grain.png?v=9d695677"),
         var(--sheet-paper);
 }
 /* Long kraft fibres running along the web, over the grain. */

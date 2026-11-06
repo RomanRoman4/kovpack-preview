@@ -204,7 +204,7 @@
         var(--cut-shade),
         /* Light from above: the top edge is a touch brighter than the bottom. */
         linear-gradient(rgb(255 250 240 / 10%), rgb(255 250 240 / 0%) 30%, rgb(60 40 20 / 0%) 75%, rgb(60 40 20 / 12%)),
-        url("../Images/kovpack-paper-grain.png"),
+        url("../Images/kovpack-paper-grain.png?v=9d695677"),
         var(--shelf-paper);
     -webkit-mask: var(--paper-mask);
     mask: var(--paper-mask);
