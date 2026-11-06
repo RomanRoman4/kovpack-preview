@@ -67,6 +67,12 @@ FILL fills the box (füllen, polstern, fixieren). Never describe PACKING as mask
 their specs with the same rows in this order: Funktion / Function, Einsatz / Use, Lieferform / Supplied as, so the
 three spec rows on the product cards compare like for like.
 
+Spec rows on the detail pages follow the usual market set, in this order: Funktion, Einsatz, Lieferform,
+Papiersorte, Farbe, Grammatur, Lagen, Rollenbreite, Rollenlänge, Rollengewicht, Kerndurchmesser,
+Rollen pro Palette, Entsorgung, Bedruckung (FILL without Bedruckung; no perforation row). Values marked
+`data-sample` in the preview are example values for the visual review only, not product data: do not
+migrate them; editors enter the real values in TYPO3. An empty value shows "auf Anfrage" / "on request".
+
 ## Integration procedure
 
 1. Freeze an approved preview Git commit as the reference and collect desktop/phone
