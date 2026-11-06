@@ -61,6 +61,12 @@ Rules:
 - Set the page title and meta description with the same search term as the slug.
 - If an address has already been public on the live site, add a 301 redirect from the old address before changing it.
 
+Product wording: keep the three products clearly apart on every page (cards, detail pages, menus, partner pages).
+PROTECT covers surfaces during work (abdecken, schützen); PACKING wraps the goods (einschlagen, auskleiden, trennen);
+FILL fills the box (füllen, polstern, fixieren). Never describe PACKING as masking/Abdeckpapier. All three start
+their specs with the same rows in this order: Funktion / Function, Einsatz / Use, Lieferform / Supplied as, so the
+three spec rows on the product cards compare like for like.
+
 ## Integration procedure
 
 1. Freeze an approved preview Git commit as the reference and collect desktop/phone
