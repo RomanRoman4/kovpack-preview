@@ -482,8 +482,16 @@
                 <span aria-current="page">PACKING Paper</span>
             </nav>
             <div class="kovpack-pdp__layout">
-                <figure class="kovpack-pdp__photo">
-                    <img alt="KOVPACK PACKING Paper roll beside a window sill masked with paper and tape" src="../../fileadmin/user_upload/products/kovpack-masking-paper.webp" width="1254" height="1254" />
+                <figure class="kovpack-pdp__photo kovpack-pdp__gallery" data-pdp-gallery aria-roledescription="carousel" aria-label="Product photos">
+                    <div class="kovpack-pdp__deck">
+                        <div class="kovpack-pdp__card" data-pdp-gallery-card><img alt="KOVPACK PACKING Paper roll beside a window sill masked with paper and tape" src="../../fileadmin/user_upload/products/kovpack-masking-paper.webp" width="1254" height="1254" /></div>
+                        <div class="kovpack-pdp__card" data-pdp-gallery-card><img alt="Plates wrapped in packing paper and stacked for a move" src="../../fileadmin/user_upload/products/kovpack-packaging-plates.webp" width="910" height="777" loading="lazy" decoding="async" /></div>
+                    </div>
+                    <div class="kovpack-pdp__gallery-nav" hidden>
+                        <button type="button" class="kovpack-pdp__gallery-btn" data-pdp-gallery-prev aria-label="Previous photo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" /></svg></button>
+                        <p class="kovpack-pdp__gallery-count" aria-live="polite"><span data-pdp-gallery-current>1</span> <span class="kovpack-pdp__gallery-of">of</span> <span data-pdp-gallery-total>2</span></p>
+                        <button type="button" class="kovpack-pdp__gallery-btn" data-pdp-gallery-next aria-label="Next photo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg></button>
+                    </div>
                 </figure>
                 <div class="kovpack-pdp__body">
                     <p class="kovpack-pdp__eyebrow">KOVPACK / Product</p>
@@ -812,6 +820,7 @@
 <script defer src="../../_assets/0f11a716cf5d60e04eb1539b53bf2363/JavaScript/motion.js"></script>
 <script defer src="../../_assets/0f11a716cf5d60e04eb1539b53bf2363/JavaScript/product-shelf.js"></script>
 <script defer src="../../_assets/0f11a716cf5d60e04eb1539b53bf2363/JavaScript/scroll.js"></script>
+<script defer src="../../_assets/0f11a716cf5d60e04eb1539b53bf2363/JavaScript/pdp-gallery.js"></script>
 
 
 </body>
