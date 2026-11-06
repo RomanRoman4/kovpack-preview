@@ -1289,7 +1289,24 @@ body[class] {
     --button-primary-content-color-pressed: var(--kovpack-on-primary);
     --button-primary-border-color-hover: var(--kovpack-primary);
     --button-primary-border-color-pressed: var(--kovpack-primary);
+    --pdp-button-edge: color-mix(in srgb, var(--pdp-label) 62%, #000);
     font-weight: 600;
+    /* Raised key: a darker bottom edge and a soft shadow; pressing pushes it down. */
+    box-shadow: 0 4px 0 var(--pdp-button-edge), 0 10px 18px -10px rgb(20 26 27 / 55%);
+    transition: transform .15s var(--kovpack-ease), box-shadow .15s var(--kovpack-ease), background .2s, border-color .2s, color .2s;
+}
+.kovpack-pdp__actions .button:hover {
+    --pdp-button-edge: #04141a;
+    transform: translateY(-1px);
+    box-shadow: 0 5px 0 var(--pdp-button-edge), 0 14px 22px -12px rgb(20 26 27 / 60%);
+}
+.kovpack-pdp__actions .button:active {
+    transform: translateY(4px);
+    box-shadow: 0 0 0 var(--pdp-button-edge), inset 0 2px 5px rgb(0 0 0 / 30%);
+    transition-duration: .05s;
+}
+@media (prefers-reduced-motion: reduce) {
+    .kovpack-pdp__actions .button { transition: none; }
 }
 .kovpack-pdp__back { color: var(--kovpack-ink); font-weight: 600; text-decoration: none; border-bottom: 1px solid var(--kovpack-line); transition: border-color .2s; }
 .kovpack-pdp__back:hover { color: var(--kovpack-ink); border-color: var(--kovpack-ink); }
