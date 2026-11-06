@@ -1342,11 +1342,11 @@ body[class] {
 .kovpack-pdp .kovpack-pdp__uses-title { margin: 0; font-family: var(--kovpack-font-display); font-size: clamp(26px, 2.6vw, 36px); font-weight: 600; line-height: 1.1; }
 .kovpack-pdp__uses-lead { margin: 0; color: var(--kovpack-muted); font-size: 15px; }
 .kovpack-pdp__uses-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(176px, 1fr)); gap: var(--kovpack-gutter, 20px); max-width: none; margin: 24px 0 0; padding: 0; list-style: none; }
-.kovpack-pdp__use { --use-accent: var(--pdp-label); --use-surface: var(--kovpack-paper); display: flex; flex-direction: column; margin: 0; padding: 12px 12px 24px; border: 1px solid var(--kovpack-line); border-radius: var(--corners-s, 8px); background: var(--kovpack-paper); }
+.kovpack-pdp__use { --use-accent: var(--pdp-label); --use-surface: var(--kovpack-paper); display: flex; flex-direction: column; margin: 0; padding: 10px 10px 16px; border: 1px solid var(--kovpack-line); border-radius: var(--corners-s, 8px); background: var(--kovpack-paper); }
 /* Icon sits large on a calm band at the top of the tile; strokes are thinned so they keep the weight of the small icons. */
-.kovpack-pdp__use-icon { --use-surface: var(--kovpack-bg); --use-stroke: .62; display: block; box-sizing: border-box; width: 100%; height: clamp(120px, 10vw, 156px); padding: 16px; border-radius: 6px; background: var(--kovpack-bg); color: var(--kovpack-ink); }
-.kovpack-pdp .kovpack-pdp__use-title { margin: 18px 8px 0; font-family: var(--kovpack-font); font-size: 16px; font-weight: 600; line-height: 1.25; hyphens: auto; overflow-wrap: normal; }
-.kovpack-pdp__use-text { margin: 6px 8px 0; color: var(--kovpack-muted); font-size: 14px; line-height: 1.45; }
+.kovpack-pdp__use-icon { --use-surface: var(--kovpack-bg); --use-stroke: .78; display: block; box-sizing: border-box; width: 100%; height: clamp(84px, 6vw, 100px); padding: 10px; border-radius: 6px; background: var(--kovpack-bg); color: var(--kovpack-ink); }
+.kovpack-pdp .kovpack-pdp__use-title { margin: 12px 6px 0; font-family: var(--kovpack-font); font-size: 16px; font-weight: 600; line-height: 1.25; hyphens: auto; overflow-wrap: normal; }
+.kovpack-pdp__use-text { margin: 4px 6px 0; color: var(--kovpack-muted); font-size: 14px; line-height: 1.45; }
 /* Material properties: a quieter row under the tiles (repeatable: icon key, title, text). */
 .kovpack-pdp .kovpack-pdp__traits-title { margin-top: 36px; }
 .kovpack-pdp__traits { --use-accent: var(--pdp-label); --use-surface: var(--kovpack-bg); display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0 var(--kovpack-gutter, 20px); max-width: none; margin: 14px 0 0; padding: 0; border-top: 1px solid var(--kovpack-ink); list-style: none; }
