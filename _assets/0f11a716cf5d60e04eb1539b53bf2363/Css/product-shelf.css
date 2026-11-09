@@ -459,8 +459,6 @@
     .kovpack-shelf__item.is-active,
     .kovpack-shelf__item:not(.is-active):hover { flex: none; background: #ece7df; }
     .kovpack-shelf__toggle { display: none; }
-    /* The name position only applies to the desktop row. */
-    .kovpack-control:has([data-look="shelfLabel"]) { display: none; }
     .kovpack-shelf { --roll-x: 16px; --roll-y: 24px; --roll-w: 80px; --roll-h: 302px; }
     .kovpack-shelf__roll { transform: none !important; }
     .kovpack-shelf__paper,

@@ -10,20 +10,14 @@
 // preview). A fragment, not a query parameter, because TYPO3 answers unknown
 // parameters without cHash with 404.
 const STORAGE_KEY = 'kovpack-products-view';
-const NAME_STORAGE_KEY = 'kovpack-product-name-style';
 const VIEWS = ['rolls', 'shelf'];
 const URL_VIEWS = { rollen: 'rolls', rolls: 'rolls', regal: 'shelf', shelf: 'shelf' };
-const NAME_STYLES = ['lead-upper', 'upper', 'title'];
-const PRODUCT_NAMES = {
-    protect: { 'lead-upper': 'PROTECT Paper', upper: 'PROTECT PAPER', title: 'Protect Paper' },
-    packing: { 'lead-upper': 'PACKING Paper', upper: 'PACKING PAPER', title: 'Packing Paper' },
-    fill: { 'lead-upper': 'FILL Paper', upper: 'FILL PAPER', title: 'Fill Paper' }
-};
+// Product names in capitals throughout (owner, 2026-11-09).
+const PRODUCT_NAMES = { protect: 'PROTECT PAPER', packing: 'PACKING PAPER', fill: 'FILL PAPER' };
 const NAME_TARGETS = '.kovpack-roll__title, .kovpack-roll__name, .kovpack-shelf__label, .kovpack-shelf__name, .kovpack-pdp__title, .kovpack-pdp__crumbs [aria-current="page"], .kovpack-offer__product';
 const stacked = window.matchMedia('(max-width: 1023px)');
 const root = document.documentElement;
 const switches = [];
-const nameSwitches = [];
 const shelves = [];
 
 const readStored = () => {
@@ -32,82 +26,31 @@ const readStored = () => {
 const store = (view) => {
     try { window.localStorage.setItem(STORAGE_KEY, view); } catch { /* private mode: keep it for this page only */ }
 };
-const readNameStyle = () => {
-    try { return window.localStorage.getItem(NAME_STORAGE_KEY); } catch { return null; }
-};
-const storeNameStyle = (style) => {
-    try { window.localStorage.setItem(NAME_STORAGE_KEY, style); } catch { /* private mode: keep it for this page only */ }
-};
-
 const writeProductName = (container, name) => {
     for (const target of container.querySelectorAll(NAME_TARGETS)) target.textContent = name;
 };
-const setNameStyle = (style, remember) => {
-    if (!NAME_STYLES.includes(style)) style = 'lead-upper';
-    root.dataset.productNameStyle = style;
+const writeProductNames = () => {
     for (const container of document.querySelectorAll('[data-product-name-key]')) {
-        const name = PRODUCT_NAMES[container.dataset.productNameKey]?.[style];
+        const name = PRODUCT_NAMES[container.dataset.productNameKey];
         if (!name) continue;
         writeProductName(container, name);
         for (const template of container.querySelectorAll('template')) writeProductName(template.content, name);
     }
-    for (const control of nameSwitches) {
-        for (const option of control.querySelectorAll('[data-name-style]')) option.setAttribute('aria-pressed', String(option.dataset.nameStyle === style));
-    }
-    if (remember) storeNameStyle(style);
-};
-const createNameSwitch = () => {
-    const control = document.createElement('div');
-    control.className = 'kovpack-name-switch';
-    control.setAttribute('role', 'group');
-    control.setAttribute('aria-label', root.lang === 'de' ? 'Schreibweise der Produktnamen' : 'Product name capitalization');
-    for (const style of NAME_STYLES) {
-        const option = document.createElement('button');
-        option.type = 'button';
-        option.className = 'kovpack-name-switch__option';
-        option.dataset.nameStyle = style;
-        option.textContent = PRODUCT_NAMES.protect[style];
-        control.append(option);
-    }
-    control.addEventListener('click', (event) => {
-        const option = event.target.closest('[data-name-style]');
-        if (option) setNameStyle(option.dataset.nameStyle, true);
-    });
-    nameSwitches.push(control);
-    return control;
 };
 
-// Paper look of the unrolled sheet (design preview options, owner 2026-11-05):
-// the surface and the cut end, set on <html> and kept for the visitor.
+// Looks the owner picked from the design preview (2026-11-09): Archivo for
+// names and headings, a slightly wavy sheet with a clean cut, and on the
+// shelf the name below the roll (the CSS default, no attribute needed).
+root.dataset.paperStyle = 'waves';
+root.dataset.paperCut = 'clean';
+
+// The enquiry button look is still a design preview switch, kept per visitor.
 const LOOKS = {
-    paperStyle: {
-        storageKey: 'kovpack-paper-style',
-        label: { de: 'Papier', en: 'Paper' },
-        options: { calm: { de: 'Glatt', en: 'Flat' }, waves: { de: 'Leicht wellig', en: 'Slight waves' }, curl: { de: 'Gewölbt', en: 'Curled' } }
-    },
-    paperCut: {
-        storageKey: 'kovpack-paper-cut',
-        label: { de: 'Abriss am Ende', en: 'Cut end' },
-        options: { serrated: { de: 'Zackenschnitt', en: 'Serrated' }, torn: { de: 'Gerissen', en: 'Torn' }, clean: { de: 'Glatter Schnitt', en: 'Clean cut' } }
-    },
-    // Display face of names and section headings, on every page (scroll.js
-    // restores the stored choice on pages without products).
-    displayFont: {
-        storageKey: 'kovpack-display-font',
-        label: { de: 'Schrift (Namen, Überschriften)', en: 'Font (names, headings)' },
-        options: { archivo: { de: 'Archivo', en: 'Archivo' }, shoulders: { de: 'Big Shoulders', en: 'Big Shoulders' }, saira: { de: 'Saira', en: 'Saira' }, barlow: { de: 'Barlow (bisher)', en: 'Barlow (current)' } }
-    },
     // Enquiry buttons on the product pages (top and form), owner 2026-11-09.
     buttonStyle: {
         storageKey: 'kovpack-button-style',
         label: { de: 'Anfrage-Button', en: 'Enquiry button' },
         options: { ink: { de: 'Weiß beim Hover', en: 'White on hover' }, white: { de: 'Weiße Schrift', en: 'White text' }, soft: { de: 'Mit Pfeil', en: 'With arrow' } }
-    },
-    // Shelf view only: the product name below or above the standing roll.
-    shelfLabel: {
-        storageKey: 'kovpack-shelf-label',
-        label: { de: 'Name im Regal', en: 'Name on the shelf' },
-        options: { below: { de: 'Name unten', en: 'Name below' }, above: { de: 'Name oben', en: 'Name above' } }
     }
 };
 const lookSwitches = [];
@@ -215,19 +158,13 @@ for (const section of sections) {
     else groups.push([section]);
 }
 
-// The product-name control (and, for a switchable block, the view switch).
+// The view switch of a switchable block (none when the view is fixed).
 const addControls = (group, view, shelfContent) => {
     const rollContent = group[0].querySelector('.component__content');
     const switchTemplate = view ? null : group[0].querySelector('template[data-shelf-switch]');
+    if (!switchTemplate) return;
     const controls = document.createElement('div');
     controls.className = 'kovpack-product-controls';
-    controls.append(
-        captioned(lang === 'de' ? 'Schreibweise' : 'Name style', createNameSwitch()),
-        lookControl('displayFont'),
-        lookControl('paperStyle'),
-        lookControl('paperCut')
-    );
-    if (view !== 'rolls') controls.append(lookControl('shelfLabel'));
     const before = group[0].previousElementSibling;
     const heading = before?.matches('.frame') && before.querySelector('h1, h2') ? before : null;
     const placement = { controls, heading, shelfContent, rollContent };
@@ -302,7 +239,7 @@ for (const crumbs of document.querySelectorAll('.kovpack-pdp__crumbs')) {
 }
 
 const fromUrl = URL_VIEWS[window.location.hash.slice(1).toLowerCase()];
-setNameStyle(readNameStyle() ?? 'lead-upper', false);
+writeProductNames();
 setView(fromUrl ?? readStored() ?? 'rolls', Boolean(fromUrl));
 
 })();

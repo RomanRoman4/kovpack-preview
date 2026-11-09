@@ -10,11 +10,6 @@
 // same height, so nothing below jumps. The back-to-top button appears after
 // roughly one screen and glides back with an ease-in-out curve: it speeds up,
 // then settles softly. Reduced motion jumps straight to the top.
-// Display face chosen in the design preview (product-shelf.js), on every page.
-try {
-    const font = window.localStorage.getItem('kovpack-display-font');
-    if (font) document.documentElement.dataset.displayFont = font;
-} catch { /* storage blocked: keep the default face */ }
 
 const header = document.querySelector('.header');
 const toTop = document.querySelector('[data-to-top]');
