@@ -122,7 +122,10 @@ if (menuButtons.length && nav) {
       const subnav = document.getElementById(targetId);
       if (!subnav) return;
 
-      subnav.classList.toggle('header__subnav--active');
+      const open = subnav.classList.toggle('header__subnav--active');
+      if (link instanceof HTMLButtonElement) {
+        link.setAttribute('aria-expanded', String(open));
+      }
     });
   });
 
@@ -143,6 +146,9 @@ if (menuButtons.length && nav) {
         .forEach(openSubnav => {
           openSubnav.classList.remove('header__subnav--active');
         });
+      subnavLinks.forEach(link => {
+        if (link instanceof HTMLButtonElement) link.setAttribute('aria-expanded', 'false');
+      });
     }
   });
 }

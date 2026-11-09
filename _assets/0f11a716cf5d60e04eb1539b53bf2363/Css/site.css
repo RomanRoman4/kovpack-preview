@@ -219,6 +219,20 @@ html {
     height: auto;
 }
 
+/* A nav group without its own page (e.g. Unternehmen) is a button that only opens its submenu. */
+button.header__nav-item {
+    width: auto;
+    margin: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    letter-spacing: inherit;
+    text-align: inherit;
+    cursor: pointer;
+}
+
 .header__nav-item,
 .header__subnav,
 .header__language-nav,
