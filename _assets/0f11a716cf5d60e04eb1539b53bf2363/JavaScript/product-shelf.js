@@ -218,8 +218,18 @@ for (const group of groups) {
     // After the cards, so the heading's "frame + .kovpack-product" styling still applies.
     group.at(-1).after(shelfSection);
 
+    // A mouse opens a roll by pointing at it; a short pause keeps a cursor that
+    // only crosses a roll on its way from opening it. Touch and keyboard still
+    // open by tap/Enter. The sheet stays open after the cursor leaves.
+    let hoverTimer = 0;
     for (const item of items) {
         item.querySelector('.kovpack-shelf__toggle').addEventListener('click', () => activate(shelf, item));
+        item.addEventListener('pointerenter', (event) => {
+            if (event.pointerType !== 'mouse' || stacked.matches || item.classList.contains('is-active')) return;
+            window.clearTimeout(hoverTimer);
+            hoverTimer = window.setTimeout(() => activate(shelf, item), 90);
+        });
+        item.addEventListener('pointerleave', () => window.clearTimeout(hoverTimer));
     }
     // The design opens the middle product first.
     activate(shelf, items[Math.floor((items.length - 1) / 2)]);
