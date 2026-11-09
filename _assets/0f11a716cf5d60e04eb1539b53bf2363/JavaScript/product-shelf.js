@@ -124,6 +124,12 @@ const LOOKS = {
         label: { de: 'Produkttitel', en: 'Product title' },
         options: { current: { de: 'Aktuell', en: 'Current' }, wide: { de: 'Breit, zweizeilig', en: 'Wide, two lines' } }
     },
+    // Enquiry buttons on the product pages (top and form), owner 2026-11-09.
+    buttonStyle: {
+        storageKey: 'kovpack-button-style',
+        label: { de: 'Anfrage-Button', en: 'Enquiry button' },
+        options: { ink: { de: 'Weiß beim Hover', en: 'White on hover' }, white: { de: 'Weiße Schrift', en: 'White text' }, soft: { de: 'Mit Pfeil', en: 'With arrow' } }
+    },
     // Shelf view only: the product name below or above the standing roll.
     shelfLabel: {
         storageKey: 'kovpack-shelf-label',
@@ -319,7 +325,7 @@ for (const crumbs of document.querySelectorAll('.kovpack-pdp__crumbs')) {
     crumbs.before(bar);
     const controls = document.createElement('div');
     controls.className = 'kovpack-product-controls kovpack-pdp__controls';
-    controls.append(lookControl('titleType'));
+    controls.append(lookControl('titleType'), lookControl('buttonStyle'));
     bar.append(crumbs, controls);
 }
 
