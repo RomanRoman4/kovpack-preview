@@ -1438,13 +1438,16 @@ body[class] {
 /* "Alle Produkte" hovers like the header links (owner, 2026-11-09): a soft
  * rounded tint with a 2px line under the text. The negative margin keeps the
  * text where it was; the padding only gives the tint room. */
-.kovpack-pdp__back { position: relative; display: inline-block; margin-left: -16px; padding: 10px 16px; border-radius: 8px; color: var(--kovpack-ink); font-weight: 600; text-decoration: none; transition: background-color .2s ease; }
-.kovpack-pdp__back::before { content: ""; position: absolute; left: 16px; right: 16px; bottom: 6px; height: 2px; background: var(--kovpack-ink); opacity: 0; transition: opacity .2s ease; }
+.kovpack-pdp__back { position: relative; display: inline-block; margin-left: -16px; padding: 10px 16px; border-radius: 8px; color: var(--kovpack-ink); font-weight: 600; text-decoration: none; transition: background-color .5s ease; }
+/* Soft like the header (owner, 2026-11-09): the tint fades in over .5s as in
+ * the nav, and the line fades in while it widens from the centre. */
+.kovpack-pdp__back::before { content: ""; position: absolute; left: 16px; right: 16px; bottom: 6px; height: 2px; border-radius: 1px; background: var(--kovpack-ink); opacity: 0; transform: scaleX(.6); transition: opacity .5s ease, transform .5s cubic-bezier(0.2, 0, 0, 1); }
 @media (hover: hover) {
     .kovpack-pdp__back:hover { color: var(--kovpack-ink); text-decoration: none; background: rgb(20 26 27 / 7%); }
-    .kovpack-pdp__back:hover::before { opacity: 1; }
+    .kovpack-pdp__back:hover::before { opacity: 1; transform: none; }
 }
-.kovpack-pdp__back:focus-visible::before { opacity: 1; }
+.kovpack-pdp__back:focus-visible::before { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .kovpack-pdp__back::before { transform: none; } }
 /* Applications strip (owner, 2026-11-06): where the product is used. Own line
  * icons from Icons/pdp-uses.svg; the paper sheet in each icon takes the
  * product label colour. In TYPO3: repeatable records (icon key, title, text). */
