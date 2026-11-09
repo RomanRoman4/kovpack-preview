@@ -55,6 +55,25 @@ const setNameStyle = (style, remember) => {
         for (const option of control.querySelectorAll('[data-name-style]')) option.setAttribute('aria-pressed', String(option.dataset.nameStyle === style));
     }
     if (remember) storeNameStyle(style);
+    splitTitles();
+};
+// Product titles carry the product word and "Paper" in two spans, so the
+// "wide" title type (owner, 2026-11-09) can set them as a heavy and a light
+// line. The plain type shows the same text on one line as before.
+const TITLE_TARGETS = '.kovpack-pdp__title, .kovpack-roll__title';
+const splitTitles = () => {
+    for (const title of document.querySelectorAll(TITLE_TARGETS)) {
+        const text = title.textContent.trim().replace(/s+/g, ' ');
+        const cut = text.lastIndexOf(' ');
+        if (cut < 1) continue;
+        const lead = document.createElement('span');
+        lead.className = 'kovpack-title__lead';
+        lead.textContent = text.slice(0, cut);
+        const rest = document.createElement('span');
+        rest.className = 'kovpack-title__rest';
+        rest.textContent = text.slice(cut + 1);
+        title.replaceChildren(lead, ' ', rest);
+    }
 };
 const createNameSwitch = () => {
     const control = document.createElement('div');
@@ -96,6 +115,14 @@ const LOOKS = {
         storageKey: 'kovpack-display-font',
         label: { de: 'Schrift (Namen, Überschriften)', en: 'Font (names, headings)' },
         options: { archivo: { de: 'Archivo', en: 'Archivo' }, shoulders: { de: 'Big Shoulders', en: 'Big Shoulders' }, saira: { de: 'Saira', en: 'Saira' }, barlow: { de: 'Barlow (bisher)', en: 'Barlow (current)' } }
+    },
+    // Product titles on the product pages, the overview and the roll cards:
+    // the display face as set above, or a wide Archivo pair (heavy product
+    // word over a light "Paper"), owner 2026-11-09.
+    titleType: {
+        storageKey: 'kovpack-title-type',
+        label: { de: 'Produkttitel', en: 'Product title' },
+        options: { current: { de: 'Aktuell', en: 'Current' }, wide: { de: 'Breit, zweizeilig', en: 'Wide, two lines' } }
     },
     // Shelf view only: the product name below or above the standing roll.
     shelfLabel: {
@@ -218,6 +245,7 @@ const addControls = (group, view, shelfContent) => {
     controls.append(
         captioned(lang === 'de' ? 'Schreibweise' : 'Name style', createNameSwitch()),
         lookControl('displayFont'),
+        lookControl('titleType'),
         lookControl('paperStyle'),
         lookControl('paperCut')
     );
@@ -284,6 +312,16 @@ for (const group of groups) {
 }
 
 stacked.addEventListener('change', () => shelves.forEach(renderInert));
+
+for (const crumbs of document.querySelectorAll('.kovpack-pdp__crumbs')) {
+    const bar = document.createElement('div');
+    bar.className = 'kovpack-pdp__topbar';
+    crumbs.before(bar);
+    const controls = document.createElement('div');
+    controls.className = 'kovpack-product-controls kovpack-pdp__controls';
+    controls.append(lookControl('titleType'));
+    bar.append(crumbs, controls);
+}
 
 const fromUrl = URL_VIEWS[window.location.hash.slice(1).toLowerCase()];
 setNameStyle(readNameStyle() ?? 'lead-upper', false);
