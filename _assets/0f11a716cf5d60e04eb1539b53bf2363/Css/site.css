@@ -1347,26 +1347,10 @@ body[class] {
 .kovpack-pdp__specs dd.kovpack-pdp__spec-request { color: var(--kovpack-muted); font-weight: 400; }
 .kovpack-pdp__note { margin: 18px 0 0; color: var(--kovpack-muted); font-size: 14px; }
 .kovpack-pdp__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 28px; margin-top: 32px; }
-/* Design preview: breadcrumb and the product title switch share one row. */
+/* Design preview: breadcrumb and the preview switches share one row. */
 .kovpack-pdp__topbar { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 12px 24px; margin-bottom: 24px; }
 .kovpack-pdp__topbar > .kovpack-pdp__crumbs { margin-bottom: 0; }
 .kovpack-pdp__topbar > .kovpack-pdp__controls { margin: 0; }
-/* Product title type "wide" (owner, 2026-11-09): Archivo at full width, the
- * product word heavy over a light "Paper", both in capitals. The title text
- * stays one heading; the two spans only change how it is set. */
-:root[data-title-type="wide"] :is(.kovpack-pdp__title, .kovpack-roll .kovpack-roll__title) {
-    font-family: "Archivo", "Arial Black", Arial, sans-serif;
-    font-stretch: 125%;
-    letter-spacing: -.015em;
-    line-height: .9;
-    text-transform: uppercase;
-    hyphens: none;
-    overflow-wrap: normal;
-}
-:root[data-title-type="wide"] :is(.kovpack-pdp__title, .kovpack-roll__title) .kovpack-title__lead { display: block; font-weight: 900; }
-:root[data-title-type="wide"] :is(.kovpack-pdp__title, .kovpack-roll__title) .kovpack-title__rest { display: block; font-weight: 300; }
-:root[data-title-type="wide"] .kovpack-pdp .kovpack-pdp__title { font-size: clamp(34px, 3.7vw, 64px); }
-:root[data-title-type="wide"] .kovpack-roll .kovpack-roll__title { font-size: clamp(30px, 5.6cqw, 60px); }
 /* First screen (owner, 2026-11-06): photo, specs and the enquiry button fit in
  * one desktop viewport. The photo stack is capped by the viewport height and a
  * long spec list runs in two columns (top to bottom, then the next column). */
@@ -1388,7 +1372,6 @@ body[class] {
     .kovpack-pdp__actions { margin-top: 20px; }
     .kovpack-pdp__topbar { margin-bottom: 14px; }
     .kovpack-pdp__specs > div { padding-block: 5px; }
-    :root[data-title-type="wide"] .kovpack-pdp .kovpack-pdp__title { font-size: clamp(34px, 3.2vw, 46px); }
 }
 /* The enquiry button takes the product colour (owner, 2026-11-06). The label
  * colours are light, so the text stays dark ink; hover only deepens the colour. */
