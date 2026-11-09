@@ -517,7 +517,14 @@
     }
     /* Its own container name: beside a photo the sheet is narrower, so the
      * two-column sheet only starts at 960px instead of 740px. */
-    .kovpack-product__layout--photo .kovpack-roll__stage { --slide: 0; container-name: kovpack-roll-photo; }
+    /* Closed, the roll stands a little away from the photo and slides back to
+     * it while the sheet unrolls; the name and teaser sit further right and
+     * above the middle (owner, 2026-11-09). */
+    .kovpack-product__layout--photo .kovpack-roll__stage { --slide: 44; container-name: kovpack-roll-photo; }
+    .kovpack-product__layout--photo .kovpack-roll__label {
+        left: calc((var(--rest) + var(--body) + 72) * var(--u));
+        padding-bottom: calc(120 * var(--u));
+    }
     @container kovpack-roll-photo (min-width: 960px) {
         .kovpack-roll__sheet-content {
             grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
