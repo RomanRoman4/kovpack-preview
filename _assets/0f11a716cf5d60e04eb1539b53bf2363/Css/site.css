@@ -1686,36 +1686,51 @@ body[class] {
 :root[data-button-style="frame"] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit]):focus-visible { outline-color: var(--kovpack-ink); outline-offset: 4px; }
 /* Pressing: every new look scales to .96 (150ms ease-out). */
 :root:is([data-button-style="fill"], [data-button-style="band"], [data-button-style="frame"]) :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit]):not(:disabled):active { transform: scale(.96); }
-/* 3. "soft": a rounded pill in the product colour with a small dark circle
- *    holding an arrow. On hover the pill glows softly in its own colour and
- *    the arrow slides forward; pressing settles it back. */
+/* 5. "soft": a rounded pill, a little deeper than the product colour so the
+ *    white text reads, with a translucent white circle holding the arrow
+ *    (owner, 2026-11-09: no black circle, white text). On hover the circle
+ *    fills white, the arrow takes the button colour and slides forward, and
+ *    the pill lifts with a soft glow in its own colour. The circle is ::after,
+ *    the arrow ::before (a mask, so it can change colour). */
 :root[data-button-style="soft"] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit]) {
+    --kb-deep: color-mix(in srgb, var(--kb) 80%, #000);
     display: inline-flex; align-items: center; gap: 14px;
     padding: 8px 8px 8px 24px;
     border-radius: 999px;
-    background: var(--kb); border-color: var(--kb); color: var(--kovpack-ink);
+    background: var(--kb-deep); border-color: var(--kb-deep); color: #fff;
+    transition: background-color .35s ease, border-color .35s ease, box-shadow .45s var(--kovpack-ease), transform .45s var(--kovpack-ease);
 }
 :root[data-button-style="soft"] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit])::after {
     content: ""; flex: none; width: 34px; height: 34px; border-radius: 50%;
-    background: #141a1b url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h13M13 6l6 6-6 6'/%3E%3C/svg%3E") center / 16px no-repeat;
-    transition: transform .5s var(--kovpack-ease), background-position .5s var(--kovpack-ease);
+    background: rgb(255 255 255 / 22%);
+    transition: background-color .35s ease, transform .45s var(--kovpack-ease);
 }
-:root[data-button-style="soft"] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit]):is(:hover, :focus-visible) {
-    background: color-mix(in srgb, var(--kb) 90%, #fff);
-    border-color: color-mix(in srgb, var(--kb) 90%, #fff);
-    box-shadow: 0 12px 26px -12px color-mix(in srgb, var(--kb) 70%, #000);
-    transform: translateY(-2px);
+:root[data-button-style="soft"] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit])::before {
+    content: ""; position: absolute; top: 50%; right: 17px; width: 16px; height: 16px; margin-top: -8px; z-index: 1; pointer-events: none;
+    background: #fff;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.25' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h13M13 6l6 6-6 6'/%3E%3C/svg%3E") center / contain no-repeat;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.25' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h13M13 6l6 6-6 6'/%3E%3C/svg%3E") center / contain no-repeat;
+    transition: background-color .35s ease, transform .45s var(--kovpack-ease);
 }
-:root[data-button-style="soft"] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit]):is(:hover, :focus-visible)::after {
-    transform: translateX(4px) rotate(-45deg);
+@media (hover: hover) {
+    :root[data-button-style="soft"] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit]):hover {
+        background: color-mix(in srgb, var(--kb) 70%, #000); border-color: color-mix(in srgb, var(--kb) 70%, #000);
+        box-shadow: 0 12px 26px -12px color-mix(in srgb, var(--kb) 70%, #000);
+        transform: translateY(-2px);
+    }
+    :root[data-button-style="soft"] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit]):hover::after { background: #fff; transform: translateX(3px); }
+    :root[data-button-style="soft"] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit]):hover::before { background: color-mix(in srgb, var(--kb) 70%, #000); transform: translateX(3px); }
 }
-:root[data-button-style="soft"] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit]):active {
-    transform: translateY(0) scale(.98); box-shadow: 0 4px 10px -8px color-mix(in srgb, var(--kb) 70%, #000); transition-duration: .08s;
-}
+:root[data-button-style="soft"] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit]):focus-visible::after { background: #fff; }
+:root[data-button-style="soft"] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit]):focus-visible::before { background: var(--kb-deep); }
+:root[data-button-style="soft"] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit]):not(:disabled):active { transform: scale(.96); box-shadow: none; transition-duration: .15s; transition-timing-function: ease-out; }
 @media (prefers-reduced-motion: reduce) {
     :root[data-button-style] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit]),
+    :root[data-button-style] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit])::before,
     :root[data-button-style] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit])::after { transition: none; }
-    :root[data-button-style] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit]):active { transform: none; }
+    :root[data-button-style] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit]):is(:hover, :active),
+    :root[data-button-style] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit]):hover::before,
+    :root[data-button-style] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit]):hover::after { transform: none; }
 }
 
 @media (max-width: 900px) {
