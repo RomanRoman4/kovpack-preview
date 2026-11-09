@@ -50,7 +50,7 @@ const LOOKS = {
     buttonStyle: {
         storageKey: 'kovpack-button-style',
         label: { de: 'Anfrage-Button', en: 'Enquiry button' },
-        options: { ink: { de: 'Weiß beim Hover', en: 'White on hover' }, white: { de: 'Weiße Schrift', en: 'White text' }, soft: { de: 'Mit Pfeil', en: 'With arrow' } }
+        options: { ink: { de: 'Weiß beim Hover', en: 'White on hover' }, fill: { de: 'Füllen', en: 'Fill' }, band: { de: 'Banderole', en: 'Band' }, frame: { de: 'Rahmen', en: 'Frame' }, soft: { de: 'Mit Pfeil', en: 'With arrow' } }
     }
 };
 const lookSwitches = [];

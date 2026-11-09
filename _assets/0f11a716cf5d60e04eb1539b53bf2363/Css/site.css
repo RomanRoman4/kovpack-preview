@@ -1643,25 +1643,41 @@ body[class] {
     --kb-deep: color-mix(in srgb, var(--kb) 66%, #000);
     background: var(--kb-deep); border-color: var(--kb-deep); color: #fff;
 }
-/* 2. "white": a deeper product colour with white text at all times; on hover
- *    a soft band of light sweeps across once. */
-:root[data-button-style="white"] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit]) {
-    --kb-deep: color-mix(in srgb, var(--kb) 66%, #000);
-    background: var(--kb-deep); border-color: var(--kb-deep); color: #fff;
+/* 2. "fill": an outlined button, ink on the page colour; on hover the product
+ *    colour rises from the bottom edge and fills it, like ink soaking into
+ *    paper. Background-size transitions, so leaving mid-way drains it back. */
+:root[data-button-style="fill"] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit]) {
+    border-color: var(--kb); color: var(--kovpack-ink);
+    background: linear-gradient(var(--kb), var(--kb)) 50% 100% / 100% 0% no-repeat transparent;
+    transition: background-size .45s cubic-bezier(0.2, 0, 0, 1), transform .15s ease-out;
 }
-:root[data-button-style="white"] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit])::before {
-    content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
-    background: linear-gradient(105deg, transparent 30%, rgb(255 255 255 / 28%) 50%, transparent 70%);
-    transform: translateX(-110%);
+/* 3. "band": the product colour with a narrow ink band at the left edge, like
+ *    the label band on a roll; on hover the band runs across the whole button
+ *    and the text turns white on ink. */
+:root[data-button-style="band"] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit]) {
+    --kb-band: 7px;
+    padding-left: calc(28px + var(--kb-band));
+    border-color: var(--kb); color: var(--kovpack-ink);
+    background: linear-gradient(var(--kovpack-ink), var(--kovpack-ink)) 0 0 / var(--kb-band) 100% no-repeat var(--kb);
+    transition: background-size .5s cubic-bezier(0.2, 0, 0, 1), border-color .5s cubic-bezier(0.2, 0, 0, 1), color .25s ease .1s, transform .15s ease-out;
 }
-:root[data-button-style="white"] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit]):is(:hover, :focus-visible) {
-    background: color-mix(in srgb, var(--kb) 56%, #000);
-    border-color: color-mix(in srgb, var(--kb) 56%, #000);
+/* 4. "frame": the product colour with a thin ink frame that lifts off the
+ *    button on hover and settles around it, like the outline of a stamp. */
+:root[data-button-style="frame"] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit]) {
+    background: var(--kb); border-color: var(--kb); color: var(--kovpack-ink);
+    outline: 1.5px solid transparent; outline-offset: -1.5px;
+    transition: outline-offset .4s cubic-bezier(0.2, 0, 0, 1), outline-color .3s ease, transform .15s ease-out;
 }
-:root[data-button-style="white"] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit]):is(:hover, :focus-visible)::before {
-    transform: translateX(110%);
-    transition: transform .8s var(--kovpack-ease);
+@media (hover: hover) {
+    :root[data-button-style="fill"] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit]):hover { background-size: 100% 100%; }
+    :root[data-button-style="band"] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit]):hover { background-size: 100% 100%; border-color: var(--kovpack-ink); color: #fff; }
+    :root[data-button-style="frame"] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit]):hover { outline-color: var(--kovpack-ink); outline-offset: 4px; }
 }
+:root[data-button-style="fill"] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit]):focus-visible { background-size: 100% 100%; }
+:root[data-button-style="band"] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit]):focus-visible { background-size: 100% 100%; border-color: var(--kovpack-ink); color: #fff; }
+:root[data-button-style="frame"] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit]):focus-visible { outline-color: var(--kovpack-ink); outline-offset: 4px; }
+/* Pressing: every new look scales to .96 (150ms ease-out). */
+:root:is([data-button-style="fill"], [data-button-style="band"], [data-button-style="frame"]) :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit]):not(:disabled):active { transform: scale(.96); }
 /* 3. "soft": a rounded pill in the product colour with a small dark circle
  *    holding an arrow. On hover the pill glows softly in its own colour and
  *    the arrow slides forward; pressing settles it back. */
@@ -1691,7 +1707,7 @@ body[class] {
 @media (prefers-reduced-motion: reduce) {
     :root[data-button-style] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit]),
     :root[data-button-style] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit])::after { transition: none; }
-    :root[data-button-style="white"] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit])::before { display: none; }
+    :root[data-button-style] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit]):active { transform: none; }
 }
 
 @media (max-width: 900px) {
