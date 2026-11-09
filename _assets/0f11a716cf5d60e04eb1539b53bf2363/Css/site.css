@@ -758,9 +758,40 @@ button.header__nav-item {
     .header__nav-list { gap: 0; }
     .header__nav-item { padding: 11px 18px; min-height: 0; line-height: 18px; }
     .header__nav-item--has-subnav .icon { width: 10px; height: 10px; top: 0; }
-    .header__subnav { --link-color: #fff; --link-color-hover: #fff; margin-top: 10px; background: rgb(18 22 28 / 82%); border: 1px solid rgb(255 255 255 / 16%); padding: 8px; backdrop-filter: blur(16px); animation: kovpack-dropdown-in .2s ease; }
-    .header__subnav-item:hover { background: rgb(255 255 255 / 12%); }
-    @keyframes kovpack-dropdown-in { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+    /* Submenu (owner, 2026-11-09: softer). It stays rendered and fades/slides in
+     * instead of switching display, fades out after a short pause so a cursor
+     * slipping off does not snap it shut, and takes the header's own colour:
+     * deep teal glass on the dark bar, light glass on the light bar. */
+    .header .header__subnav {
+        --link-color: #fff; --link-color-hover: #fff;
+        display: block;
+        margin-top: 10px; padding: 8px;
+        background: rgb(15 42 51 / 90%);
+        border: 1px solid rgb(255 255 255 / 10%);
+        box-shadow: 0 22px 44px -22px rgb(10 24 30 / 55%);
+        -webkit-backdrop-filter: blur(18px) saturate(140%);
+        backdrop-filter: blur(18px) saturate(140%);
+        opacity: 0; visibility: hidden; pointer-events: none;
+        transform: translateY(-6px) scale(.985); transform-origin: 24px 0;
+        transition: opacity .22s ease .12s, transform .3s cubic-bezier(.2, .8, .2, 1) .12s, visibility 0s linear .34s, background-color .5s ease, border-color .5s ease;
+    }
+    .header .header__nav-list-item:is(:hover, :focus-within) > .header__subnav {
+        opacity: 1; visibility: visible; pointer-events: auto; transform: none;
+        transition: opacity .28s ease, transform .4s cubic-bezier(.2, .8, .2, 1), visibility 0s, background-color .5s ease, border-color .5s ease;
+    }
+    .header__subnav-item { border-radius: var(--corners-s); transition: background-color .25s ease; }
+    .header__subnav-item:hover { background: rgb(255 255 255 / 10%); }
+    .header:is(.is-stuck, .is-scrolled) .header__subnav {
+        --link-color: var(--kovpack-ink); --link-color-hover: var(--kovpack-ink);
+        color: var(--kovpack-ink);
+        background: rgb(240 236 228 / 94%);
+        border-color: rgb(20 26 27 / 8%);
+        box-shadow: 0 22px 44px -24px rgb(15 42 51 / 35%);
+    }
+    .header:is(.is-stuck, .is-scrolled) .header__subnav-item:hover { background: rgb(20 26 27 / 6%); }
+}
+@media (min-width: 1280px) and (prefers-reduced-motion: reduce) {
+    .header .header__subnav, .header .header__nav-list-item:is(:hover, :focus-within) > .header__subnav { transform: none; }
 }
 @media (max-width: 900px) {
     .hero:not(.hero--text-only, .hero--small) .hero__content { padding-top: 180px; }
