@@ -86,6 +86,10 @@
             /* A call back needs a phone number. */
             if (phone && callback) {
                 phone.required = callback.checked;
+                if (!phone.dataset.offerPlaceholder) phone.dataset.offerPlaceholder = phone.placeholder;
+                phone.placeholder = callback.checked && phone.dataset.offerPlaceholderRequired
+                    ? phone.dataset.offerPlaceholderRequired
+                    : phone.dataset.offerPlaceholder;
                 var mark = form.querySelector('[data-offer-phone-mark]');
                 var optional = form.querySelector('[data-offer-phone-optional]');
                 var hint = form.querySelector('[data-offer-phone-hint]');
@@ -93,6 +97,17 @@
                 if (optional) optional.hidden = callback.checked;
                 if (hint) hint.hidden = !callback.checked;
             }
+        }
+
+        /* The attach control shows the chosen file name in place of its label. */
+        var file = form.querySelector('[data-offer-file]');
+        var fileName = form.querySelector('[data-offer-file-name]');
+        if (file && fileName) {
+            var fileLabel = fileName.textContent;
+            file.addEventListener('change', function () {
+                fileName.textContent = file.files && file.files[0] ? file.files[0].name : fileLabel;
+                file.closest('label').classList.toggle('has-file', Boolean(file.files && file.files[0]));
+            });
         }
 
         form.addEventListener('input', update);
