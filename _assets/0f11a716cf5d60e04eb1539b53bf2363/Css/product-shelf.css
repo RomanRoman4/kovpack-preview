@@ -364,10 +364,10 @@
     background: #2a1d10;
     color: #f6eedf;
     font-size: 13px;
-    transition: transform .4s ease, background-color .4s ease;
+    transition: transform .4s ease, background-color .4s ease, color .4s ease;
 }
 .kovpack-shelf__button:hover { background-color: rgb(253 249 241 / 94%); color: #2a1d10; box-shadow: 0 1px 0 rgb(255 255 255 / 80%) inset, 0 14px 24px -12px rgb(36 26 15 / 55%); }
-.kovpack-shelf__button:hover span { transform: translate(2px, -2px); background: var(--kovpack-accent, #1d7a74); }
+.kovpack-shelf__button:hover span { transform: translate(2px, -2px); background: var(--shelf-label, var(--kovpack-accent, #1d7a74)); color: #2a1d10; }
 /* Pressed: the tab sinks into the kraft. It drops 1px, shrinks a hair, loses
  * its lift shadow and gets a shallow inner shade; quick down, softer back up. */
 .kovpack-shelf__button:active {

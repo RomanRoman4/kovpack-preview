@@ -26,9 +26,9 @@
 }
 /* Owner's roll photos (2026-11-05), shown at their own proportions: each is
  * scaled so its straight body runs 530 units, measured from the alpha channel. */
-.kovpack-roll--orange { --img-w: 156.31; --img-x: -2.88; --img-y: -2.56; --body: 150.88; }
-.kovpack-roll--teal { --img-w: 157.93; --img-x: -3.55; --img-y: -4.52; --body: 149.86; }
-.kovpack-roll--blue { --img-w: 156.69; --img-x: -2.56; --img-y: -2.56; --body: 151.25; }
+.kovpack-roll--orange { --roll-label: #f0813c; --img-w: 156.31; --img-x: -2.88; --img-y: -2.56; --body: 150.88; }
+.kovpack-roll--teal { --roll-label: #2fb2a3; --img-w: 157.93; --img-x: -3.55; --img-y: -4.52; --body: 149.86; }
+.kovpack-roll--blue { --roll-label: #5d9bd6; --img-w: 156.69; --img-x: -2.56; --img-y: -2.56; --body: 151.25; }
 
 .kovpack-roll__stage {
     container: kovpack-roll / inline-size;
@@ -374,13 +374,15 @@
     background: #2a1d10;
     color: #f6eedf;
     font-size: 14px;
-    transition: transform .4s var(--roll-ease), background-color .4s ease;
+    transition: transform .4s var(--roll-ease), background-color .4s ease, color .4s ease;
 }
 .kovpack-roll__action .button:hover {
     background-color: rgb(253 249 241 / 94%);
     box-shadow: 0 1px 0 rgb(255 255 255 / 80%) inset, 0 14px 24px -12px rgb(36 26 15 / 55%);
 }
-.kovpack-roll__action .button:hover::after { transform: translate(2px, -2px); background: var(--kovpack-accent, #1d7a74); }
+/* On hover the arrow disc takes the product colour, as on the product page
+ * button, with dark ink so the light label colours stay legible (owner, 2026-11-09). */
+.kovpack-roll__action .button:hover::after { transform: translate(2px, -2px); background: var(--roll-label, var(--kovpack-accent, #1d7a74)); color: #2a1d10; }
 /* Pressed: the tab sinks into the kraft (as the shelf view button). */
 .kovpack-roll__action .button:active {
     background-color: rgb(238 228 211 / 92%);
