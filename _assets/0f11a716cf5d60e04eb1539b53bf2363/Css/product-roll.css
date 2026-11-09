@@ -73,6 +73,52 @@
     line-height: 1.6;
 }
 
+/* Applications under the closed name (owner, 2026-11-09): the first four
+ * application records of the product, drawn with the product page's own
+ * pictograms in the label colour. A quiet row under a hairline, divided like
+ * the product page's traits strip; no cards. Four across when the label is
+ * wide, two by two when it is narrow; not on phones, where the sheet is open. */
+.kovpack-roll__uses {
+    --use-accent: var(--roll-label, var(--roll-accent));
+    --use-surface: var(--kovpack-bg, #f5f3ee);
+    --use-stroke: .9;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 0;
+    max-width: 640px;
+    margin: 34px 0 0;
+    padding: 22px 0 0;
+    border-top: 1px solid var(--kovpack-line, #dcd6ca);
+    list-style: none;
+}
+.kovpack-roll__use {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    min-width: 0;
+    margin: 0;
+    padding: 0 16px;
+    border-left: 1px solid var(--kovpack-line, #dcd6ca);
+    color: var(--roll-ink);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.35;
+    text-wrap: balance;
+}
+.kovpack-roll__use:nth-child(odd) { padding-left: 0; border-left: 0; }
+.kovpack-roll__use-icon { flex: none; width: 40px; height: 40px; }
+/* The stage is the container: four across once the label beside the roll is
+ * about 540px wide. */
+@container (min-width: 880px) {
+    .kovpack-roll__uses { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .kovpack-roll__use:nth-child(odd) { padding-left: 16px; border-left: 1px solid var(--kovpack-line, #dcd6ca); }
+    .kovpack-roll__use:first-child { padding-left: 0; border-left: 0; }
+}
+@media (max-width: 900px) {
+    .kovpack-roll__uses { display: none; }
+}
+
 /* The roll is the toggle button; the photo keeps the demo's transparent margins. */
 .kovpack-roll__reel {
     position: absolute;
@@ -522,8 +568,8 @@
      * above the middle (owner, 2026-11-09). */
     .kovpack-product__layout--photo .kovpack-roll__stage { --slide: 44; container-name: kovpack-roll-photo; }
     .kovpack-product__layout--photo .kovpack-roll__label {
-        left: calc((var(--rest) + var(--body) + 72) * var(--u));
-        padding-bottom: calc(120 * var(--u));
+        left: calc((var(--rest) + var(--body) + 104) * var(--u));
+        padding-bottom: calc(40 * var(--u));
     }
     @container kovpack-roll-photo (min-width: 960px) {
         .kovpack-roll__sheet-content {
