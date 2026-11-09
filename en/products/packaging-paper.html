@@ -18,7 +18,7 @@
 
 <link rel="stylesheet" href="../../typo3temp/assets/css/7015c8c4ac5ff815b57530b221005fc6.css?v=7015c8c4" media="all">
 <link media="all" href="../../_assets/f7dfe1dd89fe6a2f36813ded2dc54cd9/Css/main.css?v=d885adf7" rel="stylesheet" >
-<link media="all" href="../../_assets/0f11a716cf5d60e04eb1539b53bf2363/Css/site.css?v=8242993e" rel="stylesheet" >
+<link media="all" href="../../_assets/0f11a716cf5d60e04eb1539b53bf2363/Css/site.css?v=bd75548b" rel="stylesheet" >
 <link rel="stylesheet" href="../../_assets/0f11a716cf5d60e04eb1539b53bf2363/Css/product-shelf.css?v=1266dca9" media="all">
 
 
@@ -608,66 +608,135 @@
                 Request a quote for<br /><span class="kovpack-offer__name"><span class="kovpack-offer__product">FILL Paper</span>.</span>
             </h2>
         </header>
-    <p>Tell us the quantity, format and delivery location. We will reply with a quote, usually within one working day.</p>
-<p><strong>EMS European Market Solutions GmbH</strong><br>Klöcknerstr. 5<br>32257 Bünde, Germany</p>
-<p>Phone: <a href="tel:+4952236546229">+49 (0) 5223 654-62-29</a><br>Email: <a href="mailto:info@kovpack.de">info@kovpack.de</a></p>
+    <p>Choose the version and quantity. Anything still open we will settle together.</p>
+    <aside class="kovpack-offer__summary" aria-labelledby="kovpack-offer-fill-en-summary-title" data-offer-summary="kovpack-offer-fill-en">
+        <h3 class="kovpack-offer__summary-title" id="kovpack-offer-fill-en-summary-title">Your request</h3>
+        <dl aria-live="polite">
+            <div><dt>Product</dt><dd>FILL Paper</dd></div>
+            <div><dt>Grammage</dt><dd data-offer-out="grammage">open</dd></div>
+            <div><dt>Roll width</dt><dd data-offer-out="width">open</dd></div>
+            <div><dt>Quantity</dt><dd data-offer-out="quantity">open</dd></div>
+            <div><dt>Delivery</dt><dd data-offer-out="delivery">open</dd></div>
+            <div data-offer-row="extras" hidden><dt>Also</dt><dd data-offer-out="extras"></dd></div>
+        </dl>
+    </aside>
+    <p class="kovpack-offer__personal"><strong>Prefer to talk?</strong><br>Phone: <a href="tel:+4952236546229">+49 (0) 5223 654-62-29</a><br>Email: <a href="mailto:info@kovpack.de">info@kovpack.de</a></p>
             </div>
             <div class="frame frame-kovpack-contact-form kovpack-offer kovpack-offer--blue frame-type-form_formframework frame-layout-0">
-    <form data-offline-demo id="kovpack-offer-fill-en" enctype="multipart/form-data" action="#" method="post">
-            <div class="form-element form-element-text mb-3">
-                    <label class="form-label" for="kovpack-offer-fill-en-product">Product
-                    </label>
-            <input readonly="readonly" placeholder="Product" id="kovpack-offer-fill-en-product" class="form-control" type="text" name="tx_form_formframework[kovpack-offer-fill-en][product]" value="FILL Paper" />
+    <form data-offline-demo data-offer-form data-offer-empty="open" data-offer-per-pallet="" data-offer-rolls="rolls" data-offer-pallets="pallets" class="kovpack-offer__form" id="kovpack-offer-fill-en" enctype="multipart/form-data" action="#" method="post">
+        <input type="hidden" name="tx_form_formframework[kovpack-offer-fill-en][product]" value="FILL Paper" data-offer-product />
+        <fieldset class="kovpack-offer__step">
+            <legend class="kovpack-offer__step-title"><span aria-hidden="true">1</span>Version</legend>
+            <div class="kovpack-offer__fields">
+                <fieldset class="kovpack-offer__field kovpack-offer__field--wide form-element form-element-radiobutton">
+                    <legend class="form-label">Grammage</legend>
+                    <div class="kovpack-chips">
+                        <label class="kovpack-chip"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-fill-en][grammage]" value="70" checked="checked" /><span>70 g/m²</span></label>
+                        <label class="kovpack-chip"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-fill-en][grammage]" value="80" /><span>80 g/m²</span></label>
+                        <label class="kovpack-chip"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-fill-en][grammage]" value="90" /><span>90 g/m²</span></label>
+                        <label class="kovpack-chip"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-fill-en][grammage]" value="advice" /><span>Please advise</span></label>
+                    </div>
+                </fieldset>
+                <fieldset class="kovpack-offer__field kovpack-offer__field--wide form-element form-element-radiobutton">
+                    <legend class="form-label">Roll width</legend>
+                    <div class="kovpack-chips">
+                        <label class="kovpack-chip"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-fill-en][width]" value="38" checked="checked" /><span>38 cm</span></label>
+                        <label class="kovpack-chip"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-fill-en][width]" value="50" /><span>50 cm</span></label>
+                        <label class="kovpack-chip"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-fill-en][width]" value="custom" /><span>Custom width</span></label>
+                    </div>
+                </fieldset>
+                <div class="kovpack-offer__field kovpack-offer__field--wide form-element form-element-text" data-offer-reveal="width" hidden>
+                    <label class="form-label" for="kovpack-offer-fill-en-width-custom">Required width</label>
+                    <input class="form-control" type="text" id="kovpack-offer-fill-en-width-custom" name="tx_form_formframework[kovpack-offer-fill-en][widthCustom]" placeholder="e.g. 40 cm" autocomplete="off" />
+                </div>
             </div>
-            <div class="form-element form-element-text mb-3">
-                    <label class="form-label" for="kovpack-offer-fill-en-quantity">Quantity
-                    </label>
-            <input autocomplete="off" placeholder="Quantity, e.g. 20 rolls or 1 pallet" id="kovpack-offer-fill-en-quantity" class="form-control" type="text" name="tx_form_formframework[kovpack-offer-fill-en][quantity]" />
+        </fieldset>
+        <fieldset class="kovpack-offer__step">
+            <legend class="kovpack-offer__step-title"><span aria-hidden="true">2</span>Quantity and delivery</legend>
+            <div class="kovpack-offer__fields">
+                <div class="kovpack-offer__field form-element form-element-number">
+                    <label class="form-label" for="kovpack-offer-fill-en-quantity">Quantity <span class="required" aria-hidden="true">*</span></label>
+                    <div class="kovpack-qty">
+                        <button type="button" class="kovpack-qty__step" data-offer-step="-1" aria-label="Fewer" tabindex="-1">−</button>
+                        <input class="form-control" type="number" inputmode="numeric" min="1" step="1" value="10" required="required" id="kovpack-offer-fill-en-quantity" name="tx_form_formframework[kovpack-offer-fill-en][quantity]" aria-describedby="kovpack-offer-fill-en-quantity-hint" />
+                        <button type="button" class="kovpack-qty__step" data-offer-step="1" aria-label="More" tabindex="-1">+</button>
+                    </div>
+                    <p class="kovpack-offer__hint" id="kovpack-offer-fill-en-quantity-hint" data-offer-out="pallet">We agree rolls per pallet with you.</p>
+                </div>
+                <fieldset class="kovpack-offer__field form-element form-element-radiobutton">
+                    <legend class="form-label">Unit</legend>
+                    <div class="kovpack-chips">
+                        <label class="kovpack-chip"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-fill-en][unit]" value="rolls" checked="checked" /><span>Rolls</span></label>
+                        <label class="kovpack-chip"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-fill-en][unit]" value="pallets" /><span>Pallets</span></label>
+                    </div>
+                </fieldset>
+                <fieldset class="kovpack-offer__field kovpack-offer__field--wide form-element form-element-radiobutton">
+                    <legend class="form-label">Need</legend>
+                    <div class="kovpack-chips">
+                        <label class="kovpack-chip"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-fill-en][frequency]" value="once" checked="checked" /><span>one-off</span></label>
+                        <label class="kovpack-chip"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-fill-en][frequency]" value="monthly" /><span>monthly</span></label>
+                        <label class="kovpack-chip"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-fill-en][frequency]" value="quarterly" /><span>quarterly</span></label>
+                    </div>
+                </fieldset>
+                <div class="kovpack-offer__field form-element form-element-text">
+                    <label class="form-label" for="kovpack-offer-fill-en-place">Delivery location <span class="required" aria-hidden="true">*</span></label>
+                    <input class="form-control" type="text" id="kovpack-offer-fill-en-place" name="tx_form_formframework[kovpack-offer-fill-en][place]" placeholder="Postcode and town" autocomplete="postal-code" required="required" />
+                </div>
+                <div class="kovpack-offer__field form-element form-element-text">
+                    <label class="form-label" for="kovpack-offer-fill-en-date">Preferred date <span class="kovpack-offer__optional">optional</span></label>
+                    <input class="form-control" type="date" id="kovpack-offer-fill-en-date" name="tx_form_formframework[kovpack-offer-fill-en][date]" data-offer-date />
+                </div>
+                <fieldset class="kovpack-offer__field kovpack-offer__field--wide form-element form-element-checkbox">
+                    <legend class="kovpack-visually-hidden">Also</legend>
+                    <div class="kovpack-chips">
+                        <label class="kovpack-chip kovpack-chip--check"><input class="form-check-input" type="checkbox" name="tx_form_formframework[kovpack-offer-fill-en][sample]" value="1" data-offer-extra /><span>Send a sample first</span></label>
+                        <label class="kovpack-chip kovpack-chip--check"><input class="form-check-input" type="checkbox" name="tx_form_formframework[kovpack-offer-fill-en][callback]" value="1" data-offer-extra data-offer-callback /><span>Call me back for advice</span></label>
+                    </div>
+                </fieldset>
             </div>
-            <div class="form-element form-element-text mb-3">
-                    <label class="form-label" for="kovpack-offer-fill-en-name">Name
-<span class="required">*</span>
-                    </label>
-            <input autocomplete="name" required="required" placeholder="Name" id="kovpack-offer-fill-en-name" class="form-control" type="text" name="tx_form_formframework[kovpack-offer-fill-en][name]" />
+        </fieldset>
+        <fieldset class="kovpack-offer__step">
+            <legend class="kovpack-offer__step-title"><span aria-hidden="true">3</span>Contact</legend>
+            <div class="kovpack-offer__fields">
+                <div class="kovpack-offer__field form-element form-element-text">
+                    <label class="form-label" for="kovpack-offer-fill-en-name">Name <span class="required" aria-hidden="true">*</span></label>
+                    <input class="form-control" type="text" id="kovpack-offer-fill-en-name" name="tx_form_formframework[kovpack-offer-fill-en][name]" autocomplete="name" required="required" />
+                </div>
+                <div class="kovpack-offer__field form-element form-element-text">
+                    <label class="form-label" for="kovpack-offer-fill-en-company">Company <span class="required" aria-hidden="true">*</span></label>
+                    <input class="form-control" type="text" id="kovpack-offer-fill-en-company" name="tx_form_formframework[kovpack-offer-fill-en][company]" autocomplete="organization" required="required" />
+                </div>
+                <div class="kovpack-offer__field form-element form-element-text">
+                    <label class="form-label" for="kovpack-offer-fill-en-email">Email <span class="required" aria-hidden="true">*</span></label>
+                    <input class="form-control" type="email" id="kovpack-offer-fill-en-email" name="tx_form_formframework[kovpack-offer-fill-en][email]" autocomplete="email" required="required" />
+                </div>
+                <div class="kovpack-offer__field form-element form-element-text">
+                    <label class="form-label" for="kovpack-offer-fill-en-phone">Phone<span class="required" aria-hidden="true" data-offer-phone-mark hidden> *</span> <span class="kovpack-offer__optional" data-offer-phone-optional>optional</span></label>
+                    <input class="form-control" type="tel" id="kovpack-offer-fill-en-phone" name="tx_form_formframework[kovpack-offer-fill-en][phone]" autocomplete="tel" aria-describedby="kovpack-offer-fill-en-phone-hint" />
+                    <p class="kovpack-offer__hint" id="kovpack-offer-fill-en-phone-hint" data-offer-phone-hint hidden>We then need your phone number.</p>
+                </div>
+                <div class="kovpack-offer__field kovpack-offer__field--wide form-element form-element-text">
+                    <label class="form-label" for="kovpack-offer-fill-en-message">Message <span class="kovpack-offer__optional">optional</span></label>
+                    <textarea class="form-control" rows="3" id="kovpack-offer-fill-en-message" name="tx_form_formframework[kovpack-offer-fill-en][message]" placeholder="Use, goods, special requirements …"></textarea>
+                </div>
+                <div class="kovpack-offer__field kovpack-offer__field--wide form-element form-element-fileupload">
+                    <label class="form-label" for="kovpack-offer-fill-en-file">Attach a file <span class="kovpack-offer__optional">optional</span></label>
+                    <input class="form-control kovpack-offer__file" type="file" id="kovpack-offer-fill-en-file" name="tx_form_formframework[kovpack-offer-fill-en][file]" accept=".pdf,.jpg,.jpeg,.png" aria-describedby="kovpack-offer-fill-en-file-hint" />
+                    <p class="kovpack-offer__hint" id="kovpack-offer-fill-en-file-hint">Logo or specification, PDF, JPG or PNG, up to 10 MB</p>
+                </div>
             </div>
-            <div class="form-element form-element-text mb-3">
-                    <label class="form-label" for="kovpack-offer-fill-en-company">Company
-                    </label>
-            <input autocomplete="organization" placeholder="Company" id="kovpack-offer-fill-en-company" class="form-control" type="text" name="tx_form_formframework[kovpack-offer-fill-en][company]" />
+        </fieldset>
+        <div class="kovpack-offer__submit">
+            <div class="form-element form-element-check">
+                <div class="form-check-wrapping-label">
+                    <input type="hidden" name="tx_form_formframework[kovpack-offer-fill-en][consent]" value="" /><input autocomplete="off" required="required" id="kovpack-offer-fill-en-consent" class="form-check-input" type="checkbox" name="tx_form_formframework[kovpack-offer-fill-en][consent]" value="1" />
+                    <label class="form-check-label" for="kovpack-offer-fill-en-consent">I have read the privacy policy.<span class="required" aria-hidden="true"> *</span></label>
+                </div>
             </div>
-            <div class="form-element form-element-email mb-3">
-                    <label class="form-label" for="kovpack-offer-fill-en-email">Email
-<span class="required">*</span>
-                    </label>
-            <input autocomplete="email" required="required" placeholder="Email" id="kovpack-offer-fill-en-email" class="form-control" type="email" name="tx_form_formframework[kovpack-offer-fill-en][email]" />
-            </div>
-            <div class="form-element form-element-phone mb-3">
-                    <label class="form-label" for="kovpack-offer-fill-en-phone">Phone
-                    </label>
-            <input autocomplete="tel" placeholder="Phone" id="kovpack-offer-fill-en-phone" class="form-control" type="tel" name="tx_form_formframework[kovpack-offer-fill-en][phone]" />
-            </div>
-            <div class="form-element form-element-textarea mb-3">
-                    <label class="form-label" for="kovpack-offer-fill-en-message">Format, grammage and delivery location
-                    </label>
-            <textarea autocomplete="off" rows="4" placeholder="Roll width, grammage, delivery address, date …" id="kovpack-offer-fill-en-message" class="form-control xxlarge" name="tx_form_formframework[kovpack-offer-fill-en][message]"></textarea>
-            </div>
-            <div class="form-element form-element-check mb-3">
-            <div class="form-check-wrapping-label">
-                <input type="hidden" name="tx_form_formframework[kovpack-offer-fill-en][consent]" value="" /><input autocomplete="off" required="required" id="kovpack-offer-fill-en-consent" class="form-check-input" type="checkbox" name="tx_form_formframework[kovpack-offer-fill-en][consent]" value="1" />
-                <label class="form-check-label" for="kovpack-offer-fill-en-consent">I have read the privacy policy.
-<span class="required">*</span>
-</label>
-            </div>
-            </div>
-    <div class="form-element form-element-statictext mb-3">
-            <div>Local demo – nothing is sent or stored.</div>
-    </div>
-        <div class="actions">
-<nav class="form-navigation" aria-label="Form navigation">
-            <button class="btn btn-primary" type="submit" name="tx_form_formframework[kovpack-offer-fill-en][__currentPage]" value="1">
-                Request a quote
-            </button>
-</nav>
+            <nav class="form-navigation actions" aria-label="Form navigation">
+                <button class="btn btn-primary" type="submit" name="tx_form_formframework[kovpack-offer-fill-en][__currentPage]" value="1">Request a quote</button>
+            </nav>
+            <p class="kovpack-offer__note">No obligation. We usually reply within one working day.<br><span>Local demo – nothing is sent or stored.</span></p>
         </div>
     </form>
             </div>
@@ -898,6 +967,7 @@
 <script defer src="../../_assets/0f11a716cf5d60e04eb1539b53bf2363/JavaScript/product-shelf.js?v=a137e572"></script>
 <script defer src="../../_assets/0f11a716cf5d60e04eb1539b53bf2363/JavaScript/scroll.js?v=db4b2bf1"></script>
 <script defer src="../../_assets/0f11a716cf5d60e04eb1539b53bf2363/JavaScript/pdp-gallery.js?v=ab5c2456"></script>
+<script defer src="../../_assets/0f11a716cf5d60e04eb1539b53bf2363/JavaScript/offer-form.js?v=2c4e8d61"></script>
 
 
 <script>
