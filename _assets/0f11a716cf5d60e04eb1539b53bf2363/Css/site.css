@@ -1747,6 +1747,26 @@ body[class] {
 :root[data-button-style="soft"] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit]):focus-visible::after { background: #fff; }
 :root[data-button-style="soft"] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit]):focus-visible::before { background: var(--kb-deep); }
 :root[data-button-style="soft"] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit]):not(:disabled):active { transform: scale(.96); box-shadow: none; transition-duration: .15s; transition-timing-function: ease-out; }
+/* Tone of the "soft" button (design preview, data-soft-tone on <html>):
+ * "label" = exactly the label colour with white text (default), "deep" = a
+ * little darker so the white text reads better, "dark" = label colour with
+ * ink text and arrow. The tone switch shows only with the "soft" style. */
+:root:not([data-button-style="soft"]) .kovpack-control--soft-tone { display: none; }
+:root[data-button-style="soft"][data-soft-tone="deep"] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit]) {
+    background: var(--kb-deep); border-color: var(--kb-deep);
+}
+:root[data-button-style="soft"][data-soft-tone="dark"] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit]) {
+    color: var(--kovpack-ink);
+}
+:root[data-button-style="soft"][data-soft-tone="dark"] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit])::after { background: rgb(255 255 255 / 38%); }
+:root[data-button-style="soft"][data-soft-tone="dark"] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit])::before { background: var(--kovpack-ink); }
+@media (hover: hover) {
+    :root[data-button-style="soft"][data-soft-tone="dark"] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit]):hover {
+        background: color-mix(in srgb, var(--kb) 90%, #000); border-color: color-mix(in srgb, var(--kb) 90%, #000);
+    }
+    :root[data-button-style="soft"][data-soft-tone="dark"] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit]):hover::after { background: #fff; }
+    :root[data-button-style="soft"][data-soft-tone="dark"] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit]):hover::before { background: var(--kovpack-ink); }
+}
 @media (prefers-reduced-motion: reduce) {
     :root[data-button-style] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit]),
     :root[data-button-style] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit])::before,

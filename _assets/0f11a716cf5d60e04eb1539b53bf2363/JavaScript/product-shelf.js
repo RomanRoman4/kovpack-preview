@@ -51,6 +51,12 @@ const LOOKS = {
         storageKey: 'kovpack-button-style',
         label: { de: 'Anfrage-Button', en: 'Enquiry button' },
         options: { ink: { de: 'Weiß beim Hover', en: 'White on hover' }, fill: { de: 'Füllen', en: 'Fill' }, band: { de: 'Banderole', en: 'Band' }, frame: { de: 'Rahmen', en: 'Frame' }, soft: { de: 'Mit Pfeil', en: 'With arrow' } }
+    },
+    // Tone of the "Mit Pfeil" button; its switch shows only with that style.
+    softTone: {
+        storageKey: 'kovpack-soft-tone',
+        label: { de: 'Ton (Mit Pfeil)', en: 'Tone (with arrow)' },
+        options: { label: { de: 'Etikett', en: 'Label' }, deep: { de: 'Dunkler', en: 'Darker' }, dark: { de: 'Schwarze Schrift', en: 'Black text' } }
     }
 };
 const lookSwitches = [];
@@ -244,7 +250,9 @@ for (const crumbs of document.querySelectorAll('.kovpack-pdp__crumbs')) {
     crumbs.before(bar);
     const controls = document.createElement('div');
     controls.className = 'kovpack-product-controls kovpack-pdp__controls';
-    controls.append(lookControl('buttonStyle'));
+    const tone = lookControl('softTone');
+    tone.classList.add('kovpack-control--soft-tone');
+    controls.append(lookControl('buttonStyle'), tone);
     bar.append(crumbs, controls);
 }
 
