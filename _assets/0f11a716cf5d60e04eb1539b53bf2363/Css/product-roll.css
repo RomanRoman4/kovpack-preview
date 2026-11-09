@@ -26,9 +26,9 @@
 }
 /* Owner's roll photos (2026-11-05), shown at their own proportions: each is
  * scaled so its straight body runs 530 units, measured from the alpha channel. */
-.kovpack-roll--orange { --roll-label: #f0813c; --img-w: 156.31; --img-x: -2.88; --img-y: -2.56; --body: 150.88; }
-.kovpack-roll--teal { --roll-label: #2fb2a3; --img-w: 157.93; --img-x: -3.55; --img-y: -4.52; --body: 149.86; }
-.kovpack-roll--blue { --roll-label: #5d9bd6; --img-w: 156.69; --img-x: -2.56; --img-y: -2.56; --body: 151.25; }
+.kovpack-roll--orange { --roll-label: var(--kovpack-label-orange); --img-w: 156.31; --img-x: -2.88; --img-y: -2.56; --body: 150.88; }
+.kovpack-roll--teal { --roll-label: var(--kovpack-label-teal); --img-w: 157.93; --img-x: -3.55; --img-y: -4.52; --body: 149.86; }
+.kovpack-roll--blue { --roll-label: var(--kovpack-label-blue); --img-w: 156.69; --img-x: -2.56; --img-y: -2.56; --body: 151.25; }
 
 .kovpack-roll__stage {
     container: kovpack-roll / inline-size;

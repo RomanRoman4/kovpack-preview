@@ -300,9 +300,9 @@
     border-radius: 2px;
     background: var(--shelf-label, #3a2c1f);
 }
-.kovpack-shelf__item--blue { --shelf-label: #5d9bd6; }
-.kovpack-shelf__item--teal { --shelf-label: #2fb2a3; }
-.kovpack-shelf__item--orange { --shelf-label: #f0813c; }
+.kovpack-shelf__item--blue { --shelf-label: var(--kovpack-label-blue); }
+.kovpack-shelf__item--teal { --shelf-label: var(--kovpack-label-teal); }
+.kovpack-shelf__item--orange { --shelf-label: var(--kovpack-label-orange); }
 .kovpack-shelf .kovpack-shelf__name {
     margin: 14px 0 0;
     color: #1f160e;

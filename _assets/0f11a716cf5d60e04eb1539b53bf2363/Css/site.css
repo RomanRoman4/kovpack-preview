@@ -74,6 +74,10 @@
     --kovpack-primary: #0f2a33;
     --kovpack-on-primary: #eef0ea;
     --kovpack-accent: #1d7a74;
+    /* Product colours, sampled from the printed label on the roll photos (lit middle of the band). Every product-coloured button, icon, mark and chip uses them. */
+    --kovpack-label-orange: #e89357;
+    --kovpack-label-teal: #22b4a9;
+    --kovpack-label-blue: #61a6cc;
     --kovpack-accent-contrast: #ffffff;
     --kovpack-focus: #1d7a74;
     --kovpack-kraft: #c99d66;
@@ -1271,9 +1275,9 @@ body[class] {
 .kovpack-pdp { --pdp-label: var(--kovpack-accent); padding-block: 28px 88px; }
 /* Right under the compact header: no section gap above the breadcrumb. */
 .page__content > .kovpack-pdp { margin-top: 0; }
-.kovpack-pdp--blue { --pdp-label: #5d9bd6; }
-.kovpack-pdp--teal { --pdp-label: #2fb2a3; }
-.kovpack-pdp--orange { --pdp-label: #f0813c; }
+.kovpack-pdp--blue { --pdp-label: var(--kovpack-label-blue); }
+.kovpack-pdp--teal { --pdp-label: var(--kovpack-label-teal); }
+.kovpack-pdp--orange { --pdp-label: var(--kovpack-label-orange); }
 .kovpack-pdp__crumbs { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px; color: var(--kovpack-muted); font-size: 14px; }
 .kovpack-pdp__crumbs a { color: inherit; text-decoration: none; border-bottom: 1px solid currentColor; }
 .kovpack-pdp__crumbs a:hover { color: var(--kovpack-ink); }
@@ -1534,9 +1538,9 @@ body[class] {
  * text box; this one asks for them as choices from the product record.
  * Compact by request: one row per choice (label left, segmented control
  * right), field names as placeholders, short gaps, a live summary beside it. */
-.kovpack-offer--orange { --offer-color: #f0813c; }
-.kovpack-offer--teal { --offer-color: #2fb2a3; }
-.kovpack-offer--blue { --offer-color: #5d9bd6; }
+.kovpack-offer--orange { --offer-color: var(--kovpack-label-orange); }
+.kovpack-offer--teal { --offer-color: var(--kovpack-label-teal); }
+.kovpack-offer--blue { --offer-color: var(--kovpack-label-blue); }
 .kovpack-visually-hidden { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
 .kovpack-offer__name { white-space: nowrap; }
 
@@ -1689,8 +1693,8 @@ body[class] {
 :root[data-button-style="frame"] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit]):focus-visible { outline-color: var(--kovpack-ink); outline-offset: 4px; }
 /* Pressing: every new look scales to .96 (150ms ease-out). */
 :root:is([data-button-style="fill"], [data-button-style="band"], [data-button-style="frame"]) :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit]):not(:disabled):active { transform: scale(.96); }
-/* 5. "soft": a rounded pill, a little deeper than the product colour so the
- *    white text reads, with a translucent white circle holding the arrow
+/* 5. "soft": a rounded pill in exactly the label colour with white text, like
+ *    the label itself (owner, 2026-11-09), with a translucent white circle holding the arrow
  *    (owner, 2026-11-09: no black circle, white text). On hover the circle
  *    fills white, the arrow takes the button colour and slides forward, and
  *    the pill lifts with a soft glow in its own colour. The circle is ::after,
@@ -1700,7 +1704,7 @@ body[class] {
     display: inline-flex; align-items: center; gap: 14px;
     padding: 8px 8px 8px 24px;
     border-radius: 999px;
-    background: var(--kb-deep); border-color: var(--kb-deep); color: #fff;
+    background: var(--kb); border-color: var(--kb); color: #fff;
     transition: background-color .35s ease, border-color .35s ease, box-shadow .45s var(--kovpack-ease), transform .45s var(--kovpack-ease);
 }
 :root[data-button-style="soft"] :is(.page__content .kovpack-pdp__actions .button, .frame-kovpack-contact-form.kovpack-offer button[type=submit])::after {
