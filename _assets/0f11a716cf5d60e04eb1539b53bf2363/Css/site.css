@@ -1635,6 +1635,10 @@ body[class] {
 .kovpack-offer__note span { display: block; font-size: 12px; }
 .frame-kovpack-contact-form.kovpack-offer button[type=submit] { --press-face: var(--offer-color); padding: 14px 28px; background: var(--offer-color, var(--kovpack-primary)); color: var(--kovpack-ink, #141a1b); font-weight: 600; }
 @media (hover: hover) { .frame-kovpack-contact-form.kovpack-offer button[type=submit]:hover { background: color-mix(in srgb, var(--offer-color) 88%, #000); } }
+/* Flat like the enquiry button at the top of the product page (owner, 2026-11-09). */
+.frame-kovpack-contact-form.kovpack-offer button[type=submit],
+.frame-kovpack-contact-form.kovpack-offer button[type=submit]:hover { transform: none; box-shadow: none; }
+.frame-kovpack-contact-form.kovpack-offer button[type=submit]:active { transform: translateY(1px); box-shadow: none; }
 
 @media (max-width: 900px) {
     .frame-kovpack-contact-info.kovpack-offer > .kovpack-offer__summary { position: static; }
