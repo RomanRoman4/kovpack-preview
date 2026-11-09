@@ -1513,3 +1513,21 @@ body[class] {
     .kovpack-pdp__specs dd { text-align: left; }
     .kovpack-pdp__videos { grid-template-columns: 1fr; }
 }
+
+/* Product enquiry form at the end of each product page (owner, 2026-11-09).
+ * "Angebot anfragen" in the product summary links to #angebot / #quote. It is
+ * the site's contact-form pair; the product field is prefilled and read-only,
+ * and the submit button takes the product colour like the summary button. */
+.kovpack-offer--orange { --offer-color: #f0813c; }
+.kovpack-offer--teal { --offer-color: #2fb2a3; }
+.kovpack-offer--blue { --offer-color: #5d9bd6; }
+.page__content > .frame-kovpack-contact-info.kovpack-offer { scroll-margin-top: 96px; }
+.kovpack-offer__name { white-space: nowrap; }
+.frame-kovpack-contact-form.kovpack-offer input[readonly] { border-style: dashed; font-weight: 600; cursor: default; }
+.frame-kovpack-contact-form.kovpack-offer button[type=submit] { --press-face: var(--offer-color); background: var(--offer-color, var(--kovpack-primary)); color: var(--kovpack-ink, #141a1b); font-weight: 600; }
+@media (hover: hover) { .frame-kovpack-contact-form.kovpack-offer button[type=submit]:hover { background: color-mix(in srgb, var(--offer-color) 88%, #000); } }
+/* Three field rows and the message, then the button beside the consent. */
+@media (min-width: 901px) {
+    .frame-kovpack-contact-form.kovpack-offer .actions { grid-row: 5; grid-column: 1; }
+    .frame-kovpack-contact-form.kovpack-offer .form-element-check { grid-row: 5; grid-column: 2; }
+}

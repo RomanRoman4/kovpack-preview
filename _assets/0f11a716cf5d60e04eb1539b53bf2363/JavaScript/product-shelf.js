@@ -19,7 +19,7 @@ const PRODUCT_NAMES = {
     packing: { 'lead-upper': 'PACKING Paper', upper: 'PACKING PAPER', title: 'Packing Paper' },
     fill: { 'lead-upper': 'FILL Paper', upper: 'FILL PAPER', title: 'Fill Paper' }
 };
-const NAME_TARGETS = '.kovpack-roll__title, .kovpack-roll__name, .kovpack-shelf__label, .kovpack-shelf__name, .kovpack-pdp__title, .kovpack-pdp__crumbs [aria-current="page"]';
+const NAME_TARGETS = '.kovpack-roll__title, .kovpack-roll__name, .kovpack-shelf__label, .kovpack-shelf__name, .kovpack-pdp__title, .kovpack-pdp__crumbs [aria-current="page"], .kovpack-offer__product';
 const stacked = window.matchMedia('(max-width: 1023px)');
 const root = document.documentElement;
 const switches = [];
