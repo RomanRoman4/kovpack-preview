@@ -1433,6 +1433,11 @@ body[class] {
     box-shadow: 0 0 0 var(--press-edge), inset 0 2px 5px rgb(0 0 0 / 30%);
     transition-duration: .06s;
 }
+/* Product page enquiry button is flat (owner, 2026-11-09): no raised bottom
+ * edge; hover only deepens the colour, pressing nudges it down slightly. */
+.page__content .kovpack-pdp__actions .button:not(.button--text, .button--icon-only, .hero .button),
+.page__content .kovpack-pdp__actions .button:not(.button--text, .button--icon-only, .hero .button):hover { transform: none; box-shadow: none; }
+.page__content .kovpack-pdp__actions .button:not(.button--text, .button--icon-only, .hero .button):active { transform: translateY(1px); box-shadow: none; }
 /* The hero call to action keeps its lit gradient; it gets the same press. */
 .hero:not(.hero--text-only, .hero--small) .button { transition: transform .45s var(--kovpack-ease), box-shadow .45s var(--kovpack-ease), filter .45s ease; }
 @media (hover: hover) {
@@ -1447,8 +1452,8 @@ body[class] {
 @media (prefers-reduced-motion: reduce) {
     .page__content .button, .frame-kovpack-contact-form button[type=submit], .hero .button { transition: none; }
 }
-.kovpack-pdp__back { color: var(--kovpack-ink); font-weight: 600; text-decoration: none; border-bottom: 1px solid var(--kovpack-line); transition: border-color .2s; }
-.kovpack-pdp__back:hover { color: var(--kovpack-ink); border-color: var(--kovpack-ink); }
+.kovpack-pdp__back { color: var(--kovpack-ink); font-weight: 600; text-decoration: none; transition: color .2s; }
+.kovpack-pdp__back:hover { color: var(--kovpack-muted); text-decoration: none; }
 /* Applications strip (owner, 2026-11-06): where the product is used. Own line
  * icons from Icons/pdp-uses.svg; the paper sheet in each icon takes the
  * product label colour. In TYPO3: repeatable records (icon key, title, text). */
