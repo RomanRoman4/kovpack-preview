@@ -1202,6 +1202,22 @@ body[class] {
         border-color: rgb(20 26 27 / 8%);
     }
     .header:is(.is-stuck, .is-scrolled) .header__nav-item:hover { background: rgb(20 26 27 / 7%); }
+    /* Soft hover like "Alle Produkte" (owner, 2026-11-09): the tint fades in
+     * over .5s and the line under the link fades in while it widens from the
+     * centre, instead of appearing at once. The line takes the text colour,
+     * so it is white over the hero and ink on the light bar. Links that open
+     * a submenu keep no line, as in the theme. */
+    .header .header__nav-item { transition: color .5s ease, background-color .5s ease, border-color .5s ease; }
+    .header .header__nav-item:not(.header__nav-item--has-subnav)::before {
+        content: ""; display: block; position: absolute; left: 16px; right: 16px; bottom: 8px; height: 2px; border-radius: 1px;
+        background-color: currentColor;
+        opacity: 0; transform: scaleX(.6);
+        transition: opacity .5s ease, transform .5s cubic-bezier(0.2, 0, 0, 1);
+    }
+    .header .header__nav-item:not(.header__nav-item--has-subnav):is(:hover, :focus-visible, .header__nav-item--active)::before { opacity: 1; transform: none; }
+}
+@media (min-width: 1280px) and (prefers-reduced-motion: reduce) {
+    .header .header__nav-item:not(.header__nav-item--has-subnav)::before { transform: none; }
 }
 
 .kovpack-to-top {
