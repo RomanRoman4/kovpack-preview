@@ -33,6 +33,90 @@
         return Math.min(Math.max(standing, lyingCount), Math.floor(PALLET.load / rollKg(grammage, widthCm, lengthM)));
     }
 
+    /* Delivery place: suggests "PLZ Ort" while typing a postcode or a town
+     * and completes the town once a postcode with one town is typed (owner,
+     * 2026-11-10). The list (GeoNames postal codes DE, CC BY 4.0, delivery
+     * codes only, ~90 KB gzipped) is a local file loaded the first time the
+     * field gets focus, so nothing is sent to a third party and the page
+     * itself does not get heavier. */
+    var MAX_SUGGESTIONS = 12;
+
+    function decodePlaces(data) {
+        var byCode = {};
+        var codes = [];
+        var code = 0;
+        data.p.split(',').forEach(function (row) {
+            var parts = row.split(':');
+            code += parseInt(parts[0], 10);
+            var plz = String(code).padStart(5, '0');
+            byCode[plz] = parts[1].split('.').map(function (index) { return data.n[parseInt(index, 16)]; });
+            codes.push(plz);
+        });
+        return { byCode: byCode, codes: codes };
+    }
+
+    function setupPlaceLookup(field) {
+        var places = null;
+        var loading = false;
+        var list = document.createElement('datalist');
+        list.id = field.id + '-suggestions';
+        field.after(list);
+        field.setAttribute('list', list.id);
+        field.setAttribute('autocomplete', 'off');
+
+        function load() {
+            if (places || loading) return;
+            loading = true;
+            fetch(field.dataset.offerPlz)
+                .then(function (response) { return response.ok ? response.json() : Promise.reject(response.status); })
+                .then(function (data) { places = decodePlaces(data); suggest(); })
+                .catch(function () { /* no suggestions; the field still works as plain text */ })
+                .then(function () { loading = false; });
+        }
+
+        function suggest() {
+            if (!places) return;
+            var value = field.value.trim();
+            var match = /^(\d{2,5})\s*(.*)$/.exec(value);
+            var found = [];
+            if (match) {
+                var town = match[2].toLowerCase();
+                for (var i = 0; i < places.codes.length && found.length < MAX_SUGGESTIONS; i++) {
+                    var plz = places.codes[i];
+                    if (plz.indexOf(match[1]) !== 0) continue;
+                    places.byCode[plz].forEach(function (name) {
+                        if (found.length < MAX_SUGGESTIONS && name.toLowerCase().indexOf(town) === 0) found.push(plz + ' ' + name);
+                    });
+                }
+            } else if (/^\D{2,}/.test(value)) {
+                var query = value.toLowerCase();
+                for (var j = 0; j < places.codes.length && found.length < MAX_SUGGESTIONS; j++) {
+                    var code = places.codes[j];
+                    places.byCode[code].forEach(function (name) {
+                        if (found.length < MAX_SUGGESTIONS && name.toLowerCase().indexOf(query) === 0) found.push(code + ' ' + name);
+                    });
+                }
+            }
+            list.replaceChildren.apply(list, found.map(function (text) {
+                var option = document.createElement('option');
+                option.value = text;
+                return option;
+            }));
+        }
+
+        field.addEventListener('focus', load);
+        field.addEventListener('input', function (event) {
+            load();
+            /* A full postcode with exactly one town gets its town right away. */
+            var deleting = event.inputType && event.inputType.indexOf('delete') === 0;
+            var value = field.value.trim();
+            if (places && !deleting && /^\d{5}$/.test(value) && places.byCode[value] && places.byCode[value].length === 1) {
+                field.value = value + ' ' + places.byCode[value][0];
+            }
+            suggest();
+        });
+    }
+
     function labelOf(input) {
         var span = input.closest('label') && input.closest('label').querySelector('span');
         return span ? span.textContent.trim() : input.value;
@@ -65,6 +149,8 @@
         var date = form.querySelector('[data-offer-date]');
 
         if (date) date.min = new Date().toISOString().slice(0, 10);
+        var placeField = form.querySelector('[data-offer-plz]');
+        if (placeField && window.fetch) setupPlaceLookup(placeField);
 
         function out(name, text) {
             if (!summary) return;

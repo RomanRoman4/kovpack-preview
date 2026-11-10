@@ -15,7 +15,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 
 const root = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1')), '..');
-const ASSET = /((?:\.\.\/|\.\/)*(?:_assets|fileadmin|typo3temp|Images|Fonts)\/[^"'\s,()?#]+\.(?:css|js|webp|avif|png|jpe?g|gif|svg|mp4|webm|woff2?))(\?v=[0-9a-f]+)?/g;
+const ASSET = /((?:\.\.\/|\.\/)*(?:_assets|fileadmin|typo3temp|Images|Fonts)\/[^"'\s,()?#]+\.(?:css|json|js|webp|avif|png|jpe?g|gif|svg|mp4|webm|woff2?))(\?v=[0-9a-f]+)?/g;
 const hashes = new Map();
 
 function hashOf(file) {
