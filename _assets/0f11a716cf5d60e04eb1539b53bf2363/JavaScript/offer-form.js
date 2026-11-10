@@ -40,7 +40,7 @@
         }
 
         function update() {
-            /* Choice groups of the product (grammage, width, plies, format, print). */
+            /* Choice groups of the product (grammage, width, plies, format). */
             Array.prototype.forEach.call(form.querySelectorAll('.kovpack-offer__step:first-of-type input[type="radio"]:checked'), function (input) {
                 var key = input.name.replace(/^.*\[([^\]]+)\]$/, '$1');
                 var text = labelOf(input);
@@ -99,16 +99,6 @@
             }
         }
 
-        /* The attach control shows the chosen file name in place of its label. */
-        var file = form.querySelector('[data-offer-file]');
-        var fileName = form.querySelector('[data-offer-file-name]');
-        if (file && fileName) {
-            var fileLabel = fileName.textContent;
-            file.addEventListener('change', function () {
-                fileName.textContent = file.files && file.files[0] ? file.files[0].name : fileLabel;
-                file.closest('label').classList.toggle('has-file', Boolean(file.files && file.files[0]));
-            });
-        }
 
         form.addEventListener('input', update);
         form.addEventListener('change', update);
