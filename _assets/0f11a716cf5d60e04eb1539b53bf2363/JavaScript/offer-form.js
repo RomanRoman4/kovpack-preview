@@ -9,29 +9,25 @@
     'use strict';
 
     /* Rough rolls per pallet, a guide value until a test pallet per format
-     * is built. Calibrated on competitors' published rolls and diameters
-     * (research 2026-11-10): wound kraft of about 0.6 g/cm³ on a core of
-     * 50 mm inside with a 2 mm wall, so 54 mm outside (owner, 2026-11-10),
-     * a Euro pallet (1200 × 800 mm) loaded up to 1650 mm (1.80 m with the
-     * pallet), at most 1000 kg. Rolls stand on end;
-     * short wide rolls (PROTECT, data-offer-lying) may also lie, whichever
-     * fits more. */
-    var PALLET = { length: 1200, width: 800, height: 1650, load: 1000, core: 54, density: 0.6, gap: 1.03 };
+     * is built. Rolls stand on end on a Euro pallet (1200 × 800 mm), side by
+     * side in a square grid, at most 2 layers and 1650 mm high (1.80 m with
+     * the pallet), at most 1000 kg. Core 50 mm inside with a 2 mm wall, so
+     * 54 mm outside. Winding density calibrated on the owner's own pallet
+     * (2026-11-10): 80 g/m² × 50 m rolls fit 96 to a layer (12 × 8, so at
+     * most 100 mm across), which needs about 0.75 g/cm³. */
+    var PALLET = { length: 1200, width: 800, height: 1650, layers: 2, load: 1000, core: 54, density: 0.75 };
 
     function rollKg(grammage, widthCm, lengthM) {
         return grammage * widthCm / 100 * lengthM / 1000;
     }
 
-    function rollsPerPallet(grammage, widthCm, lengthM, lying) {
+    function rollsPerPallet(grammage, widthCm, lengthM) {
         if (!grammage || !widthCm || !lengthM) return 0;
         var thickness = grammage / (PALLET.density * 1000);
-        var diameter = Math.sqrt(4 * lengthM * 1000 * thickness / Math.PI + PALLET.core * PALLET.core) * PALLET.gap;
-        var rollWidth = widthCm * 10;
-        var standing = Math.floor(PALLET.length / diameter) * Math.floor(PALLET.width / diameter) * Math.max(1, Math.floor(PALLET.height / rollWidth));
-        var lyingCount = lying && rollWidth <= PALLET.length
-            ? Math.floor(PALLET.length / rollWidth) * Math.floor(PALLET.width / diameter) * Math.floor(PALLET.height / diameter)
-            : 0;
-        return Math.min(Math.max(standing, lyingCount), Math.floor(PALLET.load / rollKg(grammage, widthCm, lengthM)));
+        var diameter = Math.sqrt(4 * lengthM * 1000 * thickness / Math.PI + PALLET.core * PALLET.core);
+        var perLayer = Math.floor(PALLET.length / diameter) * Math.floor(PALLET.width / diameter);
+        var layers = Math.max(1, Math.min(PALLET.layers, Math.floor(PALLET.height / (widthCm * 10))));
+        return Math.min(perLayer * layers, Math.floor(PALLET.load / rollKg(grammage, widthCm, lengthM)));
     }
 
     /* Delivery place: suggests "PLZ Ort" while typing a postcode or a town
@@ -135,7 +131,6 @@
             open: form.dataset.offerOpen || ''
         };
         var fixedWidth = parseInt(form.dataset.offerWidth, 10) || 0;
-        var lying = 'offerLying' in form.dataset;
         /* PACKING: the roll length follows the grammage, so a roll of one
          * width always weighs the same (market practice). */
         var lengths = {};
@@ -200,7 +195,7 @@
             }
             var widthValue = width ? parseInt(width.value, 10) : fixedWidth;
             var custom = (width && width.value === 'custom') || (format && format.value === 'custom');
-            var perPallet = custom ? 0 : rollsPerPallet(grammageValue, widthValue, lengthValue, lying);
+            var perPallet = custom ? 0 : rollsPerPallet(grammageValue, widthValue, lengthValue);
             var palletWord = amount === 1 ? words.pallet : words.pallets;
             if (unitWord) unitWord.textContent = palletWord;
             var frequency = radio('frequency');
