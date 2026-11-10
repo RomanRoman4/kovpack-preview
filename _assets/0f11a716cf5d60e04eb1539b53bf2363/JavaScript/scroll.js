@@ -138,6 +138,20 @@ if (toTop) {
     for (const type of ['wheel', 'touchstart', 'keydown']) addEventListener(type, () => glide && stopGlide(), { passive: true });
 }
 
+// Arriving with a section anchor (menu "Kontakt" -> home page #kontakt): the
+// home page builds its shelf and slideshow after the browser's own jump, so
+// land on the section again once the page has loaded. Only a fresh visit,
+// never when the browser restores an earlier scroll position.
+const landOnAnchor = () => {
+    const id = decodeURIComponent(location.hash.slice(1));
+    const target = id && document.getElementById(id);
+    const restored = performance.getEntriesByType('navigation')[0]?.type === 'back_forward';
+    if (!target || restored) return;
+    target.scrollIntoView({ behavior: 'instant', block: 'start' });
+};
+if (document.readyState === 'complete') landOnAnchor();
+else addEventListener('load', () => setTimeout(landOnAnchor, 0), { once: true });
+
 measure();
 update();
 addEventListener('scroll', onScroll, { passive: true });
