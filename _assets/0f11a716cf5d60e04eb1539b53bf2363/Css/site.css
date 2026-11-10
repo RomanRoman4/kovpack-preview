@@ -2081,7 +2081,7 @@ body[class] {
 .kovpack-contact__card {
     box-sizing: border-box;
     padding: clamp(28px, 2.6vw, 40px);
-    border: 1px solid rgb(20 26 27 / 8%);
+    border: 1px solid rgb(20 26 27 / 14%);
     border-radius: 16px;
     background: var(--kovpack-paper);
 }
@@ -2090,15 +2090,16 @@ body[class] {
 .frame-kovpack-contact-form.kovpack-contact :is(.form-element-email, .form-element-phone, .form-element-textarea, .form-element-check) { grid-column: 1 / -1; grid-row: auto; }
 .frame-kovpack-contact-form.kovpack-contact .actions { order: 1; grid-row: auto; }
 .page__content .frame-kovpack-contact-form.kovpack-contact :is(input.form-control, textarea) {
-    padding: 13px 16px; border: 1px solid transparent; border-radius: 10px;
-    background: var(--kovpack-bg); font-size: 15px; line-height: 1.3;
-    transition: border-color .2s ease, background-color .2s ease, box-shadow .2s ease;
+    padding: 13px 16px; border: 1px solid rgb(20 26 27 / 22%); border-radius: 10px;
+    background: #fff; color: var(--kovpack-ink); font-size: 15px; line-height: 1.3;
+    transition: border-color .2s ease, box-shadow .2s ease;
 }
-.page__content .frame-kovpack-contact-form.kovpack-contact :is(input.form-control, textarea):hover { border-color: var(--kovpack-line); }
-.page__content .frame-kovpack-contact-form.kovpack-contact :is(input.form-control, textarea):focus { background: #fff; border-color: var(--kovpack-accent); }
+.page__content .frame-kovpack-contact-form.kovpack-contact :is(input.form-control, textarea)::placeholder { color: #5f6866; }
+.page__content .frame-kovpack-contact-form.kovpack-contact :is(input.form-control, textarea):hover { border-color: rgb(20 26 27 / 40%); }
+.page__content .frame-kovpack-contact-form.kovpack-contact :is(input.form-control, textarea):focus { border-color: var(--kovpack-accent); box-shadow: 0 0 0 3px rgb(29 122 116 / 18%); outline: none; }
 .frame-kovpack-contact-form.kovpack-contact textarea { min-height: 120px; }
 .frame-kovpack-contact-form.kovpack-contact .form-element-check { align-self: auto; margin-top: 2px; }
-.frame-kovpack-contact-form.kovpack-contact .form-element-check label { font-size: 13px; color: var(--kovpack-muted); }
+.frame-kovpack-contact-form.kovpack-contact .form-element-check label { font-size: 14px; color: var(--kovpack-ink); }
 .frame-kovpack-contact-form.kovpack-contact input[type=checkbox] { accent-color: var(--kovpack-primary); }
 /* Compact submit sized to its label, with the required note beside it. */
 .frame-kovpack-contact-form.kovpack-contact .actions { grid-column: 1; margin-top: 4px; }
