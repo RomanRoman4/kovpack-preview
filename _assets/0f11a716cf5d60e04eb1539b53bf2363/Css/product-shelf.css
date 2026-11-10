@@ -315,6 +315,14 @@
     letter-spacing: 0;
     text-wrap: balance;
 }
+.kovpack-shelf .kovpack-shelf__type {
+    margin: 8px 0 0;
+    color: #1f160e;
+    font-family: var(--kovpack-font-display, sans-serif);
+    font-size: clamp(19px, 2.6cqi, 24px);
+    font-weight: 500;
+    line-height: 1.2;
+}
 .kovpack-shelf__desc {
     display: -webkit-box;
     margin: 14px 0 0;
