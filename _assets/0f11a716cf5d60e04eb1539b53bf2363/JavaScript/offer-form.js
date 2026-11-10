@@ -1,9 +1,9 @@
 /* Product enquiry form (owner, 2026-11-09): keeps the "Ihre Anfrage" summary
  * beside the form in step with the choices, converts pallets to rolls when the
  * product record knows rolls per pallet, shows the custom width / cut-size
- * field only when "Sonderbreite" / "Zuschnitt nach Maß" is chosen, and makes
- * the phone number required when a call back is requested. Without script the
- * form still works: every field is a plain form field. */
+ * field only when "Sonderbreite" / "Zuschnitt nach Maß" is chosen. The phone number is
+ * always required (owner, 2026-11-10). Without script the form still works:
+ * every field is a plain form field. */
 (function () {
     'use strict';
 
@@ -21,8 +21,6 @@
         var palletHint = form.querySelector('[data-offer-out="pallet"]');
         var palletHintBase = palletHint ? palletHint.textContent : '';
         var quantity = form.querySelector('input[type="number"]');
-        var phone = form.querySelector('input[type="tel"]');
-        var callback = form.querySelector('[data-offer-callback]');
         var date = form.querySelector('[data-offer-date]');
 
         if (date) date.min = new Date().toISOString().slice(0, 10);
@@ -82,23 +80,7 @@
             var extrasRow = summary && summary.querySelector('[data-offer-row="extras"]');
             if (extrasRow) extrasRow.hidden = !extras.length;
             out('extras', extras.join(', '));
-
-            /* A call back needs a phone number. */
-            if (phone && callback) {
-                phone.required = callback.checked;
-                if (!phone.dataset.offerPlaceholder) phone.dataset.offerPlaceholder = phone.placeholder;
-                phone.placeholder = callback.checked && phone.dataset.offerPlaceholderRequired
-                    ? phone.dataset.offerPlaceholderRequired
-                    : phone.dataset.offerPlaceholder;
-                var mark = form.querySelector('[data-offer-phone-mark]');
-                var optional = form.querySelector('[data-offer-phone-optional]');
-                var hint = form.querySelector('[data-offer-phone-hint]');
-                if (mark) mark.hidden = !callback.checked;
-                if (optional) optional.hidden = callback.checked;
-                if (hint) hint.hidden = !callback.checked;
-            }
         }
-
 
         form.addEventListener('input', update);
         form.addEventListener('change', update);

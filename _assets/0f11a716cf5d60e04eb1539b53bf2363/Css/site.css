@@ -1650,6 +1650,11 @@ body[class] {
 .kovpack-offer__fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 10px; margin-top: 4px; }
 .frame-kovpack-contact-form.kovpack-offer .kovpack-offer__field { min-width: 0; margin: 0; }
 .kovpack-offer__field--wide { grid-column: 1 / -1; }
+/* Why we ask for the phone number, right under the field (owner, 2026-11-10). */
+.frame-kovpack-contact-form.kovpack-offer .kovpack-offer__field-hint { margin: 5px 4px 0; font-size: 12px; }
+/* The industry select reads like a placeholder until something is chosen. */
+.frame-kovpack-contact-form.kovpack-offer select.form-control:has(option[value=""]:checked) { color: var(--kovpack-muted); }
+.frame-kovpack-contact-form.kovpack-offer select.form-control option { color: var(--kovpack-ink); }
 /* The date keeps a visible caption inside its box (a date field has no placeholder). */
 .frame-kovpack-contact-form.kovpack-offer .kovpack-offer__date { display: flex; align-items: center; border: 1px solid var(--kovpack-line); border-radius: var(--corners-m); background: var(--kovpack-paper); }
 .frame-kovpack-contact-form.kovpack-offer .kovpack-offer__date > label { flex: none; margin: 0; padding-left: 14px; color: var(--kovpack-muted); font-size: 15px; }

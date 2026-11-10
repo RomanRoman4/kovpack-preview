@@ -18,7 +18,7 @@
 
 <link rel="stylesheet" href="../../typo3temp/assets/css/7015c8c4ac5ff815b57530b221005fc6.css?v=7015c8c4" media="all">
 <link media="all" href="../../_assets/f7dfe1dd89fe6a2f36813ded2dc54cd9/Css/main.css?v=d885adf7" rel="stylesheet" >
-<link media="all" href="../../_assets/0f11a716cf5d60e04eb1539b53bf2363/Css/site.css?v=da20533d" rel="stylesheet" >
+<link media="all" href="../../_assets/0f11a716cf5d60e04eb1539b53bf2363/Css/site.css?v=edc0bbde" rel="stylesheet" >
 <link rel="stylesheet" href="../../_assets/0f11a716cf5d60e04eb1539b53bf2363/Css/product-shelf.css?v=78a0bf2e" media="all">
 
 
@@ -686,15 +686,51 @@
                 </div>
         </fieldset>
         <fieldset class="kovpack-offer__step">
-            <legend class="kovpack-offer__step-title">Kontakt</legend>
+            <legend class="kovpack-offer__step-title">Unternehmen</legend>
                 <div class="kovpack-offer__fields">
-                <div class="kovpack-offer__field form-element">
-                    <label class="kovpack-visually-hidden" for="kovpack-offer-fill-de-name">Name</label>
-                    <input class="form-control" type="text" id="kovpack-offer-fill-de-name" name="tx_form_formframework[kovpack-offer-fill-de][name]" placeholder="Name *" autocomplete="name" required="required" />
-                </div>
                 <div class="kovpack-offer__field form-element">
                     <label class="kovpack-visually-hidden" for="kovpack-offer-fill-de-company">Unternehmen</label>
                     <input class="form-control" type="text" id="kovpack-offer-fill-de-company" name="tx_form_formframework[kovpack-offer-fill-de][company]" placeholder="Unternehmen *" autocomplete="organization" required="required" />
+                </div>
+                <div class="kovpack-offer__field form-element">
+                    <label class="kovpack-visually-hidden" for="kovpack-offer-fill-de-industry">Branche</label>
+                    <select class="form-control" id="kovpack-offer-fill-de-industry" name="tx_form_formframework[kovpack-offer-fill-de][industry]">
+                        <option value="">Branche (optional)</option>
+                        <option>Handel / E-Commerce</option>
+                        <option>Logistik / Versand</option>
+                        <option>Maler / Bau / Renovierung</option>
+                        <option>Industrie / Produktion</option>
+                        <option>Sonstiges</option>
+                    </select>
+                </div>
+                <div class="kovpack-offer__field form-element">
+                    <label class="kovpack-visually-hidden" for="kovpack-offer-fill-de-vatId">USt-IdNr.</label>
+                    <input class="form-control" type="text" id="kovpack-offer-fill-de-vatId" name="tx_form_formframework[kovpack-offer-fill-de][vatId]" placeholder="USt-IdNr. (optional), z. B. DE123456789" autocomplete="off" spellcheck="false" />
+                </div>
+                <div class="kovpack-offer__field form-element">
+                    <label class="kovpack-visually-hidden" for="kovpack-offer-fill-de-register">Handelsregister-Nr.</label>
+                    <input class="form-control" type="text" id="kovpack-offer-fill-de-register" name="tx_form_formframework[kovpack-offer-fill-de][register]" placeholder="Handelsregister-Nr. (optional), z. B. HRB 12345" autocomplete="off" spellcheck="false" />
+                </div>
+                </div>
+        </fieldset>
+        <fieldset class="kovpack-offer__step">
+            <legend class="kovpack-offer__step-title">Ansprechpartner</legend>
+                <div class="kovpack-offer__row form-element form-element-radiobutton">
+                    <span class="kovpack-offer__row-label" id="kovpack-offer-fill-de-salutation-label">Anrede *</span>
+                    <div class="kovpack-seg" role="radiogroup" aria-labelledby="kovpack-offer-fill-de-salutation-label" aria-required="true">
+                        <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-fill-de][salutation]" value="mr" required="required" /><span>Herr</span></label>
+                        <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-fill-de][salutation]" value="ms" required="required" /><span>Frau</span></label>
+                        <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-fill-de][salutation]" value="none" required="required" /><span>Keine Angabe</span></label>
+                    </div>
+                </div>
+                <div class="kovpack-offer__fields">
+                <div class="kovpack-offer__field form-element">
+                    <label class="kovpack-visually-hidden" for="kovpack-offer-fill-de-firstName">Vorname</label>
+                    <input class="form-control" type="text" id="kovpack-offer-fill-de-firstName" name="tx_form_formframework[kovpack-offer-fill-de][firstName]" placeholder="Vorname *" autocomplete="given-name" required="required" />
+                </div>
+                <div class="kovpack-offer__field form-element">
+                    <label class="kovpack-visually-hidden" for="kovpack-offer-fill-de-lastName">Nachname</label>
+                    <input class="form-control" type="text" id="kovpack-offer-fill-de-lastName" name="tx_form_formframework[kovpack-offer-fill-de][lastName]" placeholder="Nachname *" autocomplete="family-name" required="required" />
                 </div>
                 <div class="kovpack-offer__field form-element">
                     <label class="kovpack-visually-hidden" for="kovpack-offer-fill-de-email">E-Mail</label>
@@ -702,7 +738,8 @@
                 </div>
                 <div class="kovpack-offer__field form-element">
                     <label class="kovpack-visually-hidden" for="kovpack-offer-fill-de-phone">Telefon</label>
-                    <input class="form-control" type="tel" id="kovpack-offer-fill-de-phone" name="tx_form_formframework[kovpack-offer-fill-de][phone]" placeholder="Telefon (optional)" data-offer-placeholder-required="Telefon * (Dann brauchen wir Ihre Telefonnummer)" autocomplete="tel" />
+                    <input class="form-control" type="tel" id="kovpack-offer-fill-de-phone" name="tx_form_formframework[kovpack-offer-fill-de][phone]" placeholder="Telefon *" autocomplete="tel" required="required" aria-describedby="kovpack-offer-fill-de-phone-hint" />
+                    <p class="kovpack-offer__hint kovpack-offer__field-hint" id="kovpack-offer-fill-de-phone-hint">Nur für Rückfragen zu Ihrer Anfrage, z. B. wenn Maße oder Liefertermin noch zu klären sind.</p>
                 </div>
                 <div class="kovpack-offer__field kovpack-offer__field--wide form-element">
                     <label class="kovpack-visually-hidden" for="kovpack-offer-fill-de-message">Nachricht</label>
@@ -949,7 +986,7 @@
 <script defer src="../../_assets/0f11a716cf5d60e04eb1539b53bf2363/JavaScript/product-shelf.js?v=854e0abc"></script>
 <script defer src="../../_assets/0f11a716cf5d60e04eb1539b53bf2363/JavaScript/scroll.js?v=8db71b55"></script>
 <script defer src="../../_assets/0f11a716cf5d60e04eb1539b53bf2363/JavaScript/pdp-gallery.js?v=ab5c2456"></script>
-<script defer src="../../_assets/0f11a716cf5d60e04eb1539b53bf2363/JavaScript/offer-form.js?v=51c12243"></script>
+<script defer src="../../_assets/0f11a716cf5d60e04eb1539b53bf2363/JavaScript/offer-form.js?v=409c25b9"></script>
 
 
 <script>
