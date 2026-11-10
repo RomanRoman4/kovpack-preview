@@ -1838,7 +1838,7 @@ body[class] {
 }
 
 .kovpack-about__hero {
-    padding: clamp(64px, 7vw, 112px) var(--kovpack-edge) clamp(72px, 8vw, 128px);
+    padding: clamp(48px, 4.5vw, 72px) var(--kovpack-edge) clamp(52px, 4.5vw, 76px);
     background:
         radial-gradient(circle at 82% 16%, rgb(201 157 102 / 12%), transparent 31%),
         var(--kovpack-bg);
@@ -1938,7 +1938,7 @@ body[class] {
 @keyframes kovpack-about-photo-in { from { opacity: 0; clip-path: inset(0 100% 0 0 round var(--corners-l)); } to { opacity: 1; clip-path: inset(0 round var(--corners-l)); } }
 
 .kovpack-about__story {
-    padding: clamp(76px, 7vw, 116px) var(--kovpack-edge);
+    padding: clamp(56px, 5vw, 82px) var(--kovpack-edge);
     border-block: 1px solid var(--kovpack-line);
     background: var(--kovpack-paper);
 }
@@ -1968,7 +1968,7 @@ body[class] {
 .kovpack-about__story-copy strong { color: var(--kovpack-ink); font-weight: 650; }
 
 .kovpack-about__pillars {
-    padding: clamp(68px, 6.6vw, 108px) var(--kovpack-edge) clamp(76px, 7.2vw, 118px);
+    padding: clamp(48px, 4vw, 64px) var(--kovpack-edge) clamp(52px, 4.5vw, 72px);
     background: var(--kovpack-bg);
 }
 .kovpack-about__pillars-inner { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }

@@ -44,6 +44,10 @@ The phone checks in the final integration checklist remain required before CMS a
 | Sticky header/back to top | Page content remains editor-driven | Preserve sticky/spacer logic, smooth return, keyboard and reduced-motion behaviour |
 | Other/new pages | Shared blocks plus page-specific editable fields | Record new block contracts here; do not bake whole pages into uneditable HTML blobs |
 
+Home contact form: company is required in DE and EN (`required` on the organization input,
+an asterisk in its label and placeholder). Preserve native required-field validation when
+connecting the TYPO3 form definition.
+
 ## Page addresses (URL slugs)
 
 The preview file names are historical. Two of them no longer describe the product.
