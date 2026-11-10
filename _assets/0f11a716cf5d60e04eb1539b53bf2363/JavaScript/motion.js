@@ -63,6 +63,8 @@ if (!reduced && 'IntersectionObserver' in window) {
         '.kovpack-news__heading',
         '.page__content > .kovpack-product',
         '.kovpack-news__card',
+        // Repeatable blocks inside composed pages opt in with data-reveal.
+        '[data-reveal]',
     ].join(','));
     const observer = new IntersectionObserver((entries) => {
         const visible = entries.filter((entry) => entry.isIntersecting);

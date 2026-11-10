@@ -2092,7 +2092,7 @@ body[class] {
 
 /* Product lines: one strip divided by hairlines, like the about strengths.
  * The whole column is the link; hover tints the name and moves the arrow. */
-.kovpack-partner__lines { padding: clamp(48px, 4.4vw, 68px) var(--kovpack-edge) clamp(52px, 4.8vw, 76px); }
+.kovpack-partner__lines { padding: clamp(48px, 4.4vw, 68px) var(--kovpack-edge) clamp(28px, 2.6vw, 40px); }
 .page__content .kovpack-partner__heading {
     display: flex;
     align-items: center;
@@ -2111,35 +2111,61 @@ body[class] {
     border-radius: 999px;
     background: var(--kovpack-label-orange);
 }
+/* Each column is one link with a soft tile that appears on hover and a short
+ * press; the strip keeps its hairlines and its text aligned with the heading
+ * (the list bleeds by the tile padding, the top rule does not). */
 .page__content .kovpack-partner__line-list {
+    --line-pad: clamp(20px, 2.2vw, 32px);
+    position: relative;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    border-top: 1px solid var(--kovpack-line);
+    margin-inline: calc(var(--line-pad) * -1);
 }
-.kovpack-partner__line { min-width: 0; }
+.kovpack-partner__line-list::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: var(--line-pad);
+    right: var(--line-pad);
+    height: 1px;
+    background: var(--kovpack-line);
+}
+.page__content .kovpack-partner__line { min-width: 0; padding-top: 12px; }
 .kovpack-partner__line + .kovpack-partner__line { border-left: 1px solid var(--kovpack-line); }
 .kovpack-partner__line a {
     position: relative;
     display: block;
     height: 100%;
     box-sizing: border-box;
-    padding: 28px clamp(24px, 3vw, 48px) 8px;
+    margin-inline: 8px;
+    padding: 18px calc(var(--line-pad) - 8px) 22px;
+    border-radius: var(--corners-m);
     color: inherit;
     text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: background-color .3s ease, box-shadow .35s var(--kovpack-ease), transform .15s ease-out;
 }
-.kovpack-partner__line:first-child a { padding-left: 0; }
+.kovpack-partner__line:first-child a { margin-left: 0; padding-left: var(--line-pad); }
+.kovpack-partner__line:last-child a { margin-right: 0; padding-right: var(--line-pad); }
 .kovpack-partner__line a::after {
     content: "\2197";
     position: absolute;
-    top: 28px;
-    right: clamp(24px, 3vw, 48px);
+    top: 20px;
+    right: calc(var(--line-pad) - 8px);
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--kovpack-accent) 10%, transparent);
     color: var(--kovpack-accent);
-    font-size: 20px;
+    font-size: 17px;
     line-height: 1;
-    transition: transform .3s var(--kovpack-ease);
+    transition: background-color .3s ease, color .3s ease, transform .35s var(--kovpack-ease);
 }
-.kovpack-partner__line:last-child a::after { right: 0; }
-.kovpack-partner__line a:focus-visible { outline: 3px solid color-mix(in srgb, var(--kovpack-focus) 45%, #fff); outline-offset: 4px; border-radius: var(--corners-s); }
+.kovpack-partner__line:last-child a::after { right: var(--line-pad); }
+.kovpack-partner__line a:focus-visible { outline: 3px solid color-mix(in srgb, var(--kovpack-focus) 45%, #fff); outline-offset: 2px; }
+.kovpack-partner__line a:active { transform: scale(.98); }
 .kovpack-partner__line-icon,
 .kovpack-partner__step-icon svg {
     display: block;
@@ -2149,7 +2175,7 @@ body[class] {
     stroke-linecap: round;
     stroke-linejoin: round;
 }
-.kovpack-partner__line-icon { width: 44px; height: 44px; margin-bottom: 20px; }
+.kovpack-partner__line-icon { width: 44px; height: 44px; margin-bottom: 20px; transition: transform .35s var(--kovpack-ease); }
 .page__content .kovpack-partner__line h3 {
     margin: 0 0 8px;
     font-size: clamp(21px, 1.7vw, 25px);
@@ -2159,12 +2185,18 @@ body[class] {
 }
 .kovpack-partner__line p { max-width: 32ch; margin: 0; color: var(--kovpack-muted); font-size: 16px; line-height: 1.5; }
 @media (hover: hover) {
+    .kovpack-partner__line a:hover {
+        background: var(--kovpack-paper);
+        box-shadow: 0 1px 2px rgb(20 26 27 / 6%), 0 18px 40px -26px rgb(20 26 27 / 45%);
+    }
     .kovpack-partner__line a:hover h3 { color: var(--kovpack-accent); }
-    .kovpack-partner__line a:hover::after { transform: translate(3px, -3px); }
+    .kovpack-partner__line a:hover .kovpack-partner__line-icon { transform: translateY(-3px); }
+    .kovpack-partner__line a:hover::after { background: var(--kovpack-accent); color: #fff; transform: translate(2px, -2px); }
 }
 
-/* Cooperation: a paper band (as the about story) with numbered editorial rows.
- * Photo and text alternate sides; rows are divided by hairlines only. */
+/* Cooperation: a paper band (as the about story) with editorial rows. Photo
+ * and text alternate sides; rows are divided by hairlines only. Never number
+ * the rows (owner, 2026-11-10). */
 .kovpack-partner__detail {
     padding: clamp(52px, 4.8vw, 76px) var(--kovpack-edge) clamp(56px, 5vw, 80px);
     border-top: 1px solid var(--kovpack-line);
@@ -2186,9 +2218,8 @@ body[class] {
     letter-spacing: -.03em;
 }
 .kovpack-partner__detail-lead { max-width: 40em; margin: 0; color: var(--kovpack-muted); font-size: clamp(17px, 1.3vw, 19px); line-height: 1.58; }
-.page__content .kovpack-partner__steps { counter-reset: partner-step; border-top: 1px solid var(--kovpack-line); }
+.page__content .kovpack-partner__steps { border-top: 1px solid var(--kovpack-line); }
 .page__content .kovpack-partner__step {
-    counter-increment: partner-step;
     display: grid;
     grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
     align-items: center;
@@ -2204,17 +2235,6 @@ body[class] {
     align-items: center;
     column-gap: 16px;
     max-width: 620px;
-}
-.kovpack-partner__step-copy::before {
-    content: counter(partner-step, decimal-leading-zero);
-    grid-column: 1 / -1;
-    margin-bottom: 18px;
-    color: var(--kovpack-muted);
-    font-family: var(--kovpack-font-display, inherit);
-    font-size: 15px;
-    font-weight: 600;
-    letter-spacing: .08em;
-    font-variant-numeric: tabular-nums;
 }
 .kovpack-partner__step-copy > :not(.kovpack-partner__step-icon) { grid-column: 1 / -1; }
 .kovpack-partner__step-copy > h3:not(.kovpack-partner__step-icon) { grid-column: 2; }
@@ -2235,7 +2255,7 @@ body[class] {
     letter-spacing: -.015em;
     text-wrap: balance;
 }
-.kovpack-partner__step h3 + p { margin-top: 18px; }
+.kovpack-partner__step h3 + p { margin-top: 20px; }
 .kovpack-partner__step p { margin: 0 0 12px; color: var(--kovpack-muted); font-size: 16px; line-height: 1.6; }
 .kovpack-partner__step p:last-child { margin-bottom: 0; }
 .kovpack-partner__step-media {
@@ -2245,6 +2265,7 @@ body[class] {
     overflow: hidden;
     border-radius: var(--corners-m);
     background: var(--kovpack-surface);
+    box-shadow: 0 2px 5px rgb(20 26 27 / 7%), 0 34px 70px -38px rgb(20 26 27 / 58%);
 }
 .kovpack-partner__step-media::after {
     content: "";
@@ -2269,14 +2290,21 @@ body[class] {
     .kovpack-partner__step:nth-child(even) .kovpack-partner__step-media { order: 0; }
     .page__content .kovpack-partner__line-list { grid-template-columns: minmax(0, 1fr); }
     .kovpack-partner__line + .kovpack-partner__line { border-left: 0; border-top: 1px solid var(--kovpack-line); }
+    .page__content .kovpack-partner__line { padding-top: 0; }
     .kovpack-partner__line a,
-    .kovpack-partner__line:first-child a { padding: 24px 40px 24px 0; }
-    .kovpack-partner__line a::after { top: 24px; right: 0; }
+    .kovpack-partner__line:first-child a,
+    .kovpack-partner__line:last-child a { margin: 6px 0; padding: 18px 64px 18px var(--line-pad); }
+    .kovpack-partner__line a::after,
+    .kovpack-partner__line:last-child a::after { top: 18px; right: var(--line-pad); }
 }
 @media (prefers-reduced-motion: reduce) {
+    .kovpack-partner__line a,
     .kovpack-partner__line a::after,
+    .kovpack-partner__line-icon,
     .page__content .kovpack-partner__line h3 { transition: none; }
-    .kovpack-partner__line a:hover::after { transform: none; }
+    .kovpack-partner__line a:hover::after,
+    .kovpack-partner__line a:hover .kovpack-partner__line-icon,
+    .kovpack-partner__line a:active { transform: none; }
 }
 
 /* Home page contact section (owner mockup, 2026-11-10): on the page colour, no
