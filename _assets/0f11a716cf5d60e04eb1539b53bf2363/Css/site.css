@@ -2035,3 +2035,89 @@ body[class] {
     .kovpack-about__cta:hover,
     .kovpack-about__cta:hover svg { transform: none; }
 }
+
+/* Home page contact section (owner mockup, 2026-11-10): on the page colour, no
+ * surface band. Left: a short orange mark with "Kontakt", the large heading, a
+ * lead and three contact rows with soft icon tiles. Right: the form on a white
+ * card with its own title, full-width submit with an arrow and the required
+ * note below. Scoped to .kovpack-contact so the product enquiry (.kovpack-offer)
+ * keeps its own layout. Contact data stays editor content (phone, email,
+ * address records); the icons are fixed per row type. */
+.page__content > :is(.frame-kovpack-contact-info, .frame-kovpack-contact-form).kovpack-contact {
+    background: transparent;
+    border-radius: 0;
+    padding-block: 8px 104px;
+}
+.page__content > .frame-kovpack-contact-info.kovpack-contact { padding-inline: 0 72px; }
+.page__content > .frame-kovpack-contact-form.kovpack-contact { padding-inline: 24px 0; }
+.kovpack-contact header { margin: 0; }
+.kovpack-contact__kicker {
+    display: flex; align-items: center; gap: 14px;
+    margin: 0 0 14px;
+    color: var(--kovpack-ink) !important;
+    font-size: 15px; font-weight: 500; line-height: 1.2; letter-spacing: .08em; text-transform: uppercase;
+}
+.kovpack-contact__kicker::before { content: ""; flex: none; width: 24px; height: 8px; border-radius: 4px; background: var(--kovpack-label-orange); }
+.page__content .frame-kovpack-contact-info.kovpack-contact .kovpack-contact__title {
+    margin: 0 0 30px;
+    font-family: var(--kovpack-font-display, inherit);
+    font-size: clamp(56px, 5.4vw, 88px); font-weight: 600; line-height: 1; letter-spacing: -.02em;
+}
+.frame-kovpack-contact-info.kovpack-contact p.kovpack-contact__lead {
+    max-width: 33em; margin: 0;
+    color: var(--kovpack-ink); font-size: 18px; line-height: 1.6;
+}
+.frame-kovpack-contact-info.kovpack-contact .kovpack-contact__lead strong { font-weight: 700; }
+.kovpack-contact__list { display: grid; gap: 22px; margin: 44px 0 0; padding: 0; list-style: none; }
+.kovpack-contact__item { display: grid; grid-template-columns: 46px minmax(0, 1fr); align-items: center; gap: 22px; margin: 0; }
+.kovpack-contact__icon {
+    display: grid; place-items: center; width: 46px; height: 46px; border-radius: 10px;
+    background: color-mix(in srgb, var(--kovpack-accent) 14%, var(--kovpack-bg));
+    color: var(--kovpack-primary);
+}
+.kovpack-contact__icon svg { width: 21px; height: 21px; }
+.kovpack-contact__text { display: grid; gap: 2px; min-width: 0; color: var(--kovpack-ink); font-size: 16px; line-height: 1.45; }
+.kovpack-contact__label { font-weight: 700; }
+.frame-kovpack-contact-info.kovpack-contact .kovpack-contact__text a { justify-self: start; border-bottom-color: transparent; }
+.frame-kovpack-contact-info.kovpack-contact .kovpack-contact__text a:hover { color: var(--kovpack-accent); border-bottom-color: currentColor; }
+
+.kovpack-contact__card {
+    padding: 34px 38px 30px;
+    border-radius: 16px;
+    background: var(--kovpack-paper);
+    box-shadow: 0 1px 2px rgb(20 26 27 / 5%), 0 28px 56px -36px rgb(15 42 51 / 30%);
+}
+.page__content .kovpack-contact__card-title { margin: 0 0 26px; font-family: var(--kovpack-font-display, inherit); font-size: 28px; font-weight: 600; line-height: 1.15; letter-spacing: -.01em; }
+.frame-kovpack-contact-form.kovpack-contact form { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.frame-kovpack-contact-form.kovpack-contact :is(.form-element-email, .form-element-phone, .form-element-textarea, .form-element-check, .form-element-statictext, .actions) { grid-column: 1 / -1; grid-row: auto; }
+.page__content .frame-kovpack-contact-form.kovpack-contact :is(input.form-control, textarea) {
+    padding: 14px 16px; border: 1px solid var(--kovpack-line); border-radius: 10px;
+    background: #fff; font-size: 15px; line-height: 1.3;
+}
+.frame-kovpack-contact-form.kovpack-contact textarea { min-height: 120px; }
+.frame-kovpack-contact-form.kovpack-contact .form-element-check { align-self: auto; margin-top: 2px; }
+.frame-kovpack-contact-form.kovpack-contact .form-element-check label { font-size: 13px; color: var(--kovpack-muted); }
+.frame-kovpack-contact-form.kovpack-contact input[type=checkbox] { accent-color: var(--kovpack-primary); }
+.frame-kovpack-contact-form.kovpack-contact .actions { margin-top: 6px; }
+.frame-kovpack-contact-form.kovpack-contact .form-navigation { display: block; }
+.frame-kovpack-contact-form.kovpack-contact button[type=submit] {
+    --contact-button: color-mix(in srgb, var(--kovpack-accent) 62%, var(--kovpack-primary));
+    --press-face: var(--contact-button);
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    width: 100%; padding: 16px 24px; border-radius: 10px;
+    background: var(--contact-button); color: #fff; font-size: 15px; font-weight: 600; line-height: 1.2;
+}
+@media (hover: hover) {
+    .frame-kovpack-contact-form.kovpack-contact button[type=submit]:hover { background: color-mix(in srgb, var(--contact-button) 86%, #000); }
+}
+.kovpack-contact__arrow { flex: none; width: 18px; height: 18px; transition: transform .35s var(--kovpack-ease); }
+@media (hover: hover) { .frame-kovpack-contact-form.kovpack-contact button[type=submit]:hover .kovpack-contact__arrow { transform: translateX(3px); } }
+.frame-kovpack-contact-form.kovpack-contact .form-element-statictext { order: 1; margin: -2px 0 0; font-size: 13px; line-height: 1.4; }
+.kovpack-contact__demo { margin-left: 10px; font-size: 12px; opacity: .75; }
+@media (max-width: 900px) {
+    .page__content > :is(.frame-kovpack-contact-info, .frame-kovpack-contact-form).kovpack-contact { padding-inline: var(--kovpack-edge); }
+    .page__content > .frame-kovpack-contact-info.kovpack-contact { padding-block: 0 32px; }
+    .kovpack-contact__card { padding: 26px 22px 22px; }
+    .frame-kovpack-contact-form.kovpack-contact form { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) { .kovpack-contact__arrow { transition: none; } }
