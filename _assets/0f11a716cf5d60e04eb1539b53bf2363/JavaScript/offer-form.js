@@ -10,12 +10,13 @@
 
     /* Rough rolls per pallet, a guide value until a test pallet per format
      * is built. Calibrated on competitors' published rolls and diameters
-     * (research 2026-11-10): wound kraft of about 0.6 g/cm³ on a 76 mm core
-     * (90 mm with the wall), a Euro pallet (1200 × 800 mm) loaded up to
-     * 1650 mm (1.80 m with the pallet), at most 1000 kg. Rolls stand on end;
+     * (research 2026-11-10): wound kraft of about 0.6 g/cm³ on a core of
+     * 50 mm inside with a 2 mm wall, so 54 mm outside (owner, 2026-11-10),
+     * a Euro pallet (1200 × 800 mm) loaded up to 1650 mm (1.80 m with the
+     * pallet), at most 1000 kg. Rolls stand on end;
      * short wide rolls (PROTECT, data-offer-lying) may also lie, whichever
      * fits more. */
-    var PALLET = { length: 1200, width: 800, height: 1650, load: 1000, core: 90, density: 0.6, gap: 1.03 };
+    var PALLET = { length: 1200, width: 800, height: 1650, load: 1000, core: 54, density: 0.6, gap: 1.03 };
 
     function rollKg(grammage, widthCm, lengthM) {
         return grammage * widthCm / 100 * lengthM / 1000;
