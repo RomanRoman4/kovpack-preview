@@ -2034,16 +2034,18 @@ body[class] {
 }
 
 /* ------------------------------------------------------------------------
- * Distributors page (owner mockup, 2026-11-10): the about hero with the EMS
- * photo, a "why" panel, the product lines as linked cards and repeatable
- * cooperation steps (icon, title, text, photo). Shares the about tokens and
- * button; everything sits on the page colour with hairlines, no floating cards.
+ * Distributors page (owner, 2026-11-10): the about hero with the EMS photo,
+ * then frameless editorial sections. No boxed cards (owner: hard frames
+ * "cut the eye"): structure comes from hairlines, the page/paper tones and
+ * alignment, as on the about page. Tight vertical rhythm, no empty bands.
+ * Shares the about tokens and button.
  * ---------------------------------------------------------------------- */
 .kovpack-about__cta,
 .kovpack-about__cta:hover { box-shadow: none; }
 .kovpack-about__cta:hover { transform: none; }
 .kovpack-about__cta:active { transform: translateY(1px); }
 
+.kovpack-partner .kovpack-about__hero { padding-bottom: clamp(40px, 3.6vw, 56px); }
 .kovpack-partner .kovpack-about__hero-media img { object-position: center 60%; transform: none; }
 .kovpack-partner :is(.kovpack-partner__why-inner, .kovpack-partner__inner) {
     box-sizing: border-box;
@@ -2062,42 +2064,41 @@ body[class] {
 .kovpack-partner .kovpack-about__hero-inner { grid-template-columns: minmax(0, 6fr) minmax(0, 6fr); }
 .page__content .kovpack-partner .kovpack-about__hero h1 { font-size: clamp(48px, 4.4vw, 76px); overflow-wrap: normal; hyphens: manual; }
 
+/* Why: a quiet statement row between hairlines, heading left, text right. */
 .kovpack-partner__why { padding: 0 var(--kovpack-edge); }
 .kovpack-partner__why-inner {
     display: grid;
     grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-    align-items: center;
-    gap: clamp(32px, 4vw, 72px);
-    padding: clamp(32px, 3.4vw, 52px) clamp(28px, 3.6vw, 60px);
-    border: 1px solid var(--kovpack-line);
-    border-radius: var(--corners-l);
-    background: var(--kovpack-surface);
+    align-items: baseline;
+    gap: clamp(32px, 5vw, 96px);
+    padding: clamp(32px, 3vw, 44px) 0;
+    border-block: 1px solid var(--kovpack-line);
 }
 .page__content .kovpack-partner__why h2 {
     margin: 0;
-    font-size: clamp(30px, 2.8vw, 44px);
+    font-size: clamp(28px, 2.5vw, 40px);
     font-weight: 620;
-    line-height: 1.04;
+    line-height: 1.05;
     letter-spacing: -.02em;
     text-wrap: balance;
 }
 .kovpack-partner__why p {
-    max-width: 46em;
+    max-width: 44em;
     margin: 0;
-    padding-left: clamp(32px, 4vw, 72px);
-    border-left: 1px solid color-mix(in srgb, var(--kovpack-ink) 16%, transparent);
     color: var(--kovpack-muted);
-    font-size: 17px;
+    font-size: clamp(17px, 1.3vw, 19px);
     line-height: 1.6;
 }
 
-.kovpack-partner__lines { padding: clamp(64px, 6vw, 96px) var(--kovpack-edge) 0; }
+/* Product lines: one strip divided by hairlines, like the about strengths.
+ * The whole column is the link; hover tints the name and moves the arrow. */
+.kovpack-partner__lines { padding: clamp(48px, 4.4vw, 68px) var(--kovpack-edge) clamp(52px, 4.8vw, 76px); }
 .page__content .kovpack-partner__heading {
     display: flex;
     align-items: center;
-    gap: 16px;
-    margin: 0 0 32px;
-    font-size: clamp(28px, 2.4vw, 38px);
+    gap: 14px;
+    margin: 0 0 28px;
+    font-size: clamp(26px, 2.2vw, 34px);
     font-weight: 620;
     line-height: 1.1;
     letter-spacing: -.015em;
@@ -2113,22 +2114,32 @@ body[class] {
 .page__content .kovpack-partner__line-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 20px;
+    border-top: 1px solid var(--kovpack-line);
 }
+.kovpack-partner__line { min-width: 0; }
+.kovpack-partner__line + .kovpack-partner__line { border-left: 1px solid var(--kovpack-line); }
 .kovpack-partner__line a {
+    position: relative;
     display: block;
     height: 100%;
     box-sizing: border-box;
-    padding: 30px 30px 32px;
-    border: 1px solid var(--kovpack-line);
-    border-radius: var(--corners-m);
-    background: var(--kovpack-paper);
+    padding: 28px clamp(24px, 3vw, 48px) 8px;
     color: inherit;
     text-decoration: none;
-    transition: border-color .35s ease, background-color .35s ease;
 }
-.kovpack-partner__line a:hover { border-color: color-mix(in srgb, var(--kovpack-accent) 45%, var(--kovpack-line)); }
-.kovpack-partner__line a:focus-visible { outline: 3px solid color-mix(in srgb, var(--kovpack-focus) 45%, #fff); outline-offset: 3px; }
+.kovpack-partner__line:first-child a { padding-left: 0; }
+.kovpack-partner__line a::after {
+    content: "\2197";
+    position: absolute;
+    top: 28px;
+    right: clamp(24px, 3vw, 48px);
+    color: var(--kovpack-accent);
+    font-size: 20px;
+    line-height: 1;
+    transition: transform .3s var(--kovpack-ease);
+}
+.kovpack-partner__line:last-child a::after { right: 0; }
+.kovpack-partner__line a:focus-visible { outline: 3px solid color-mix(in srgb, var(--kovpack-focus) 45%, #fff); outline-offset: 4px; border-radius: var(--corners-s); }
 .kovpack-partner__line-icon,
 .kovpack-partner__step-icon svg {
     display: block;
@@ -2138,86 +2149,134 @@ body[class] {
     stroke-linecap: round;
     stroke-linejoin: round;
 }
-.kovpack-partner__line-icon { width: 44px; height: 44px; margin-bottom: 24px; }
+.kovpack-partner__line-icon { width: 44px; height: 44px; margin-bottom: 20px; }
 .page__content .kovpack-partner__line h3 {
     margin: 0 0 8px;
-    font-size: 22px;
+    font-size: clamp(21px, 1.7vw, 25px);
     font-weight: 620;
     line-height: 1.15;
+    transition: color .3s ease;
 }
 .kovpack-partner__line p { max-width: 32ch; margin: 0; color: var(--kovpack-muted); font-size: 16px; line-height: 1.5; }
+@media (hover: hover) {
+    .kovpack-partner__line a:hover h3 { color: var(--kovpack-accent); }
+    .kovpack-partner__line a:hover::after { transform: translate(3px, -3px); }
+}
 
-.kovpack-partner__detail { padding: clamp(72px, 7vw, 112px) var(--kovpack-edge) clamp(72px, 7vw, 112px); }
-.kovpack-partner__detail-head { max-width: 760px; margin-bottom: 40px; }
+/* Cooperation: a paper band (as the about story) with numbered editorial rows.
+ * Photo and text alternate sides; rows are divided by hairlines only. */
+.kovpack-partner__detail {
+    padding: clamp(52px, 4.8vw, 76px) var(--kovpack-edge) clamp(56px, 5vw, 80px);
+    border-top: 1px solid var(--kovpack-line);
+    background: var(--kovpack-paper);
+}
+.kovpack-partner__detail-head {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    align-items: end;
+    gap: 16px clamp(32px, 5vw, 96px);
+    margin-bottom: clamp(28px, 2.6vw, 40px);
+}
+.kovpack-partner__detail-head .kovpack-about__eyebrow { grid-column: 1 / -1; margin-bottom: 0; }
 .page__content .kovpack-partner__detail h2 {
-    margin: 0 0 20px;
-    font-size: clamp(40px, 4vw, 64px);
+    margin: 0;
+    font-size: clamp(40px, 3.8vw, 60px);
     font-weight: 620;
     line-height: .98;
     letter-spacing: -.03em;
 }
-.kovpack-partner__detail-lead { margin: 0; color: var(--kovpack-muted); font-size: clamp(17px, 1.3vw, 19px); line-height: 1.58; }
-.page__content .kovpack-partner__steps { display: grid; gap: 20px; }
+.kovpack-partner__detail-lead { max-width: 40em; margin: 0; color: var(--kovpack-muted); font-size: clamp(17px, 1.3vw, 19px); line-height: 1.58; }
+.page__content .kovpack-partner__steps { counter-reset: partner-step; border-top: 1px solid var(--kovpack-line); }
 .page__content .kovpack-partner__step {
+    counter-increment: partner-step;
     display: grid;
-    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
     align-items: center;
-    gap: clamp(28px, 4vw, 72px);
-    padding: clamp(20px, 2vw, 28px);
-    padding-left: clamp(28px, 3.4vw, 56px);
-    border: 1px solid var(--kovpack-line);
-    border-radius: var(--corners-l);
-    background: var(--kovpack-paper);
+    gap: clamp(32px, 5vw, 96px);
+    padding: clamp(28px, 2.6vw, 40px) 0;
+    border-bottom: 1px solid var(--kovpack-line);
 }
+.page__content .kovpack-partner__step:nth-child(even) { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); }
+.kovpack-partner__step:nth-child(even) .kovpack-partner__step-media { order: -1; }
 .kovpack-partner__step-copy {
     display: grid;
-    grid-template-columns: 52px minmax(0, 1fr);
-    column-gap: 22px;
-    max-width: 680px;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    column-gap: 16px;
+    max-width: 620px;
 }
-.kovpack-partner__step-copy > :not(.kovpack-partner__step-icon) { grid-column: 2; }
+.kovpack-partner__step-copy::before {
+    content: counter(partner-step, decimal-leading-zero);
+    grid-column: 1 / -1;
+    margin-bottom: 18px;
+    color: var(--kovpack-muted);
+    font-family: var(--kovpack-font-display, inherit);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    font-variant-numeric: tabular-nums;
+}
+.kovpack-partner__step-copy > :not(.kovpack-partner__step-icon) { grid-column: 1 / -1; }
+.kovpack-partner__step-copy > h3:not(.kovpack-partner__step-icon) { grid-column: 2; }
 .kovpack-partner__step-icon {
-    grid-row: span 2;
     display: grid;
     place-items: center;
-    width: 52px;
-    height: 52px;
+    width: 48px;
+    height: 48px;
     border-radius: 12px;
-    background: color-mix(in srgb, var(--kovpack-accent) 11%, var(--kovpack-paper));
+    background: color-mix(in srgb, var(--kovpack-accent) 10%, var(--kovpack-paper));
 }
-.kovpack-partner__step-icon svg { width: 32px; height: 32px; stroke-width: 2.3; }
+.kovpack-partner__step-icon svg { width: 28px; height: 28px; stroke-width: 2.3; }
 .page__content .kovpack-partner__step h3 {
-    margin: 10px 0 14px;
+    margin: 0;
     font-size: clamp(24px, 2vw, 30px);
     font-weight: 620;
     line-height: 1.1;
     letter-spacing: -.015em;
+    text-wrap: balance;
 }
+.kovpack-partner__step h3 + p { margin-top: 18px; }
 .kovpack-partner__step p { margin: 0 0 12px; color: var(--kovpack-muted); font-size: 16px; line-height: 1.6; }
 .kovpack-partner__step p:last-child { margin-bottom: 0; }
 .kovpack-partner__step-media {
+    position: relative;
     margin: 0;
     aspect-ratio: 16 / 10;
     overflow: hidden;
     border-radius: var(--corners-m);
     background: var(--kovpack-surface);
 }
+.kovpack-partner__step-media::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    outline: 1px solid oklch(0 0 0 / .1);
+    outline-offset: -1px;
+    pointer-events: none;
+}
 .kovpack-partner__step-media img { display: block; width: 100%; height: 100%; max-width: none; object-fit: cover; }
 /* A step without a photo uses the full width; any number of steps or lines. */
 .page__content .kovpack-partner__step:not(:has(.kovpack-partner__step-media)) { grid-template-columns: minmax(0, 1fr); }
-.kovpack-partner__actions { margin: 40px 0 0; }
+.kovpack-partner__actions { margin: clamp(28px, 2.6vw, 40px) 0 0; }
 
 @media (max-width: 900px) {
     .kovpack-partner__why-inner,
-    .page__content .kovpack-partner__step { grid-template-columns: minmax(0, 1fr); }
-    .kovpack-partner__why p { padding: 24px 0 0; border-left: 0; border-top: 1px solid color-mix(in srgb, var(--kovpack-ink) 16%, transparent); }
-    .page__content .kovpack-partner__step { padding: 24px; }
-    .kovpack-partner__step-copy { grid-template-columns: minmax(0, 1fr); }
-    .kovpack-partner__step-copy > :not(.kovpack-partner__step-icon) { grid-column: 1; }
-    .kovpack-partner__step-icon { grid-row: auto; margin-bottom: 8px; }
+    .kovpack-partner__detail-head,
+    .page__content .kovpack-partner__step,
+    .page__content .kovpack-partner__step:nth-child(even) { grid-template-columns: minmax(0, 1fr); }
+    .kovpack-partner__why-inner { gap: 16px; }
+    .kovpack-partner__step:nth-child(even) .kovpack-partner__step-media { order: 0; }
+    .page__content .kovpack-partner__line-list { grid-template-columns: minmax(0, 1fr); }
+    .kovpack-partner__line + .kovpack-partner__line { border-left: 0; border-top: 1px solid var(--kovpack-line); }
+    .kovpack-partner__line a,
+    .kovpack-partner__line:first-child a { padding: 24px 40px 24px 0; }
+    .kovpack-partner__line a::after { top: 24px; right: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
-    .kovpack-partner__line a { transition: none; }
+    .kovpack-partner__line a::after,
+    .page__content .kovpack-partner__line h3 { transition: none; }
+    .kovpack-partner__line a:hover::after { transform: none; }
 }
 
 /* Home page contact section (owner mockup, 2026-11-10): on the page colour, no
