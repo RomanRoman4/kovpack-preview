@@ -1157,9 +1157,9 @@ body[class] {
 /* Contact: one paper surface, display heading. */
 .page__content > :is(.frame-kovpack-contact-info, .frame-kovpack-contact-form) { background: var(--kovpack-surface); }
 .page__content .frame-kovpack-contact-info h2 { font-size: var(--headline-medium-size); line-height: 1.02; }
-.frame-kovpack-contact-form :is(input.form-control, textarea) { border-radius: var(--corners-m); transition: border-color .2s, box-shadow .2s; }
-.page__content .frame-kovpack-contact-form :is(input.form-control, textarea) { background: var(--kovpack-paper); }
-.frame-kovpack-contact-form :is(input.form-control, textarea):focus { border-color: var(--kovpack-accent); box-shadow: 0 0 0 4px rgb(29 122 116 / 14%); outline: none; }
+.frame-kovpack-contact-form :is(input.form-control, select.form-control, textarea) { border-radius: var(--corners-m); transition: border-color .2s, box-shadow .2s; }
+.page__content .frame-kovpack-contact-form :is(input.form-control, select.form-control, textarea) { background: var(--kovpack-paper); }
+.frame-kovpack-contact-form :is(input.form-control, select.form-control, textarea):focus { border-color: var(--kovpack-accent); box-shadow: 0 0 0 4px rgb(29 122 116 / 14%); outline: none; }
 
 /* Scroll reveal: motion.js marks only elements that start below the fold,
  * so nothing visible on load flashes and content stays visible without JS. */
@@ -1644,8 +1644,9 @@ body[class] {
 .kovpack-offer__reveal[hidden] { display: none; }
 .frame-kovpack-contact-form.kovpack-offer .kovpack-offer__reveal input { width: 240px; padding-block: 9px; }
 
-/* Text fields: name in the placeholder, compact height. */
-.frame-kovpack-contact-form.kovpack-offer :is(input.form-control, textarea) { padding: 12px 14px; font-size: 15px; line-height: 1.3; }
+/* Text fields and the select: name in the placeholder, compact height, same box. */
+.frame-kovpack-contact-form.kovpack-offer :is(input.form-control, select.form-control, textarea) { padding: 12px 14px; font-size: 15px; line-height: 1.3; }
+.frame-kovpack-contact-form.kovpack-offer select.form-control { height: calc(15px * 1.3 + 26px); line-height: 1.3; }
 .frame-kovpack-contact-form.kovpack-offer textarea { min-height: 0; }
 .kovpack-offer__fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 10px; margin-top: 4px; }
 .frame-kovpack-contact-form.kovpack-offer .kovpack-offer__field { min-width: 0; margin: 0; }
