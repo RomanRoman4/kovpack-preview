@@ -1632,6 +1632,9 @@ body[class] {
 .kovpack-offer__row-label { flex: 0 0 116px; color: var(--kovpack-ink); font-size: 14px; font-weight: 600; }
 .frame-kovpack-contact-form.kovpack-offer label.kovpack-offer__row-label { display: block; margin: 0; font-size: 14px; }
 .kovpack-offer__hint { color: var(--kovpack-muted); font-size: 13px; line-height: 1.35; }
+.kovpack-offer__hint strong { color: var(--kovpack-ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+/* Orders ship on pallets only, so the quantity reads "1 Palette" (owner, 2026-11-10). */
+.kovpack-offer__unit { color: var(--kovpack-ink); font-size: 14px; font-weight: 600; }
 
 /* Segmented control: native radios in one rounded track. */
 .kovpack-seg { display: inline-flex; flex-wrap: wrap; gap: 2px; padding: 3px; border: 1px solid var(--kovpack-line); border-radius: 999px; background: var(--kovpack-paper); }

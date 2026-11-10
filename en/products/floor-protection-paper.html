@@ -18,7 +18,7 @@
 
 <link rel="stylesheet" href="../../typo3temp/assets/css/7015c8c4ac5ff815b57530b221005fc6.css?v=7015c8c4" media="all">
 <link media="all" href="../../_assets/f7dfe1dd89fe6a2f36813ded2dc54cd9/Css/main.css?v=d885adf7" rel="stylesheet" >
-<link media="all" href="../../_assets/0f11a716cf5d60e04eb1539b53bf2363/Css/site.css?v=457190f9" rel="stylesheet" >
+<link media="all" href="../../_assets/0f11a716cf5d60e04eb1539b53bf2363/Css/site.css?v=cc7ce6e1" rel="stylesheet" >
 <link rel="stylesheet" href="../../_assets/0f11a716cf5d60e04eb1539b53bf2363/Css/product-shelf.css?v=78a0bf2e" media="all">
 
 
@@ -509,12 +509,12 @@
                         <div><dt>Paper type</dt><dd data-sample>kraft paper</dd></div>
                         <div><dt>Colour</dt><dd data-sample>brown</dd></div>
                         <div><dt>Grammage</dt><dd>approx. 180 g/m²</dd></div>
-                        <div><dt>Plies</dt><dd>single or double</dd></div>
+                        <div><dt>Plies</dt><dd>single</dd></div>
                         <div><dt>Roll width</dt><dd data-sample>1.00 m</dd></div>
                         <div><dt>Roll length</dt><dd data-sample>50 m</dd></div>
                         <div><dt>Roll weight</dt><dd data-sample>approx. 9 kg</dd></div>
                         <div><dt>Core diameter</dt><dd data-sample>76 mm</dd></div>
-                        <div><dt>Rolls per pallet</dt><dd data-sample>36</dd></div>
+                        <div><dt>Rolls per pallet</dt><dd class="kovpack-pdp__spec-request">depends on version</dd></div>
                         <div><dt>Disposal</dt><dd data-sample>paper recycling</dd></div>
                     </dl>
                     <p class="kovpack-pdp__note">We match other grammages, formats and packaging to your requirements.</p>
@@ -629,8 +629,8 @@
         <dl aria-live="polite">
             <div><dt>Product</dt><dd>PROTECT Paper</dd></div>
             <div><dt>Grammage</dt><dd data-offer-out="grammage">open</dd></div>
-            <div><dt>Plies</dt><dd data-offer-out="plies">open</dd></div>
             <div><dt>Format</dt><dd data-offer-out="format">open</dd></div>
+            <div><dt>Roll length</dt><dd data-offer-out="length">open</dd></div>
             <div><dt>Quantity</dt><dd data-offer-out="quantity">open</dd></div>
             <div><dt>Delivery</dt><dd data-offer-out="delivery">open</dd></div>
             <div data-offer-row="extras" hidden><dt>Also</dt><dd data-offer-out="extras"></dd></div>
@@ -639,7 +639,7 @@
     <p class="kovpack-offer__personal"><strong>Prefer to talk?</strong> <a href="tel:+4952236546229">+49 (0) 5223 654-62-29</a> · <a href="mailto:info@kovpack.de">info@kovpack.de</a></p>
             </div>
             <div class="frame frame-kovpack-contact-form kovpack-offer kovpack-offer--orange frame-type-form_formframework frame-layout-0">
-    <form data-offline-demo data-offer-form data-offer-empty="open" data-offer-per-pallet="36" data-offer-rolls="rolls" data-offer-pallets="pallets" class="kovpack-offer__form" id="kovpack-offer-protect-en" enctype="multipart/form-data" action="#" method="post">
+    <form data-offline-demo data-offer-form data-offer-empty="open" data-offer-rolls="rolls" data-offer-pallet="pallet" data-offer-pallets="pallets" data-offer-per="per pallet" data-offer-total="total" data-offer-open="We agree rolls per pallet with you." data-offer-width="100" class="kovpack-offer__form" id="kovpack-offer-protect-en" enctype="multipart/form-data" action="#" method="post">
         <input type="hidden" name="tx_form_formframework[kovpack-offer-protect-en][product]" value="PROTECT Paper" data-offer-product />
         <fieldset class="kovpack-offer__step">
             <legend class="kovpack-offer__step-title">Version</legend>
@@ -650,19 +650,19 @@
                     </div>
                 </div>
                 <div class="kovpack-offer__row form-element form-element-radiobutton">
-                    <span class="kovpack-offer__row-label" id="kovpack-offer-protect-en-plies-label">Plies</span>
-                    <div class="kovpack-seg" role="radiogroup" aria-labelledby="kovpack-offer-protect-en-plies-label">
-                        <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-protect-en][plies]" value="1" checked="checked" /><span>single</span></label>
-                        <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-protect-en][plies]" value="2" /><span>double</span></label>
-                    </div>
-                </div>
-                <div class="kovpack-offer__row form-element form-element-radiobutton">
                     <span class="kovpack-offer__row-label" id="kovpack-offer-protect-en-format-label">Format</span>
                     <div class="kovpack-seg" role="radiogroup" aria-labelledby="kovpack-offer-protect-en-format-label">
-                        <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-protect-en][format]" value="roll" checked="checked" /><span>Roll 1.00 × 50 m</span></label>
+                        <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-protect-en][format]" value="roll" checked="checked" /><span>Roll, 1.00 m wide</span></label>
                         <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-protect-en][format]" value="custom" /><span>Cut to size</span></label>
                     </div>
                     <span class="kovpack-offer__reveal" data-offer-reveal="format" hidden><label class="kovpack-visually-hidden" for="kovpack-offer-protect-en-format-custom">Cut size</label><input class="form-control" type="text" id="kovpack-offer-protect-en-format-custom" name="tx_form_formframework[kovpack-offer-protect-en][formatCustom]" placeholder="Cut size: e.g. 1.20 × 2.00 m" autocomplete="off" /></span>
+                </div>
+                <div class="kovpack-offer__row form-element form-element-radiobutton">
+                    <span class="kovpack-offer__row-label" id="kovpack-offer-protect-en-length-label">Roll length</span>
+                    <div class="kovpack-seg" role="radiogroup" aria-labelledby="kovpack-offer-protect-en-length-label">
+                        <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-protect-en][length]" value="25" /><span>25 m</span></label>
+                        <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-protect-en][length]" value="50" checked="checked" /><span>50 m</span></label>
+                    </div>
                 </div>
         </fieldset>
         <fieldset class="kovpack-offer__step">
@@ -671,14 +671,11 @@
                     <label class="kovpack-offer__row-label" for="kovpack-offer-protect-en-quantity">Quantity</label>
                     <div class="kovpack-qty">
                         <button type="button" class="kovpack-qty__step" data-offer-step="-1" aria-label="Fewer" tabindex="-1">−</button>
-                        <input class="form-control" type="number" inputmode="numeric" min="1" step="1" value="10" required="required" id="kovpack-offer-protect-en-quantity" name="tx_form_formframework[kovpack-offer-protect-en][quantity]" aria-describedby="kovpack-offer-protect-en-quantity-hint" />
+                        <input class="form-control" type="number" inputmode="numeric" min="1" step="1" value="1" required="required" id="kovpack-offer-protect-en-quantity" name="tx_form_formframework[kovpack-offer-protect-en][quantity]" aria-describedby="kovpack-offer-protect-en-quantity-hint" />
                         <button type="button" class="kovpack-qty__step" data-offer-step="1" aria-label="More" tabindex="-1">+</button>
                     </div>
-                    <div class="kovpack-seg" role="radiogroup" aria-label="Unit">
-                        <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-protect-en][unit]" value="rolls" checked="checked" /><span>Rolls</span></label>
-                        <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-protect-en][unit]" value="pallets" /><span>Pallets</span></label>
-                    </div>
-                    <span class="kovpack-offer__hint" id="kovpack-offer-protect-en-quantity-hint" data-offer-out="pallet">1 pallet = 36 rolls</span>
+                    <span class="kovpack-offer__unit" data-offer-unit>pallets</span>
+                    <span class="kovpack-offer__hint" id="kovpack-offer-protect-en-quantity-hint" data-offer-out="pallet">Delivered on pallets only.</span>
                 </div>
                 <div class="kovpack-offer__row form-element form-element-radiobutton">
                     <span class="kovpack-offer__row-label" id="kovpack-offer-protect-en-frequency-label">Need</span>
@@ -1004,7 +1001,7 @@
 <script defer src="../../_assets/0f11a716cf5d60e04eb1539b53bf2363/JavaScript/product-shelf.js?v=854e0abc"></script>
 <script defer src="../../_assets/0f11a716cf5d60e04eb1539b53bf2363/JavaScript/scroll.js?v=8db71b55"></script>
 <script defer src="../../_assets/0f11a716cf5d60e04eb1539b53bf2363/JavaScript/pdp-gallery.js?v=ab5c2456"></script>
-<script defer src="../../_assets/0f11a716cf5d60e04eb1539b53bf2363/JavaScript/offer-form.js?v=8a456037"></script>
+<script defer src="../../_assets/0f11a716cf5d60e04eb1539b53bf2363/JavaScript/offer-form.js?v=6f176772"></script>
 
 
 <script>
