@@ -75,7 +75,7 @@
             var when = date && date.value ? new Date(date.value + 'T00:00').toLocaleDateString(document.documentElement.lang || 'de') : '';
             out('delivery', [place && place.value.trim(), when].filter(Boolean).join(', '));
 
-            /* Sample and call back. */
+            /* Sample and advice wanted. */
             var extras = Array.prototype.map.call(form.querySelectorAll('[data-offer-extra]:checked'), labelOf);
             var extrasRow = summary && summary.querySelector('[data-offer-row="extras"]');
             if (extrasRow) extrasRow.hidden = !extras.length;
