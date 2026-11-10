@@ -74,6 +74,8 @@
     --kovpack-primary: #0f2a33;
     --kovpack-on-primary: #eef0ea;
     --kovpack-accent: #1d7a74;
+    /* Deep teal of the main call-to-action button and its small accent marks. */
+    --kovpack-cta: color-mix(in srgb, var(--kovpack-accent) 62%, var(--kovpack-primary));
     /* Product colours, sampled from the printed label on the roll photos (lit middle of the band). Every product-coloured button, icon, mark and chip uses them. */
     --kovpack-label-orange: #e89357;
     --kovpack-label-teal: #22b4a9;
@@ -2052,7 +2054,7 @@ body[class] {
     color: var(--kovpack-ink) !important;
     font-size: 15px; font-weight: 500; line-height: 1.2; letter-spacing: .08em; text-transform: uppercase;
 }
-.kovpack-contact__kicker::before { content: ""; flex: none; width: 24px; height: 8px; border-radius: 4px; background: var(--kovpack-label-orange); }
+.kovpack-contact__kicker::before { content: ""; flex: none; width: 24px; height: 8px; border-radius: 4px; background: var(--kovpack-cta); }
 .page__content .frame-kovpack-contact-info.kovpack-contact .kovpack-contact__title {
     margin: 0 0 30px;
     font-family: var(--kovpack-font-display, inherit);
@@ -2105,7 +2107,7 @@ body[class] {
 .frame-kovpack-contact-form.kovpack-contact .actions { grid-column: 1; margin-top: 4px; }
 .frame-kovpack-contact-form.kovpack-contact .form-navigation { display: block; }
 .frame-kovpack-contact-form.kovpack-contact button[type=submit] {
-    --contact-button: color-mix(in srgb, var(--kovpack-accent) 62%, var(--kovpack-primary));
+    --contact-button: var(--kovpack-cta);
     box-sizing: border-box;
     display: inline-flex; align-items: center; gap: 10px;
     width: auto; max-width: 100%; padding: 13px 22px; border-radius: 10px;
@@ -2118,7 +2120,6 @@ body[class] {
 @media (hover: hover) { .frame-kovpack-contact-form.kovpack-contact button[type=submit]:hover .kovpack-contact__arrow { transform: translateX(3px); } }
 .frame-kovpack-contact-form.kovpack-contact .form-element-statictext { order: 2; grid-column: 2; grid-row: auto; align-self: center; justify-self: end; margin: 4px 0 0; font-size: 13px; line-height: 1.4; text-align: right; }
 .frame-kovpack-contact-form.kovpack-contact .form-element-statictext > div { display: grid; gap: 2px; }
-.kovpack-contact__demo { font-size: 12px; opacity: .75; }
 @media (max-width: 900px) {
     .page__content > :is(.frame-kovpack-contact-info, .frame-kovpack-contact-form).kovpack-contact { padding-inline: var(--kovpack-edge); }
     .page__content > .frame-kovpack-contact-info.kovpack-contact { padding-block: 0 32px; }
