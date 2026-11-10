@@ -2054,7 +2054,7 @@ body[class] {
     color: var(--kovpack-ink) !important;
     font-size: 15px; font-weight: 500; line-height: 1.2; letter-spacing: .08em; text-transform: uppercase;
 }
-.kovpack-contact__kicker::before { content: ""; flex: none; width: 24px; height: 8px; border-radius: 4px; background: var(--kovpack-cta); }
+.kovpack-contact__kicker::before { content: ""; flex: none; width: 24px; height: 8px; border-radius: 4px; background: var(--kovpack-label-orange); }
 .page__content .frame-kovpack-contact-info.kovpack-contact .kovpack-contact__title {
     margin: 0 0 30px;
     font-family: var(--kovpack-font-display, inherit);
