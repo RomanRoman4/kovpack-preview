@@ -1443,14 +1443,12 @@ body[class] {
     --button-primary-content-color-pressed: var(--kovpack-ink);
     font-weight: 600;
 }
-/* Pressable buttons (owner, 2026-11-06): solid buttons look like a raised key
- * with a darker bottom edge; hover lifts them gently, pressing pushes them
- * down. --press-face is the button colour the edge is derived from. */
+/* Solid buttons are flat (owner, 2026-11-10: no raised edge anywhere on the
+ * site). Hover only deepens the colour; pressing nudges the button down 1px. */
 .page__content .button:not(.button--text, .button--icon-only, .hero .button),
 .frame-kovpack-contact-form button[type=submit] {
-    --press-edge: color-mix(in srgb, var(--press-face, var(--button-primary-color, var(--kovpack-accent))) 60%, #000);
-    box-shadow: 0 4px 0 var(--press-edge), 0 10px 18px -10px rgb(20 26 27 / 55%);
-    transition: transform .4s var(--kovpack-ease), box-shadow .4s var(--kovpack-ease), background-color .4s ease, border-color .4s ease, color .4s ease;
+    box-shadow: none;
+    transition: transform .2s var(--kovpack-ease), background-color .3s ease, border-color .3s ease, color .3s ease;
 }
 .page__content .button:not(.button--text, .button--icon-only, .hero .button) {
     --button-primary-color-hover: color-mix(in srgb, var(--button-primary-color, var(--kovpack-accent)) 88%, #000);
@@ -1460,16 +1458,13 @@ body[class] {
 .frame-kovpack-contact-form button[type=submit] { --press-face: var(--kovpack-primary); }
 @media (hover: hover) {
     .page__content .button:not(.button--text, .button--icon-only, .hero .button):hover,
-    .frame-kovpack-contact-form button[type=submit]:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 5px 0 var(--press-edge), 0 14px 22px -12px rgb(20 26 27 / 55%);
-    }
+    .frame-kovpack-contact-form button[type=submit]:hover { transform: none; box-shadow: none; }
     .frame-kovpack-contact-form button[type=submit]:hover { background: color-mix(in srgb, var(--kovpack-primary) 86%, #fff); }
 }
 .page__content .button:not(.button--text, .button--icon-only, .hero .button):active,
 .frame-kovpack-contact-form button[type=submit]:active {
-    transform: translateY(4px);
-    box-shadow: 0 0 0 var(--press-edge), inset 0 2px 5px rgb(0 0 0 / 30%);
+    transform: translateY(1px);
+    box-shadow: none;
     transition-duration: .06s;
 }
 /* Product page enquiry button is flat (owner, 2026-11-09): no raised bottom
@@ -2048,8 +2043,8 @@ body[class] {
     border-radius: 0;
     padding-block: 8px 104px;
 }
-.page__content > .frame-kovpack-contact-info.kovpack-contact { padding-inline: 0 72px; }
-.page__content > .frame-kovpack-contact-form.kovpack-contact { padding-inline: 24px 0; }
+.page__content > .frame-kovpack-contact-info.kovpack-contact { padding-inline: 0 clamp(40px, 6vw, 112px); }
+.page__content > .frame-kovpack-contact-form.kovpack-contact { padding-inline: 0; }
 .kovpack-contact header { margin: 0; }
 .kovpack-contact__kicker {
     display: flex; align-items: center; gap: 14px;
@@ -2081,30 +2076,38 @@ body[class] {
 .frame-kovpack-contact-info.kovpack-contact .kovpack-contact__text a { justify-self: start; border-bottom-color: transparent; }
 .frame-kovpack-contact-info.kovpack-contact .kovpack-contact__text a:hover { color: var(--kovpack-accent); border-bottom-color: currentColor; }
 
+/* One quiet surface in the page's own paper tone: a hairline instead of a
+ * floating shadow, so the form sits in the section rather than on top of it. */
 .kovpack-contact__card {
-    padding: 34px 38px 30px;
+    box-sizing: border-box;
+    padding: clamp(28px, 2.6vw, 40px);
+    border: 1px solid rgb(20 26 27 / 8%);
     border-radius: 16px;
     background: var(--kovpack-paper);
-    box-shadow: 0 1px 2px rgb(20 26 27 / 5%), 0 28px 56px -36px rgb(15 42 51 / 30%);
 }
 .page__content .kovpack-contact__card-title { margin: 0 0 26px; font-family: var(--kovpack-font-display, inherit); font-size: 28px; font-weight: 600; line-height: 1.15; letter-spacing: -.01em; }
 .frame-kovpack-contact-form.kovpack-contact form { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
-.frame-kovpack-contact-form.kovpack-contact :is(.form-element-email, .form-element-phone, .form-element-textarea, .form-element-check, .form-element-statictext, .actions) { grid-column: 1 / -1; grid-row: auto; }
+.frame-kovpack-contact-form.kovpack-contact :is(.form-element-email, .form-element-phone, .form-element-textarea, .form-element-check) { grid-column: 1 / -1; grid-row: auto; }
+.frame-kovpack-contact-form.kovpack-contact .actions { order: 1; grid-row: auto; }
 .page__content .frame-kovpack-contact-form.kovpack-contact :is(input.form-control, textarea) {
-    padding: 14px 16px; border: 1px solid var(--kovpack-line); border-radius: 10px;
-    background: #fff; font-size: 15px; line-height: 1.3;
+    padding: 13px 16px; border: 1px solid transparent; border-radius: 10px;
+    background: var(--kovpack-bg); font-size: 15px; line-height: 1.3;
+    transition: border-color .2s ease, background-color .2s ease, box-shadow .2s ease;
 }
+.page__content .frame-kovpack-contact-form.kovpack-contact :is(input.form-control, textarea):hover { border-color: var(--kovpack-line); }
+.page__content .frame-kovpack-contact-form.kovpack-contact :is(input.form-control, textarea):focus { background: #fff; border-color: var(--kovpack-accent); }
 .frame-kovpack-contact-form.kovpack-contact textarea { min-height: 120px; }
 .frame-kovpack-contact-form.kovpack-contact .form-element-check { align-self: auto; margin-top: 2px; }
 .frame-kovpack-contact-form.kovpack-contact .form-element-check label { font-size: 13px; color: var(--kovpack-muted); }
 .frame-kovpack-contact-form.kovpack-contact input[type=checkbox] { accent-color: var(--kovpack-primary); }
-.frame-kovpack-contact-form.kovpack-contact .actions { margin-top: 6px; }
+/* Compact submit sized to its label, with the required note beside it. */
+.frame-kovpack-contact-form.kovpack-contact .actions { grid-column: 1; margin-top: 4px; }
 .frame-kovpack-contact-form.kovpack-contact .form-navigation { display: block; }
 .frame-kovpack-contact-form.kovpack-contact button[type=submit] {
     --contact-button: color-mix(in srgb, var(--kovpack-accent) 62%, var(--kovpack-primary));
-    --press-face: var(--contact-button);
-    display: flex; align-items: center; justify-content: center; gap: 10px;
-    width: 100%; padding: 16px 24px; border-radius: 10px;
+    box-sizing: border-box;
+    display: inline-flex; align-items: center; gap: 10px;
+    width: auto; max-width: 100%; padding: 13px 22px; border-radius: 10px;
     background: var(--contact-button); color: #fff; font-size: 15px; font-weight: 600; line-height: 1.2;
 }
 @media (hover: hover) {
@@ -2112,12 +2115,14 @@ body[class] {
 }
 .kovpack-contact__arrow { flex: none; width: 18px; height: 18px; transition: transform .35s var(--kovpack-ease); }
 @media (hover: hover) { .frame-kovpack-contact-form.kovpack-contact button[type=submit]:hover .kovpack-contact__arrow { transform: translateX(3px); } }
-.frame-kovpack-contact-form.kovpack-contact .form-element-statictext { order: 1; margin: -2px 0 0; font-size: 13px; line-height: 1.4; }
-.kovpack-contact__demo { margin-left: 10px; font-size: 12px; opacity: .75; }
+.frame-kovpack-contact-form.kovpack-contact .form-element-statictext { order: 2; grid-column: 2; grid-row: auto; align-self: center; justify-self: end; margin: 4px 0 0; font-size: 13px; line-height: 1.4; text-align: right; }
+.frame-kovpack-contact-form.kovpack-contact .form-element-statictext > div { display: grid; gap: 2px; }
+.kovpack-contact__demo { font-size: 12px; opacity: .75; }
 @media (max-width: 900px) {
     .page__content > :is(.frame-kovpack-contact-info, .frame-kovpack-contact-form).kovpack-contact { padding-inline: var(--kovpack-edge); }
     .page__content > .frame-kovpack-contact-info.kovpack-contact { padding-block: 0 32px; }
     .kovpack-contact__card { padding: 26px 22px 22px; }
     .frame-kovpack-contact-form.kovpack-contact form { grid-template-columns: minmax(0, 1fr); }
+    .frame-kovpack-contact-form.kovpack-contact .form-element-statictext { grid-column: 1; justify-self: start; text-align: left; }
 }
 @media (prefers-reduced-motion: reduce) { .kovpack-contact__arrow { transition: none; } }
