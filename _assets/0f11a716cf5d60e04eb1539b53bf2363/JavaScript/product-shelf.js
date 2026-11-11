@@ -44,77 +44,6 @@ const writeProductNames = () => {
 root.dataset.paperStyle = 'waves';
 root.dataset.paperCut = 'clean';
 
-// The enquiry button look is still a design preview switch, kept per visitor.
-const LOOKS = {
-    // Enquiry buttons on the product pages (top and form), owner 2026-11-09.
-    buttonStyle: {
-        storageKey: 'kovpack-button-style',
-        label: { de: 'Anfrage-Button', en: 'Enquiry button' },
-        options: { ink: { de: 'Weiß beim Hover', en: 'White on hover' }, fill: { de: 'Füllen', en: 'Fill' }, band: { de: 'Banderole', en: 'Band' }, frame: { de: 'Rahmen', en: 'Frame' }, soft: { de: 'Mit Pfeil', en: 'With arrow' } }
-    },
-    // Tone of the "Mit Pfeil" button; its switch shows only with that style.
-    softTone: {
-        storageKey: 'kovpack-soft-tone',
-        label: { de: 'Ton (Mit Pfeil)', en: 'Tone (with arrow)' },
-        options: { label: { de: 'Etikett', en: 'Label' }, deep: { de: 'Dunkler', en: 'Darker' }, dark: { de: 'Schwarze Schrift', en: 'Black text' } }
-    }
-};
-const lookSwitches = [];
-const lang = root.lang === 'de' ? 'de' : 'en';
-const setLook = (name, value, remember) => {
-    const look = LOOKS[name];
-    if (!(value in look.options)) value = Object.keys(look.options)[0];
-    root.dataset[name] = value;
-    for (const control of lookSwitches) {
-        for (const option of control.querySelectorAll(`[data-look="${name}"]`)) option.setAttribute('aria-pressed', String(option.dataset.value === value));
-    }
-    if (remember) {
-        try { window.localStorage.setItem(look.storageKey, value); } catch { /* private mode: keep it for this page only */ }
-    }
-};
-const createLookSwitch = (name) => {
-    const look = LOOKS[name];
-    const control = document.createElement('div');
-    control.className = 'kovpack-name-switch kovpack-look-switch';
-    control.setAttribute('role', 'group');
-    control.setAttribute('aria-label', look.label[lang]);
-    control.title = look.label[lang];
-    for (const [value, text] of Object.entries(look.options)) {
-        const option = document.createElement('button');
-        option.type = 'button';
-        option.className = 'kovpack-name-switch__option';
-        option.dataset.look = name;
-        option.dataset.value = value;
-        option.textContent = text[lang];
-        option.setAttribute('aria-pressed', String(root.dataset[name] === value));
-        control.append(option);
-    }
-    control.addEventListener('click', (event) => {
-        const option = event.target.closest('[data-look]');
-        if (option) setLook(name, option.dataset.value, true);
-    });
-    lookSwitches.push(control);
-    return control;
-};
-for (const name of Object.keys(LOOKS)) {
-    let stored = null;
-    try { stored = window.localStorage.getItem(LOOKS[name].storageKey); } catch { /* private mode */ }
-    setLook(name, stored, false);
-}
-
-// Each preview switch with a small caption above it, saying what it changes.
-const captioned = (text, control) => {
-    const wrap = document.createElement('div');
-    wrap.className = 'kovpack-control';
-    const caption = document.createElement('span');
-    caption.className = 'kovpack-control__caption';
-    caption.setAttribute('aria-hidden', 'true');
-    caption.textContent = text;
-    wrap.append(caption, control);
-    return wrap;
-};
-const lookControl = (name) => captioned(LOOKS[name].label[lang], createLookSwitch(name));
-
 // Hides whichever view of a block is not shown.
 const showView = (block, view) => {
     for (const section of block.sections) section.toggleAttribute('data-view-off', view === 'shelf');
@@ -243,18 +172,6 @@ for (const group of groups) {
 }
 
 stacked.addEventListener('change', () => shelves.forEach(renderInert));
-
-for (const crumbs of document.querySelectorAll('.kovpack-pdp__crumbs')) {
-    const bar = document.createElement('div');
-    bar.className = 'kovpack-pdp__topbar';
-    crumbs.before(bar);
-    const controls = document.createElement('div');
-    controls.className = 'kovpack-product-controls kovpack-pdp__controls';
-    const tone = lookControl('softTone');
-    tone.classList.add('kovpack-control--soft-tone');
-    controls.append(lookControl('buttonStyle'), tone);
-    bar.append(crumbs, controls);
-}
 
 const fromUrl = URL_VIEWS[window.location.hash.slice(1).toLowerCase()];
 writeProductNames();

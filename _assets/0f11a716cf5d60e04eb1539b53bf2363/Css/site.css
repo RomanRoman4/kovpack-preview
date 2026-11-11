@@ -2406,3 +2406,169 @@ body[class] {
     .frame-kovpack-contact-form.kovpack-contact .form-element-statictext { grid-column: 1; justify-self: start; text-align: left; }
 }
 @media (prefers-reduced-motion: reduce) { .kovpack-contact__arrow { transition: none; } }
+
+/* Recycled seal (owner, 2026-11-11): every product is made from recycled
+ * paper. A round green sticker in the paper concept: it sits on the unrolled
+ * kraft sheet of each product card and beside the title on each product page.
+ * Green is used only here, so the eco message stands apart from the teal
+ * accent. Hovering the seal turns its lettering a little. */
+.kovpack-eco {
+    --eco: #2f7a3d;
+    --eco-deep: #1f5a2b;
+    --eco-light: #eef5e3;
+    display: block;
+    overflow: visible;
+    aspect-ratio: 1;
+    rotate: -9deg;
+    filter: drop-shadow(0 1px 1px rgb(25 45 20 / 28%)) drop-shadow(2px 8px 12px rgb(25 45 20 / 20%));
+}
+.kovpack-eco__disc { fill: var(--eco); }
+.kovpack-eco__rim { fill: none; stroke: var(--eco-light); stroke-opacity: .55; stroke-width: 1; }
+.kovpack-eco__ring { transform-origin: 60px 60px; transition: transform .9s cubic-bezier(.2, .7, .2, 1); }
+.kovpack-eco__ring text { fill: var(--eco-light); font-family: var(--kovpack-font-display, inherit); font-size: 9.6px; font-weight: 600; letter-spacing: .08em; }
+.kovpack-eco__core { fill: var(--eco-deep); }
+.kovpack-eco__stitch { fill: none; stroke: var(--eco-light); stroke-opacity: .5; stroke-width: 1; stroke-dasharray: 2.4 2.6; }
+.kovpack-eco__leaf path { fill: none; stroke: var(--eco-light); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.kovpack-eco__leaf path:first-child { fill: #8cc06a; stroke: var(--eco-light); }
+@media (hover: hover) {
+    .kovpack-eco:hover .kovpack-eco__ring { transform: rotate(40deg); }
+}
+
+/* Product cards: stuck to the lower right of the unrolled sheet, beside the
+ * product link, the corner that stays free in every sheet layout. It is
+ * pressed on just after the sheet's text appears. */
+.kovpack-eco--sheet {
+    position: absolute;
+    z-index: 2;
+    bottom: calc(30 * var(--u));
+    right: calc(40 * var(--u));
+    width: max(64px, calc(108 * var(--u)));
+    opacity: 0;
+    scale: 1.3;
+}
+.kovpack-roll:is(.is-ready, :hover, :focus-within) .kovpack-eco--sheet { transition: opacity .3s, scale .45s cubic-bezier(.3, 1.4, .5, 1); }
+.kovpack-roll:is(.is-open, :not(.is-ready):hover, :not(.is-ready):focus-within) .kovpack-eco--sheet {
+    opacity: 1;
+    scale: 1;
+    transition-delay: .85s;
+}
+@media (max-width: 900px) {
+    /* The narrow sheet has no free corner beside the link: the seal is stuck
+     * over its upper edge instead, above the short eyebrow. */
+    .kovpack-eco--sheet { top: calc(-14 * var(--u)); bottom: auto; right: calc(16 * var(--u)); width: max(58px, calc(80 * var(--u))); }
+}
+
+/* Product pages: floated beside the eyebrow and title, so the heading wraps
+ * around it at any width instead of running under it. */
+.kovpack-eco--pdp {
+    float: right;
+    width: clamp(84px, 8.5vw, 124px);
+    margin: 4px 4px 12px 20px;
+    shape-outside: circle(50%);
+}
+.kovpack-pdp__subhead { clear: both; }
+@media (max-width: 700px) {
+    .kovpack-eco--pdp { width: 76px; margin: 0 0 8px 14px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .kovpack-eco__ring,
+    .kovpack-roll .kovpack-eco--sheet { transition: none; }
+    .kovpack-eco:hover .kovpack-eco__ring { transform: none; }
+}
+
+/* One solid call-to-action button across the site (owner, 2026-11-11):
+ * the hero button, the enquiry button and form on product pages, the contact
+ * form and the company page buttons all share it. White text on the label
+ * colour; hover turns the text black and deepens the colour a little;
+ * pressing nudges the button down. Flat, no raised edge. The product page
+ * keeps its product colour; everywhere else the brand label teal. Not for the
+ * paper "Zum Produkt" tabs on the product rolls, which keep their own look.
+ * Every selector is wrapped in :root :is(...) so this block outranks the
+ * older per-button rules above, which it replaces. */
+:root :is(
+    .page__content .button:not(.button--text, .button--icon-only, .hero .button),
+    .hero:not(.hero--text-only, .hero--small) .button,
+    .frame-kovpack-contact-form button[type=submit],
+    .kovpack-about__cta
+) {
+    /* Product colour on product pages (page and enquiry form), else teal. */
+    --cta: var(--offer-color, var(--pdp-label, var(--kovpack-label-teal)));
+    --button-primary-content-color: #fff;
+    --button-primary-content-color-hover: var(--kovpack-ink);
+    --button-primary-content-color-pressed: var(--kovpack-ink);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    box-sizing: border-box;
+    min-height: 52px;
+    padding: 0 28px;
+    border: 0;
+    border-radius: var(--corners-s, 8px);
+    background: var(--cta);
+    box-shadow: none;
+    filter: none;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: .01em;
+    text-decoration: none;
+    text-shadow: 0 1px 1px rgb(0 0 0 / 16%);
+    transform: none;
+    transition: background-color .3s ease, color .3s ease, text-shadow .3s ease, transform .2s var(--kovpack-ease);
+}
+:root :is(
+    .page__content .button:not(.button--text, .button--icon-only, .hero .button),
+    .hero:not(.hero--text-only, .hero--small) .button,
+    .kovpack-about__cta
+) :is(.button__content, .button__text, span, svg) { color: inherit; transform: none; transition: none; }
+:root :is(.hero:not(.hero--text-only, .hero--small) .button)::before,
+:root :is(.hero:not(.hero--text-only, .hero--small) .button)::after,
+:root :is(.page__content .button:not(.button--text, .button--icon-only, .hero .button)) .button__text::after { content: none; }
+:root :is(
+    .page__content .button:not(.button--text, .button--icon-only, .hero .button),
+    .hero:not(.hero--text-only, .hero--small) .button,
+    .frame-kovpack-contact-form button[type=submit],
+    .kovpack-about__cta
+):is(:hover, :focus-visible) {
+    background: color-mix(in srgb, var(--cta) 86%, #000);
+    box-shadow: none;
+    filter: none;
+    color: var(--kovpack-ink);
+    text-shadow: none;
+    transform: none;
+}
+:root :is(
+    .page__content .button:not(.button--text, .button--icon-only, .hero .button),
+    .hero:not(.hero--text-only, .hero--small) .button,
+    .frame-kovpack-contact-form button[type=submit],
+    .kovpack-about__cta
+):focus-visible { outline: 3px solid var(--kovpack-ink); outline-offset: 3px; }
+:root :is(
+    .page__content .button:not(.button--text, .button--icon-only, .hero .button),
+    .hero:not(.hero--text-only, .hero--small) .button,
+    .frame-kovpack-contact-form button[type=submit],
+    .kovpack-about__cta
+):not(:disabled):active {
+    background: color-mix(in srgb, var(--cta) 78%, #000);
+    box-shadow: none;
+    color: var(--kovpack-ink);
+    text-shadow: none;
+    transform: translateY(1px) scale(.98);
+    transition-duration: .08s;
+}
+@media (prefers-reduced-motion: reduce) {
+    :root :is(
+        .page__content .button:not(.button--text, .button--icon-only, .hero .button),
+        .hero:not(.hero--text-only, .hero--small) .button,
+        .frame-kovpack-contact-form button[type=submit],
+        .kovpack-about__cta
+    ) { transition: none; }
+    :root :is(
+        .page__content .button:not(.button--text, .button--icon-only, .hero .button),
+        .hero:not(.hero--text-only, .hero--small) .button,
+        .frame-kovpack-contact-form button[type=submit],
+        .kovpack-about__cta
+    ):not(:disabled):active { transform: none; }
+}
