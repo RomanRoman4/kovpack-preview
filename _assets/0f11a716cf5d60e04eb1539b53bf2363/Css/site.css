@@ -2452,6 +2452,17 @@ body[class] {
     scale: 1;
     transition-delay: .85s;
 }
+/* Wide sheets show the description: the seal sits right under it, in the
+ * left column (owner, 2026-11-11). Narrower sheets hide the text and keep
+ * the seal in the corner. */
+@media (min-width: 901px) {
+    @container kovpack-roll (min-width: 740px) {
+        .kovpack-eco--sheet { position: relative; bottom: auto; right: auto; width: calc(92 * var(--u)); margin: calc(22 * var(--u)) 0 0 calc(4 * var(--u)); }
+    }
+    @container kovpack-roll-photo (min-width: 960px) {
+        .kovpack-eco--sheet { position: relative; bottom: auto; right: auto; width: calc(92 * var(--u)); margin: calc(22 * var(--u)) 0 0 calc(4 * var(--u)); }
+    }
+}
 @media (max-width: 900px) {
     /* The narrow sheet has no free corner beside the link: the seal is stuck
      * over its upper edge instead, above the short eyebrow. */
