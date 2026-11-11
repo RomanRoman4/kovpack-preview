@@ -2452,22 +2452,6 @@ body[class] {
     scale: 1;
     transition-delay: .85s;
 }
-/* Wide sheets: the seal stands right of the product name (owner,
- * 2026-11-11). Narrower sheets keep it in the corner. */
-@media (min-width: 901px) {
-    @container kovpack-roll (min-width: 740px) {
-        .kovpack-roll__intro { display: grid; grid-template-columns: min-content auto; justify-content: start; align-items: center; column-gap: calc(26 * var(--u)); }
-        .kovpack-roll__intro > :not(.kovpack-roll__name, .kovpack-eco--sheet) { grid-column: 1 / -1; }
-        .kovpack-roll__name { grid-column: 1; hyphens: manual; overflow-wrap: normal; }
-        .kovpack-eco--sheet { position: relative; grid-column: 2; grid-row: 2; bottom: auto; right: auto; width: calc(88 * var(--u)); margin: 0 0 calc(22 * var(--u)); }
-    }
-    @container kovpack-roll-photo (min-width: 960px) {
-        .kovpack-roll__intro { display: grid; grid-template-columns: min-content auto; justify-content: start; align-items: center; column-gap: calc(26 * var(--u)); }
-        .kovpack-roll__intro > :not(.kovpack-roll__name, .kovpack-eco--sheet) { grid-column: 1 / -1; }
-        .kovpack-roll__name { grid-column: 1; hyphens: manual; overflow-wrap: normal; }
-        .kovpack-eco--sheet { position: relative; grid-column: 2; grid-row: 2; bottom: auto; right: auto; width: calc(88 * var(--u)); margin: 0 0 calc(22 * var(--u)); }
-    }
-}
 @media (max-width: 900px) {
     /* The narrow sheet has no free corner beside the link: the seal is stuck
      * over its upper edge instead, above the short eyebrow. */
