@@ -612,3 +612,27 @@
     .kovpack-roll *::before,
     .kovpack-roll *::after { transition-duration: .01ms !important; transition-delay: 0s !important; }
 }
+
+/* The plain product name in the page language under the brand name on the
+ * unrolled sheet, as on the product page (owner, 2026-11-11). */
+.kovpack-roll__name:has(+ .kovpack-roll__sheet-type) { margin-bottom: calc(6 * var(--u)); }
+.kovpack-roll__sheet-type {
+    margin: 0 0 calc(14 * var(--u));
+    color: #1f160e;
+    font-family: var(--kovpack-font-display, inherit);
+    font-size: max(15px, calc(20 * var(--u)));
+    font-weight: 500;
+    line-height: 1.2;
+}
+@media (min-width: 901px) {
+    @container kovpack-roll (min-width: 740px) {
+        .kovpack-roll__name:has(+ .kovpack-roll__sheet-type) { margin-bottom: calc(8 * var(--u)); }
+        .kovpack-roll__sheet-type { margin-bottom: calc(22 * var(--u)); font-size: calc(23 * var(--u)); }
+    }
+}
+@media (min-width: 901px) {
+    @container kovpack-roll-photo (min-width: 960px) {
+        .kovpack-roll__name:has(+ .kovpack-roll__sheet-type) { margin-bottom: calc(8 * var(--u)); }
+        .kovpack-roll__sheet-type { margin-bottom: calc(22 * var(--u)); font-size: calc(23 * var(--u)); }
+    }
+}
