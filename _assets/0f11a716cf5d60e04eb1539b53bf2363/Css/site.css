@@ -2452,6 +2452,12 @@ body[class] {
     scale: 1;
     transition-delay: .85s;
 }
+/* Wide two-column sheets: the upper right corner, above the specifications
+ * (owner, 2026-11-11). Narrower single-column sheets keep the lower right. */
+@media (min-width: 901px) {
+    @container kovpack-roll (min-width: 740px) { .kovpack-eco--sheet { top: calc(30 * var(--u)); bottom: auto; } }
+    @container kovpack-roll-photo (min-width: 960px) { .kovpack-eco--sheet { top: calc(30 * var(--u)); bottom: auto; } }
+}
 @media (max-width: 900px) {
     /* The narrow sheet has no free corner beside the link: the seal is stuck
      * over its upper edge instead, above the short eyebrow. */
