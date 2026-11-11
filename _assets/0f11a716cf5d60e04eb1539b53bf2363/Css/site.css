@@ -2279,7 +2279,11 @@ body[class] {
 .kovpack-partner__step-media img { display: block; width: 100%; height: 100%; max-width: none; object-fit: cover; }
 /* A step without a photo uses the full width; any number of steps or lines. */
 .page__content .kovpack-partner__step:not(:has(.kovpack-partner__step-media)) { grid-template-columns: minmax(0, 1fr); }
-.kovpack-partner__actions { margin: clamp(28px, 2.6vw, 40px) 0 0; }
+/* The last row closes without a rule. The form button sits in the last step's
+ * text column, right under its text (TYPO3: render it after the last step
+ * record's text, iterator.isLast); theme paragraph margins never move it. */
+.page__content .kovpack-partner__step:last-child { border-bottom: 0; padding-bottom: 0; }
+.page__content .kovpack-partner__actions { display: flex; margin: 28px 0 0; padding: 0; }
 
 @media (max-width: 900px) {
     .kovpack-partner__why-inner,
