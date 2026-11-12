@@ -1128,6 +1128,153 @@ body[class] {
     .hero--small .image { transform: none; }
 }
 
+/* Products overview intro: the product labels as tiles beside the heading
+ * (owner, 2026-11-12: replaces the warehouse photo). Static, not links. Each
+ * tile is the roll label in its colour: logo, product name in wide capitals,
+ * an unrolling roll with the product type and its uses, the spiral of a roll
+ * end cut off in the corner and a soft band of light as on a label wrapped
+ * round a roll. The tiles share their rows (subgrid), so names and type lines
+ * line up whatever the text length. On load they unroll one after another.
+ * Any number of tiles fits; narrow columns wrap to further rows. Sizes use
+ * the viewport, not container units: a size container cannot be a subgrid. */
+.hero.hero--small:has(.kovpack-hero-tiles) { grid-template-columns: minmax(min-content, 4fr) minmax(0, 8fr); }
+.kovpack-hero-tiles {
+    grid-row: 1;
+    grid-column: 2;
+    align-self: end;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr));
+    grid-auto-rows: auto minmax(clamp(48px, 5vw, 84px), 1fr) auto auto;
+    gap: clamp(12px, 1.2vw, 18px);
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.kovpack-hero-tile {
+    --tile: var(--kovpack-label-teal);
+    --use-surface: var(--tile);
+    --use-stroke: 1.25;
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    grid-row: span 4;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: subgrid;
+    row-gap: 0;
+    margin: 0;
+    padding: clamp(20px, 1.8vw, 26px) clamp(18px, 1.6vw, 24px) clamp(18px, 1.6vw, 24px);
+    overflow: hidden;
+    border-radius: var(--corners-l);
+    color: var(--kovpack-ink);
+    background: var(--tile);
+    box-shadow: 0 2px 4px rgb(20 26 27 / 6%), 0 34px 64px -30px rgb(20 26 27 / 50%), 0 70px 100px -70px rgb(60 38 14 / 40%);
+    animation: kovpack-tile-unroll 1.2s var(--kovpack-ease) .25s both;
+}
+.kovpack-hero-tile:nth-child(2) { animation-delay: .4s; }
+.kovpack-hero-tile:nth-child(3) { animation-delay: .55s; }
+.kovpack-hero-tile:nth-child(n + 4) { animation-delay: .7s; }
+.kovpack-hero-tile--orange { --tile: var(--kovpack-label-orange); }
+.kovpack-hero-tile--blue { --tile: var(--kovpack-label-blue); }
+/* Light band, top light and printed-paper grain. */
+.kovpack-hero-tile::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+        linear-gradient(90deg, rgb(20 26 27 / 10%), rgb(20 26 27 / 0%) 22%, rgb(255 255 255 / 16%) 44%, rgb(255 255 255 / 0%) 66%, rgb(20 26 27 / 8%)),
+        linear-gradient(rgb(255 255 255 / 8%), rgb(255 255 255 / 0%) 40%, rgb(20 26 27 / 0%) 70%, rgb(20 26 27 / 9%)),
+        url("../Images/kovpack-paper-grain.png?v=9d695677");
+    mix-blend-mode: multiply;
+}
+/* Roll end: a paper spiral cut off by the top right corner. */
+.kovpack-hero-tile::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: -1;
+    width: 112%;
+    translate: 47% -47%;
+    aspect-ratio: 1;
+    pointer-events: none;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath d='M100 100A4.3 4.3 0 0 1 108.6 100A8.6 8.6 0 0 1 91.4 100A12.9 12.9 0 0 1 117.2 100A17.2 17.2 0 0 1 82.8 100A21.5 21.5 0 0 1 125.8 100A25.8 25.8 0 0 1 74.2 100A30.1 30.1 0 0 1 134.4 100A34.4 34.4 0 0 1 65.6 100A38.7 38.7 0 0 1 143 100A43 43 0 0 1 57 100A47.3 47.3 0 0 1 151.6 100A51.6 51.6 0 0 1 48.4 100A55.9 55.9 0 0 1 160.2 100A60.2 60.2 0 0 1 39.8 100A64.5 64.5 0 0 1 168.8 100A68.8 68.8 0 0 1 31.2 100A73.1 73.1 0 0 1 177.4 100A77.4 77.4 0 0 1 22.6 100A81.7 81.7 0 0 1 186 100A86 86 0 0 1 14 100A90.3 90.3 0 0 1 194.6 100A94.6 94.6 0 0 1 5.4 100' fill='none' stroke='%23fff' stroke-width='1.1'/%3E%3C/svg%3E") center / contain no-repeat;
+    opacity: .3;
+}
+.kovpack-hero-tile__logo {
+    grid-row: 1;
+    display: block;
+    width: 58%;
+    max-width: none;
+    height: auto;
+    margin: 0;
+    filter: brightness(0);
+    opacity: .88;
+}
+.kovpack-hero-tile__name {
+    grid-row: 3;
+    align-self: end;
+    margin: 0;
+    color: #fff;
+    font-family: "Archivo", var(--kovpack-font-display);
+    font-size: clamp(22px, 2.35vw, 42px);
+    font-stretch: 125%;
+    font-weight: 800;
+    line-height: .88;
+    letter-spacing: -.015em;
+    text-transform: uppercase;
+    overflow-wrap: break-word;
+    hyphens: manual;
+}
+.kovpack-hero-tile__foot {
+    grid-row: 4;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas: "icon type" "uses uses";
+    align-items: center;
+    column-gap: clamp(10px, .9vw, 14px);
+    margin-top: clamp(14px, 1.4vw, 22px);
+    padding-top: clamp(12px, 1.15vw, 18px);
+    border-top: 1px solid rgb(20 26 27 / 26%);
+}
+.kovpack-hero-tile__copy { display: contents; }
+.kovpack-hero-tile__icon { grid-area: icon; display: block; width: clamp(40px, 3.7vw, 58px); height: auto; overflow: visible; }
+.kovpack-hero-tile__type {
+    grid-area: type;
+    margin: 0;
+    overflow-wrap: normal;
+    hyphens: manual;
+    font-size: clamp(12px, 1.1vw, 16px);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -.005em;
+}
+.kovpack-hero-tile__uses {
+    grid-area: uses;
+    display: flex;
+    flex-wrap: wrap;
+    max-width: none;
+    margin: .75em 0 0;
+    padding: 0;
+    list-style: none;
+    font-size: clamp(12px, 1.02vw, 15px);
+    line-height: 1.35;
+}
+.kovpack-hero-tile__uses li { margin: 0; padding: 0; }
+.kovpack-hero-tile__uses li:not(:last-child)::after { content: "•"; margin: 0 .36em; }
+@keyframes kovpack-tile-unroll {
+    from { clip-path: inset(0 0 100% 0 round var(--corners-l)); transform: translateY(-14px); }
+    to { clip-path: inset(0 0 0 0 round var(--corners-l)); transform: none; }
+}
+@media (max-width: 900px) {
+    .kovpack-hero-tiles { grid-row: 2; grid-column: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .kovpack-hero-tile { animation: none; }
+}
+
 /* Section intro before the products: display heading plus eyebrow. */
 .page__content > .frame:has(+ .kovpack-product) { align-items: flex-end; margin-bottom: 32px; }
 .page__content > .frame:has(+ .kovpack-product) h2 { font-size: var(--headline-medium-size); }
