@@ -2703,3 +2703,8 @@ body[class] {
     .kovpack-nav-drop { transition-duration: 0s !important; }
     .kovpack-nav-drop.is-moving { animation: none; }
 }
+
+/* With the drop following the pointer, the options keep no hover tint. */
+@media (hover: hover) {
+    .kovpack-seg.has-drop .kovpack-seg__option:hover input:not(:checked) + span { background-color: transparent; }
+}

@@ -256,9 +256,9 @@
         track.append(drop);
         track.classList.add('has-drop');
         var last = null;
-        function place(animate) {
+        function place(animate, target) {
             var input = track.querySelector('input:checked');
-            var span = input && input.nextElementSibling;
+            var span = target || (input && input.nextElementSibling);
             if (!span) { drop.style.opacity = '0'; return; }
             var box = span.getBoundingClientRect();
             var outer = track.getBoundingClientRect();
@@ -284,6 +284,12 @@
             last = left;
         }
         track.addEventListener('change', function () { place(true); });
+        /* As in the menu: the drop follows the pointer and flows back to
+         * the chosen option when it leaves the track. */
+        Array.prototype.forEach.call(track.querySelectorAll('.kovpack-seg__option'), function (option) {
+            option.addEventListener('pointerenter', function () { place(true, option.querySelector('span')); });
+        });
+        track.addEventListener('pointerleave', function () { place(true); });
         window.addEventListener('resize', function () { place(false); });
         place(false);
         if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { place(false); });
