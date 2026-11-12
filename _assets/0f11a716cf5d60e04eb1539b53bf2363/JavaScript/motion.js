@@ -98,7 +98,7 @@ for (const nav of document.querySelectorAll('.header__nav')) {
     const drop = document.createElement('span');
     drop.className = 'kovpack-nav-drop';
     drop.setAttribute('aria-hidden', 'true');
-    nav.prepend(drop);
+    nav.append(drop); // last: the theme spaces any element that follows another
     nav.classList.add('has-drop');
     const active = () => items.find((item) => item.classList.contains('header__nav-item--active'));
     let last = null;

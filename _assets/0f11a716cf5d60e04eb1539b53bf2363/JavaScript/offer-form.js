@@ -253,7 +253,7 @@
         var drop = document.createElement('span');
         drop.className = 'kovpack-seg__drop';
         drop.setAttribute('aria-hidden', 'true');
-        track.prepend(drop);
+        track.append(drop);
         track.classList.add('has-drop');
         var last = null;
         function place(animate) {
