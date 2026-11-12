@@ -584,7 +584,7 @@ button.header__nav-item {
 .frame-kovpack-contact-form .form-element { min-width: 0; margin-bottom: 18px; }
 .frame-kovpack-contact-form label { display: block; font-size: 14px; margin-bottom: 6px; }
 .frame-kovpack-contact-form :is(input:not([type=checkbox]):not([type=hidden]), textarea, select) {
-    box-sizing: border-box; width: 100%; min-width: 0; border: 1px solid var(--kovpack-line); border-radius: var(--corners-m); padding: 17px 20px; background: #fff; color: var(--kovpack-ink); font: inherit;
+    box-sizing: border-box; width: 100%; min-width: 0; border: 1px solid var(--kovpack-line); border-radius: var(--corners-s); padding: 17px 20px; background: #fff; color: var(--kovpack-ink); font: inherit;
 }
 .frame-kovpack-contact-form textarea { resize: vertical; }
 .frame-kovpack-contact-form .form-element-checkbox label { display: inline; }
@@ -1159,7 +1159,7 @@ body[class] {
 /* Contact: one paper surface, display heading. */
 .page__content > :is(.frame-kovpack-contact-info, .frame-kovpack-contact-form) { background: var(--kovpack-surface); }
 .page__content .frame-kovpack-contact-info h2 { font-size: var(--headline-medium-size); line-height: 1.02; }
-.frame-kovpack-contact-form :is(input.form-control, select.form-control, textarea) { border-radius: var(--corners-m); transition: border-color .2s, box-shadow .2s; }
+.frame-kovpack-contact-form :is(input.form-control, select.form-control, textarea) { border-radius: var(--corners-s); transition: border-color .2s, box-shadow .2s; }
 .page__content .frame-kovpack-contact-form :is(input.form-control, select.form-control, textarea) { background: var(--kovpack-paper); }
 .frame-kovpack-contact-form :is(input.form-control, select.form-control, textarea):focus { border-color: var(--kovpack-accent); box-shadow: 0 0 0 4px rgb(29 122 116 / 14%); outline: none; }
 
@@ -1633,14 +1633,92 @@ body[class] {
 /* Orders ship on pallets only, so the quantity reads "1 Palette" (owner, 2026-11-10). */
 .kovpack-offer__unit { color: var(--kovpack-ink); font-size: 14px; font-weight: 600; }
 
-/* Segmented control: native radios in one rounded track. */
-.kovpack-seg { display: inline-flex; flex-wrap: wrap; gap: 2px; padding: 3px; border: 1px solid var(--kovpack-line); border-radius: 999px; background: var(--kovpack-paper); }
+/* Segmented control (owner, 2026-11-11): corners as the navigation (8px),
+ * a frosted "liquid glass" track tinted with the product colour. Hover
+ * fades in a tint and the navigation's underline; the chosen option is a
+ * piece of coloured glass that gets a short press and a light sweep when
+ * it is picked. */
+.kovpack-seg,
+.kovpack-qty {
+    border: 1px solid color-mix(in srgb, var(--offer-color) 34%, rgb(255 255 255 / 60%));
+    border-radius: var(--corners-s);
+    background:
+        linear-gradient(180deg, rgb(255 255 255 / 70%), rgb(255 255 255 / 30%)),
+        color-mix(in srgb, var(--offer-color) 14%, transparent);
+    box-shadow:
+        inset 0 1px 0 rgb(255 255 255 / 85%),
+        inset 0 -1px 0 color-mix(in srgb, var(--offer-color) 18%, transparent),
+        0 6px 18px -10px color-mix(in srgb, var(--offer-color) 60%, rgb(20 26 27 / 40%));
+    -webkit-backdrop-filter: blur(14px) saturate(1.6);
+    backdrop-filter: blur(14px) saturate(1.6);
+}
+.kovpack-seg { display: inline-flex; flex-wrap: wrap; gap: 2px; padding: 3px; }
 .frame-kovpack-contact-form.kovpack-offer .kovpack-seg__option { position: relative; display: inline-flex; width: auto; margin: 0; }
 .frame-kovpack-contact-form.kovpack-offer .kovpack-seg__option input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
-.kovpack-seg__option > span { display: inline-flex; align-items: center; min-height: 34px; padding: 0 14px; border-radius: 999px; color: var(--kovpack-ink); font-size: 14px; line-height: 1.2; white-space: nowrap; transition: background-color .15s ease-out, color .15s ease-out; pointer-events: none; }
-.kovpack-seg__option input:checked + span { background: var(--offer-color); font-weight: 600; box-shadow: 0 1px 2px rgb(20 26 27 / 18%); }
+.kovpack-seg__option > span {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    min-height: 34px;
+    padding: 0 14px;
+    border-radius: calc(var(--corners-s) - 3px);
+    overflow: hidden;
+    color: var(--kovpack-ink);
+    font-size: 14px;
+    line-height: 1.2;
+    white-space: nowrap;
+    transition: background-color .5s ease, box-shadow .5s ease, color .5s ease;
+    pointer-events: none;
+}
+/* The navigation's hover line: fades in and widens from the centre. */
+.kovpack-seg__option > span::before {
+    content: "";
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 5px;
+    height: 2px;
+    border-radius: 1px;
+    background: currentColor;
+    opacity: 0;
+    transform: scaleX(.6);
+    transition: opacity .5s ease, transform .5s cubic-bezier(.2, 0, 0, 1);
+}
+@media (hover: hover) {
+    .kovpack-seg__option:hover input:not(:checked) + span { background-color: color-mix(in srgb, var(--offer-color) 18%, rgb(255 255 255 / 30%)); }
+    .kovpack-seg__option:hover input:not(:checked) + span::before { opacity: 1; transform: none; }
+}
+/* Chosen: coloured glass with a lit top edge and a soft drop. */
+.kovpack-seg__option input:checked + span {
+    background:
+        linear-gradient(180deg, rgb(255 255 255 / 42%), rgb(255 255 255 / 0%) 55%, rgb(0 0 0 / 6%)),
+        color-mix(in srgb, var(--offer-color) 82%, transparent);
+    box-shadow:
+        inset 0 1px 0 rgb(255 255 255 / 75%),
+        inset 0 0 0 1px color-mix(in srgb, var(--offer-color) 70%, #fff),
+        0 4px 12px -4px color-mix(in srgb, var(--offer-color) 80%, #000);
+    font-weight: 600;
+    animation: kovpack-seg-pick .42s cubic-bezier(.3, 1.4, .5, 1);
+}
+/* A light sweep crosses the glass once when an option is picked. */
+.kovpack-seg__option input:checked + span::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(105deg, rgb(255 255 255 / 0%) 30%, rgb(255 255 255 / 70%) 50%, rgb(255 255 255 / 0%) 70%);
+    transform: translateX(-120%);
+    animation: kovpack-seg-sheen .7s .05s ease-out;
+    pointer-events: none;
+}
+@keyframes kovpack-seg-pick { 0% { transform: scale(.92); } 100% { transform: none; } }
+@keyframes kovpack-seg-sheen { from { transform: translateX(-120%); } to { transform: translateX(120%); } }
 .kovpack-seg__option input:focus-visible + span { outline: 3px solid var(--kovpack-ink); outline-offset: 1px; }
-@media (hover: hover) { .kovpack-seg__option:hover input:not(:checked) + span { background: color-mix(in srgb, var(--offer-color) 14%, transparent); } }
+.kovpack-seg__option:active input + span { transform: scale(.96); transition-duration: .08s; }
+@media (prefers-reduced-motion: reduce) {
+    .kovpack-seg__option input:checked + span,
+    .kovpack-seg__option input:checked + span::after { animation: none; }
+    .kovpack-seg__option > span::before { transform: none; }
+}
 .kovpack-offer__reveal[hidden] { display: none; }
 .frame-kovpack-contact-form.kovpack-offer .kovpack-offer__reveal input { width: 240px; padding-block: 9px; }
 
@@ -1657,17 +1735,17 @@ body[class] {
 .frame-kovpack-contact-form.kovpack-offer select.form-control:has(option[value=""]:checked) { color: var(--kovpack-muted); }
 .frame-kovpack-contact-form.kovpack-offer select.form-control option { color: var(--kovpack-ink); }
 /* The date keeps a visible caption inside its box (a date field has no placeholder). */
-.frame-kovpack-contact-form.kovpack-offer .kovpack-offer__date { display: flex; align-items: center; border: 1px solid var(--kovpack-line); border-radius: var(--corners-m); background: var(--kovpack-paper); }
+.frame-kovpack-contact-form.kovpack-offer .kovpack-offer__date { display: flex; align-items: center; border: 1px solid var(--kovpack-line); border-radius: var(--corners-s); background: var(--kovpack-paper); }
 .frame-kovpack-contact-form.kovpack-offer .kovpack-offer__date > label { flex: none; margin: 0; padding-left: 14px; color: var(--kovpack-muted); font-size: 15px; }
 .frame-kovpack-contact-form.kovpack-offer .kovpack-offer__date > input { flex: 1; min-width: 0; border: 0; background: transparent; box-shadow: none; }
 .frame-kovpack-contact-form.kovpack-offer .kovpack-offer__date:focus-within { border-color: var(--kovpack-accent); box-shadow: 0 0 0 4px rgb(29 122 116 / 14%); }
 
 /* Quantity: compact stepper. */
-.kovpack-qty { display: grid; grid-template-columns: 34px 64px 34px; align-items: stretch; height: 40px; border: 1px solid var(--kovpack-line); border-radius: 999px; background: var(--kovpack-paper); overflow: hidden; }
+.kovpack-qty { display: grid; grid-template-columns: 34px 64px 34px; align-items: stretch; height: 40px; overflow: hidden; }
 .frame-kovpack-contact-form.kovpack-offer .kovpack-qty input { height: 100%; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; text-align: center; font-weight: 600; font-variant-numeric: tabular-nums; -moz-appearance: textfield; }
 .kovpack-qty input::-webkit-inner-spin-button, .kovpack-qty input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
 .kovpack-qty:focus-within { border-color: var(--kovpack-accent); box-shadow: 0 0 0 4px rgb(29 122 116 / 14%); }
-.kovpack-qty__step { border: 0; background: transparent; color: var(--kovpack-ink); font: inherit; font-size: 18px; cursor: pointer; transition: background-color .15s ease-out; }
+.kovpack-qty__step { border: 0; background: transparent; color: var(--kovpack-ink); font: inherit; font-size: 18px; cursor: pointer; transition: background-color .5s ease; }
 @media (hover: hover) { .kovpack-qty__step:hover { background: color-mix(in srgb, var(--offer-color) 18%, transparent); } }
 .kovpack-qty__step:active { scale: .96; }
 
