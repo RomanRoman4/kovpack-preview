@@ -2708,3 +2708,5 @@ body[class] {
 @media (hover: hover) {
     .kovpack-seg.has-drop .kovpack-seg__option:hover input:not(:checked) + span { background-color: transparent; }
 }
+/* "Alle Produkte" on the product page: only the soft tint, no line. */
+.kovpack-pdp__back::before { content: none; }
