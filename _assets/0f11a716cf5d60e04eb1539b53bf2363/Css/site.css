@@ -2643,3 +2643,7 @@ body[class] {
         .kovpack-about__cta
     ):not(:disabled):active { transform: none; }
 }
+
+/* One fixed grammage per product (owner, 2026-11-12): the form keeps it as a
+ * pre-selected hidden choice for the pallet estimate and shows plain text. */
+.frame-kovpack-contact-form.kovpack-offer label[hidden] { display: none; }
