@@ -2673,3 +2673,33 @@ body[class] {
     .kovpack-seg__drop { transition-duration: 0s !important; }
     .kovpack-seg__drop.is-moving { animation: none; }
 }
+
+/* Menu drop (motion.js): one glass pane flows between the menu items, as
+ * the enquiry form's choices. White glass over the hero, ink glass on the
+ * light bar. The items themselves then keep no tint of their own. */
+@media (min-width: 1280px) {
+    .header__nav.has-drop { position: relative; }
+    .kovpack-nav-drop {
+        position: absolute;
+        z-index: 0;
+        border-radius: calc(var(--corners-s) - 2px);
+        background: rgb(255 255 255 / 16%);
+        box-shadow: inset 0 0 0 1px rgb(255 255 255 / 26%), inset 0 1px 0 rgb(255 255 255 / 30%);
+        opacity: 0;
+        transition-property: left, right, top, height, opacity;
+        transition-timing-function: cubic-bezier(.3, .7, .2, 1), cubic-bezier(.3, .7, .2, 1), cubic-bezier(.3, .7, .2, 1), cubic-bezier(.3, .7, .2, 1), ease;
+        pointer-events: none;
+    }
+    .header:is(.is-stuck, .is-scrolled) .kovpack-nav-drop,
+    .header:not(:has(+ .hero:not(.hero--text-only, .hero--small))) .kovpack-nav-drop {
+        background: rgb(20 26 27 / 7%);
+        box-shadow: inset 0 0 0 1px rgb(20 26 27 / 8%), inset 0 1px 0 rgb(255 255 255 / 50%);
+    }
+    .kovpack-nav-drop.is-moving { animation: kovpack-seg-wobble .55s cubic-bezier(.3, .7, .2, 1); }
+    :root .header .header__nav.has-drop .header__nav-item { position: relative; z-index: 1; }
+    :root .header .header__nav.has-drop .header__nav-item:is(:hover, :focus-visible, .header__nav-item--active) { background: transparent; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .kovpack-nav-drop { transition-duration: 0s !important; }
+    .kovpack-nav-drop.is-moving { animation: none; }
+}

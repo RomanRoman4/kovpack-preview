@@ -87,4 +87,57 @@ if (!reduced && 'IntersectionObserver' in window) {
     addEventListener('hashchange', revealAll);
 }
 
+// Menu drop (owner, 2026-11-12): as in the enquiry form, one glass drop
+// rests on the current page's item and flows to the item under the pointer;
+// its leading edge moves first so it stretches and settles like a drop.
+// Desktop menu only; without this script the items keep their own tint.
+for (const nav of document.querySelectorAll('.header__nav')) {
+    const wide = window.matchMedia('(min-width: 1280px)');
+    const items = [...nav.querySelectorAll('.header__nav-item')];
+    if (!items.length) continue;
+    const drop = document.createElement('span');
+    drop.className = 'kovpack-nav-drop';
+    drop.setAttribute('aria-hidden', 'true');
+    nav.prepend(drop);
+    nav.classList.add('has-drop');
+    const active = () => items.find((item) => item.classList.contains('header__nav-item--active'));
+    let last = null;
+    const place = (item, animate) => {
+        if (!item || !wide.matches) { drop.style.opacity = '0'; last = null; return; }
+        const box = item.getBoundingClientRect();
+        const outer = nav.getBoundingClientRect();
+        const left = box.left - outer.left - nav.clientLeft;
+        const top = box.top - outer.top - nav.clientTop;
+        const right = nav.clientWidth - left - box.width;
+        const fresh = last === null || drop.style.opacity === '0';
+        const toRight = !fresh && left > last;
+        drop.style.transitionDuration = animate && !fresh
+            ? (toRight ? ['.5s', '.26s', '.3s', '.3s', '.3s'] : ['.26s', '.5s', '.3s', '.3s', '.3s']).join(', ')
+            : '0s, 0s, 0s, 0s, .3s';
+        drop.style.left = left + 'px';
+        drop.style.right = right + 'px';
+        drop.style.top = top + 'px';
+        drop.style.height = box.height + 'px';
+        drop.style.opacity = '1';
+        if (animate && !fresh && left !== last) {
+            drop.classList.remove('is-moving');
+            void drop.offsetWidth;
+            drop.classList.add('is-moving');
+        }
+        last = left;
+    };
+    for (const item of items) {
+        item.addEventListener('pointerenter', () => place(item, true));
+        item.addEventListener('focus', () => place(item, true));
+    }
+    nav.addEventListener('pointerleave', () => place(active(), true));
+    nav.addEventListener('focusout', (event) => { if (!nav.contains(event.relatedTarget)) place(active(), true); });
+    const reset = () => place(active(), false);
+    window.addEventListener('resize', reset);
+    wide.addEventListener('change', reset);
+    document.fonts?.ready.then(reset);
+    if ('ResizeObserver' in window) new ResizeObserver(() => place(nav.matches(':hover') ? items.find((i) => i.matches(':hover')) ?? active() : active(), false)).observe(nav);
+    reset();
+}
+
 })();
