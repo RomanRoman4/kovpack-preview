@@ -1636,7 +1636,7 @@ body[class] {
 /* Segmented control (owner, 2026-11-12): corners as the navigation (8px),
  * calm and flat. The track is a faint frosted tint of the product colour;
  * the chosen option is a clear pane of tinted glass with a thin coloured
- * edge. Hover fades in a tint and the navigation's underline. Picking an
+ * edge. Hover fades in a tint. Picking an
  * option sends one soft drop ripple out from the centre. */
 .kovpack-seg,
 .kovpack-qty {
@@ -1665,23 +1665,8 @@ body[class] {
     transition: background-color .5s ease, box-shadow .5s ease;
     pointer-events: none;
 }
-/* The navigation's hover line: fades in and widens from the centre. */
-.kovpack-seg__option > span::before {
-    content: "";
-    position: absolute;
-    left: 12px;
-    right: 12px;
-    bottom: 5px;
-    height: 2px;
-    border-radius: 1px;
-    background: currentColor;
-    opacity: 0;
-    transform: scaleX(.6);
-    transition: opacity .5s ease, transform .5s cubic-bezier(.2, 0, 0, 1);
-}
 @media (hover: hover) {
     .kovpack-seg__option:hover input:not(:checked) + span { background-color: color-mix(in srgb, var(--offer-color) 10%, transparent); }
-    .kovpack-seg__option:hover input:not(:checked) + span::before { opacity: 1; transform: none; }
 }
 /* Chosen: clear tinted glass, a thin coloured edge, no depth. */
 .kovpack-seg__option input:checked + span {
@@ -1711,7 +1696,6 @@ body[class] {
 .kovpack-seg__option input:focus-visible + span { outline: 2px solid var(--kovpack-ink); outline-offset: 1px; }
 @media (prefers-reduced-motion: reduce) {
     .kovpack-seg__option input:checked + span::after { animation: none; }
-    .kovpack-seg__option > span::before { transform: none; }
 }
 .kovpack-offer__reveal[hidden] { display: none; }
 .frame-kovpack-contact-form.kovpack-offer .kovpack-offer__reveal input { width: 240px; padding-block: 9px; }
@@ -2426,7 +2410,7 @@ body[class] {
 .kovpack-contact__text { display: grid; gap: 2px; min-width: 0; color: var(--kovpack-ink); font-size: 16px; line-height: 1.45; }
 .kovpack-contact__label { font-weight: 700; }
 .frame-kovpack-contact-info.kovpack-contact .kovpack-contact__text a { justify-self: start; border-bottom-color: transparent; }
-.frame-kovpack-contact-info.kovpack-contact .kovpack-contact__text a:hover { color: var(--kovpack-accent); border-bottom-color: currentColor; }
+.frame-kovpack-contact-info.kovpack-contact .kovpack-contact__text a:hover { color: var(--kovpack-accent); }
 
 /* One quiet surface in the page's own paper tone: a hairline instead of a
  * floating shadow, so the form sits in the section rather than on top of it. */
@@ -2654,3 +2638,9 @@ body[class] {
 /* One fixed grammage per product (owner, 2026-11-12): the form keeps it as a
  * pre-selected hidden choice for the pallet estimate and shows plain text. */
 .frame-kovpack-contact-form.kovpack-offer label[hidden] { display: none; }
+
+/* No underline on hover or for the current page anywhere (owner,
+ * 2026-11-12): menu items show only their soft tint. */
+:root .header .header__nav-item::before { content: none; }
+:root .header .header__nav-item:is(:hover, :focus-visible, .header__nav-item--active),
+:root .header .header__subnav a:is(:hover, :focus-visible) { text-decoration: none; }
