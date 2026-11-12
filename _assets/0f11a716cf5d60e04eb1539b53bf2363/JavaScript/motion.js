@@ -140,4 +140,55 @@ for (const nav of document.querySelectorAll('.header__nav')) {
     reset();
 }
 
+// Product page actions (owner, 2026-11-12): the solid colour of "Angebot
+// anfragen" is one drop that flows to "Alle Produkte" under the pointer or
+// focus and back again, as in the menu and the enquiry form. Without this
+// script both keep their own look.
+for (const actions of document.querySelectorAll('.kovpack-pdp__actions')) {
+    const items = [...actions.querySelectorAll(':scope > a')];
+    const home = items.find((item) => item.classList.contains('button'));
+    if (!home || items.length < 2) continue;
+    const drop = document.createElement('span');
+    drop.className = 'kovpack-action-drop';
+    drop.setAttribute('aria-hidden', 'true');
+    actions.append(drop);
+    actions.classList.add('has-drop');
+    let last = null;
+    const place = (item, hot, animate) => {
+        const box = item.getBoundingClientRect();
+        const outer = actions.getBoundingClientRect();
+        const left = box.left - outer.left - actions.clientLeft;
+        const top = box.top - outer.top - actions.clientTop;
+        const right = actions.clientWidth - left - box.width;
+        const toRight = last !== null && left > last;
+        drop.style.transitionDuration = animate && last !== null
+            ? (toRight ? ['.5s', '.26s', '.3s', '.3s', '.3s'] : ['.26s', '.5s', '.3s', '.3s', '.3s']).join(', ')
+            : '0s, 0s, 0s, 0s, .3s';
+        drop.style.left = left + 'px';
+        drop.style.right = right + 'px';
+        drop.style.top = top + 'px';
+        drop.style.height = box.height + 'px';
+        drop.classList.toggle('is-hot', hot);
+        for (const other of items) other.classList.toggle('is-dropped', other === item);
+        actions.classList.toggle('is-hot', hot);
+        if (animate && last !== null && left !== last) {
+            drop.classList.remove('is-moving');
+            void drop.offsetWidth;
+            drop.classList.add('is-moving');
+        }
+        last = left;
+    };
+    for (const item of items) {
+        item.addEventListener('pointerenter', () => place(item, true, true));
+        item.addEventListener('focus', () => place(item, true, true));
+    }
+    actions.addEventListener('pointerleave', () => place(home, false, true));
+    actions.addEventListener('focusout', (event) => { if (!actions.contains(event.relatedTarget)) place(home, false, true); });
+    const reset = () => place(items.find((i) => i.matches(':hover')) ?? home, items.some((i) => i.matches(':hover')), false);
+    window.addEventListener('resize', reset);
+    document.fonts?.ready.then(reset);
+    if ('ResizeObserver' in window) new ResizeObserver(reset).observe(actions);
+    reset();
+}
+
 })();

@@ -2857,3 +2857,36 @@ body[class] {
 }
 /* "Alle Produkte" on the product page: only the soft tint, no line. */
 .kovpack-pdp__back::before { content: none; }
+
+/* Product page actions drop (motion.js, owner 2026-11-12): the button colour
+ * is one drop that flows to "Alle Produkte" under the pointer and back, as in
+ * the menu. The item under the drop takes the solid button look (white text
+ * at rest; hovered: deeper colour, black text); the other stays clear with
+ * ink text. :not(#_) lifts these rules over the shared button block. */
+.kovpack-pdp__actions.has-drop { position: relative; isolation: isolate; }
+.kovpack-action-drop {
+    position: absolute;
+    z-index: 0;
+    border-radius: var(--corners-s, 8px);
+    background: var(--pdp-label, var(--kovpack-label-teal));
+    transition-property: left, right, top, height, background-color;
+    transition-timing-function: cubic-bezier(.3, .7, .2, 1), cubic-bezier(.3, .7, .2, 1), cubic-bezier(.3, .7, .2, 1), cubic-bezier(.3, .7, .2, 1), ease;
+    pointer-events: none;
+}
+.kovpack-action-drop.is-hot { background: color-mix(in srgb, var(--pdp-label, var(--kovpack-label-teal)) 86%, #000); }
+.kovpack-action-drop.is-moving { animation: kovpack-seg-wobble .55s cubic-bezier(.3, .7, .2, 1); }
+.kovpack-pdp__actions.has-drop > a { position: relative; z-index: 1; }
+:root .page__content .kovpack-pdp__actions.has-drop > a:is(.button, .kovpack-pdp__back):not(#_) {
+    background: transparent;
+    color: var(--kovpack-ink);
+    text-shadow: none;
+    transition: color .3s ease, text-shadow .3s ease, transform .2s var(--kovpack-ease);
+}
+:root .page__content .kovpack-pdp__actions.has-drop:not(.is-hot) > a.button.is-dropped:not(#_) {
+    color: #fff;
+    text-shadow: 0 1px 1px rgb(0 0 0 / 16%);
+}
+@media (prefers-reduced-motion: reduce) {
+    .kovpack-action-drop { transition-duration: 0s !important; }
+    .kovpack-action-drop.is-moving { animation: none; }
+}
