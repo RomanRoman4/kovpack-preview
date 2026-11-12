@@ -117,7 +117,8 @@
     text-wrap: balance;
 }
 .kovpack-roll__use:nth-child(odd) { padding-left: 0; border-left: 0; }
-.kovpack-roll__use-icon { flex: none; width: 48px; height: 48px; margin-left: -2px; }
+/* Owner, 2026-11-12: a size up from 48px. */
+.kovpack-roll__use-icon { flex: none; width: 60px; height: 60px; margin-left: -3px; }
 /* The stage is the container: four across once the label beside the roll is
  * about 540px wide. */
 @container (min-width: 880px) {
