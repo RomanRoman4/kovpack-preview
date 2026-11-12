@@ -1399,8 +1399,8 @@ body[class] {
 .kovpack-pdp .kovpack-pdp__subhead { margin: 28px 0 0; font-family: var(--kovpack-font); font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
 .kovpack-pdp__specs { margin: 14px 0 0; padding: 0; border-top: 1px solid var(--kovpack-ink); }
 .kovpack-pdp__specs > div { display: flex; justify-content: space-between; gap: 24px; padding: 7px 0; border-bottom: 1px dashed var(--kovpack-line); }
-.kovpack-pdp__specs dt { color: var(--kovpack-muted); font-size: 14px; line-height: 1.35; }
-.kovpack-pdp__specs dd { margin: 0; font-size: 15px; font-weight: 600; line-height: 1.35; text-align: right; }
+.kovpack-pdp__specs dt { flex: none; white-space: nowrap; color: var(--kovpack-muted); font-size: 14px; line-height: 1.35; }
+.kovpack-pdp__specs dd { min-width: 0; margin: 0; font-size: 15px; font-weight: 600; line-height: 1.35; text-align: right; }
 /* A value not fixed yet ("auf Anfrage") steps back, so the real values stand out. In TYPO3: an empty spec value renders the translated label with this modifier. */
 .kovpack-pdp__specs dd.kovpack-pdp__spec-request { color: var(--kovpack-muted); font-weight: 400; }
 .kovpack-pdp__note { margin: 18px 0 0; color: var(--kovpack-muted); font-size: 14px; }
