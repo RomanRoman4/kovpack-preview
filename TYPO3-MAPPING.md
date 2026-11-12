@@ -6,14 +6,30 @@ preserve the existing TYPO3 installation and editor data. Integration requires w
 and verification: copying this directory into the CMS does not create editable blocks.
 
 Design review covers desktop and phones (owner, 2026-11-12). The phone layer keeps
-the desktop look unchanged: all phone rules sit in max-width queries. Under 1280px the
-burger menu is a full-height dark sheet (footer colour) with large items, accordion
-submenus and the language pill at the bottom; under 900px the distributors intro stacks,
-product label tiles and product videos become swipeable rows, specs read label | value,
-form fields use 16px text (no iOS zoom), and the closed product roll stands left with
-its name beside it (tablets 601-900px: photo beside the roll); under 640px the home
-shelf sheets drop the photo print; under 600px application tiles run two a row and
-about strengths / distributor product lines put the icon beside the text.
+the desktop look unchanged: all phone rules sit in max-width queries, and elements the
+phone scripts create are hidden on desktop. Under 1280px the burger menu is a floating
+liquid-glass pane (motion.js): the page behind dims and blurs, a glass drop rests on the
+current item and flows to the item touched, submenus fold open in place, the current
+page in a submenu is marked, the language choices sit side by side on one segmented
+pill, and a tap outside or Escape closes it (with a close animation); the menu button is
+a keyboard-operable glass pill whose two lines turn into a cross. Under 900px the home
+page shows the roll cards instead of the shelf, and every roll card unrolls with the
+scroll (product-roll.js sets `--unroll` 0-1 on the product record; no JS or reduced
+motion = open): the roll lies across the top, the kraft sheet with eyebrow, name, type,
+short text, the first specs and the product link hangs from it, the product photo is a
+small taped print beside the name (tablets 601-900px: photo beside the card). Product
+pages under 900px: smaller photo stack with the arrows on a glass pill over the photo,
+specs as label | value folding after five rows (product-page.js toggle), applications
+as one swipeable row, videos as one player with the other clips as thumbnails to pick
+(product-page.js, view transition), and a glass enquiry bar at the bottom between the
+top button and the form. Also under 900px the distributors intro stacks, product label
+tiles become swipeable rows, form fields use 16px text (no iOS zoom), news arrows give
+way to swiping, the home contact section is set smaller and back-to-top is a round
+glass button; under 600px about strengths / distributor product lines put the icon
+beside the text. Scroll reveal (motion.js, all widths): sections rise in as blocks and
+repeatable items (application tiles, traits, videos, about strengths, enquiry steps,
+news cards, `[data-reveal]`) follow one after another; only opacity and transform
+animate, one observer, nothing hidden that starts on screen or with reduced motion.
 
 ## Current files
 
