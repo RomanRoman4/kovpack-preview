@@ -2644,3 +2644,32 @@ body[class] {
 :root .header .header__nav-item::before { content: none; }
 :root .header .header__nav-item:is(:hover, :focus-visible, .header__nav-item--active),
 :root .header .header__subnav a:is(:hover, :focus-visible) { text-decoration: none; }
+
+/* The liquid drop (offer-form.js): one tinted glass pane per track that
+ * flows between options. With it, the options themselves stay clear. */
+.kovpack-seg.has-drop { position: relative; }
+.kovpack-seg__drop {
+    position: absolute;
+    z-index: 0;
+    border-radius: calc(var(--corners-s) - 3px);
+    background: color-mix(in srgb, var(--offer-color) 26%, rgb(255 255 255 / 70%));
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--offer-color) 65%, transparent), inset 0 1px 0 rgb(255 255 255 / 60%);
+    opacity: 0;
+    transition-property: left, right, top, height;
+    transition-timing-function: cubic-bezier(.3, .7, .2, 1);
+    pointer-events: none;
+}
+.kovpack-seg__drop.is-moving { animation: kovpack-seg-wobble .55s cubic-bezier(.3, .7, .2, 1); }
+@keyframes kovpack-seg-wobble {
+    0% { transform: none; }
+    35% { transform: scaleY(.86); }
+    70% { transform: scaleY(1.04); }
+    100% { transform: none; }
+}
+.kovpack-seg.has-drop .kovpack-seg__option { z-index: 1; }
+.kovpack-seg.has-drop .kovpack-seg__option input:checked + span { background: transparent; box-shadow: none; }
+.kovpack-seg.has-drop .kovpack-seg__option input:checked + span::after { content: none; }
+@media (prefers-reduced-motion: reduce) {
+    .kovpack-seg__drop { transition-duration: 0s !important; }
+    .kovpack-seg__drop.is-moving { animation: none; }
+}

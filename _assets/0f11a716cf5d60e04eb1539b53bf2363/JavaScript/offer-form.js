@@ -246,7 +246,51 @@
         update();
     }
 
+    /* Liquid selection (owner, 2026-11-12): one glass drop per choice track
+     * flows to the picked option. Its leading edge moves first and the
+     * trailing edge follows, so it stretches like a drop and settles. */
+    function setupDrop(track) {
+        var drop = document.createElement('span');
+        drop.className = 'kovpack-seg__drop';
+        drop.setAttribute('aria-hidden', 'true');
+        track.prepend(drop);
+        track.classList.add('has-drop');
+        var last = null;
+        function place(animate) {
+            var input = track.querySelector('input:checked');
+            var span = input && input.nextElementSibling;
+            if (!span) { drop.style.opacity = '0'; return; }
+            var box = span.getBoundingClientRect();
+            var outer = track.getBoundingClientRect();
+            var left = box.left - outer.left - track.clientLeft;
+            var top = box.top - outer.top - track.clientTop;
+            var right = track.clientWidth - left - box.width;
+            var lead = '.26s', trail = '.5s';
+            var toRight = last !== null && left > last;
+            drop.classList.toggle('is-still', !animate);
+            drop.style.transitionDuration = animate
+                ? (toRight ? [trail, lead, '.3s', '.3s'] : [lead, trail, '.3s', '.3s']).join(', ')
+                : '0s';
+            drop.style.left = left + 'px';
+            drop.style.right = right + 'px';
+            drop.style.top = top + 'px';
+            drop.style.height = box.height + 'px';
+            drop.style.opacity = '1';
+            if (animate && last !== null && last !== left) {
+                drop.classList.remove('is-moving');
+                void drop.offsetWidth;
+                drop.classList.add('is-moving');
+            }
+            last = left;
+        }
+        track.addEventListener('change', function () { place(true); });
+        window.addEventListener('resize', function () { place(false); });
+        place(false);
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { place(false); });
+    }
+
     function init() {
+        Array.prototype.forEach.call(document.querySelectorAll('[data-offer-form] .kovpack-seg'), setupDrop);
         Array.prototype.forEach.call(document.querySelectorAll('[data-offer-form]'), setup);
     }
 
