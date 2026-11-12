@@ -531,3 +531,26 @@
     .kovpack-shelf__item:not(.is-active):hover .kovpack-shelf__roll::before { transform: none; }
 }
 
+
+/* Phones (owner, 2026-11-12: compact mobile): the stacked sheet is too
+ * narrow beside its roll for the print and readable text, so it shows the
+ * text alone, as the narrow desktop sheet does; the product page keeps the
+ * photo. */
+@media (max-width: 639px) {
+    .kovpack-shelf__photo,
+    .kovpack-shelf__item.is-active .kovpack-shelf__photo { display: none; }
+    .kovpack-shelf__content,
+    .kovpack-shelf__item.is-active .kovpack-shelf__content { min-height: 0; }
+    .kovpack-shelf__desc { -webkit-line-clamp: 3; }
+    .kovpack-shelf__button { white-space: nowrap; }
+}
+/* The narrowest phones: a slimmer roll leaves the sheet room for its text. */
+@media (max-width: 380px) {
+    .kovpack-shelf { --roll-x: 10px; --roll-w: 54px; --roll-h: 204px; }
+    .kovpack-shelf__content,
+    .kovpack-shelf__item.is-active .kovpack-shelf__content { padding: 28px 16px 22px calc(var(--roll-w) / 2 + 14px); }
+    .kovpack-shelf__paper,
+    .kovpack-shelf__item.is-active .kovpack-shelf__paper { margin-right: 10px; }
+    .kovpack-shelf .kovpack-shelf__name { font-size: 21px; hyphens: manual; }
+    .kovpack-shelf .kovpack-shelf__type { font-size: 17px; hyphens: manual; overflow-wrap: normal; }
+}

@@ -2890,3 +2890,346 @@ body[class] {
     .kovpack-action-drop { transition-duration: 0s !important; }
     .kovpack-action-drop.is-moving { animation: none; }
 }
+
+/* ------------------------------------------------------------------------
+ * Phone layer (owner, 2026-11-12): the desktop design stays as it is. Below
+ * the 1280px menu breakpoint the burger menu is a full-height sheet in the
+ * footer colour; below 900px fixes and below 600px compact layouts make the
+ * long blocks shorter for one-hand reading. Every rule sits in a max-width
+ * query, so nothing here reaches the desktop layout.
+ * ---------------------------------------------------------------------- */
+@media (max-width: 1279px) {
+    /* The bar the menu hangs from: always pinned and dark while it is open,
+     * whatever colour it had over the hero, stuck or scrolled. */
+    .header.is-stuck { --header-padding-vertical: 10px; }
+    .header:has(.header__menu--open):not(#_) {
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        color: #fff;
+        background: var(--kovpack-primary, #0f2a33);
+        border-bottom: 0;
+        box-shadow: none;
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+        animation: none;
+    }
+    .header:has(.header__menu--open):not(#_) .header__logo :is(img, svg) { filter: none; opacity: 1; }
+    .header:has(.header__menu--open):not(#_) .header__menu-button .button {
+        --button-primary-content-color: #fff;
+        --button-primary-border-color: rgb(255 255 255 / 35%);
+    }
+    :root .header .header__menu--open {
+        --link-color: #fff;
+        --link-color-hover: #fff;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        bottom: auto;
+        left: 0;
+        display: flex;
+        /* 100% is the bar's own height, whatever its state. */
+        height: calc(100dvh - 100%);
+        box-sizing: border-box;
+        min-height: 0;
+        padding: 4px var(--kovpack-edge) calc(28px + env(safe-area-inset-bottom, 0px));
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        color: #fff;
+        background: var(--kovpack-primary, #0f2a33);
+        box-shadow: inset 0 1px 0 rgb(255 255 255 / 10%);
+        animation: kovpack-menu-in .4s var(--kovpack-ease) both;
+    }
+    :root .header .header__menu--open .header__nav {
+        position: static;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        width: 100%;
+        max-width: 640px;
+        margin: 0 auto;
+        padding: 0;
+        background: none;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+    }
+    :root .header .header__menu--open .header__nav-list {
+        display: block;
+        overflow: visible;
+        color: #fff;
+        background: none;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+    }
+    :root .header .header__menu--open .header__nav-list-item {
+        --icon-position: static;
+        --icon-top: auto;
+        display: block;
+        min-height: 0;
+        white-space: normal;
+        border-bottom: 1px solid rgb(255 255 255 / 12%);
+        animation: kovpack-menu-item .5s var(--kovpack-ease) both;
+    }
+    :root .header .header__menu--open .header__nav-list-item:nth-child(2) { animation-delay: .04s; }
+    :root .header .header__menu--open .header__nav-list-item:nth-child(3) { animation-delay: .08s; }
+    :root .header .header__menu--open .header__nav-list-item:nth-child(n + 4) { animation-delay: .12s; }
+    :root .header .header__menu--open .header__nav-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        width: 100%;
+        height: auto;
+        min-height: 0;
+        padding: 19px 0;
+        color: #fff;
+        background: none;
+        font-family: var(--kovpack-font-display);
+        font-size: 26px;
+        font-weight: 600;
+        line-height: 1.15;
+        letter-spacing: -.01em;
+        text-align: left;
+        text-decoration: none;
+        -webkit-tap-highlight-color: transparent;
+    }
+    :root .header .header__menu--open .header__nav-item::before { content: none; }
+    :root .header .header__menu--open .header__nav-item--active { color: var(--kovpack-label-teal); }
+    :root .header .header__menu--open .header__nav-item .icon {
+        flex: none;
+        width: 26px;
+        height: 26px;
+        opacity: .7;
+        transition: rotate .35s var(--kovpack-ease), opacity .35s ease;
+    }
+    :root .header .header__menu--open .header__nav-item:is([aria-expanded="true"], :has(+ .header__subnav--active)) .icon { rotate: 180deg; opacity: 1; }
+    :root .header .header__menu--open .header__subnav {
+        position: static;
+        width: auto;
+        max-height: none;
+        margin: -4px 0 0;
+        padding: 0 0 16px;
+        overflow: visible;
+        color: #fff;
+        background: none;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+        transform: none;
+    }
+    :root .header .header__menu--open .header__subnav--active { animation: kovpack-menu-item .4s var(--kovpack-ease) both; }
+    :root .header .header__menu--open .header__subnav-list-item { min-height: 0; }
+    :root .header .header__menu--open .header__subnav-item {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        min-height: 44px;
+        padding: 0;
+        color: rgb(255 255 255 / 76%);
+        background: none;
+        font-size: 17px;
+        font-weight: 500;
+        line-height: 1.3;
+        text-decoration: none;
+        transition: color .25s ease;
+        -webkit-tap-highlight-color: transparent;
+    }
+    :root .header .header__menu--open .header__subnav-item::before {
+        content: "";
+        flex: none;
+        width: 16px;
+        height: 1px;
+        background: currentColor;
+        opacity: .55;
+    }
+    :root .header .header__menu--open .header__subnav-item:is(:hover, :active, :focus-visible, [aria-current="page"]) { color: #fff; }
+    /* Language: a pill with the current code; the choices open beside it. */
+    :root .header .header__menu--open .header__language-nav {
+        margin: auto 0 0;
+        padding-top: 28px;
+        overflow: visible;
+        background: none;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+    }
+    :root .header .header__menu--open .header__language-dropdown { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+    :root .header .header__menu--open .header__language-button {
+        display: inline-flex;
+        gap: 8px;
+        width: auto;
+        min-width: 0;
+        height: 44px;
+        padding: 0 14px;
+        color: #fff;
+        background: rgb(255 255 255 / 8%);
+        border: 1px solid rgb(255 255 255 / 22%);
+        border-radius: var(--corners-s);
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: .08em;
+    }
+    :root .header .header__menu--open .header__language-button-icon { display: inline-flex; color: rgb(255 255 255 / 70%); }
+    :root .header .header__menu--open .header__language-button-icon .icon { width: 18px; height: 18px; }
+    :root .header .header__menu--open .header__language-dropdown--open .header__language-menu {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        width: auto;
+        min-width: 0;
+        margin: 0;
+        overflow: visible;
+        color: #fff;
+        background: none;
+        border: 0;
+        box-shadow: none;
+    }
+    :root .header .header__menu--open .header__language-menu-item { min-height: 0; }
+    :root .header .header__menu--open .header__language-menu-link {
+        display: flex;
+        align-items: center;
+        min-height: 44px;
+        padding: 0 16px;
+        color: rgb(255 255 255 / 80%);
+        background: none;
+        border: 1px solid rgb(255 255 255 / 14%);
+        border-radius: var(--corners-s);
+        font-size: 15px;
+        text-decoration: none;
+    }
+    :root .header .header__menu--open .header__language-menu-link--active { color: var(--kovpack-ink); background: #fff; border-color: #fff; }
+}
+/* The group page with its own content (Produkte) opens its submenu on a tap,
+ * so the submenu's first item links the group page itself. */
+@media (min-width: 1280px) {
+    .header__subnav-list-item--overview { display: none; }
+}
+@keyframes kovpack-menu-in { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
+@keyframes kovpack-menu-item { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+@media (max-width: 900px) {
+    /* 16px text in form fields: iOS zooms into any smaller field on focus. */
+    :root .page__content :is(input:not([type=checkbox], [type=radio], [type=hidden]), select, textarea):not(#_) { font-size: 16px; }
+
+    /* Distributors intro: the two-column split of the desktop stacks, and the
+     * long single-word heading scales to the screen instead of running off it. */
+    .page__content .kovpack-partner .kovpack-about__hero-inner { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+    .page__content .kovpack-partner .kovpack-about__hero h1 { font-size: clamp(30px, 10.4vw, 56px); }
+
+    /* Products intro: the label tiles become one swipeable row that runs to
+     * the screen edges; each tile keeps its proportions. */
+    .hero.hero--small:has(.kovpack-hero-tiles) { --hero-overhang: 40px; grid-template-columns: minmax(0, 1fr); row-gap: 24px; }
+    .kovpack-hero-tiles {
+        grid-template-columns: none;
+        grid-template-rows: auto minmax(40px, 1fr) auto auto;
+        grid-auto-rows: auto;
+        grid-auto-flow: column;
+        grid-auto-columns: min(66vw, 250px);
+        gap: 12px;
+        margin: 0 calc(-1 * var(--kovpack-edge));
+        padding: 4px var(--kovpack-edge) 28px;
+        overflow-x: auto;
+        overscroll-behavior-x: contain;
+        scroll-snap-type: x mandatory;
+        scroll-padding-inline: var(--kovpack-edge);
+        scrollbar-width: none;
+    }
+    .kovpack-hero-tiles::-webkit-scrollbar { display: none; }
+    .kovpack-hero-tile { grid-row: 1 / span 4; scroll-snap-align: start; box-shadow: 0 2px 4px rgb(20 26 27 / 6%), 0 18px 30px -18px rgb(20 26 27 / 45%); }
+    .kovpack-hero-tile__name { font-size: 24px; }
+    .kovpack-hero-tile__type { font-size: 13px; }
+    .kovpack-hero-tile__uses { font-size: 12.5px; }
+}
+@media (min-width: 601px) and (max-width: 900px) {
+    /* Tablets: the tiles share the row while they fit, and scroll beyond that. */
+    .kovpack-hero-tiles { grid-auto-columns: minmax(200px, 1fr); }
+
+    /* Product page: specifications as label | value rows, as on desktop. */
+    .kovpack-pdp__specs > div {
+        display: grid;
+        grid-template-columns: minmax(0, 40%) minmax(0, 1fr);
+        flex-direction: row;
+        align-items: baseline;
+        gap: 14px;
+        padding: 9px 0;
+    }
+    .kovpack-pdp__specs dt { white-space: normal; font-size: 13.5px; }
+    .kovpack-pdp__specs dd { font-size: 14.5px; text-align: left; }
+
+    /* Product videos: one swipeable row instead of a long column. */
+    .kovpack-pdp__videos {
+        grid-template-columns: none;
+        grid-auto-flow: column;
+        grid-auto-columns: min(80%, 420px);
+        gap: 12px;
+        margin-inline: calc(-1 * var(--kovpack-edge));
+        padding: 0 var(--kovpack-edge) 6px;
+        overflow-x: auto;
+        overscroll-behavior-x: contain;
+        scroll-snap-type: x mandatory;
+        scroll-padding-inline: var(--kovpack-edge);
+        scrollbar-width: none;
+    }
+    .kovpack-pdp__videos::-webkit-scrollbar { display: none; }
+    .kovpack-pdp__video { scroll-snap-align: start; }
+
+    /* Enquiry: the summary and the form read as one block, without the
+     * double gap of two desktop columns between them. */
+    .page__content > .frame-kovpack-contact-info.kovpack-offer:not(#_) { padding-bottom: 24px; }
+    .page__content > .frame-kovpack-contact-form.kovpack-offer:not(#_) { padding-top: 16px; }
+}
+
+@media (max-width: 600px) {
+    :root { --kovpack-section-gap: 56px; }
+
+    /* Long product names in the enquiry heading may wrap on narrow phones. */
+    .kovpack-offer__name { white-space: normal; }
+    .page__content .frame-kovpack-contact-info.kovpack-offer h2 { font-size: clamp(28px, 8.6vw, 36px); }
+
+    /* Product page applications: two tiles a row, smaller pictograms. */
+    .kovpack-pdp__uses { margin-top: 48px; padding-top: 28px; }
+    .kovpack-pdp__uses-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 18px; }
+    .kovpack-pdp__use { padding: 18px 10px 16px; }
+    .kovpack-pdp__use-icon { width: 54px; height: 54px; }
+    .kovpack-pdp .kovpack-pdp__use-title { margin-top: 10px; font-size: 15px; hyphens: manual; overflow-wrap: break-word; }
+    .kovpack-pdp__use-text { margin-top: 5px; font-size: 13px; line-height: 1.4; }
+    .kovpack-pdp__trait { padding: 14px 0; }
+
+    /* About strengths and distributor product lines: icon beside the text. */
+    .kovpack-about__pillar,
+    .kovpack-about__pillar:first-child,
+    .kovpack-about__pillar:last-child {
+        display: grid;
+        grid-template-columns: 40px minmax(0, 1fr);
+        column-gap: 16px;
+        align-items: start;
+        padding: 22px 0;
+    }
+    .kovpack-about__pillar:first-child { padding-top: 0; }
+    .kovpack-about__pillar:last-child { padding-bottom: 0; }
+    .kovpack-about__pillar > :not(.kovpack-about__pillar-icon) { grid-column: 2; }
+    .kovpack-about__pillar-icon { grid-row: 1 / span 2; width: 40px; height: 40px; margin: 0; }
+    .page__content .kovpack-about__pillar h3 { margin-bottom: 6px; font-size: 21px; }
+    .kovpack-about__pillar p { font-size: 15px; }
+
+    .kovpack-partner__line a,
+    .kovpack-partner__line:first-child a,
+    .kovpack-partner__line:last-child a {
+        display: grid;
+        grid-template-columns: 40px minmax(0, 1fr);
+        column-gap: 16px;
+        align-items: start;
+        padding-block: 14px;
+    }
+    .kovpack-partner__line a > :not(.kovpack-partner__line-icon) { grid-column: 2; }
+    .kovpack-partner__line-icon { grid-row: 1 / span 2; width: 40px; height: 40px; margin: 0; }
+    .kovpack-partner__line a::after,
+    .kovpack-partner__line:last-child a::after { top: 14px; }
+    .page__content .kovpack-partner__line h3 { margin-bottom: 4px; }
+    .kovpack-partner__line p { font-size: 15px; }
+}

@@ -637,3 +637,50 @@
         .kovpack-roll__sheet-type { margin-bottom: calc(22 * var(--u)); font-size: calc(23 * var(--u)); }
     }
 }
+
+/* Phones (owner, 2026-11-12: compact mobile): the closed roll stands at the
+ * left with the name and teaser beside it, as on desktop, instead of the
+ * name above a centred roll. A tap unrolls the sheet from where the roll
+ * stands over the name, so the card is a label shorter. */
+@media (max-width: 900px) {
+    .kovpack-roll__stage { --rest: 8; --slide: 0; }
+    .kovpack-roll__label {
+        position: absolute;
+        top: 0;
+        bottom: calc(30 * var(--u));
+        left: calc((var(--rest) + var(--body) + 34) * var(--u));
+        right: 0;
+        padding: 0;
+        justify-content: center;
+    }
+    .kovpack-roll .kovpack-roll__title { font-size: clamp(22px, 7vw, 30px); }
+    .kovpack-roll .kovpack-roll__type { font-size: clamp(15px, 4.4vw, 18px); }
+    .kovpack-roll__teaser {
+        display: -webkit-box;
+        overflow: hidden;
+        font-size: 14.5px;
+        line-height: 1.5;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 6;
+    }
+    .kovpack-roll:is(.is-open, :not(.is-ready):hover, :not(.is-ready):focus-within) .kovpack-roll__label {
+        opacity: 0;
+        transform: translateX(24px);
+        pointer-events: none;
+    }
+    .kovpack-product__photo { margin-bottom: 20px; }
+    /* The scene starts at the stage edge, so the name beside the roll lines
+     * up with it on any width; the name stays within the scene. */
+    .kovpack-roll__scene { margin: 0; }
+    .kovpack-roll__label { right: max(0px, 100% - 489 * var(--u)); }
+}
+/* Small tablets: the photo beside the roll instead of a full-width square above it. */
+@media (min-width: 601px) and (max-width: 900px) {
+    .kovpack-product__layout--photo {
+        display: grid;
+        grid-template-columns: minmax(0, 4fr) minmax(0, 5fr);
+        align-items: center;
+        column-gap: 28px;
+    }
+    .kovpack-product__photo { margin: 0; }
+}

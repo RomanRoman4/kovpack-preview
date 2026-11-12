@@ -27,9 +27,9 @@ and in Russian. Read this file and TYPO3-MAPPING.md; inspect only files relevant
 
 ## Design contract
 
-- Current review scope: desktop visuals only. Defer mobile-specific design work and
-  verification until the owner approves the desktop design or explicitly asks for
-  mobile work. Preserve the existing responsive behaviour while editing shared code.
+- Desktop and phone are both in review (owner asked for the phone version, 2026-11-12).
+  Keep the desktop look unchanged when adapting phones: phone rules live in max-width
+  queries (the phone layer at the end of site.css, product-roll.css, product-shelf.css).
 - Preserve the current DE/EN pages, responsive layout, product roll/shelf variants, hero
   slideshow, sticky header, back-to-top behaviour, fonts, pictures and animations unless
   the owner asks to change them. Keep `.nojekyll` and project-relative URLs for GitHub Pages.
@@ -47,9 +47,8 @@ and in Russian. Read this file and TYPO3-MAPPING.md; inspect only files relevant
 
 ## Verification
 
-For the current desktop-only review, check the changed page/component in DE and EN
-at desktop widths. Resume phone-width checks when the owner approves the desktop
-design or explicitly asks for mobile work. Verify its
+Check the changed page/component in DE and EN at desktop width and at phone widths
+(320, 375, 430 px; tablet 768 px when layout changes). Verify its
 links, images, fonts and interactions, and check for browser errors and horizontal overflow.
 Use focused checks rather than loading the private CMS project's entire test suite.
 Before final TYPO3 integration, follow the migration and acceptance checklist in the map.
