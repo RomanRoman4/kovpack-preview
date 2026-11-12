@@ -1636,8 +1636,7 @@ body[class] {
 /* Segmented control (owner, 2026-11-11): corners as the navigation (8px),
  * a frosted "liquid glass" track tinted with the product colour. Hover
  * fades in a tint and the navigation's underline; the chosen option is a
- * piece of coloured glass that gets a short press and a light sweep when
- * it is picked. */
+ * piece of coloured glass that gets a short press when it is picked. */
 .kovpack-seg,
 .kovpack-qty {
     border: 1px solid color-mix(in srgb, var(--offer-color) 34%, rgb(255 255 255 / 60%));
@@ -1700,23 +1699,11 @@ body[class] {
     font-weight: 600;
     animation: kovpack-seg-pick .42s cubic-bezier(.3, 1.4, .5, 1);
 }
-/* A light sweep crosses the glass once when an option is picked. */
-.kovpack-seg__option input:checked + span::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(105deg, rgb(255 255 255 / 0%) 30%, rgb(255 255 255 / 70%) 50%, rgb(255 255 255 / 0%) 70%);
-    transform: translateX(-120%);
-    animation: kovpack-seg-sheen .7s .05s ease-out;
-    pointer-events: none;
-}
 @keyframes kovpack-seg-pick { 0% { transform: scale(.92); } 100% { transform: none; } }
-@keyframes kovpack-seg-sheen { from { transform: translateX(-120%); } to { transform: translateX(120%); } }
 .kovpack-seg__option input:focus-visible + span { outline: 3px solid var(--kovpack-ink); outline-offset: 1px; }
 .kovpack-seg__option:active input + span { transform: scale(.96); transition-duration: .08s; }
 @media (prefers-reduced-motion: reduce) {
-    .kovpack-seg__option input:checked + span,
-    .kovpack-seg__option input:checked + span::after { animation: none; }
+    .kovpack-seg__option input:checked + span { animation: none; }
     .kovpack-seg__option > span::before { transform: none; }
 }
 .kovpack-offer__reveal[hidden] { display: none; }
