@@ -126,9 +126,6 @@
     .kovpack-roll__use:nth-child(odd) { padding-left: 16px; border-left: 1px solid var(--kovpack-line, #dcd6ca); }
     .kovpack-roll__use:first-child { padding-left: 0; border-left: 0; }
 }
-@media (max-width: 900px) {
-    .kovpack-roll__uses { display: none; }
-}
 
 /* The roll is the toggle button; the photo keeps the demo's transparent margins. */
 .kovpack-roll__reel {
@@ -502,39 +499,6 @@
     }
 }
 
-/* Phones and small tablets: the name above the demo's centred roll; a tap
- * unrolls the sheet. The scene is the demo's 489-unit mobile stage. */
-@media (max-width: 900px) {
-    .kovpack-roll__stage {
-        --u: min(1px, calc(100cqw / 489));
-        --rest: calc(243.4 - (var(--body) + 1.6) / 2);
-        /* The open roll stops 8 units from the edge; the sheet fills the rest. */
-        --slide: calc(var(--rest) - 8);
-        --sheet-width: calc((489 - 8 - var(--body) + 12.1 - 8) * var(--u));
-    }
-    .kovpack-roll__label { position: static; padding: 0 0 6px; }
-    .kovpack-roll .kovpack-roll__title { font-size: 28px; }
-    .kovpack-roll .kovpack-roll__type { margin-top: 4px; font-size: 18px; }
-    .kovpack-roll__teaser { margin-top: 10px; font-size: 15px; }
-    .kovpack-roll__scene { width: calc(489 * var(--u)); margin: 0 auto; }
-    .kovpack-roll__sheet-content { padding: calc(32 * var(--u)) calc(28 * var(--u)) calc(25 * var(--u)) calc((var(--tuck) + 35) * var(--u)); }
-    .kovpack-roll__name { font-size: calc(34 * var(--u)); }
-    .kovpack-roll__specs > div { flex-direction: column; gap: 0; }
-    .kovpack-roll__specs dd { text-align: left; }
-    /* The full list stays on the product page. */
-    .kovpack-roll__specs > div:nth-child(n + 4) { display: none; }
-    .kovpack-roll__specs > div:nth-child(3) { border-bottom: 1px dashed rgb(36 26 15 / 38%); }
-    .kovpack-roll__action .button { gap: 16px; white-space: nowrap; }
-    .kovpack-roll__action .button::after { width: max(24px, calc(30 * var(--u))); height: max(24px, calc(30 * var(--u))); }
-    /* The narrowest sheets keep the button at full size and readable type;
-     * they drop the button's redundant note and show two specifications. */
-    @container kovpack-roll (max-width: 339px) {
-        .kovpack-roll__action-note { display: none; }
-        .kovpack-roll__specs > div:nth-child(n + 3) { display: none; }
-        .kovpack-roll__specs > div:nth-child(2) { border-bottom: 1px dashed rgb(36 26 15 / 38%); }
-    }
-}
-
 /* Product photo (owner request 2026-11-04). With a visible image on the record
  * the photo has its own column left of the roll and stays in view; only the
  * roll card reacts to hover. The roll then waits at the start of its column
@@ -638,49 +602,207 @@
     }
 }
 
-/* Phones (owner, 2026-11-12: compact mobile): the closed roll stands at the
- * left with the name and teaser beside it, as on desktop, instead of the
- * name above a centred roll. A tap unrolls the sheet from where the roll
- * stands over the name, so the card is a label shorter. */
+/* ------------------------------------------------------------------------
+ * Phones and small tablets (owner, 2026-11-12): the scroll unrolls the
+ * paper. The roll lies across the top of the card and the kraft sheet with
+ * the product's main facts hangs from it; product-roll.js sets --unroll
+ * (0 to 1) on the product record from the scroll position, so the sheet
+ * runs off the roll while the card comes up the screen and its free edge
+ * stays near the bottom of the screen until it is fully open. No tap is
+ * needed, and the card is only as tall as its content. Without the script
+ * or with reduced motion --unroll stays 1: the sheet is simply open. The
+ * home page shows these cards instead of the shelf below 900px.
+ * --r is the lying roll's height: the photo's 489 / 1788 proportions turned
+ * on their side across the card.
+ * ---------------------------------------------------------------------- */
 @media (max-width: 900px) {
-    .kovpack-roll__stage { --rest: 8; --slide: 0; }
-    .kovpack-roll__label {
+    .kovpack-product[data-roll] { --unroll: 1; --r: calc(100cqw * 489 / 1788); }
+    .kovpack-product[data-roll][data-view-off]:not(#_) { display: block; }
+    .kovpack-shelf:not(#_),
+    .kovpack-product-controls:not(#_) { display: none; }
+
+    .kovpack-product .kovpack-product__layout { position: relative; container: kovpack-card / inline-size; }
+    .kovpack-product .kovpack-roll__stage:not(#_) { container: none; --u: 1px; }
+
+    /* The heading lives in the sheet; the closed label stays for readers only. */
+    .kovpack-product .kovpack-roll__label:not(#_) {
         position: absolute;
         top: 0;
-        bottom: calc(30 * var(--u));
-        left: calc((var(--rest) + var(--body) + 34) * var(--u));
-        right: 0;
+        right: auto;
+        bottom: auto;
+        left: 0;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
         padding: 0;
-        justify-content: center;
-    }
-    .kovpack-roll .kovpack-roll__title { font-size: clamp(22px, 7vw, 30px); }
-    .kovpack-roll .kovpack-roll__type { font-size: clamp(15px, 4.4vw, 18px); }
-    .kovpack-roll__teaser {
-        display: -webkit-box;
         overflow: hidden;
-        font-size: 14.5px;
-        line-height: 1.5;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 6;
+        clip-path: inset(50%);
+        white-space: nowrap;
     }
-    .kovpack-roll:is(.is-open, :not(.is-ready):hover, :not(.is-ready):focus-within) .kovpack-roll__label {
-        opacity: 0;
-        transform: translateX(24px);
+
+    .kovpack-product .kovpack-roll__scene:not(#_) {
+        position: relative;
+        width: auto;
+        height: auto;
+        margin: 0;
+        padding-top: calc(var(--r) * .5);
+    }
+
+    /* The roll, turned on its side; it loses a little girth as it unrolls. */
+    .kovpack-product .kovpack-roll__reel:not(#_) {
+        position: absolute;
+        z-index: 3;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: var(--r);
+        border-radius: 0;
+        cursor: default;
         pointer-events: none;
+        filter: drop-shadow(0 3px 3px rgb(60 40 20 / 18%)) drop-shadow(0 14px 14px rgb(60 40 20 / 16%));
+        transform: none;
+        transition: none;
     }
-    .kovpack-product__photo { margin-bottom: 20px; }
-    /* The scene starts at the stage edge, so the name beside the roll lines
-     * up with it on any width; the name stays within the scene. */
-    .kovpack-roll__scene { margin: 0; }
-    .kovpack-roll__label { right: max(0px, 100% - 489 * var(--u)); }
-}
-/* Small tablets: the photo beside the roll instead of a full-width square above it. */
-@media (min-width: 601px) and (max-width: 900px) {
-    .kovpack-product__layout--photo {
+    .kovpack-product .kovpack-roll .kovpack-roll__reel-image:not(#_) {
+        top: 50%;
+        left: 50%;
+        width: var(--r);
+        height: auto;
+        transform: translate(-50%, -50%) rotate(90deg) scaleX(calc(1.03 - .07 * var(--unroll)));
+    }
+    .kovpack-product .kovpack-roll__handle,
+    .kovpack-product .kovpack-roll__shadow { display: none; }
+
+    /* The sheet runs from under the roll's middle; the scroll uncovers it from
+     * the top down, its shadow included. */
+    .kovpack-product .kovpack-roll__sheet:not(#_) {
+        position: relative;
+        top: auto;
+        left: auto;
+        z-index: 2;
+        width: auto;
+        height: auto;
+        margin: 0 3.4%;
+        opacity: 1;
+        transform: none;
+        transition: none;
+        filter: drop-shadow(0 1px 1px rgb(60 40 20 / 16%)) drop-shadow(0 16px 18px rgb(60 40 20 / 20%));
+        clip-path: inset(-40px -40px calc((1 - var(--unroll)) * 100% - 40px * var(--unroll)) -40px);
+    }
+    .kovpack-product .kovpack-roll__sheet::before,
+    .kovpack-product .kovpack-roll__sheet::after {
+        -webkit-mask: none;
+        mask: none;
+        padding: 0;
+        border-radius: 0 0 3px 3px;
+    }
+    .kovpack-product .kovpack-roll__sheet::before {
+        background:
+            /* The free edge while it runs off the roll: a lit rim over a shade. */
+            linear-gradient(rgb(255 248 235 / 0%), rgb(255 248 235 / calc(.4 * min(1, (1 - var(--unroll)) * 8))) 55%, rgb(60 40 20 / calc(.32 * min(1, (1 - var(--unroll)) * 8))) 80%, rgb(60 40 20 / 0%)) 0 calc(var(--unroll) * 100%) / 100% 22px no-repeat,
+            /* The roll's shadow on the paper right under it, then the curl. */
+            linear-gradient(rgb(40 25 10 / 46%), rgb(40 25 10 / 22%) calc(var(--r) * .5 + 4px), rgb(255 248 235 / 16%) calc(var(--r) * .5 + 22px), rgb(255 248 235 / 0%) calc(var(--r) * .5 + 64px)),
+            /* The web is a touch darker at both long edges. */
+            linear-gradient(90deg, rgb(60 40 20 / 12%), rgb(60 40 20 / 0%) 7%, rgb(255 250 240 / 6%) 40%, rgb(60 40 20 / 0%) 93%, rgb(60 40 20 / 12%)),
+            linear-gradient(rgb(255 250 240 / 0%) 60%, rgb(60 40 20 / 10%)),
+            url("../Images/kovpack-paper-grain.png?v=9d695677"),
+            var(--sheet-paper);
+    }
+
+    .kovpack-product .kovpack-roll__sheet-content:not(#_) {
         display: grid;
-        grid-template-columns: minmax(0, 4fr) minmax(0, 5fr);
-        align-items: center;
-        column-gap: 28px;
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: none;
+        height: auto;
+        padding: calc(var(--r) * .5 + 22px) 22px 22px;
+        opacity: 1;
+        transform: none;
+        transition: none;
     }
-    .kovpack-product__photo { margin: 0; }
+    .kovpack-product .kovpack-roll__intro { min-width: 0; }
+    .kovpack-product .kovpack-roll__eyebrow { display: flex; align-items: center; gap: 9px; margin: 0 0 10px; font-size: 10.5px; letter-spacing: .18em; }
+    .kovpack-product .kovpack-roll__eyebrow::before {
+        content: "";
+        width: 18px;
+        height: 5px;
+        border-radius: 3px;
+        background: var(--roll-label, var(--roll-accent));
+    }
+    .kovpack-product .kovpack-roll__name:not(#_) { margin: 0 0 4px; font-size: clamp(25px, 7.4vw, 34px); line-height: 1; }
+    .kovpack-product .kovpack-roll__sheet-type:not(#_) { margin: 0 0 12px; font-size: clamp(16px, 4.4vw, 19px); }
+    .kovpack-product .kovpack-roll__text:not(#_) { display: block; margin: 0 0 14px; font-size: 14.5px; line-height: 1.5; }
+    .kovpack-product .kovpack-roll__sheet .kovpack-eco { display: none; }
+    .kovpack-product .kovpack-roll__specs:not(#_) { margin: 0 0 14px; }
+    .kovpack-product .kovpack-roll__specs > div:not(#_) {
+        display: grid;
+        grid-template-columns: minmax(84px, 34%) minmax(0, 1fr);
+        align-items: baseline;
+        gap: 12px;
+        padding: 7px 0;
+    }
+    .kovpack-product .kovpack-roll__specs dt { font-size: 10.5px; }
+    .kovpack-product .kovpack-roll__specs dd { font-size: 14px; text-align: left; }
+    .kovpack-product .kovpack-roll__action:not(#_) { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 0; border-top: 0; }
+    .kovpack-product .kovpack-roll__action-note { display: none; }
+    .kovpack-product .kovpack-roll__action .button:not(#_) { gap: 18px; margin: 0; white-space: nowrap; }
+
+    /* Product photo: a small print taped to the sheet beside the name; it is
+     * laid on once the sheet has run past it. */
+    .kovpack-product .kovpack-product__photo:not(#_) {
+        position: absolute;
+        z-index: 4;
+        top: calc(var(--r) * 1.0 + 26px);
+        right: calc(3.4% + 16px);
+        width: clamp(84px, 25cqw, 128px);
+        margin: 0;
+        opacity: clamp(0, (var(--unroll) - .2) * 4, 1);
+        transform: translateY(calc((1 - clamp(0, (var(--unroll) - .2) * 4, 1)) * -10px)) rotate(3.5deg);
+        transform-origin: 50% 0;
+    }
+    .kovpack-product .kovpack-product__photo img:not(#_) {
+        position: static;
+        height: auto;
+        aspect-ratio: 1;
+        border: 4px solid #fbf7ef;
+        border-radius: 3px;
+        box-shadow: 0 1px 2px rgb(45 30 15 / 22%), 2px 10px 18px -8px rgb(45 30 15 / 45%);
+    }
+    /* A strip of tape over the top edge. */
+    .kovpack-product .kovpack-product__photo::before {
+        content: "";
+        position: absolute;
+        z-index: 1;
+        top: -7px;
+        left: 50%;
+        width: 46px;
+        height: 15px;
+        background: rgb(246 238 222 / 72%);
+        box-shadow: 0 1px 2px rgb(45 30 15 / 14%);
+        transform: translateX(-50%) rotate(-4deg);
+    }
+    .kovpack-product .kovpack-roll__intro > :is(.kovpack-roll__eyebrow, .kovpack-roll__name, .kovpack-roll__sheet-type):not(#_) { margin-right: calc(clamp(84px, 25cqw, 128px) + 4px); }
+}
+/* Small tablets: the photo stands beside the card. */
+@media (min-width: 601px) and (max-width: 900px) {
+    .kovpack-product .kovpack-product__layout--photo {
+        display: grid;
+        grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+        align-items: start;
+        column-gap: 24px;
+        container: none;
+    }
+    .kovpack-product .kovpack-roll { container: kovpack-card / inline-size; }
+    .kovpack-product .kovpack-roll__stage:not(#_) { container: kovpack-card-stage / inline-size; }
+    .kovpack-product .kovpack-product__photo:not(#_) {
+        position: relative;
+        top: auto;
+        right: auto;
+        width: auto;
+        margin-top: 12px;
+        opacity: 1;
+        transform: none;
+    }
+    .kovpack-product .kovpack-product__photo::before { content: none; }
+    .kovpack-product .kovpack-product__photo img:not(#_) { border: 0; border-radius: var(--corners-l, 16px); }
+    .kovpack-product .kovpack-roll__intro > :is(.kovpack-roll__eyebrow, .kovpack-roll__name, .kovpack-roll__sheet-type):not(#_) { margin-right: 0; }
 }
