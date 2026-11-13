@@ -1235,7 +1235,7 @@ body[class] {
     align-self: end;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr));
-    grid-auto-rows: auto minmax(clamp(48px, 5vw, 84px), 1fr) auto auto;
+    grid-auto-rows: auto minmax(clamp(18px, 2.4vw, 44px), 1fr) auto auto;
     gap: clamp(12px, 1.2vw, 18px);
     max-width: none;
     margin: 0;
@@ -1297,7 +1297,7 @@ body[class] {
 .kovpack-hero-tile__logo {
     grid-row: 1;
     display: block;
-    width: 58%;
+    width: 54%;
     max-width: none;
     height: auto;
     margin: 0;
@@ -1322,16 +1322,18 @@ body[class] {
 .kovpack-hero-tile__foot {
     grid-row: 4;
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
-    grid-template-areas: "icon type" "uses uses";
-    align-items: center;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "type" "uses";
+    align-content: start;
     column-gap: clamp(10px, .9vw, 14px);
-    margin-top: clamp(14px, 1.4vw, 22px);
-    padding-top: clamp(12px, 1.15vw, 18px);
+    margin-top: clamp(12px, 1.2vw, 18px);
+    padding-top: clamp(10px, 1vw, 14px);
     border-top: 1px solid rgb(20 26 27 / 26%);
 }
 .kovpack-hero-tile__copy { display: contents; }
-.kovpack-hero-tile__icon { grid-area: icon; display: block; width: clamp(40px, 3.7vw, 58px); height: auto; overflow: visible; }
+/* The roll pictogram sits in the top corner opposite the logo, like the
+ * mark on a label (owner, 2026-11-13: it no longer floats alone in the foot). */
+.kovpack-hero-tile__icon { grid-area: icon; position: absolute; top: clamp(18px, 1.7vw, 24px); right: clamp(18px, 1.6vw, 24px); display: block; width: clamp(30px, 2.6vw, 42px); height: auto; overflow: visible; }
 .kovpack-hero-tile__type {
     grid-area: type;
     margin: 0;
@@ -1347,14 +1349,20 @@ body[class] {
     display: flex;
     flex-wrap: wrap;
     max-width: none;
-    margin: .75em 0 0;
+    margin: 0 0 0 -1.1em;
     padding: 0;
     list-style: none;
-    font-size: clamp(12px, 1.02vw, 15px);
+    /* Each use carries its dot in front; the dot that starts a line falls in
+     * the clipped strip on the left, so no line begins or ends with a dot. */
+    clip-path: inset(-2px 0 -2px 1.1em);
+    font-size: clamp(11.5px, .95vw, 14px);
     line-height: 1.35;
+    opacity: .82;
 }
-.kovpack-hero-tile__uses li { margin: 0; padding: 0; }
-.kovpack-hero-tile__uses li:not(:last-child)::after { content: "•"; margin: 0 .36em; }
+.kovpack-hero-tile__type + .kovpack-hero-tile__uses { margin-top: .35em; }
+.kovpack-hero-tile__type { text-wrap: balance; }
+.kovpack-hero-tile__uses li { margin: 0; padding: 0; white-space: nowrap; }
+.kovpack-hero-tile__uses li::before { content: "•"; display: inline-block; width: 1.1em; text-align: center; }
 @keyframes kovpack-tile-unroll {
     from { clip-path: inset(0 0 100% 0 round var(--corners-l)); transform: translateY(-14px); }
     to { clip-path: inset(0 0 0 0 round var(--corners-l)); transform: none; }
@@ -3478,7 +3486,7 @@ body[class] {
     .kovpack-hero-tile__logo { display: none; }
     .kovpack-hero-tile__name { grid-row: auto; font-size: 23px; }
     .kovpack-hero-tile__foot { grid-row: auto; grid-template-columns: 34px minmax(0, 1fr); grid-template-areas: "icon type" "icon uses"; column-gap: 12px; margin-top: 12px; padding-top: 10px; }
-    .kovpack-hero-tile__icon { width: 34px; }
+    .kovpack-hero-tile__icon { position: static; width: 34px; }
     .kovpack-hero-tile__uses { margin-top: 2px; }
 }
 @media (min-width: 601px) and (max-width: 900px) {
