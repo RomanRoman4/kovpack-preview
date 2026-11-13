@@ -3,7 +3,7 @@
 // Product page on phones and small tablets (owner, 2026-11-12). Three small
 // aids that keep the page short; the desktop page is left as it is, and
 // without this script every row, clip and the normal button simply stay.
-//   1. The specification list folds after five rows behind a toggle.
+//   1. The specification list shows its key rows; the rest folds behind a toggle.
 //   2. The product videos become one player with the other clips as
 //      thumbnails; a tap on a thumbnail brings that clip into the player.
 //   3. A glass bar keeps the enquiry button at hand between the button at
@@ -19,7 +19,13 @@ const VISIBLE_ROWS = 5;
 // 1. Specifications.
 for (const list of document.querySelectorAll('.kovpack-pdp__specs')) {
     const rows = list.querySelectorAll(':scope > div');
-    if (rows.length <= VISIBLE_ROWS + 1) continue;
+    // Key rows (data-key: paper type, grammage, roll width and length) stay
+    // visible and the rest opens on demand (owner, 2026-11-13). A list
+    // without keys keeps its first rows.
+    const keyed = list.querySelector(':scope > [data-key]');
+    const extra = [...rows].filter((row, index) => (keyed ? !row.hasAttribute('data-key') : index >= VISIBLE_ROWS));
+    if (extra.length < 2) continue;
+    extra.forEach((row) => row.setAttribute('data-fold', ''));
     if (!list.id) list.id = `kovpack-specs-${Math.random().toString(36).slice(2, 8)}`;
     const toggle = document.createElement('button');
     toggle.type = 'button';
@@ -37,11 +43,43 @@ for (const list of document.querySelectorAll('.kovpack-pdp__specs')) {
         open = !open;
         list.classList.toggle('is-unfolding', open && !reduced.matches);
         if (!open) {
-            // Folding up from far below: keep the toggle where the finger is.
-            const before = toggle.getBoundingClientRect().top;
-            render();
-            const after = toggle.getBoundingClientRect().top;
-            if (after < 0 || after < before - 40) window.scrollBy({ top: after - before, behavior: 'instant' });
+            // Folding up as smoothly as unfolding (owner, 2026-11-13): the
+            // extra rows shrink and fade, and the page follows frame by frame
+            // so the toggle stays under the finger instead of jumping.
+            if (reduced.matches || !Element.prototype.animate) {
+                const before = toggle.getBoundingClientRect().top;
+                render();
+                window.scrollBy({ top: toggle.getBoundingClientRect().top - before, behavior: 'instant' });
+                return;
+            }
+            toggle.disabled = true;
+            const anchor = toggle.getBoundingClientRect().top;
+            const animations = extra.map((row) => {
+                const style = getComputedStyle(row);
+                row.style.overflow = 'hidden';
+                return row.animate([
+                    { height: `${row.offsetHeight}px`, paddingTop: style.paddingTop, paddingBottom: style.paddingBottom, borderBottomWidth: style.borderBottomWidth, opacity: 1 },
+                    { height: '0px', paddingTop: '0px', paddingBottom: '0px', borderBottomWidth: '0px', opacity: 0 },
+                ], { duration: 380, easing: 'cubic-bezier(.3, .7, .2, 1)', fill: 'forwards' });
+            });
+            let running = true;
+            const follow = () => {
+                const shift = toggle.getBoundingClientRect().top - anchor;
+                if (shift) window.scrollBy({ top: shift, behavior: 'instant' });
+                if (running) requestAnimationFrame(follow);
+            };
+            requestAnimationFrame(follow);
+            // A tab in the background pauses animations: never leave the
+            // toggle stuck, fold at the latest after the planned time.
+            const timeout = new Promise((resolve) => { setTimeout(resolve, 520); });
+            Promise.race([Promise.all(animations.map((animation) => animation.finished)), timeout]).then(() => {
+                running = false;
+                render();
+                extra.forEach((row) => { row.style.overflow = ''; });
+                animations.forEach((animation) => animation.cancel());
+                follow();
+                toggle.disabled = false;
+            });
             return;
         }
         render();

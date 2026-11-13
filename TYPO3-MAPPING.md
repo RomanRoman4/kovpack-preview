@@ -101,7 +101,7 @@ Spec rows on the detail pages follow the usual market set, in this order: Funkti
 Papiersorte, Farbe, Grammatur, Lagen, Rollenbreite, Rollenlänge, Rollengewicht, Kerndurchmesser,
 Entsorgung (no Rollen pro Palette row: the enquiry form estimates it, owner 2026-11-13; no Bedruckung row: no printing offered yet, owner 2026-11-10; no perforation row). Values marked
 `data-sample` in the preview are example values for the visual review only, not product data: do not
-migrate them; editors enter the real values in TYPO3. An empty value shows "auf Anfrage" / "on request".
+migrate them; editors enter the real values in TYPO3. An empty value shows "auf Anfrage" / "on request". Each row has a "key" flag (`data-key` on the row): on phones and small tablets only the key rows show (Papiersorte, Grammatur, Rollenbreite, Rollenlänge) and the others open behind "Alle technischen Daten (n)" (owner, 2026-11-13); a list with no key rows shows its first five.
 
 ## Integration procedure
 

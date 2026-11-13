@@ -3593,8 +3593,8 @@ body[class] {
     }
     .kovpack-pdp .kovpack-pdp__specs dt:not(#_) { white-space: normal; font-size: 13.5px; line-height: 1.35; }
     .kovpack-pdp .kovpack-pdp__specs dd:not(#_) { font-size: 14.5px; line-height: 1.35; text-align: left; }
-    .kovpack-pdp .kovpack-pdp__specs.is-folded > div:nth-child(n + 6):not(#_) { display: none; }
-    .kovpack-pdp__specs.is-unfolding > div:nth-child(n + 6) { animation: kovpack-row-in .45s var(--kovpack-ease) both; }
+    .kovpack-pdp .kovpack-pdp__specs.is-folded > [data-fold]:not(#_) { display: none; }
+    .kovpack-pdp__specs.is-unfolding > [data-fold] { animation: kovpack-row-in .45s var(--kovpack-ease) both; }
     @keyframes kovpack-row-in { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
     .kovpack-pdp__specs-toggle {
         display: flex;
