@@ -2846,6 +2846,22 @@ body[class] {
     .kovpack-nav-drop.is-moving { animation: kovpack-seg-wobble .55s cubic-bezier(.3, .7, .2, 1); }
     :root .header .header__nav.has-drop .header__nav-item { position: relative; z-index: 1; }
     :root .header .header__nav.has-drop .header__nav-item:is(:hover, :focus-visible, .header__nav-item--active) { background: transparent; }
+    /* Submenu drop: same glass, flowing vertically; the light bar's submenu
+     * takes the ink glass, the teal one the white glass. */
+    .header .header__subnav.has-drop { isolation: isolate; }
+    :root .header .header__subnav.has-drop .kovpack-subnav-drop {
+        border-radius: var(--corners-s);
+        transition-property: left, right, top, bottom, opacity;
+        background: rgb(255 255 255 / 12%);
+        box-shadow: inset 0 0 0 1px rgb(255 255 255 / 18%), inset 0 1px 0 rgb(255 255 255 / 24%);
+    }
+    :root .header:is(.is-stuck, .is-scrolled) .header__subnav.has-drop .kovpack-subnav-drop {
+        background: rgb(20 26 27 / 7%);
+        box-shadow: inset 0 0 0 1px rgb(20 26 27 / 8%), inset 0 1px 0 rgb(255 255 255 / 50%);
+    }
+    .header .header__subnav.has-drop .header__subnav-item { position: relative; z-index: 1; }
+    .header .header__subnav.has-drop .header__subnav-item:hover,
+    .header:is(.is-stuck, .is-scrolled) .header__subnav.has-drop .header__subnav-item:hover { background: transparent; }
 }
 @media (prefers-reduced-motion: reduce) {
     .kovpack-nav-drop { transition-duration: 0s !important; }

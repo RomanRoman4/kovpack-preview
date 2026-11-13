@@ -286,6 +286,52 @@ for (const nav of document.querySelectorAll('.header__nav')) {
     });
 })();
 
+// Submenu drop (owner, 2026-11-13): the dropdowns get the same glass drop
+// as the menu bar. It appears under the pointer, flows between the items
+// (stretching vertically) and fades out when the pointer leaves.
+for (const list of document.querySelectorAll('.header__subnav')) {
+    const wide = window.matchMedia('(min-width: 1280px)');
+    const items = [...list.querySelectorAll('.header__subnav-item')]
+        .filter((item) => !item.closest('.header__subnav-list-item--back'));
+    if (!items.length) continue;
+    const drop = document.createElement('span');
+    drop.className = 'kovpack-nav-drop kovpack-subnav-drop';
+    drop.setAttribute('aria-hidden', 'true');
+    list.append(drop);
+    list.classList.add('has-drop');
+    let last = null;
+    const place = (item, animate) => {
+        if (!item || !wide.matches) { drop.style.opacity = '0'; last = null; return; }
+        const box = item.getBoundingClientRect();
+        const outer = list.getBoundingClientRect();
+        const left = box.left - outer.left - list.clientLeft;
+        const top = box.top - outer.top - list.clientTop;
+        const fresh = last === null;
+        const down = !fresh && top > last;
+        drop.style.transitionDuration = animate && !fresh
+            ? (down ? ['.3s', '.3s', '.5s', '.26s', '.3s'] : ['.3s', '.3s', '.26s', '.5s', '.3s']).join(', ')
+            : '0s, 0s, 0s, 0s, .25s';
+        drop.style.left = left + 'px';
+        drop.style.right = (list.clientWidth - left - box.width) + 'px';
+        drop.style.top = top + 'px';
+        drop.style.bottom = (list.clientHeight - top - box.height) + 'px';
+        drop.style.opacity = '1';
+        if (animate && !fresh && top !== last) {
+            drop.classList.remove('is-moving');
+            void drop.offsetWidth;
+            drop.classList.add('is-moving');
+        }
+        last = top;
+    };
+    for (const item of items) {
+        item.addEventListener('pointerenter', () => place(item, true));
+        item.addEventListener('focus', () => place(item, true));
+    }
+    list.addEventListener('pointerleave', () => place(null, true));
+    list.addEventListener('focusout', (event) => { if (!list.contains(event.relatedTarget)) place(null, true); });
+    wide.addEventListener('change', () => place(null, false));
+}
+
 // Product page actions (owner, 2026-11-12): the solid colour of "Angebot
 // anfragen" is one drop that flows to "Alle Produkte" under the pointer or
 // focus and back again, as in the menu and the enquiry form. Without this
