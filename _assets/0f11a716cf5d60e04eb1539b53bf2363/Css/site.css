@@ -784,15 +784,16 @@ button.header__nav-item {
     .component--page-footer .footer__col--1 .ce-gallery img { width: 40px; height: 40px; }
     .component--page-footer .footer__col--1 .ce-bodytext p:first-child:not(:only-child) { display: none; }
     .component--page-footer .footer__col--1 .ce-bodytext p + p { font-size: 10px; opacity: .75; }
-    .component--page-footer .footer__meta { margin-top: 20px; padding: 16px 56px 0 0; border-top: 1px solid rgb(255 255 255 / 12%); font-size: 13px; }
+    .component--page-footer .footer__meta { margin-top: 20px; padding: 16px 0 0; border-top: 1px solid rgb(255 255 255 / 12%); font-size: 13px; }
     .component--page-footer .footer__meta .frame-type-menu_pages ul { gap: 8px 20px; }
+    /* Contact on the left, the legal links grouped on the right, across the
+     * full width; the back-to-top button rests in the space below them
+     * (owner, 2026-11-13). */
+    .component--page-footer { padding-bottom: 76px; }
+    .component--page-footer .footer__meta .frame-type-menu_pages li:first-child { margin-right: auto; }
 }
 @media (max-width: 359px) {
     .component--page-footer .footer__logo, .component--page-footer .footer__logo img { height: 22px; }
-    /* Too narrow to share the row with the back-to-top button: the links
-     * take the full width and the button rests below them. */
-    .component--page-footer { padding-bottom: 66px; }
-    .component--page-footer .footer__meta { padding-right: 0; }
     .component--page-footer .footer__meta .frame-type-menu_pages ul { gap: 8px 14px; }
 }
 /* Desktop footer (owner, 2026-11-13): lighter. A slimmer band,
