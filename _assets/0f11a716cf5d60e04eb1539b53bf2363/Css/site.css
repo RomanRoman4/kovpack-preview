@@ -2261,6 +2261,9 @@ body[class] {
 }
 .kovpack-about__story-copy > p:last-child { margin-bottom: 0; }
 .kovpack-about__story-copy strong { color: var(--kovpack-ink); font-weight: 650; }
+/* The story heading is the KOVPACK logo itself (owner, 2026-11-13). */
+.page__content .kovpack-about__story h2.kovpack-about__story-logo { line-height: 0; }
+.kovpack-about__story-logo img { display: block; width: min(100%, 460px); height: auto; }
 
 .kovpack-about__pillars {
     padding: clamp(48px, 4vw, 64px) var(--kovpack-edge) clamp(52px, 4.5vw, 72px);
