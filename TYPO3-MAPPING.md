@@ -97,9 +97,10 @@ FILL fills the box (füllen, polstern, fixieren). Never describe PACKING as mask
 their specs with the same rows in this order: Funktion / Function, Einsatz / Use, Lieferform / Supplied as, so the
 three spec rows on the product cards compare like for like.
 
-Spec rows on the detail pages follow the usual market set, in this order: Funktion, Einsatz, Lieferform,
-Papiersorte, Farbe, Grammatur, Lagen, Rollenbreite, Rollenlänge, Rollengewicht, Kerndurchmesser,
-Entsorgung (no Rollen pro Palette row: the enquiry form estimates it, owner 2026-11-13; no Bedruckung row: no printing offered yet, owner 2026-11-10; no perforation row). Values marked
+Spec rows on the detail pages: first the figures (flag `data-num`: Grammatur, Rollenbreite, Rollenlänge,
+Rollengewicht, Kerndurchmesser), which fill the left column on desktop, then the other facts (Funktion, Einsatz,
+Lieferform, Papiersorte, Farbe, Lagen) in the right column (owner, 2026-11-13). Keep values short enough for one line
+(e.g. "50, 70 cm oder nach Maß", "ca. 1,8–25 kg", "Kraft, Testliner oder Schrenz"). Entsorgung (no Rollen pro Palette row: the enquiry form estimates it, owner 2026-11-13; no Bedruckung row: no printing offered yet, owner 2026-11-10; no perforation row). Values marked
 `data-sample` in the preview are example values for the visual review only, not product data: do not
 migrate them; editors enter the real values in TYPO3. An empty value shows "auf Anfrage" / "on request". Each row has a "key" flag (`data-key` on the row): on phones and small tablets only the key rows show (Papiersorte, Grammatur, Rollenbreite, Rollenlänge) and the others open behind "Alle technischen Daten (n)" (owner, 2026-11-13); a list with no key rows shows its first five.
 

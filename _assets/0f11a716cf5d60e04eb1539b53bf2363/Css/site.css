@@ -1665,6 +1665,9 @@ body[class] {
 @media (min-width: 1101px) {
     .kovpack-pdp__specs:has(> :nth-child(7)) { column-count: 2; column-gap: 40px; }
     .kovpack-pdp__specs > div { break-inside: avoid; }
+    /* Figures in the left column, the other facts in the right (owner,
+     * 2026-11-13): rows marked data-num come first, the rest starts column two. */
+    .kovpack-pdp__specs > [data-num] + :not([data-num]) { break-before: column; }
     .kovpack-pdp__actions { margin-top: 26px; }
 }
 @media (min-width: 901px) and (max-height: 820px) {
