@@ -3133,15 +3133,15 @@ body[class] {
         pointer-events: auto;
         transition: visibility 0s;
     }
-    /* The dimmed, softly blurred page. A sibling layer of the pane rather
-     * than the veil itself, so the pane's own glass still sees the page. */
+    /* A light dim over the page, without blur (owner, 2026-11-13: a blurred
+     * screen felt like another page). Only the pane itself is frosted glass;
+     * the page stays sharp and readable around it. The veil is a sibling
+     * layer of the pane, so the pane's own glass still sees the page. */
     :root .header .header__menu::before {
         content: "";
         position: fixed;
         inset: 0;
-        background: linear-gradient(rgb(7 20 25 / 72%), rgb(7 20 25 / 42%) calc(var(--menu-top, 84px) + 40px), rgb(7 20 25 / 50%));
-        -webkit-backdrop-filter: blur(10px) saturate(120%);
-        backdrop-filter: blur(10px) saturate(120%);
+        background: linear-gradient(rgb(7 20 25 / 50%), rgb(7 20 25 / 26%) calc(var(--menu-top, 84px) + 40px), rgb(7 20 25 / 22%));
         opacity: 0;
         transition: opacity .4s ease;
     }
