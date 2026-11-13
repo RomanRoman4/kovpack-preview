@@ -730,6 +730,8 @@
     }
     .kovpack-product .kovpack-roll__name:not(#_) { margin: 0 0 4px; font-size: clamp(25px, 7.4vw, 34px); line-height: 1; }
     .kovpack-product .kovpack-roll__sheet-type:not(#_) { margin: 0 0 12px; font-size: clamp(16px, 4.4vw, 19px); }
+    /* EN has no subtitle: the text keeps its distance from the name. */
+    .kovpack-product .kovpack-roll__name:not(:has(+ .kovpack-roll__sheet-type)):not(#_) { margin-bottom: 14px; }
     .kovpack-product .kovpack-roll__text:not(#_) { display: block; margin: 0 0 14px; font-size: 14.5px; line-height: 1.5; }
     .kovpack-product .kovpack-roll__sheet .kovpack-eco { display: none; }
     .kovpack-product .kovpack-roll__specs:not(#_) { margin: 0 0 14px; }

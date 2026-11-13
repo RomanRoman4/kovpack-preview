@@ -121,7 +121,9 @@ if (product && start && form && 'IntersectionObserver' in window) {
     const type = document.createElement('span');
     type.className = 'kovpack-pdp-bar__type';
     type.textContent = product.querySelector('.kovpack-pdp__type')?.textContent.trim() ?? '';
-    label.append(name, type);
+    // EN pages carry no subtitle (the product names are English already).
+    label.append(name);
+    if (type.textContent) label.append(type);
     const link = document.createElement('a');
     link.className = 'kovpack-pdp-bar__button';
     link.href = start.getAttribute('href');
