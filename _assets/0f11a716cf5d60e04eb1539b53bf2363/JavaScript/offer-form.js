@@ -284,13 +284,26 @@
             last = left;
         }
         track.addEventListener('change', function () { place(true); });
-        /* As in the menu: the drop follows the pointer and flows back to
-         * the chosen option when it leaves the track. */
+        /* As in the menu: the drop follows a mouse and flows back to the
+         * chosen option when it leaves the track. Touch has no hover: a tap
+         * fired enter and leave around the change, so the drop jumped to the
+         * finger, back and over again (owner, 2026-11-13). */
         Array.prototype.forEach.call(track.querySelectorAll('.kovpack-seg__option'), function (option) {
-            option.addEventListener('pointerenter', function () { place(true, option.querySelector('span')); });
+            option.addEventListener('pointerenter', function (event) {
+                if (event.pointerType === 'mouse') place(true, option.querySelector('span'));
+            });
         });
-        track.addEventListener('pointerleave', function () { place(true); });
-        window.addEventListener('resize', function () { place(false); });
+        track.addEventListener('pointerleave', function (event) {
+            if (event.pointerType === 'mouse') place(true);
+        });
+        /* Phones fire resize while the address bar slides; only a new
+         * width can move the options. */
+        var width = window.innerWidth;
+        window.addEventListener('resize', function () {
+            if (window.innerWidth === width) return;
+            width = window.innerWidth;
+            place(false);
+        });
         place(false);
         if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { place(false); });
     }
