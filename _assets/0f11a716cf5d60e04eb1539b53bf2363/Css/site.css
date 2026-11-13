@@ -765,11 +765,11 @@ button.header__nav-item {
 .footer__col--1 .ce-bodytext p + p { font-size: 10px; letter-spacing: 0; max-width: 14rem; opacity: .8; }
 .footer__meta a { opacity: .85; }
 .footer__meta a:hover { opacity: 1; }
-/* Phone footer (owner, 2026-11-13): compact. The logo and the FSC mark
+/* Phone and tablet footer (owner, 2026-11-13): compact. The logo and the FSC mark
  * share one row (the mark with its licence code only; the icon itself reads
  * "FSC Recycled"), then the legal links under a hairline, kept clear of the
  * floating back-to-top button. */
-@media (max-width: 767px) {
+@media (max-width: 1023px) {
     .component--page-footer { --component-padding-vertical: 28px; }
     .component--page-footer > .component__content { display: block; }
     .component--page-footer .footer { display: block; }
@@ -792,6 +792,27 @@ button.header__nav-item {
     .component--page-footer { padding-bottom: 66px; }
     .component--page-footer .footer__meta { padding-right: 0; }
     .component--page-footer .footer__meta .frame-type-menu_pages ul { gap: 8px 14px; }
+}
+/* Desktop footer (owner, 2026-11-13): lighter. A slimmer band,
+ * a smaller logo and FSC mark, and quieter legal links. */
+@media (min-width: 1024px) {
+    .component--page-footer { --component-padding-vertical: 30px; }
+    .component--page-footer .footer__logo { height: 30px; line-height: 0; }
+    .component--page-footer .footer__logo img { height: 30px; }
+    .component--page-footer .footer__col--1:has(.frame-type-textmedia) { gap: 28px; }
+    .component--page-footer .footer__col--1 .frame-type-textmedia { padding-left: 28px; }
+    .component--page-footer .footer__col--1 .ce-textpic { gap: 12px; }
+    .component--page-footer .footer__col--1 .ce-gallery { flex-basis: 48px; }
+    .component--page-footer .footer__col--1 .ce-gallery img { width: 48px; height: 48px; }
+    .component--page-footer .footer__col--1 .ce-bodytext p { font-size: 10px; letter-spacing: .16em; }
+    .component--page-footer .footer__col--1 .ce-bodytext p + p { font-size: 10px; letter-spacing: 0; opacity: .7; }
+    /* The slim band puts the links level with the floating back-to-top
+     * button: keep them clear of it until the side margin is wide enough. */
+    .component--page-footer .footer__meta { margin-right: 44px; font-size: 13px; }
+    .component--page-footer .footer__meta .frame-type-menu_pages ul { gap: 10px 24px; }
+}
+@media (min-width: 1800px) {
+    .component--page-footer .footer__meta { margin-right: 0; }
 }
 
 @media (min-width: 1280px) {
