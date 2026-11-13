@@ -833,6 +833,14 @@ button.header__nav-item {
         box-shadow: 0 22px 44px -24px rgb(15 42 51 / 35%);
     }
     .header:is(.is-stuck, .is-scrolled) .header__subnav-item:hover { background: rgb(20 26 27 / 6%); }
+    /* Pages without the photo hero: the bar is solid dark and the submenu
+     * hangs over the light page, so clear glass would leave white text on
+     * white. There it continues the bar in the bar's own colour. */
+    .header:not(:has(+ .hero:not(.hero--text-only, .hero--small))):not(.is-stuck, .is-scrolled) .header__subnav {
+        background: rgb(15 42 51 / 97%);
+        border-color: rgb(255 255 255 / 12%);
+        box-shadow: 0 22px 44px -22px rgb(10 24 30 / 55%);
+    }
 }
 @media (min-width: 1280px) and (prefers-reduced-motion: reduce) {
     .header .header__subnav, .header .header__nav-list-item:is(:hover, :focus-within) > .header__subnav { transform: none; }
