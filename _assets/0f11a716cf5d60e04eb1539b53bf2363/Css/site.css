@@ -619,7 +619,9 @@ button.header__nav-item {
 @media (max-width: 900px) {
     .hero:not(.hero--text-only, .hero--small) { min-height: 640px; }
     .hero:not(.hero--text-only, .hero--small) .hero__content { padding: 180px var(--kovpack-inset) 72px; }
-    .kovpack-news__track { grid-auto-columns: 82%; gap: 14px; }
+    /* No sideways scrolling (owner, 2026-11-13): two columns on tablets;
+     * phones below. */
+    .kovpack-news__track:not(#_) { grid-auto-flow: row; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; overflow: visible; scroll-snap-type: none; }
     .page__content > .frame-kovpack-contact-info { grid-column: full; display: block; border-radius: var(--corners-m) var(--corners-m) 0 0; padding: 48px var(--kovpack-edge) 20px; }
     .page__content > .frame-kovpack-contact-form { grid-column: full; display: block; border-radius: 0; margin-top: 0; padding: 20px var(--kovpack-edge) 48px; }
 }
@@ -3456,33 +3458,27 @@ body[class] {
     .page__content .kovpack-partner .kovpack-about__hero-inner { grid-template-columns: minmax(0, 1fr); gap: 32px; }
     .page__content .kovpack-partner .kovpack-about__hero h1 { font-size: clamp(30px, 10.4vw, 56px); }
 
-    /* Products intro: the label tiles become one swipeable row that runs to
-     * the screen edges; each tile keeps its proportions. */
+    /* Products intro (owner, 2026-11-13: no sideways scrolling): the label
+     * tiles sit side by side on tablets and become slim labels stacked one
+     * under the other on phones. */
     .hero.hero--small:has(.kovpack-hero-tiles) { --hero-overhang: 40px; grid-template-columns: minmax(0, 1fr); row-gap: 24px; }
-    .kovpack-hero-tiles {
-        grid-template-columns: none;
-        grid-template-rows: auto minmax(40px, 1fr) auto auto;
-        grid-auto-rows: auto;
-        grid-auto-flow: column;
-        grid-auto-columns: min(66vw, 250px);
-        gap: 12px;
-        margin: 0 calc(-1 * var(--kovpack-edge));
-        padding: 4px var(--kovpack-edge) 28px;
-        overflow-x: auto;
-        overscroll-behavior-x: contain;
-        scroll-snap-type: x mandatory;
-        scroll-padding-inline: var(--kovpack-edge);
-        scrollbar-width: none;
-    }
-    .kovpack-hero-tiles::-webkit-scrollbar { display: none; }
-    .kovpack-hero-tile { grid-row: 1 / span 4; scroll-snap-align: start; box-shadow: 0 2px 4px rgb(20 26 27 / 6%), 0 18px 30px -18px rgb(20 26 27 / 45%); }
+    .kovpack-hero-tiles { grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr)); gap: 12px; }
+    .kovpack-hero-tile { box-shadow: 0 2px 4px rgb(20 26 27 / 6%), 0 18px 30px -18px rgb(20 26 27 / 45%); }
     .kovpack-hero-tile__name { font-size: 24px; }
     .kovpack-hero-tile__type { font-size: 13px; }
     .kovpack-hero-tile__uses { font-size: 12.5px; }
 }
+@media (max-width: 600px) {
+    .kovpack-hero-tiles { grid-template-columns: minmax(0, 1fr); grid-auto-rows: auto; gap: 10px; }
+    .kovpack-hero-tile { grid-row: auto; grid-template-rows: none; padding: 16px 18px 15px; border-radius: var(--corners-m); }
+    .kovpack-hero-tile::after { width: 64%; }
+    .kovpack-hero-tile__logo { display: none; }
+    .kovpack-hero-tile__name { grid-row: auto; font-size: 23px; }
+    .kovpack-hero-tile__foot { grid-row: auto; grid-template-columns: 34px minmax(0, 1fr); grid-template-areas: "icon type" "icon uses"; column-gap: 12px; margin-top: 12px; padding-top: 10px; }
+    .kovpack-hero-tile__icon { width: 34px; }
+    .kovpack-hero-tile__uses { margin-top: 2px; }
+}
 @media (min-width: 601px) and (max-width: 900px) {
-    /* Tablets: the tiles share the row while they fit, and scroll beyond that. */
-    .kovpack-hero-tiles { grid-auto-columns: minmax(200px, 1fr); }
 
 
     /* Enquiry: the summary and the form read as one block, without the
@@ -3618,37 +3614,37 @@ body[class] {
     .kovpack-pdp .kovpack-pdp__note:not(#_) { margin-top: 6px; font-size: 13.5px; }
     .kovpack-pdp .kovpack-pdp__actions:not(#_) { margin-top: 20px; }
 
-    /* Applications: one row of cards to swipe, the next one peeking in. */
+    /* Applications (owner, 2026-11-13: no sideways scrolling on phones): a
+     * calm list, the icon beside the title and text, rows parted by hairlines;
+     * two columns of rows on tablets. */
     .kovpack-pdp .kovpack-pdp__uses:not(#_) { margin-top: 44px; padding-top: 26px; }
     .kovpack-pdp .kovpack-pdp__uses-title:not(#_),
     .kovpack-pdp .kovpack-pdp__media-title:not(#_) { font-size: 26px; }
     .kovpack-pdp :is(.kovpack-pdp__uses-lead, .kovpack-pdp__media-lead):not(#_) { font-size: 14.5px; line-height: 1.5; }
     .kovpack-pdp .kovpack-pdp__uses-list:not(#_) {
-        grid-template-columns: none;
+        grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
         grid-template-rows: none;
-        grid-auto-flow: column;
-        grid-auto-columns: min(64%, 250px);
-        gap: 10px;
-        margin: 18px calc(-1 * var(--kovpack-edge)) 0;
-        padding: 2px var(--kovpack-edge) 12px;
-        overflow-x: auto;
-        overscroll-behavior-x: contain;
-        scroll-snap-type: x mandatory;
-        scroll-padding-inline: var(--kovpack-edge);
-        scrollbar-width: none;
+        gap: 0 28px;
+        margin: 14px 0 0;
+        padding: 0;
     }
-    .kovpack-pdp__uses-list::-webkit-scrollbar { display: none; }
     .kovpack-pdp .kovpack-pdp__use:not(#_) {
         grid-row: auto;
-        grid-template-rows: auto auto 1fr;
+        grid-template-columns: 44px minmax(0, 1fr);
+        grid-template-rows: auto auto;
+        column-gap: 14px;
         justify-items: start;
-        padding: 18px 16px 18px;
+        align-content: start;
+        padding: 14px 0;
+        border: 0;
+        border-bottom: 1px solid var(--kovpack-line);
+        border-radius: 0;
+        background: transparent;
         text-align: left;
-        scroll-snap-align: start;
     }
-    .kovpack-pdp .kovpack-pdp__use-icon:not(#_) { width: 50px; height: 50px; }
-    .kovpack-pdp .kovpack-pdp__use-title:not(#_) { margin-top: 12px; font-size: 15.5px; hyphens: manual; overflow-wrap: break-word; }
-    .kovpack-pdp .kovpack-pdp__use-text:not(#_) { margin-top: 5px; font-size: 13.5px; line-height: 1.45; }
+    .kovpack-pdp .kovpack-pdp__use-icon:not(#_) { grid-row: 1 / span 2; width: 44px; height: 44px; }
+    .kovpack-pdp .kovpack-pdp__use-title:not(#_) { max-width: none; margin: 1px 0 0; font-size: 15.5px; hyphens: manual; overflow-wrap: break-word; text-wrap: wrap; }
+    .kovpack-pdp .kovpack-pdp__use-text:not(#_) { grid-column: 2; max-width: none; margin: 3px 0 0; font-size: 13.5px; line-height: 1.45; }
     .kovpack-pdp .kovpack-pdp__traits-title:not(#_) { margin-top: 22px; }
     .kovpack-pdp .kovpack-pdp__trait:not(#_) { column-gap: 14px; padding: 13px 0; }
     .kovpack-pdp .kovpack-pdp__trait-icon:not(#_) { width: 38px; height: 38px; }
@@ -3834,4 +3830,38 @@ body[class] {
     .frame-kovpack-contact-form.kovpack-offer .kovpack-offer__submit .form-check-label:not(#_) { font-size: 13.5px; }
     .frame-kovpack-contact-form.kovpack-offer button[type=submit]:not(#_) { width: 100%; padding: 13px 20px; }
     .kovpack-offer__note:not(#_) { font-size: 12px; }
+}
+
+/* News on phones (owner, 2026-11-13): no sideways scrolling. The latest post
+ * stays a full card, the others follow as compact rows with a small picture;
+ * the whole row opens the post. */
+@media (max-width: 600px) {
+    .kovpack-news__track:not(#_) { grid-template-columns: minmax(0, 1fr); gap: 10px; padding-top: 18px; }
+    .kovpack-news__card:not(:first-child):not(#_) {
+        position: relative;
+        display: grid;
+        grid-template-columns: 84px minmax(0, 1fr);
+        grid-template-areas: "image byline" "image text";
+        align-items: start;
+        column-gap: 14px;
+        padding: 12px;
+    }
+    .kovpack-news__card:not(:first-child) .kovpack-news__byline:not(#_) { grid-area: byline; margin-bottom: 4px; gap: 8px; }
+    .kovpack-news__card:not(:first-child) .kovpack-news__avatar { display: none; }
+    .kovpack-news__card:not(:first-child) .kovpack-news__byline strong { display: none; }
+    .kovpack-news__card:not(:first-child) .kovpack-news__linkedin:not(#_) { font-size: 15px; }
+    .kovpack-news__card:not(:first-child) p:not(#_) {
+        grid-area: text;
+        display: -webkit-box;
+        margin: 0;
+        overflow: hidden;
+        font-size: 13.5px;
+        line-height: 1.4;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+    }
+    .kovpack-news__card:not(:first-child) .kovpack-news__image:not(#_) { grid-area: image; margin: 0; border-radius: 10px; }
+    .kovpack-news__card:not(:first-child) .kovpack-news__image .image:not(#_) { aspect-ratio: 1; border-radius: 10px; }
+    .kovpack-news__card:not(:first-child) .kovpack-news__link:not(#_) { position: absolute; inset: 0; z-index: 1; overflow: hidden; border-radius: inherit; color: transparent; font-size: 0; }
+    .kovpack-news__card:not(:first-child) .kovpack-news__link:focus-visible { outline: 2px solid var(--kovpack-ink); outline-offset: 2px; }
 }

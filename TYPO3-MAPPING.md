@@ -20,11 +20,12 @@ short text, the first specs and the product link hangs from it, the product phot
 small taped print beside the name (tablets 601-900px: photo beside the card). Product
 pages under 900px: smaller photo stack with the arrows on a glass pill over the photo,
 specs as label | value folding after five rows (product-page.js toggle), applications
-as one swipeable row, videos as one player with the other clips as thumbnails to pick
+as a list (icon beside title and text, hairline rows; two columns on tablets), videos as one player with the other clips as thumbnails to pick
 (product-page.js, view transition), and a glass enquiry bar at the bottom between the
 top button and the form. Also under 900px the distributors intro stacks, product label
-tiles become swipeable rows, form fields use 16px text (no iOS zoom), news arrows give
-way to swiping, the home contact section is set smaller and back-to-top is a round
+tiles sit side by side (tablets) or stack as slim labels (phones), form fields use 16px text (no iOS zoom), news shows no arrows and
+no sideways scrolling (two columns on tablets; on phones the latest post as a card,
+the others as compact rows with a small picture), the home contact section is set smaller and back-to-top is a round
 glass button; under 600px about strengths / distributor product lines put the icon
 beside the text. Scroll reveal (motion.js, all widths): sections rise in as blocks and
 repeatable items (application tiles, traits, videos, about strengths, enquiry steps,
