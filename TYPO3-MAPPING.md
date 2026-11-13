@@ -99,7 +99,7 @@ three spec rows on the product cards compare like for like.
 
 Spec rows on the detail pages follow the usual market set, in this order: Funktion, Einsatz, Lieferform,
 Papiersorte, Farbe, Grammatur, Lagen, Rollenbreite, Rollenlänge, Rollengewicht, Kerndurchmesser,
-Rollen pro Palette, Entsorgung (no Bedruckung row: no printing offered yet, owner 2026-11-10; no perforation row). Values marked
+Entsorgung (no Rollen pro Palette row: the enquiry form estimates it, owner 2026-11-13; no Bedruckung row: no printing offered yet, owner 2026-11-10; no perforation row). Values marked
 `data-sample` in the preview are example values for the visual review only, not product data: do not
 migrate them; editors enter the real values in TYPO3. An empty value shows "auf Anfrage" / "on request".
 
