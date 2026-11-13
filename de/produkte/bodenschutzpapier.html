@@ -511,12 +511,12 @@
                     <dl class="kovpack-pdp__specs">
                         <div><dt>Funktion</dt><dd>abdecken, schützen</dd></div>
                         <div><dt>Lieferform</dt><dd>Rollen</dd></div>
-                        <div><dt>Papiersorte</dt><dd data-sample>Kraftpapier, unbeschichtet (Papier, kein Vlies)</dd></div>
+                        <div><dt>Papiersorte</dt><dd data-sample>Kraftpapier, Testliner oder Schrenz</dd></div>
                         <div><dt>Farbe</dt><dd data-sample>braun</dd></div>
-                        <div><dt>Grammatur</dt><dd>180 g/m²</dd></div>
-                        <div><dt>Rollenbreite</dt><dd data-sample>50–100 cm, meist 50 cm</dd></div>
-                        <div><dt>Rollenlänge</dt><dd data-sample>50, 75 oder 100 m</dd></div>
-                        <div><dt>Rollengewicht</dt><dd data-sample>ca. 4,5–18 kg, je nach Breite und Länge</dd></div>
+                        <div><dt>Grammatur</dt><dd>100, 120 oder 170 g/m²</dd></div>
+                        <div><dt>Rollenbreite</dt><dd data-sample>75 oder 100 cm, Sonderbreiten auf Anfrage</dd></div>
+                        <div><dt>Rollenlänge</dt><dd data-sample>50, 100 oder 200 m</dd></div>
+                        <div><dt>Rollengewicht</dt><dd data-sample>ca. 3,8–34 kg, je nach Ausführung</dd></div>
                         <div><dt>Kerndurchmesser</dt><dd>50 mm innen, Hülse 2 mm</dd></div>
                         <div><dt>Rollen pro Palette</dt><dd class="kovpack-pdp__spec-request">je nach Ausführung</dd></div>
                     </dl>
@@ -570,7 +570,7 @@
                 <ul class="kovpack-pdp__traits">
                     <li class="kovpack-pdp__trait">
                         <svg class="kovpack-pdp__trait-icon" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><use href="../../_assets/0f11a716cf5d60e04eb1539b53bf2363/Icons/pdp-uses.svg?v=ae929538#trait-weight"/></svg>
-                        <p class="kovpack-pdp__trait-text"><strong>180&nbsp;g/m²</strong> Kräftiges Papier, auch für Laufwege, Leitern und Werkzeug.</p>
+                        <p class="kovpack-pdp__trait-text"><strong>100–170&nbsp;g/m²</strong> Kräftiges Papier, auch für Laufwege, Leitern und Werkzeug.</p>
                     </li>
                     <li class="kovpack-pdp__trait">
                         <svg class="kovpack-pdp__trait-icon" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><use href="../../_assets/0f11a716cf5d60e04eb1539b53bf2363/Icons/pdp-uses.svg?v=ae929538#trait-tape"/></svg>
@@ -631,6 +631,7 @@
         <h3 class="kovpack-offer__summary-title" id="kovpack-offer-protect-de-summary-title">Ihre Anfrage</h3>
         <dl aria-live="polite">
             <div><dt>Produkt</dt><dd>PROTECT Paper</dd></div>
+            <div><dt>Papiersorte</dt><dd data-offer-out="paper">noch offen</dd></div>
             <div><dt>Grammatur</dt><dd data-offer-out="grammage">noch offen</dd></div>
             <div><dt>Rollenbreite</dt><dd data-offer-out="width">noch offen</dd></div>
             <div><dt>Rollenlänge</dt><dd data-offer-out="length">noch offen</dd></div>
@@ -647,15 +648,25 @@
         <fieldset class="kovpack-offer__step">
             <legend class="kovpack-offer__step-title">Ausführung</legend>
                 <div class="kovpack-offer__row form-element form-element-radiobutton">
+                    <span class="kovpack-offer__row-label" id="kovpack-offer-protect-de-paper-label">Papiersorte</span>
+                    <div class="kovpack-seg" role="radiogroup" aria-labelledby="kovpack-offer-protect-de-paper-label">
+                        <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-protect-de][paper]" value="kraft" checked="checked" /><span>Kraftpapier</span></label>
+                        <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-protect-de][paper]" value="testliner" /><span>Testliner</span></label>
+                        <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-protect-de][paper]" value="schrenz" /><span>Schrenz</span></label>
+                    </div>
+                </div>
+                <div class="kovpack-offer__row form-element form-element-radiobutton">
                     <span class="kovpack-offer__row-label" id="kovpack-offer-protect-de-grammage-label">Grammatur</span>
-                    <label hidden><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-protect-de][grammage]" value="180" checked="checked" /><span>180 g/m²</span></label>
-                    <span class="kovpack-offer__unit">180 g/m²</span>
+                    <div class="kovpack-seg" role="radiogroup" aria-labelledby="kovpack-offer-protect-de-grammage-label">
+                        <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-protect-de][grammage]" value="100" checked="checked" /><span>100 g/m²</span></label>
+                        <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-protect-de][grammage]" value="120" /><span>120 g/m²</span></label>
+                        <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-protect-de][grammage]" value="170" /><span>170 g/m²</span></label>
+                    </div>
                 </div>
                 <div class="kovpack-offer__row form-element form-element-radiobutton">
                     <span class="kovpack-offer__row-label" id="kovpack-offer-protect-de-width-label">Rollenbreite</span>
                     <div class="kovpack-seg" role="radiogroup" aria-labelledby="kovpack-offer-protect-de-width-label">
-                        <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-protect-de][width]" value="50" checked="checked" /><span>50 cm</span></label>
-                        <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-protect-de][width]" value="75" /><span>75 cm</span></label>
+                        <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-protect-de][width]" value="75" checked="checked" /><span>75 cm</span></label>
                         <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-protect-de][width]" value="100" /><span>100 cm</span></label>
                         <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-protect-de][width]" value="custom" /><span>Sonderbreite</span></label>
                     </div>
@@ -665,8 +676,8 @@
                     <span class="kovpack-offer__row-label" id="kovpack-offer-protect-de-length-label">Rollenlänge</span>
                     <div class="kovpack-seg" role="radiogroup" aria-labelledby="kovpack-offer-protect-de-length-label">
                         <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-protect-de][length]" value="50" checked="checked" /><span>50 m</span></label>
-                        <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-protect-de][length]" value="75" /><span>75 m</span></label>
                         <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-protect-de][length]" value="100" /><span>100 m</span></label>
+                        <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-protect-de][length]" value="200" /><span>200 m</span></label>
                     </div>
                 </div>
         </fieldset>

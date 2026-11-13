@@ -512,12 +512,12 @@
                     <dl class="kovpack-pdp__specs">
                         <div><dt>Function</dt><dd>wrap, line, interleave</dd></div>
                         <div><dt>Supplied as</dt><dd>rolls</dd></div>
-                        <div><dt>Paper type</dt><dd data-sample>virgin-fibre kraft paper</dd></div>
+                        <div><dt>Paper type</dt><dd data-sample>kraft paper, testliner or schrenz</dd></div>
                         <div><dt>Colour</dt><dd data-sample>brown</dd></div>
-                        <div><dt>Grammage</dt><dd data-sample>80 g/m²</dd></div>
-                        <div><dt>Roll width</dt><dd data-sample>50–100 cm, custom widths on request</dd></div>
-                        <div><dt>Roll length</dt><dd data-sample>50, 75 or 100 m</dd></div>
-                        <div><dt>Roll weight</dt><dd data-sample>approx. 2–8 kg, by width and length</dd></div>
+                        <div><dt>Grammage</dt><dd data-sample>70, 90 or 120 g/m²</dd></div>
+                        <div><dt>Roll width</dt><dd data-sample>50 or 70 cm, custom widths on request</dd></div>
+                        <div><dt>Roll length</dt><dd data-sample>50, 100, 200 or 300 m</dd></div>
+                        <div><dt>Roll weight</dt><dd data-sample>approx. 1.8–25 kg, by version</dd></div>
                         <div><dt>Core diameter</dt><dd>50 mm inside, 2 mm wall</dd></div>
                         <div><dt>Rolls per pallet</dt><dd class="kovpack-pdp__spec-request">depends on version</dd></div>
                     </dl>
@@ -628,6 +628,7 @@
         <h3 class="kovpack-offer__summary-title" id="kovpack-offer-packing-en-summary-title">Your request</h3>
         <dl aria-live="polite">
             <div><dt>Product</dt><dd>PACKING Paper</dd></div>
+            <div><dt>Paper type</dt><dd data-offer-out="paper">open</dd></div>
             <div><dt>Grammage</dt><dd data-offer-out="grammage">open</dd></div>
             <div><dt>Roll width</dt><dd data-offer-out="width">open</dd></div>
             <div><dt>Roll length</dt><dd data-offer-out="length">open</dd></div>
@@ -644,16 +645,26 @@
         <fieldset class="kovpack-offer__step">
             <legend class="kovpack-offer__step-title">Version</legend>
                 <div class="kovpack-offer__row form-element form-element-radiobutton">
+                    <span class="kovpack-offer__row-label" id="kovpack-offer-packing-en-paper-label">Paper type</span>
+                    <div class="kovpack-seg" role="radiogroup" aria-labelledby="kovpack-offer-packing-en-paper-label">
+                        <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-packing-en][paper]" value="kraft" checked="checked" /><span>Kraft</span></label>
+                        <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-packing-en][paper]" value="testliner" /><span>Testliner</span></label>
+                        <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-packing-en][paper]" value="schrenz" /><span>Schrenz</span></label>
+                    </div>
+                </div>
+                <div class="kovpack-offer__row form-element form-element-radiobutton">
                     <span class="kovpack-offer__row-label" id="kovpack-offer-packing-en-grammage-label">Grammage</span>
-                    <label hidden><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-packing-en][grammage]" value="80" checked="checked" /><span>80 g/m²</span></label>
-                    <span class="kovpack-offer__unit">80 g/m²</span>
+                    <div class="kovpack-seg" role="radiogroup" aria-labelledby="kovpack-offer-packing-en-grammage-label">
+                        <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-packing-en][grammage]" value="70" checked="checked" /><span>70 g/m²</span></label>
+                        <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-packing-en][grammage]" value="90" /><span>90 g/m²</span></label>
+                        <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-packing-en][grammage]" value="120" /><span>120 g/m²</span></label>
+                    </div>
                 </div>
                 <div class="kovpack-offer__row form-element form-element-radiobutton">
                     <span class="kovpack-offer__row-label" id="kovpack-offer-packing-en-width-label">Roll width</span>
                     <div class="kovpack-seg" role="radiogroup" aria-labelledby="kovpack-offer-packing-en-width-label">
                         <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-packing-en][width]" value="50" checked="checked" /><span>50 cm</span></label>
-                        <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-packing-en][width]" value="75" /><span>75 cm</span></label>
-                        <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-packing-en][width]" value="100" /><span>100 cm</span></label>
+                        <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-packing-en][width]" value="70" /><span>70 cm</span></label>
                         <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-packing-en][width]" value="custom" /><span>Custom width</span></label>
                     </div>
                     <span class="kovpack-offer__reveal" data-offer-reveal="width" hidden><label class="kovpack-visually-hidden" for="kovpack-offer-packing-en-width-custom">Required width</label><input class="form-control" type="text" id="kovpack-offer-packing-en-width-custom" name="tx_form_formframework[kovpack-offer-packing-en][widthCustom]" placeholder="Required width: e.g. 60 cm" autocomplete="off" /></span>
@@ -662,8 +673,9 @@
                     <span class="kovpack-offer__row-label" id="kovpack-offer-packing-en-length-label">Roll length</span>
                     <div class="kovpack-seg" role="radiogroup" aria-labelledby="kovpack-offer-packing-en-length-label">
                         <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-packing-en][length]" value="50" checked="checked" /><span>50 m</span></label>
-                        <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-packing-en][length]" value="75" /><span>75 m</span></label>
                         <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-packing-en][length]" value="100" /><span>100 m</span></label>
+                        <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-packing-en][length]" value="200" /><span>200 m</span></label>
+                        <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-packing-en][length]" value="300" /><span>300 m</span></label>
                     </div>
                 </div>
         </fieldset>

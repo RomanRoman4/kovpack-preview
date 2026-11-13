@@ -513,12 +513,12 @@
                     <dl class="kovpack-pdp__specs">
                         <div><dt>Funktion</dt><dd>einschlagen, auskleiden, trennen</dd></div>
                         <div><dt>Lieferform</dt><dd>Rollen</dd></div>
-                        <div><dt>Papiersorte</dt><dd data-sample>Natronkraftpapier</dd></div>
+                        <div><dt>Papiersorte</dt><dd data-sample>Kraftpapier, Testliner oder Schrenz</dd></div>
                         <div><dt>Farbe</dt><dd data-sample>braun</dd></div>
-                        <div><dt>Grammatur</dt><dd data-sample>80 g/m²</dd></div>
-                        <div><dt>Rollenbreite</dt><dd data-sample>50–100 cm, Sonderbreiten auf Anfrage</dd></div>
-                        <div><dt>Rollenlänge</dt><dd data-sample>50, 75 oder 100 m</dd></div>
-                        <div><dt>Rollengewicht</dt><dd data-sample>ca. 2–8 kg, je nach Breite und Länge</dd></div>
+                        <div><dt>Grammatur</dt><dd data-sample>70, 90 oder 120 g/m²</dd></div>
+                        <div><dt>Rollenbreite</dt><dd data-sample>50 oder 70 cm, Sonderbreiten auf Anfrage</dd></div>
+                        <div><dt>Rollenlänge</dt><dd data-sample>50, 100, 200 oder 300 m</dd></div>
+                        <div><dt>Rollengewicht</dt><dd data-sample>ca. 1,8–25 kg, je nach Ausführung</dd></div>
                         <div><dt>Kerndurchmesser</dt><dd>50 mm innen, Hülse 2 mm</dd></div>
                         <div><dt>Rollen pro Palette</dt><dd class="kovpack-pdp__spec-request">je nach Ausführung</dd></div>
                     </dl>
@@ -629,6 +629,7 @@
         <h3 class="kovpack-offer__summary-title" id="kovpack-offer-packing-de-summary-title">Ihre Anfrage</h3>
         <dl aria-live="polite">
             <div><dt>Produkt</dt><dd>PACKING Paper</dd></div>
+            <div><dt>Papiersorte</dt><dd data-offer-out="paper">noch offen</dd></div>
             <div><dt>Grammatur</dt><dd data-offer-out="grammage">noch offen</dd></div>
             <div><dt>Rollenbreite</dt><dd data-offer-out="width">noch offen</dd></div>
             <div><dt>Rollenlänge</dt><dd data-offer-out="length">noch offen</dd></div>
@@ -645,16 +646,26 @@
         <fieldset class="kovpack-offer__step">
             <legend class="kovpack-offer__step-title">Ausführung</legend>
                 <div class="kovpack-offer__row form-element form-element-radiobutton">
+                    <span class="kovpack-offer__row-label" id="kovpack-offer-packing-de-paper-label">Papiersorte</span>
+                    <div class="kovpack-seg" role="radiogroup" aria-labelledby="kovpack-offer-packing-de-paper-label">
+                        <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-packing-de][paper]" value="kraft" checked="checked" /><span>Kraftpapier</span></label>
+                        <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-packing-de][paper]" value="testliner" /><span>Testliner</span></label>
+                        <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-packing-de][paper]" value="schrenz" /><span>Schrenz</span></label>
+                    </div>
+                </div>
+                <div class="kovpack-offer__row form-element form-element-radiobutton">
                     <span class="kovpack-offer__row-label" id="kovpack-offer-packing-de-grammage-label">Grammatur</span>
-                    <label hidden><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-packing-de][grammage]" value="80" checked="checked" /><span>80 g/m²</span></label>
-                    <span class="kovpack-offer__unit">80 g/m²</span>
+                    <div class="kovpack-seg" role="radiogroup" aria-labelledby="kovpack-offer-packing-de-grammage-label">
+                        <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-packing-de][grammage]" value="70" checked="checked" /><span>70 g/m²</span></label>
+                        <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-packing-de][grammage]" value="90" /><span>90 g/m²</span></label>
+                        <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-packing-de][grammage]" value="120" /><span>120 g/m²</span></label>
+                    </div>
                 </div>
                 <div class="kovpack-offer__row form-element form-element-radiobutton">
                     <span class="kovpack-offer__row-label" id="kovpack-offer-packing-de-width-label">Rollenbreite</span>
                     <div class="kovpack-seg" role="radiogroup" aria-labelledby="kovpack-offer-packing-de-width-label">
                         <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-packing-de][width]" value="50" checked="checked" /><span>50 cm</span></label>
-                        <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-packing-de][width]" value="75" /><span>75 cm</span></label>
-                        <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-packing-de][width]" value="100" /><span>100 cm</span></label>
+                        <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-packing-de][width]" value="70" /><span>70 cm</span></label>
                         <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-packing-de][width]" value="custom" /><span>Sonderbreite</span></label>
                     </div>
                     <span class="kovpack-offer__reveal" data-offer-reveal="width" hidden><label class="kovpack-visually-hidden" for="kovpack-offer-packing-de-width-custom">Gewünschte Breite</label><input class="form-control" type="text" id="kovpack-offer-packing-de-width-custom" name="tx_form_formframework[kovpack-offer-packing-de][widthCustom]" placeholder="Gewünschte Breite: z. B. 60 cm" autocomplete="off" /></span>
@@ -663,8 +674,9 @@
                     <span class="kovpack-offer__row-label" id="kovpack-offer-packing-de-length-label">Rollenlänge</span>
                     <div class="kovpack-seg" role="radiogroup" aria-labelledby="kovpack-offer-packing-de-length-label">
                         <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-packing-de][length]" value="50" checked="checked" /><span>50 m</span></label>
-                        <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-packing-de][length]" value="75" /><span>75 m</span></label>
                         <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-packing-de][length]" value="100" /><span>100 m</span></label>
+                        <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-packing-de][length]" value="200" /><span>200 m</span></label>
+                        <label class="kovpack-seg__option"><input class="form-check-input" type="radio" name="tx_form_formframework[kovpack-offer-packing-de][length]" value="300" /><span>300 m</span></label>
                     </div>
                 </div>
         </fieldset>
