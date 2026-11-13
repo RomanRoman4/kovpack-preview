@@ -2441,7 +2441,7 @@ body[class] {
 .kovpack-partner__line:first-child a { margin-left: 0; padding-left: var(--line-pad); }
 .kovpack-partner__line:last-child a { margin-right: 0; padding-right: var(--line-pad); }
 .kovpack-partner__line a::after {
-    content: "\2197";
+    content: "\2197\FE0E";
     position: absolute;
     top: 20px;
     right: calc(var(--line-pad) - 8px);
