@@ -929,6 +929,19 @@ body[class] {
 .hero:not(.hero--text-only, .hero--small) .hero__content > :nth-child(3) { animation-delay: .24s; }
 .hero:not(.hero--text-only, .hero--small) .hero__content > :nth-child(n + 4) { animation-delay: .36s; }
 @keyframes kovpack-rise { from { opacity: 0; transform: translateY(32px); } to { opacity: 1; transform: none; } }
+/* Headline lines (owner, 2026-11-13): the heading is set as two phrases,
+ * each kept whole from tablet up, and the block grows with its text instead
+ * of being squeezed by the wide-screen edge padding. Key words take the
+ * brand mint. */
+.hero:not(.hero--text-only, .hero--small) .kovpack-hero-line { display: block; }
+.hero:not(.hero--text-only, .hero--small) .kovpack-accent-word { font-style: normal; color: var(--kovpack-label-teal); }
+@media (min-width: 768px) {
+    .hero:not(.hero--text-only, .hero--small) .hero__content { width: auto; overflow-wrap: normal; }
+    .hero:not(.hero--text-only, .hero--small) .kovpack-hero-line { white-space: nowrap; }
+}
+@media (min-width: 1920px) {
+    .hero:not(.hero--text-only, .hero--small) .headline { font-size: clamp(68px, 3.6vw, 96px); }
+}
 
 /* Full-screen hero slideshow. Each change unrolls the next photo behind a
  * travelling kraft roll while the previous one is pressed back like paper. */
