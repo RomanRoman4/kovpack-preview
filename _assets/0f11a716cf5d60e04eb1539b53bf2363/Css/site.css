@@ -949,9 +949,14 @@ body[class] {
  * brand mint. */
 .hero:not(.hero--text-only, .hero--small) .kovpack-hero-line { display: block; }
 .hero:not(.hero--text-only, .hero--small) .kovpack-accent-word { font-style: normal; color: var(--kovpack-label-teal); }
+.hero:not(.hero--text-only, .hero--small) .kovpack-hero-line { white-space: nowrap; }
 @media (min-width: 768px) {
     .hero:not(.hero--text-only, .hero--small) .hero__content { width: auto; overflow-wrap: normal; }
-    .hero:not(.hero--text-only, .hero--small) .kovpack-hero-line { white-space: nowrap; }
+}
+/* Phones: the same two lines, the type scaled to the screen (a phrase runs
+ * about ten times the font size) instead of a ragged four-line break. */
+@media (max-width: 767px) {
+    .hero:not(.hero--text-only, .hero--small) .headline { font-size: min(36px, calc((100vw - 2 * var(--kovpack-inset, 20px)) / 10.4)); }
 }
 @media (min-width: 1920px) {
     .hero:not(.hero--text-only, .hero--small) .headline { font-size: clamp(68px, 3.6vw, 96px); }
@@ -3043,7 +3048,8 @@ body[class] {
         height: auto;
         min-height: 0;
         margin: 0;
-        padding: var(--menu-top, 84px) 10px calc(12px + env(safe-area-inset-bottom, 0px));
+        /* Side gutters as the header's, so the pane lines up with the logo and the menu button. */
+        padding: var(--menu-top, 84px) var(--kovpack-inset, 20px) calc(12px + env(safe-area-inset-bottom, 0px));
         overflow-y: auto;
         overscroll-behavior: contain;
         color: #fff;
@@ -3077,6 +3083,7 @@ body[class] {
         --link-color: #fff;
         --link-color-hover: #fff;
         position: relative;
+        right: auto; /* the theme's drawer offset (8px) would shift the pane left */
         display: flex;
         flex-direction: column;
         width: auto;
