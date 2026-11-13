@@ -765,6 +765,23 @@ button.header__nav-item {
 .footer__col--1 .ce-bodytext p + p { font-size: 10px; letter-spacing: 0; max-width: 14rem; opacity: .8; }
 .footer__meta a { opacity: .85; }
 .footer__meta a:hover { opacity: 1; }
+/* Phone footer (owner, 2026-11-13): one calm column. A smaller logo, the
+ * FSC mark as a plain row (the desktop divider line only makes sense beside
+ * the logo), then the legal links under a hairline, kept clear of the
+ * floating back-to-top button. */
+@media (max-width: 767px) {
+    .component--page-footer > .component__content { display: block; }
+    .component--page-footer .footer { display: block; }
+    .component--page-footer .footer__col--1:has(.frame-type-textmedia) { display: block; }
+    .component--page-footer .footer__logo { display: block; height: 32px; line-height: 0; }
+    .component--page-footer .footer__logo img { width: auto; height: 32px; }
+    .component--page-footer .footer__col--1 .frame-type-textmedia { max-width: none; margin-top: 28px; padding-left: 0; border-left: 0; }
+    .component--page-footer .footer__col--1 .ce-textpic { gap: 16px; }
+    .component--page-footer .footer__col--1 .ce-gallery { flex-basis: 60px; }
+    .component--page-footer .footer__col--1 .ce-gallery img { width: 60px; height: 60px; }
+    .component--page-footer .footer__meta { margin-top: 28px; padding: 20px 60px 0 0; border-top: 1px solid rgb(255 255 255 / 12%); }
+    .component--page-footer .footer__meta .frame-type-menu_pages ul { gap: 12px 24px; }
+}
 
 @media (min-width: 1280px) {
     .header__content { align-items: flex-start; }
