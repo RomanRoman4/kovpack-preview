@@ -3883,13 +3883,15 @@ body[class] {
         background: var(--kovpack-brand);
         box-shadow: inset 0 1px 0 rgb(255 255 255 / 18%);
     }
-    :root .header:is(.is-stuck, .is-scrolled) .header__nav.has-drop:not(:hover, :focus-within) .header__nav-item--active,
-    :root .header:is(.is-stuck, .is-scrolled) .header__nav.has-drop .header__nav-item:is(:hover, :focus-visible) { color: #fff; }
+    /* The text turns white with the drop (motion.js marks the item under it),
+     * so moving between items never flashes ink on the brand colour. */
+    :root .header:is(.is-stuck, .is-scrolled) .header__nav.has-drop .header__nav-item.is-dropped,
+    :root .header:is(.is-stuck, .is-scrolled) .header__subnav.has-drop .header__subnav-item.is-dropped { color: #fff; }
+    :root .header:is(.is-stuck, .is-scrolled) :is(.header__nav, .header__subnav).has-drop :is(.header__nav-item, .header__subnav-item) { transition: color .3s ease; }
     :root .header:is(.is-stuck, .is-scrolled) .header__subnav.has-drop .kovpack-subnav-drop {
         background: var(--kovpack-brand);
         box-shadow: inset 0 1px 0 rgb(255 255 255 / 18%);
     }
-    :root .header:is(.is-stuck, .is-scrolled) .header__subnav.has-drop .header__subnav-item:is(:hover, :focus-visible) { color: #fff; }
     :root .header:is(.is-stuck, .is-scrolled) .header__language-button { color: #fff; background: var(--kovpack-brand); }
 }
 @media (max-width: 1279px) {

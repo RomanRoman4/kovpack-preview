@@ -124,9 +124,13 @@ for (const nav of document.querySelectorAll('.header__nav')) {
     nav.append(drop); // last: the theme spaces any element that follows another
     nav.classList.add('has-drop');
     const active = () => items.find((item) => item.classList.contains('header__nav-item--active'));
+    // The item under the drop is marked, so its text colour follows the drop
+    // (not :hover, which is lost in the gaps between items).
+    const mark = (item) => { for (const other of items) other.classList.toggle("is-dropped", other === item); };
     let last = null;
     const place = (item, animate) => {
-        if (!item || !wide.matches) { drop.style.opacity = '0'; last = null; return; }
+        if (!item || !wide.matches) { drop.style.opacity = '0'; last = null; mark(null); return; }
+        mark(item);
         const box = item.getBoundingClientRect();
         const outer = nav.getBoundingClientRect();
         const left = box.left - outer.left - nav.clientLeft;
@@ -299,9 +303,13 @@ for (const list of document.querySelectorAll('.header__subnav')) {
     drop.setAttribute('aria-hidden', 'true');
     list.append(drop);
     list.classList.add('has-drop');
+    // The item under the drop is marked, so its text colour follows the drop
+    // (not :hover, which is lost in the gaps between items).
+    const mark = (item) => { for (const other of items) other.classList.toggle("is-dropped", other === item); };
     let last = null;
     const place = (item, animate) => {
-        if (!item || !wide.matches) { drop.style.opacity = '0'; last = null; return; }
+        if (!item || !wide.matches) { drop.style.opacity = '0'; last = null; mark(null); return; }
+        mark(item);
         const box = item.getBoundingClientRect();
         const outer = list.getBoundingClientRect();
         const left = box.left - outer.left - list.clientLeft;
