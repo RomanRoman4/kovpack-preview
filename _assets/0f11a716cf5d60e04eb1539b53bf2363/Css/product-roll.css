@@ -82,6 +82,10 @@
     font-size: 17px;
     line-height: 1.6;
 }
+/* The product tagline (owner, 2026-11-16): the three verbs on their own line,
+ * in ink and semibold; the description follows in the muted tone. */
+.kovpack-tagline { display: block; font-weight: 600; }
+.kovpack-roll__teaser .kovpack-tagline { color: var(--kovpack-ink, #141a1b); }
 
 /* Applications under the closed name (owner, 2026-11-09): the first four
  * application records of the product, drawn with the product page's own

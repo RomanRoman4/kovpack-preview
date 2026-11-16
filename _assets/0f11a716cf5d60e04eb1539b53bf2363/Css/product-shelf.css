@@ -332,7 +332,7 @@
     line-height: 1.55;
     text-wrap: pretty;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 4;
 }
 /* Key values as a short printed table between two rules. */
 .kovpack-shelf__specs { margin: 22px 0 0; padding: 0; border-block: 1px solid rgb(35 26 18 / 30%); }
@@ -446,7 +446,7 @@
 @media (min-width: 1024px) {
     @container kovpack-sheet (max-width: 639px) {
         .kovpack-shelf__photo { display: none; }
-        .kovpack-shelf__desc { -webkit-line-clamp: 2; }
+        .kovpack-shelf__desc { -webkit-line-clamp: 3; }
     }
     @container kovpack-sheet (min-width: 860px) {
         .kovpack-shelf__photo { padding: 11px 11px 36px; }
@@ -498,7 +498,7 @@
     .kovpack-shelf__photo,
     .kovpack-shelf__item.is-active .kovpack-shelf__photo { width: min(100%, 300px); opacity: 1; transform: rotate(-2deg); transition: none; }
     .kovpack-shelf__body { max-width: none; }
-    .kovpack-shelf__desc { -webkit-line-clamp: 4; }
+    .kovpack-shelf__desc { -webkit-line-clamp: 5; }
 }
 @media (min-width: 640px) and (max-width: 1023px) {
     /* Tablets have room for the print beside the text again. */
@@ -541,7 +541,7 @@
     .kovpack-shelf__item.is-active .kovpack-shelf__photo { display: none; }
     .kovpack-shelf__content,
     .kovpack-shelf__item.is-active .kovpack-shelf__content { min-height: 0; }
-    .kovpack-shelf__desc { -webkit-line-clamp: 3; }
+    .kovpack-shelf__desc { -webkit-line-clamp: 4; }
     .kovpack-shelf__button { white-space: nowrap; }
 }
 /* The narrowest phones: a slimmer roll leaves the sheet room for its text. */
