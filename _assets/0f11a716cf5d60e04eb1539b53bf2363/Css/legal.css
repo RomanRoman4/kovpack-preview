@@ -24,14 +24,6 @@
     letter-spacing: .12em;
     text-transform: uppercase;
 }
-.kovpack-legal__eyebrow::before {
-    content: "";
-    width: 28px;
-    height: 7px;
-    flex: none;
-    border-radius: 999px;
-    background: var(--kovpack-label-orange);
-}
 .page__content .kovpack-legal h1 {
     margin-bottom: 22px;
     color: var(--kovpack-primary);

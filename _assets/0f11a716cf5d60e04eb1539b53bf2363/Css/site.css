@@ -77,6 +77,8 @@
     /* Deep teal of the main call-to-action button and its small accent marks. */
     --kovpack-cta: color-mix(in srgb, var(--kovpack-accent) 62%, var(--kovpack-primary));
     /* Product colours, sampled from the printed label on the roll photos (lit middle of the band). Every product-coloured button, icon, mark and chip uses them. */
+    /* Brand colour (owner, 2026-11-16): logo on the light bar, menu highlight, buttons, eyebrow marks. */
+    --kovpack-brand: #01666b;
     --kovpack-label-orange: #e89357;
     --kovpack-label-teal: #22b4a9;
     --kovpack-label-blue: #61a6cc;
@@ -978,7 +980,7 @@ body[class] {
     box-shadow: inset 0 -1px 0 rgb(20 26 27 / 7%), 0 10px 30px -24px rgb(15 42 51 / 40%);
 }
 .header:not(:has(+ .hero:not(.hero--text-only, .hero--small))) .header__logo :is(img, svg) { filter: brightness(1); opacity: 1; transition: filter .5s ease, opacity .5s ease; }
-.header:not(:has(+ .hero:not(.hero--text-only, .hero--small))).is-scrolled .header__logo :is(img, svg) { filter: brightness(0); opacity: .88; }
+.header:not(:has(+ .hero:not(.hero--text-only, .hero--small))).is-scrolled .header__logo :is(img, svg) { filter: brightness(0) saturate(100%) invert(28%) sepia(47%) saturate(991%) hue-rotate(136deg) brightness(98%) contrast(99%); opacity: 1; }
 .header:not(:has(+ .hero:not(.hero--text-only, .hero--small))) :is(.header__nav, .header__nav-item, .header__language-button, .header__menu-button .button) { transition: color .5s ease, background-color .5s ease, border-color .5s ease; }
 .header:not(:has(+ .hero:not(.hero--text-only, .hero--small))) .header__content { align-items: center; }
 .header:not(:has(+ .hero:not(.hero--text-only, .hero--small))) .header__logo { height: auto; margin: 0; max-width: min(48vw, 190px); line-height: normal; }
@@ -1012,7 +1014,7 @@ body[class] {
  * of being squeezed by the wide-screen edge padding. Key words take the
  * brand mint. */
 .hero:not(.hero--text-only, .hero--small) .kovpack-hero-line { display: block; }
-.hero:not(.hero--text-only, .hero--small) .kovpack-accent-word { font-style: normal; color: var(--kovpack-label-teal); }
+.hero:not(.hero--text-only, .hero--small) .kovpack-accent-word { font-style: normal; color: var(--kovpack-brand); }
 .hero:not(.hero--text-only, .hero--small) .kovpack-hero-line { white-space: nowrap; }
 @media (min-width: 768px) {
     .hero:not(.hero--text-only, .hero--small) .hero__content { width: auto; overflow-wrap: normal; }
@@ -1469,8 +1471,8 @@ body[class] {
 @keyframes kovpack-header-out { from { opacity: 1; } to { opacity: 0; } }
 @keyframes kovpack-header-return { from { opacity: 0; } to { opacity: 1; } }
 .header.is-stuck .header__logo { max-width: 150px; }
-/* The white logo file is turned to brand ink on the light glass bar. */
-.header:is(.is-stuck, .is-scrolled) .header__logo :is(img, svg) { filter: brightness(0); opacity: .88; }
+/* The white logo file is turned to the brand colour on the light glass bar (owner, 2026-11-16). */
+.header:is(.is-stuck, .is-scrolled) .header__logo :is(img, svg) { filter: brightness(0) saturate(100%) invert(28%) sepia(47%) saturate(991%) hue-rotate(136deg) brightness(98%) contrast(99%); opacity: 1; }
 .header:is(.is-stuck, .is-scrolled) .header__language-button { color: var(--kovpack-ink); background: rgb(20 26 27 / 8%); }
 @media (max-width: 1279px) {
     .header:is(.is-stuck, .is-scrolled) .header__menu-button .button { --button-primary-content-color: var(--kovpack-ink); --button-primary-border-color: rgb(20 26 27 / 22%); }
@@ -1843,6 +1845,7 @@ body[class] {
  * Compact by request: one row per choice (label left, segmented control
  * right), field names as placeholders, short gaps, a live summary beside it. */
 .kovpack-offer--orange { --offer-color: var(--kovpack-label-orange); }
+[class*="kovpack-pdp--"], [class*="kovpack-offer--"] { --cta-hover-ink: var(--kovpack-ink); }
 .kovpack-offer--teal { --offer-color: var(--kovpack-label-teal); }
 .kovpack-offer--blue { --offer-color: var(--kovpack-label-blue); }
 .kovpack-visually-hidden { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
@@ -2181,7 +2184,7 @@ body[class] {
     width: 28px;
     height: 7px;
     border-radius: 999px;
-    background: var(--kovpack-label-orange);
+    background: var(--kovpack-brand);
 }
 .page__content .kovpack-about__hero h1 {
     max-width: none;
@@ -2419,14 +2422,6 @@ body[class] {
     line-height: 1.1;
     letter-spacing: -.015em;
 }
-.kovpack-partner__heading::before {
-    content: "";
-    flex: none;
-    width: 28px;
-    height: 7px;
-    border-radius: 999px;
-    background: var(--kovpack-label-orange);
-}
 /* Each column is one link with a soft tile that appears on hover and a short
  * press; the strip keeps its hairlines and its text aligned with the heading
  * (the list bleeds by the tile padding, the top rule does not). */
@@ -2642,13 +2637,6 @@ body[class] {
 .page__content > .frame-kovpack-contact-info.kovpack-contact { padding-inline: 0 clamp(40px, 6vw, 112px); }
 .page__content > .frame-kovpack-contact-form.kovpack-contact { padding-inline: 0; }
 .kovpack-contact header { margin: 0; }
-.kovpack-contact__kicker {
-    display: flex; align-items: center; gap: 14px;
-    margin: 0 0 14px;
-    color: var(--kovpack-ink) !important;
-    font-size: 15px; font-weight: 500; line-height: 1.2; letter-spacing: .08em; text-transform: uppercase;
-}
-.kovpack-contact__kicker::before { content: ""; flex: none; width: 24px; height: 8px; border-radius: 4px; background: var(--kovpack-label-orange); }
 .page__content .frame-kovpack-contact-info.kovpack-contact .kovpack-contact__title {
     margin: 0 0 30px;
     font-family: var(--kovpack-font-display, inherit);
@@ -2814,10 +2802,10 @@ body[class] {
     .kovpack-about__cta
 ) {
     /* Product colour on product pages (page and enquiry form), else teal. */
-    --cta: var(--offer-color, var(--pdp-label, var(--kovpack-label-teal)));
+    --cta: var(--offer-color, var(--pdp-label, var(--kovpack-brand)));
     --button-primary-content-color: #fff;
-    --button-primary-content-color-hover: var(--kovpack-ink);
-    --button-primary-content-color-pressed: var(--kovpack-ink);
+    --button-primary-content-color-hover: var(--cta-hover-ink, #fff);
+    --button-primary-content-color-pressed: var(--cta-hover-ink, #fff);
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -2857,7 +2845,8 @@ body[class] {
     background: color-mix(in srgb, var(--cta) 86%, #000);
     box-shadow: none;
     filter: none;
-    color: var(--kovpack-ink);
+    /* White on the dark brand colour; ink on the light product colours. */
+    color: var(--cta-hover-ink, #fff);
     text-shadow: none;
     transform: none;
 }
@@ -3780,7 +3769,6 @@ body[class] {
     .page__content > .kovpack-product + .kovpack-product:not(#_) { margin-top: 8px; }
     .page__content > :is(.frame-kovpack-contact-info, .frame-kovpack-contact-form).kovpack-contact:not(#_) { padding-bottom: 56px; }
     .page__content > .frame-kovpack-contact-info.kovpack-contact:not(#_) { padding-bottom: 24px; }
-    .kovpack-contact__kicker:not(#_) { margin-bottom: 10px; font-size: 13px; }
     .page__content .frame-kovpack-contact-info.kovpack-contact .kovpack-contact__title:not(#_) { margin-bottom: 16px; font-size: clamp(38px, 11vw, 48px); }
     .frame-kovpack-contact-info.kovpack-contact p.kovpack-contact__lead:not(#_) { font-size: 15.5px; line-height: 1.55; }
     .kovpack-contact__list:not(#_) { gap: 14px; margin-top: 24px; }
@@ -3885,4 +3873,30 @@ body[class] {
     .kovpack-news__card:not(:first-child) .kovpack-news__image .image:not(#_) { aspect-ratio: 1; border-radius: 10px; }
     .kovpack-news__card:not(:first-child) .kovpack-news__link:not(#_) { position: absolute; inset: 0; z-index: 1; overflow: hidden; border-radius: inherit; color: transparent; font-size: 0; }
     .kovpack-news__card:not(:first-child) .kovpack-news__link:focus-visible { outline: 2px solid var(--kovpack-ink); outline-offset: 2px; }
+}
+
+/* Brand colour on the light glass bar (owner, 2026-11-16): the menu drop and
+ * the language and menu buttons take the brand colour with white text, so
+ * the bar matches the brand logo. Over the hero photo they stay white glass. */
+@media (min-width: 1280px) {
+    :root .header:is(.is-stuck, .is-scrolled) .kovpack-nav-drop:not(.kovpack-subnav-drop) {
+        background: var(--kovpack-brand);
+        box-shadow: inset 0 1px 0 rgb(255 255 255 / 18%);
+    }
+    :root .header:is(.is-stuck, .is-scrolled) .header__nav.has-drop:not(:hover, :focus-within) .header__nav-item--active,
+    :root .header:is(.is-stuck, .is-scrolled) .header__nav.has-drop .header__nav-item:is(:hover, :focus-visible) { color: #fff; }
+    :root .header:is(.is-stuck, .is-scrolled) .header__subnav.has-drop .kovpack-subnav-drop {
+        background: var(--kovpack-brand);
+        box-shadow: inset 0 1px 0 rgb(255 255 255 / 18%);
+    }
+    :root .header:is(.is-stuck, .is-scrolled) .header__subnav.has-drop .header__subnav-item:is(:hover, :focus-visible) { color: #fff; }
+    :root .header:is(.is-stuck, .is-scrolled) .header__language-button { color: #fff; background: var(--kovpack-brand); }
+}
+@media (max-width: 1279px) {
+    :root .header:is(.is-stuck, .is-scrolled):not(.is-menu-open) .header__menu-button .button:not(#_) {
+        color: #fff;
+        background: var(--kovpack-brand);
+        border-color: transparent;
+        box-shadow: none;
+    }
 }
