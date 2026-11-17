@@ -3930,3 +3930,43 @@ body[class] {
         box-shadow: 0 22px 44px -22px rgb(0 30 32 / 60%);
     }
 }
+
+/* Back to top on desktop (owner, 2026-11-17): brand teal glass, like the bar
+ * and the footer. On hover a white drop wells up from the bottom edge and
+ * fills the button, and the arrow turns teal: the same white bead with brand
+ * text as the menu on the teal bar. Phones keep their light round pane. */
+@media (min-width: 901px) {
+    .kovpack-to-top:not(#_) {
+        isolation: isolate;
+        background: color-mix(in srgb, var(--kovpack-brand) 88%, transparent);
+        border-color: rgb(255 255 255 / 22%);
+        box-shadow: inset 0 1px 0 rgb(255 255 255 / 18%), 0 14px 30px -14px rgb(0 40 42 / 70%);
+    }
+    .kovpack-to-top:not(#_)::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        z-index: -1;
+        width: 150%;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        background: rgb(255 255 255 / 96%);
+        transform: translate(-50%, 100%) scale(.2);
+        transition: transform .5s cubic-bezier(.3, .7, .2, 1), border-radius .5s cubic-bezier(.3, .7, .2, 1);
+        pointer-events: none;
+    }
+    .kovpack-to-top__arrow { position: relative; transition: transform .3s var(--kovpack-ease), color .3s ease; }
+}
+@media (min-width: 901px) and (hover: hover) {
+    .kovpack-to-top.is-visible:not(#_):hover {
+        background: color-mix(in srgb, var(--kovpack-brand) 88%, transparent);
+        box-shadow: inset 0 1px 0 rgb(255 255 255 / 30%), 0 18px 34px -14px rgb(0 40 42 / 75%);
+    }
+    .kovpack-to-top:not(#_):hover::before { transform: translate(-50%, 18%) scale(1); }
+    .kovpack-to-top:hover .kovpack-to-top__arrow { color: var(--kovpack-brand); }
+}
+@media (min-width: 901px) and (prefers-reduced-motion: reduce) {
+    .kovpack-to-top:not(#_)::before { transform: translate(-50%, 18%) scale(1); opacity: 0; transition: opacity .2s ease; }
+    .kovpack-to-top:not(#_):hover::before { opacity: 1; }
+}
