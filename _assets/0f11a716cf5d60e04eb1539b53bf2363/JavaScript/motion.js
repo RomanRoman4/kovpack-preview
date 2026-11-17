@@ -451,7 +451,7 @@ for (const actions of document.querySelectorAll('.kovpack-pdp__actions')) {
     place();
 })();
 
-// Light bar variant switch (owner, 2026-11-17): bottom left on every page,
+// Light bar variant switch (owner, 2026-11-17): beside the menu bar on every page,
 // to compare three looks of the light (scrolled) menu bar. Kept per browser.
 (() => {
     const root = document.documentElement;
@@ -479,6 +479,25 @@ for (const actions of document.querySelectorAll('.kovpack-pdp__actions')) {
     });
     box.append(...buttons);
     document.body.append(box);
+    // Right beside the menu bar, to its left and centred on it, and it follows
+    // the bar while the page scrolls, so each look can be tried in place.
+    const nav = document.querySelector(".header__nav");
+    let frame = 0;
+    const place = () => {
+        frame = 0;
+        if (!nav) return;
+        const n = nav.getBoundingClientRect();
+        box.style.top = Math.round(n.top + (n.height - box.offsetHeight) / 2) + "px";
+        box.style.right = Math.round(document.documentElement.clientWidth - n.left + 12) + "px";
+    };
+    const queue = () => { if (!frame) frame = requestAnimationFrame(place); };
+    addEventListener("scroll", queue, { passive: true });
+    addEventListener("resize", queue);
+    document.fonts?.ready.then(place);
+    if ("ResizeObserver" in window && nav) new ResizeObserver(queue).observe(nav);
+    nav?.closest(".header")?.addEventListener("animationend", place);
+    nav?.closest(".header")?.addEventListener("transitionend", place);
+    place();
 })();
 
 })();
