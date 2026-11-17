@@ -4125,8 +4125,8 @@ body[class] {
     }
 }
 
-/* The variant switch (motion.js): beside the menu bar, to its left, and it
- * stays with the bar while the page scrolls; every page, wide screens. */
+/* The variant switch (motion.js): right under the menu bar, on its right
+ * edge, and it stays with the bar while the page scrolls; every page. */
 .kovpack-light-switch { display: none; }
 @media (min-width: 1280px) {
     .kovpack-light-switch {
@@ -4210,3 +4210,38 @@ body[class] {
     }
 }
 :root .kovpack-pdp__back:focus-visible:not(#_) { color: var(--kovpack-brand); background: color-mix(in srgb, var(--kovpack-brand) 11%, transparent); }
+
+/* Product-colour hover for "Alle Produkte" (owner, 2026-11-17), chosen with
+ * the switch at the right of the action row: a soft tint of the product
+ * colour with the text in a deep shade of it. */
+@media (hover: hover) {
+    :root.kovpack-back-product .kovpack-pdp__back:hover:not(#_) {
+        color: color-mix(in srgb, var(--pdp-label, var(--kovpack-brand)) 55%, #000);
+        background: color-mix(in srgb, var(--pdp-label, var(--kovpack-brand)) 18%, transparent);
+    }
+}
+:root.kovpack-back-product .kovpack-pdp__back:focus-visible:not(#_) {
+    color: color-mix(in srgb, var(--pdp-label, var(--kovpack-brand)) 55%, #000);
+    background: color-mix(in srgb, var(--pdp-label, var(--kovpack-brand)) 18%, transparent);
+}
+
+/* Captions on every review switch (owner, 2026-11-17), so each says what it
+ * changes; the buttons are a little smaller to keep the pills compact. */
+.kovpack-switch-label {
+    align-self: center;
+    padding: 0 8px 0 8px;
+    color: rgb(255 255 255 / 72%);
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+:is(.kovpack-look-switch, .kovpack-light-switch) button:not(#_) { padding: 7px 11px; font-size: 12px; white-space: nowrap; }
+/* The "Alle Produkte" switch sits in the action row, pushed to its right end. */
+.kovpack-back-switch { display: none; }
+@media (min-width: 901px) and (hover: hover) {
+    .kovpack-pdp__actions .kovpack-back-switch:not(#_) {
+        position: static;
+        display: flex;
+        margin-left: auto;
+    }
+}

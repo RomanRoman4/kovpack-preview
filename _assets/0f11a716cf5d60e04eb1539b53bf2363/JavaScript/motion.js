@@ -361,6 +361,10 @@ for (const list of document.querySelectorAll('.header__subnav')) {
         box.className = "kovpack-look-switch";
         box.setAttribute("role", "group");
         box.setAttribute("aria-label", label);
+        const caption = document.createElement("span");
+        caption.className = "kovpack-switch-label";
+        caption.textContent = label;
+        box.append(caption);
         const buttons = [first, second].map(([value, text]) => {
             const b = document.createElement("button");
             b.type = "button";
@@ -384,8 +388,8 @@ for (const list of document.querySelectorAll('.header__subnav')) {
     const wrap = document.createElement("div");
     wrap.className = "kovpack-look-switches";
     wrap.append(
-        group("Menü-Farbe", "kovpack-nav-look", "kovpack-nav-clear", ["teal", "Türkis"], ["clear", "Klar"], false),
-        group("Menü-Kontur", "kovpack-nav-line", "kovpack-nav-noline", ["line", "Kontur"], ["noline", "Ohne"], true),
+        group("Меню на фото", "kovpack-nav-look", "kovpack-nav-clear", ["teal", "Бирюза"], ["clear", "Прозрачное"], false),
+        group("Обводка меню", "kovpack-nav-line", "kovpack-nav-noline", ["line", "Есть"], ["noline", "Нет"], true),
     );
     // Top right of the photo, right under the menu bar and lined up with it,
     // next to the big headline, so the looks can be compared in place. They
@@ -396,25 +400,28 @@ for (const list of document.querySelectorAll('.header__subnav')) {
     const place = () => {
         if (!nav) return;
         const n = nav.getBoundingClientRect();
-        wrap.style.top = Math.round(n.bottom + scrollY + 14) + "px";
+        // Below the light bar switch, which sits right under the menu bar.
+        const light = document.querySelector(".kovpack-light-switch");
+        wrap.style.top = Math.round(n.bottom + scrollY + 8 + (light ? light.offsetHeight + 8 : 6)) + "px";
         wrap.style.right = Math.round(document.documentElement.clientWidth - n.right) + "px";
     };
     addEventListener("resize", place);
     document.fonts?.ready.then(place);
     place();
+    setTimeout(place, 0);
 })();
 
-// Light bar variant switch (owner, 2026-11-17): beside the menu bar on every page,
+// Light bar variant switch (owner, 2026-11-17): under the menu bar on every page,
 // to compare the looks of the light (scrolled) menu bar. Kept per browser.
 (() => {
     const root = document.documentElement;
     const key = "kovpack-light-look";
     const looks = [
-        ["now", "Jetzt", ""],
-        ["water", "Wasser", "kovpack-light-water"],
-        ["warm", "Warm", "kovpack-light-warm"],
-        ["warmglass", "Warm-Glas", "kovpack-light-warm kovpack-light-warmglass"],
-        ["brand", "Marke", "kovpack-light-brand"],
+        ["now", "Сейчас", ""],
+        ["water", "Вода", "kovpack-light-water"],
+        ["warm", "Тёплая", "kovpack-light-warm"],
+        ["warmglass", "Тёпл. стекло", "kovpack-light-warm kovpack-light-warmglass"],
+        ["brand", "Бренд", "kovpack-light-brand"],
     ];
     let saved = null;
     try { saved = localStorage.getItem(key); } catch (e) {}
@@ -427,7 +434,11 @@ for (const list of document.querySelectorAll('.header__subnav')) {
     const box = document.createElement("div");
     box.className = "kovpack-light-switch";
     box.setAttribute("role", "group");
-    box.setAttribute("aria-label", "Helle Menüleiste");
+    box.setAttribute("aria-label", "Светлая шапка");
+    const caption = document.createElement("span");
+    caption.className = "kovpack-switch-label";
+    caption.textContent = "Светлая шапка";
+    box.append(caption);
     const buttons = looks.map(([value, label]) => {
         const b = document.createElement("button");
         b.type = "button";
@@ -442,7 +453,7 @@ for (const list of document.querySelectorAll('.header__subnav')) {
     });
     box.append(...buttons);
     document.body.append(box);
-    // Right beside the menu bar, to its left and centred on it, and it follows
+    // Right under the menu bar, lined up with its right edge, and it follows
     // the bar while the page scrolls, so each look can be tried in place.
     const nav = document.querySelector(".header__nav");
     let frame = 0;
@@ -450,8 +461,8 @@ for (const list of document.querySelectorAll('.header__subnav')) {
         frame = 0;
         if (!nav) return;
         const n = nav.getBoundingClientRect();
-        box.style.top = Math.round(n.top + (n.height - box.offsetHeight) / 2) + "px";
-        box.style.right = Math.round(document.documentElement.clientWidth - n.left + 12) + "px";
+        box.style.top = Math.round(n.bottom + 8) + "px";
+        box.style.right = Math.round(document.documentElement.clientWidth - n.right) + "px";
     };
     const queue = () => { if (!frame) frame = requestAnimationFrame(place); };
     addEventListener("scroll", queue, { passive: true });
@@ -461,6 +472,42 @@ for (const list of document.querySelectorAll('.header__subnav')) {
     nav?.closest(".header")?.addEventListener("animationend", place);
     nav?.closest(".header")?.addEventListener("transitionend", place);
     place();
+})();
+
+// "Alle Produkte" hover switch (owner, 2026-11-17): on product pages, at the
+// right end of the action row, to compare the brand-teal hover with a hover in
+// the product's own colour. Kept per browser.
+(() => {
+    const row = document.querySelector(".kovpack-pdp__actions");
+    if (!row || !row.querySelector(".kovpack-pdp__back")) return;
+    const root = document.documentElement;
+    const key = "kovpack-back-hover";
+    let saved = null;
+    try { saved = localStorage.getItem(key); } catch (e) {}
+    root.classList.toggle("kovpack-back-product", saved === "product");
+    const box = document.createElement("div");
+    box.className = "kovpack-look-switch kovpack-back-switch";
+    box.setAttribute("role", "group");
+    box.setAttribute("aria-label", "Ховер «Alle Produkte»");
+    const caption = document.createElement("span");
+    caption.className = "kovpack-switch-label";
+    caption.textContent = "Ховер «Alle Produkte»";
+    box.append(caption);
+    const buttons = [["brand", "Бренд"], ["product", "Цвет продукта"]].map(([value, text]) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.textContent = text;
+        b.dataset.look = value;
+        b.addEventListener("click", () => {
+            root.classList.toggle("kovpack-back-product", value === "product");
+            try { localStorage.setItem(key, value); } catch (e) {}
+            for (const other of buttons) other.setAttribute("aria-pressed", String(other === b));
+        });
+        b.setAttribute("aria-pressed", String((value === "product") === root.classList.contains("kovpack-back-product")));
+        return b;
+    });
+    box.append(...buttons);
+    row.append(box);
 })();
 
 })();
