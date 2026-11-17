@@ -3991,3 +3991,19 @@ body[class] {
         box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--kovpack-brand) 26%, transparent), inset 0 1px 0 rgb(255 255 255 / 70%);
     }
 }
+
+/* Menu over the home photo (owner, 2026-11-17): brand teal glass instead of
+ * clear white glass, so the bar reads in the brand colour over the photo.
+ * The photo still shows blurred through it; the submenu takes the same glass. */
+@media (min-width: 1280px) {
+    :root .header:has(+ .hero:not(.hero--text-only, .hero--small)):not(.is-stuck, .is-scrolled) .header__nav {
+        background: linear-gradient(180deg, color-mix(in srgb, var(--kovpack-brand) 74%, transparent), color-mix(in srgb, var(--kovpack-brand) 60%, transparent));
+        border-color: rgb(255 255 255 / 20%);
+        box-shadow: inset 0 1px 0 rgb(255 255 255 / 16%), 0 14px 34px -20px rgb(0 30 32 / 60%);
+    }
+    :root .header:has(+ .hero:not(.hero--text-only, .hero--small)):not(.is-stuck, .is-scrolled) .header__subnav {
+        background: linear-gradient(180deg, color-mix(in srgb, var(--kovpack-brand) 80%, transparent), color-mix(in srgb, var(--kovpack-brand) 70%, transparent));
+        border-color: rgb(255 255 255 / 20%);
+        box-shadow: inset 0 1px 0 rgb(255 255 255 / 16%), 0 22px 44px -22px rgb(0 30 32 / 60%);
+    }
+}
