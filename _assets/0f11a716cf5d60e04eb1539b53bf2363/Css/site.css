@@ -2814,6 +2814,10 @@ body[class] {
 .kovpack-eco-switch button[aria-pressed="true"] { background: var(--eco-switch, #01666b); color: #fff; }
 .kovpack-eco-switch button[data-tone="green"][aria-pressed="true"] { --eco-switch: #2f7a3d; }
 @media (max-width: 700px) { .kovpack-eco-switch { margin: 0 0 8px 14px; } }
+/* On the product rolls the switch sits under the sheet seal and appears with it. */
+.kovpack-eco-switch--sheet { position: absolute; z-index: 3; float: none; margin: 0; opacity: 0; pointer-events: none; transition: opacity .3s; }
+.kovpack-roll:is(.is-open, :not(.is-ready):hover, :not(.is-ready):focus-within) .kovpack-eco-switch--sheet { opacity: 1; pointer-events: auto; transition-delay: .95s; }
+.kovpack-eco-switch--sheet[hidden] { display: none; }
 @media (max-width: 700px) {
     .kovpack-eco--pdp { width: 76px; margin: 0 0 8px 14px; }
 }
