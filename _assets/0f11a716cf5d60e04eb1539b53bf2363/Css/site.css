@@ -3909,3 +3909,24 @@ body[class] {
  * The scrolled light glass bar is unchanged. */
 :root .header:not(:has(+ .hero:not(.hero--text-only, .hero--small))):not(.is-scrolled) { background-color: var(--kovpack-brand); }
 :root .component--page-footer:not(#_) { --background-color: var(--kovpack-brand); }
+
+/* Menu on the teal and photo bars (owner, 2026-11-17). The drop was a faint
+ * tint that hardly showed where the pointer is. On the teal bar and over the
+ * hero photo it is now a white bead with brand-coloured text, the mirror of
+ * the light bar's brand bead with white text. The submenu of the teal bar
+ * continues the bar in a deeper teal instead of the old dark petrol, and its
+ * drop is the same white bead. */
+@media (min-width: 1280px) {
+    :root .header:not(.is-stuck, .is-scrolled) .kovpack-nav-drop:not(#_) {
+        background: rgb(255 255 255 / 96%);
+        box-shadow: inset 0 1px 0 #fff, 0 8px 18px -10px rgb(0 30 32 / 55%);
+    }
+    :root .header:not(.is-stuck, .is-scrolled) :is(.header__nav, .header__subnav).has-drop :is(.header__nav-item, .header__subnav-item) { transition: color .3s ease; }
+    :root .header:not(.is-stuck, .is-scrolled) .header__nav.has-drop .header__nav-item.is-dropped,
+    :root .header:not(.is-stuck, .is-scrolled) .header__subnav.has-drop .header__subnav-item.is-dropped { color: var(--kovpack-brand); }
+    :root .header:not(:has(+ .hero:not(.hero--text-only, .hero--small))):not(.is-stuck, .is-scrolled) .header__subnav {
+        background: color-mix(in srgb, var(--kovpack-brand) 86%, #000);
+        border-color: rgb(255 255 255 / 14%);
+        box-shadow: 0 22px 44px -22px rgb(0 30 32 / 60%);
+    }
+}
