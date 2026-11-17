@@ -391,4 +391,40 @@ for (const actions of document.querySelectorAll('.kovpack-pdp__actions')) {
     reset();
 }
 
+// Menu look switch over the home photo (owner, 2026-11-17): compare the teal
+// glass menu with the earlier clear white glass. Only where the photo hero is
+// and on wide screens; the choice is kept for this browser.
+(() => {
+    if (!document.querySelector(".header + .hero:not(.hero--text-only, .hero--small)")) return;
+    const root = document.documentElement;
+    const key = "kovpack-nav-look";
+    let saved = null;
+    try { saved = localStorage.getItem(key); } catch (e) {}
+    if (saved === "clear") root.classList.add("kovpack-nav-clear");
+    const box = document.createElement("div");
+    box.className = "kovpack-look-switch";
+    box.setAttribute("role", "group");
+    box.setAttribute("aria-label", "Menü-Variante");
+    const make = (value, label) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.textContent = label;
+        b.dataset.look = value;
+        b.addEventListener("click", () => {
+            root.classList.toggle("kovpack-nav-clear", value === "clear");
+            try { localStorage.setItem(key, value); } catch (e) {}
+            sync();
+        });
+        return b;
+    };
+    const buttons = [make("teal", "Türkis"), make("clear", "Klar")];
+    const sync = () => {
+        const clear = root.classList.contains("kovpack-nav-clear");
+        for (const b of buttons) b.setAttribute("aria-pressed", String((b.dataset.look === "clear") === clear));
+    };
+    box.append(...buttons);
+    document.body.append(box);
+    sync();
+})();
+
 })();
