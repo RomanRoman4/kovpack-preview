@@ -3981,3 +3981,13 @@ body[class] {
     .kovpack-to-top:not(#_)::before { transform: translate(-50%, 18%) scale(1); opacity: 0; transition: opacity .2s ease; }
     .kovpack-to-top:not(#_):hover::before { opacity: 1; }
 }
+
+/* Language button on the light bar (owner, 2026-11-17): teal glass with teal
+ * text, the same glass as the menu drop, instead of a solid teal block. */
+@media (min-width: 1280px) {
+    :root .header:is(.is-stuck, .is-scrolled) .header__language-button:not(#_) {
+        color: var(--kovpack-brand);
+        background: linear-gradient(180deg, color-mix(in srgb, var(--kovpack-brand) 20%, rgb(255 255 255 / 40%)), color-mix(in srgb, var(--kovpack-brand) 12%, transparent));
+        box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--kovpack-brand) 26%, transparent), inset 0 1px 0 rgb(255 255 255 / 70%);
+    }
+}
