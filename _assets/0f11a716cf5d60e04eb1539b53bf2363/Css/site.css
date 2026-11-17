@@ -4171,6 +4171,10 @@ body[class] {
     .kovpack-light-switch button[aria-pressed="false"]:hover { color: #fff; background: rgb(255 255 255 / 10%); }
 }
 @media print { .kovpack-light-switch { display: none; } }
+/* The review switches step aside while a submenu is open, so they never
+ * cover its items (owner, 2026-11-17). */
+:is(.kovpack-light-switch, .kovpack-look-switches) { transition: opacity .2s ease; }
+body:has(.header .header__nav-list-item:is(:hover, :focus-within) > .header__subnav) :is(.kovpack-light-switch, .kovpack-look-switches) { opacity: 0; pointer-events: none; }
 
 /* Two liquid looks for the light bar (owner, 2026-11-17), in the same switch:
  * - Wasser: the bar as "Jetzt", but the drop is a clear water drop instead of
