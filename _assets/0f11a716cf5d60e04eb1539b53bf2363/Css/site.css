@@ -2280,6 +2280,9 @@ body[class] {
     color: var(--kovpack-muted);
     font-size: 16px;
     line-height: 1.55;
+    /* Justified like a printed document; hyphenation keeps word gaps even. */
+    text-align: justify;
+    hyphens: auto;
 }
 .kovpack-about__story-copy > p:last-child { margin-bottom: 0; }
 .kovpack-about__story-copy strong { color: var(--kovpack-ink); font-weight: 650; }
