@@ -391,54 +391,64 @@ for (const actions of document.querySelectorAll('.kovpack-pdp__actions')) {
     reset();
 }
 
-// Menu look switch over the home photo (owner, 2026-11-17): compare the teal
-// glass menu with the earlier clear white glass. Only where the photo hero is
-// and on wide screens; the choice is kept for this browser.
+// Menu look switches over the home photo (owner, 2026-11-17): compare the
+// teal glass menu with the earlier clear white glass, and the glass with or
+// without its thin white outline. Only where the photo hero is and on wide
+// screens; each choice is kept for this browser.
 (() => {
     if (!document.querySelector(".header + .hero:not(.hero--text-only, .hero--small)")) return;
     const root = document.documentElement;
-    const key = "kovpack-nav-look";
-    let saved = null;
-    try { saved = localStorage.getItem(key); } catch (e) {}
-    if (saved === "clear") root.classList.add("kovpack-nav-clear");
-    const box = document.createElement("div");
-    box.className = "kovpack-look-switch";
-    box.setAttribute("role", "group");
-    box.setAttribute("aria-label", "Menü-Variante");
-    const make = (value, label) => {
-        const b = document.createElement("button");
-        b.type = "button";
-        b.textContent = label;
-        b.dataset.look = value;
-        b.addEventListener("click", () => {
-            root.classList.toggle("kovpack-nav-clear", value === "clear");
-            try { localStorage.setItem(key, value); } catch (e) {}
-            sync();
+    const read = (key) => { try { return localStorage.getItem(key); } catch (e) { return null; } };
+    const write = (key, value) => { try { localStorage.setItem(key, value); } catch (e) {} };
+    // One segmented pill: the first option is the look without the class.
+    const group = (label, key, cls, first, second, startOn) => {
+        const saved = read(key);
+        root.classList.toggle(cls, saved ? saved === second[0] : startOn);
+        const box = document.createElement("div");
+        box.className = "kovpack-look-switch";
+        box.setAttribute("role", "group");
+        box.setAttribute("aria-label", label);
+        const buttons = [first, second].map(([value, text]) => {
+            const b = document.createElement("button");
+            b.type = "button";
+            b.textContent = text;
+            b.dataset.look = value;
+            b.addEventListener("click", () => {
+                root.classList.toggle(cls, value === second[0]);
+                write(key, value);
+                sync();
+            });
+            return b;
         });
-        return b;
+        const sync = () => {
+            const on = root.classList.contains(cls);
+            for (const b of buttons) b.setAttribute("aria-pressed", String((b.dataset.look === second[0]) === on));
+        };
+        box.append(...buttons);
+        sync();
+        return box;
     };
-    const buttons = [make("teal", "Türkis"), make("clear", "Klar")];
-    const sync = () => {
-        const clear = root.classList.contains("kovpack-nav-clear");
-        for (const b of buttons) b.setAttribute("aria-pressed", String((b.dataset.look === "clear") === clear));
-    };
-    box.append(...buttons);
+    const wrap = document.createElement("div");
+    wrap.className = "kovpack-look-switches";
+    wrap.append(
+        group("Menü-Farbe", "kovpack-nav-look", "kovpack-nav-clear", ["teal", "Türkis"], ["clear", "Klar"], false),
+        group("Menü-Kontur", "kovpack-nav-line", "kovpack-nav-noline", ["line", "Kontur"], ["noline", "Ohne"], true),
+    );
     // Top right of the photo, right under the menu bar and lined up with it,
-    // next to the big headline, so both looks can be compared in place.
-    // It sits on the page itself, above the header, whose tall box with the
-    // large logo would otherwise cover it and take its clicks.
+    // next to the big headline, so the looks can be compared in place. They
+    // sit on the page itself, above the header, whose tall box with the large
+    // logo would otherwise cover them and take their clicks.
     const nav = document.querySelector(".header__nav");
-    document.body.append(box);
+    document.body.append(wrap);
     const place = () => {
         if (!nav) return;
         const n = nav.getBoundingClientRect();
-        box.style.top = Math.round(n.bottom + scrollY + 14) + "px";
-        box.style.right = Math.round(document.documentElement.clientWidth - n.right) + "px";
+        wrap.style.top = Math.round(n.bottom + scrollY + 14) + "px";
+        wrap.style.right = Math.round(document.documentElement.clientWidth - n.right) + "px";
     };
     addEventListener("resize", place);
     document.fonts?.ready.then(place);
     place();
-    sync();
 })();
 
 })();
