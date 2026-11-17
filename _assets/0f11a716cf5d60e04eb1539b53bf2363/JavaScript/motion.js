@@ -423,7 +423,21 @@ for (const actions of document.querySelectorAll('.kovpack-pdp__actions')) {
         for (const b of buttons) b.setAttribute("aria-pressed", String((b.dataset.look === "clear") === clear));
     };
     box.append(...buttons);
-    document.body.append(box);
+    // Top right of the photo, right under the menu bar and lined up with it,
+    // next to the big headline, so both looks can be compared in place.
+    const hero = document.querySelector(".header + .hero");
+    const nav = document.querySelector(".header__nav");
+    hero.append(box);
+    const place = () => {
+        if (!nav) return;
+        const n = nav.getBoundingClientRect();
+        const h = hero.getBoundingClientRect();
+        box.style.top = Math.round(n.bottom - h.top + 14) + "px";
+        box.style.right = Math.round(h.right - n.right) + "px";
+    };
+    addEventListener("resize", place);
+    document.fonts?.ready.then(place);
+    place();
     sync();
 })();
 
