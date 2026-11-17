@@ -3917,8 +3917,10 @@ body[class] {
  * the drop is a pane of glass again, only clearer than the old faint tint:
  * a top sheen fading down, a bright rim and a soft shadow under it, and the
  * page behind blurred through it. On the teal bar and over the photo it is
- * white glass with white text; on the light bar it is teal glass with teal
- * text. The teal bar's submenu is teal glass in the bar's colour. */
+ * white glass with white text. On the light bar a teal tint looked cold and
+ * hard on the warm glass, so there the drop is a raised pane of warm white
+ * with ink text, lifted by a soft warm shadow. The teal bar's submenu is
+ * teal glass in the bar's colour. */
 @media (min-width: 1280px) {
     :root .header .kovpack-nav-drop:not(#_) {
         -webkit-backdrop-filter: blur(8px) saturate(170%);
@@ -3929,12 +3931,12 @@ body[class] {
         box-shadow: inset 0 0 0 1px rgb(255 255 255 / 30%), inset 0 1px 0 rgb(255 255 255 / 55%), 0 6px 16px -8px rgb(0 30 32 / 45%);
     }
     :root .header:is(.is-stuck, .is-scrolled) .kovpack-nav-drop:not(#_) {
-        background: linear-gradient(180deg, color-mix(in srgb, var(--kovpack-brand) 20%, rgb(255 255 255 / 40%)), color-mix(in srgb, var(--kovpack-brand) 12%, transparent));
-        box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--kovpack-brand) 26%, transparent), inset 0 1px 0 rgb(255 255 255 / 70%), 0 6px 16px -10px rgb(1 70 74 / 40%);
+        background: linear-gradient(180deg, rgb(255 255 255 / 80%), rgb(255 252 246 / 56%));
+        box-shadow: inset 0 0 0 1px rgb(255 255 255 / 75%), 0 1px 2px rgb(70 52 30 / 10%), 0 6px 14px -6px rgb(70 52 30 / 22%);
     }
     :root .header :is(.header__nav, .header__subnav).has-drop :is(.header__nav-item, .header__subnav-item) { transition: color .3s ease; }
     :root .header:is(.is-stuck, .is-scrolled) .header__nav.has-drop .header__nav-item.is-dropped,
-    :root .header:is(.is-stuck, .is-scrolled) .header__subnav.has-drop .header__subnav-item.is-dropped { color: var(--kovpack-brand); }
+    :root .header:is(.is-stuck, .is-scrolled) .header__subnav.has-drop .header__subnav-item.is-dropped { color: var(--kovpack-ink); }
     :root .header:not(:has(+ .hero:not(.hero--text-only, .hero--small))):not(.is-stuck, .is-scrolled) .header__subnav {
         background: linear-gradient(180deg, color-mix(in srgb, var(--kovpack-brand) 84%, rgb(255 255 255 / 0%)), color-mix(in srgb, var(--kovpack-brand) 92%, rgb(0 0 0 / 0%)));
         border-color: rgb(255 255 255 / 20%);
@@ -3985,13 +3987,13 @@ body[class] {
     .kovpack-to-top:not(#_):hover::before { opacity: 1; }
 }
 
-/* Language button on the light bar (owner, 2026-11-17): teal glass with teal
- * text, the same glass as the menu drop, instead of a solid teal block. */
+/* Language button on the light bar (owner, 2026-11-17): a quiet warm tint
+ * with ink text, set into the bar, so it never competes with the raised drop. */
 @media (min-width: 1280px) {
     :root .header:is(.is-stuck, .is-scrolled) .header__language-button:not(#_) {
-        color: var(--kovpack-brand);
-        background: linear-gradient(180deg, color-mix(in srgb, var(--kovpack-brand) 20%, rgb(255 255 255 / 40%)), color-mix(in srgb, var(--kovpack-brand) 12%, transparent));
-        box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--kovpack-brand) 26%, transparent), inset 0 1px 0 rgb(255 255 255 / 70%);
+        color: var(--kovpack-ink);
+        background: rgb(70 52 30 / 7%);
+        box-shadow: inset 0 0 0 1px rgb(70 52 30 / 6%);
     }
 }
 
