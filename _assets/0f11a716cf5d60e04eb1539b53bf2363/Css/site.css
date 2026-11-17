@@ -3910,31 +3910,42 @@ body[class] {
 :root .header:not(:has(+ .hero:not(.hero--text-only, .hero--small))):not(.is-scrolled) { background-color: var(--kovpack-brand); }
 :root .component--page-footer:not(#_) { --background-color: var(--kovpack-brand); }
 
-/* Menu on the teal and photo bars (owner, 2026-11-17). The drop was a faint
- * tint that hardly showed where the pointer is. On the teal bar and over the
- * hero photo it is now a white bead with brand-coloured text, the mirror of
- * the light bar's brand bead with white text. The submenu of the teal bar
- * continues the bar in a deeper teal instead of the old dark petrol, and its
- * drop is the same white bead. */
+/* Menu drop as liquid glass (owner, 2026-11-17). A solid bead was too hard;
+ * the drop is a pane of glass again, only clearer than the old faint tint:
+ * a top sheen fading down, a bright rim and a soft shadow under it, and the
+ * page behind blurred through it. On the teal bar and over the photo it is
+ * white glass with white text; on the light bar it is teal glass with teal
+ * text. The teal bar's submenu is teal glass in the bar's colour. */
 @media (min-width: 1280px) {
-    :root .header:not(.is-stuck, .is-scrolled) .kovpack-nav-drop:not(#_) {
-        background: rgb(255 255 255 / 96%);
-        box-shadow: inset 0 1px 0 #fff, 0 8px 18px -10px rgb(0 30 32 / 55%);
+    :root .header .kovpack-nav-drop:not(#_) {
+        -webkit-backdrop-filter: blur(8px) saturate(170%);
+        backdrop-filter: blur(8px) saturate(170%);
     }
-    :root .header:not(.is-stuck, .is-scrolled) :is(.header__nav, .header__subnav).has-drop :is(.header__nav-item, .header__subnav-item) { transition: color .3s ease; }
-    :root .header:not(.is-stuck, .is-scrolled) .header__nav.has-drop .header__nav-item.is-dropped,
-    :root .header:not(.is-stuck, .is-scrolled) .header__subnav.has-drop .header__subnav-item.is-dropped { color: var(--kovpack-brand); }
+    :root .header:not(.is-stuck, .is-scrolled) .kovpack-nav-drop:not(#_) {
+        background: linear-gradient(180deg, rgb(255 255 255 / 30%), rgb(255 255 255 / 12%));
+        box-shadow: inset 0 0 0 1px rgb(255 255 255 / 30%), inset 0 1px 0 rgb(255 255 255 / 55%), 0 6px 16px -8px rgb(0 30 32 / 45%);
+    }
+    :root .header:is(.is-stuck, .is-scrolled) .kovpack-nav-drop:not(#_) {
+        background: linear-gradient(180deg, color-mix(in srgb, var(--kovpack-brand) 20%, rgb(255 255 255 / 40%)), color-mix(in srgb, var(--kovpack-brand) 12%, transparent));
+        box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--kovpack-brand) 26%, transparent), inset 0 1px 0 rgb(255 255 255 / 70%), 0 6px 16px -10px rgb(1 70 74 / 40%);
+    }
+    :root .header :is(.header__nav, .header__subnav).has-drop :is(.header__nav-item, .header__subnav-item) { transition: color .3s ease; }
+    :root .header:is(.is-stuck, .is-scrolled) .header__nav.has-drop .header__nav-item.is-dropped,
+    :root .header:is(.is-stuck, .is-scrolled) .header__subnav.has-drop .header__subnav-item.is-dropped { color: var(--kovpack-brand); }
     :root .header:not(:has(+ .hero:not(.hero--text-only, .hero--small))):not(.is-stuck, .is-scrolled) .header__subnav {
-        background: color-mix(in srgb, var(--kovpack-brand) 86%, #000);
-        border-color: rgb(255 255 255 / 14%);
-        box-shadow: 0 22px 44px -22px rgb(0 30 32 / 60%);
+        background: linear-gradient(180deg, color-mix(in srgb, var(--kovpack-brand) 84%, rgb(255 255 255 / 0%)), color-mix(in srgb, var(--kovpack-brand) 92%, rgb(0 0 0 / 0%)));
+        border-color: rgb(255 255 255 / 20%);
+        box-shadow: inset 0 1px 0 rgb(255 255 255 / 18%), 0 22px 44px -22px rgb(0 30 32 / 50%);
+        -webkit-backdrop-filter: blur(18px) saturate(160%);
+        backdrop-filter: blur(18px) saturate(160%);
     }
 }
 
+
 /* Back to top on desktop (owner, 2026-11-17): brand teal glass, like the bar
  * and the footer. On hover a white drop wells up from the bottom edge and
- * fills the button, and the arrow turns teal: the same white bead with brand
- * text as the menu on the teal bar. Phones keep their light round pane. */
+ * fills the button as white glass: the same glass drop as the menu on the
+ * teal bar. Phones keep their light round pane. */
 @media (min-width: 901px) {
     .kovpack-to-top:not(#_) {
         isolation: isolate;
@@ -3951,7 +3962,7 @@ body[class] {
         width: 150%;
         aspect-ratio: 1;
         border-radius: 50%;
-        background: rgb(255 255 255 / 96%);
+        background: radial-gradient(circle at 50% 30%, rgb(255 255 255 / 42%), rgb(255 255 255 / 16%) 70%); box-shadow: inset 0 1px 0 rgb(255 255 255 / 60%);
         transform: translate(-50%, 100%) scale(.2);
         transition: transform .5s cubic-bezier(.3, .7, .2, 1), border-radius .5s cubic-bezier(.3, .7, .2, 1);
         pointer-events: none;
@@ -3964,7 +3975,7 @@ body[class] {
         box-shadow: inset 0 1px 0 rgb(255 255 255 / 30%), 0 18px 34px -14px rgb(0 40 42 / 75%);
     }
     .kovpack-to-top:not(#_):hover::before { transform: translate(-50%, 18%) scale(1); }
-    .kovpack-to-top:hover .kovpack-to-top__arrow { color: var(--kovpack-brand); }
+
 }
 @media (min-width: 901px) and (prefers-reduced-motion: reduce) {
     .kovpack-to-top:not(#_)::before { transform: translate(-50%, 18%) scale(1); opacity: 0; transition: opacity .2s ease; }
