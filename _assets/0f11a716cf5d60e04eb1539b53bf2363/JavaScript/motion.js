@@ -452,14 +452,24 @@ for (const actions of document.querySelectorAll('.kovpack-pdp__actions')) {
 })();
 
 // Light bar variant switch (owner, 2026-11-17): beside the menu bar on every page,
-// to compare three looks of the light (scrolled) menu bar. Kept per browser.
+// to compare the looks of the light (scrolled) menu bar. Kept per browser.
 (() => {
     const root = document.documentElement;
     const key = "kovpack-light-look";
-    const looks = [["now", "Jetzt", ""], ["warm", "Warm", "kovpack-light-warm"], ["brand", "Marke", "kovpack-light-brand"]];
+    const looks = [
+        ["now", "Jetzt", ""],
+        ["water", "Wasser", "kovpack-light-water"],
+        ["warm", "Warm", "kovpack-light-warm"],
+        ["warmglass", "Warm-Glas", "kovpack-light-warm kovpack-light-warmglass"],
+        ["brand", "Marke", "kovpack-light-brand"],
+    ];
     let saved = null;
     try { saved = localStorage.getItem(key); } catch (e) {}
-    const apply = (value) => { for (const [v, , cls] of looks) if (cls) root.classList.toggle(cls, v === value); };
+    // A look may set several classes (Warm-Glas builds on Warm).
+    const apply = (value) => {
+        const on = new Set((looks.find(([v]) => v === value)?.[2] || "").split(" ").filter(Boolean));
+        for (const [, , cls] of looks) for (const c of cls.split(" ").filter(Boolean)) root.classList.toggle(c, on.has(c));
+    };
     apply(saved || "now");
     const box = document.createElement("div");
     box.className = "kovpack-light-switch";
