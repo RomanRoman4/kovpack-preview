@@ -3903,3 +3903,9 @@ body[class] {
         box-shadow: none;
     }
 }
+
+/* Brand colour on the dark bars (owner, 2026-11-17): the dark top bar of the
+ * inner pages and the footer take the brand teal instead of the dark petrol.
+ * The scrolled light glass bar is unchanged. */
+:root .header:not(:has(+ .hero:not(.hero--text-only, .hero--small))):not(.is-scrolled) { background-color: var(--kovpack-brand); }
+:root .component--page-footer:not(#_) { --background-color: var(--kovpack-brand); }
