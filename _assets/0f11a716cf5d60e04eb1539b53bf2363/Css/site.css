@@ -2783,6 +2783,37 @@ body[class] {
     shape-outside: circle(50%);
 }
 .kovpack-pdp__subhead { clear: both; }
+/* Seal colour preview switch, under the seal (owner, 2026-11-17). */
+:root[data-eco-tone="green"] .kovpack-eco { --eco: #2f7a3d; --eco-deep: #1f5a2b; --eco-light: #eef5e3; filter: drop-shadow(0 1px 1px rgb(25 45 20 / 28%)) drop-shadow(2px 8px 12px rgb(25 45 20 / 20%)); }
+:root[data-eco-tone="green"] .kovpack-eco__roll { fill: #8cc06a; }
+.kovpack-eco-switch {
+    float: right;
+    clear: right;
+    display: flex;
+    gap: 2px;
+    margin: 0 0 12px 20px;
+    padding: 3px;
+    border: 1px solid var(--kovpack-line, #dcd6ca);
+    border-radius: 999px;
+    background: var(--kovpack-paper, #fffdf8);
+}
+.kovpack-eco-switch button {
+    min-height: 26px;
+    padding: 0 10px;
+    border: 0;
+    border-radius: 999px;
+    background: none;
+    color: var(--kovpack-muted, #5c6462);
+    font: inherit;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .25s, color .25s;
+}
+.kovpack-eco-switch button:hover { color: var(--kovpack-ink, #141a1b); }
+.kovpack-eco-switch button[aria-pressed="true"] { background: var(--eco-switch, #01666b); color: #fff; }
+.kovpack-eco-switch button[data-tone="green"][aria-pressed="true"] { --eco-switch: #2f7a3d; }
+@media (max-width: 700px) { .kovpack-eco-switch { margin: 0 0 8px 14px; } }
 @media (max-width: 700px) {
     .kovpack-eco--pdp { width: 76px; margin: 0 0 8px 14px; }
 }
