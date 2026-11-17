@@ -1014,7 +1014,8 @@ body[class] {
  * of being squeezed by the wide-screen edge padding. Key words take the
  * brand mint. */
 .hero:not(.hero--text-only, .hero--small) .kovpack-hero-line { display: block; }
-.hero:not(.hero--text-only, .hero--small) .kovpack-accent-word { font-style: normal; color: var(--kovpack-brand); }
+/* Lighter brand teal: the dark brand colour is hard to read on the photo. */
+.hero:not(.hero--text-only, .hero--small) .kovpack-accent-word { font-style: normal; color: #4fbdb8; }
 .hero:not(.hero--text-only, .hero--small) .kovpack-hero-line { white-space: nowrap; }
 @media (min-width: 768px) {
     .hero:not(.hero--text-only, .hero--small) .hero__content { width: auto; overflow-wrap: normal; }
