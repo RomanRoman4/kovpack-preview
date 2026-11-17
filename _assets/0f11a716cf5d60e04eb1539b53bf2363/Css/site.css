@@ -2718,17 +2718,18 @@ body[class] {
 /* Recycled seal (owner, 2026-11-11): every product is made from recycled
  * paper. A round green sticker in the paper concept: it sits on the unrolled
  * kraft sheet of each product card and beside the title on each product page.
- * Green is used only here, so the eco message stands apart from the teal
- * accent. Hovering the seal turns its lettering a little. */
+ * Brand teal; the icon is a paper roll inside two cycle arrows (no leaf: the
+ * paper is made from waste paper, not trees), and no "100 %" claim
+ * (owner, 2026-11-17). Hovering the seal turns its lettering a little. */
 .kovpack-eco {
-    --eco: #2f7a3d;
-    --eco-deep: #1f5a2b;
-    --eco-light: #eef5e3;
+    --eco: var(--kovpack-brand, #01666b);
+    --eco-deep: #014a4e;
+    --eco-light: #e8f3f2;
     display: block;
     overflow: visible;
     aspect-ratio: 1;
     rotate: -9deg;
-    filter: drop-shadow(0 1px 1px rgb(25 45 20 / 28%)) drop-shadow(2px 8px 12px rgb(25 45 20 / 20%));
+    filter: drop-shadow(0 1px 1px rgb(10 40 42 / 28%)) drop-shadow(2px 8px 12px rgb(10 40 42 / 20%));
 }
 .kovpack-eco__disc { fill: var(--eco); }
 .kovpack-eco__rim { fill: none; stroke: var(--eco-light); stroke-opacity: .55; stroke-width: 1; }
@@ -2736,8 +2737,9 @@ body[class] {
 .kovpack-eco__ring text { fill: var(--eco-light); font-family: var(--kovpack-font-display, inherit); font-size: 9.6px; font-weight: 600; letter-spacing: .08em; }
 .kovpack-eco__core { fill: var(--eco-deep); }
 .kovpack-eco__stitch { fill: none; stroke: var(--eco-light); stroke-opacity: .5; stroke-width: 1; stroke-dasharray: 2.4 2.6; }
-.kovpack-eco__leaf path { fill: none; stroke: var(--eco-light); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
-.kovpack-eco__leaf path:first-child { fill: #8cc06a; stroke: var(--eco-light); }
+.kovpack-eco__icon path { fill: none; stroke: var(--eco-light); stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+.kovpack-eco__roll { fill: #7cc9c3; }
+.kovpack-eco__core-hole { fill: var(--eco-deep); }
 @media (hover: hover) {
     .kovpack-eco:hover .kovpack-eco__ring { transform: rotate(40deg); }
 }
