@@ -4199,3 +4199,14 @@ body[class] {
     80% { transform: scale(1.01, .98); }
     100% { transform: none; }
 }
+
+/* "Alle Produkte" on the product pages (owner, 2026-11-17): the hover is a
+ * soft brand-teal tint with brand text instead of the grey tint. */
+.kovpack-pdp__back { transition: background-color .3s ease, color .3s ease; }
+@media (hover: hover) {
+    :root .kovpack-pdp__back:hover:not(#_) {
+        color: var(--kovpack-brand);
+        background: color-mix(in srgb, var(--kovpack-brand) 11%, transparent);
+    }
+}
+:root .kovpack-pdp__back:focus-visible:not(#_) { color: var(--kovpack-brand); background: color-mix(in srgb, var(--kovpack-brand) 11%, transparent); }
