@@ -346,11 +346,24 @@
     transform: translateX(-15px);
 }
 .kovpack-roll__eyebrow {
+    display: flex;
+    align-items: center;
+    gap: max(7px, calc(10 * var(--u)));
     margin: 0 0 calc(16 * var(--u));
     font-size: max(8px, calc(10 * var(--u)));
     font-weight: 600;
     letter-spacing: .2em;
     text-transform: uppercase;
+}
+/* The label colour of the roll, as a small printed swatch, like on the
+ * product pages and the shelf. */
+.kovpack-roll__eyebrow::before {
+    content: "";
+    flex: none;
+    width: max(14px, calc(20 * var(--u)));
+    height: max(4px, calc(6 * var(--u)));
+    border-radius: 2px;
+    background: var(--roll-label, var(--roll-accent));
 }
 .kovpack-roll__name {
     margin: 0 0 calc(14 * var(--u));
