@@ -451,4 +451,34 @@ for (const actions of document.querySelectorAll('.kovpack-pdp__actions')) {
     place();
 })();
 
+// Light bar variant switch (owner, 2026-11-17): bottom left on every page,
+// to compare three looks of the light (scrolled) menu bar. Kept per browser.
+(() => {
+    const root = document.documentElement;
+    const key = "kovpack-light-look";
+    const looks = [["now", "Jetzt", ""], ["warm", "Warm", "kovpack-light-warm"], ["brand", "Marke", "kovpack-light-brand"]];
+    let saved = null;
+    try { saved = localStorage.getItem(key); } catch (e) {}
+    const apply = (value) => { for (const [v, , cls] of looks) if (cls) root.classList.toggle(cls, v === value); };
+    apply(saved || "now");
+    const box = document.createElement("div");
+    box.className = "kovpack-light-switch";
+    box.setAttribute("role", "group");
+    box.setAttribute("aria-label", "Helle Menüleiste");
+    const buttons = looks.map(([value, label]) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.textContent = label;
+        b.addEventListener("click", () => {
+            apply(value);
+            try { localStorage.setItem(key, value); } catch (e) {}
+            for (const other of buttons) other.setAttribute("aria-pressed", String(other === b));
+        });
+        b.setAttribute("aria-pressed", String(value === (saved || "now")));
+        return b;
+    });
+    box.append(...buttons);
+    document.body.append(box);
+})();
+
 })();
