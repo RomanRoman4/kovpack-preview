@@ -4019,7 +4019,7 @@ body[class] {
         position: absolute;
         top: 120px;
         right: 48px;
-        z-index: 20;
+        z-index: 31;
         display: flex;
         gap: 2px;
         padding: 4px;

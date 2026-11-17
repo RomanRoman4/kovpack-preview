@@ -425,15 +425,15 @@ for (const actions of document.querySelectorAll('.kovpack-pdp__actions')) {
     box.append(...buttons);
     // Top right of the photo, right under the menu bar and lined up with it,
     // next to the big headline, so both looks can be compared in place.
-    const hero = document.querySelector(".header + .hero");
+    // It sits on the page itself, above the header, whose tall box with the
+    // large logo would otherwise cover it and take its clicks.
     const nav = document.querySelector(".header__nav");
-    hero.append(box);
+    document.body.append(box);
     const place = () => {
         if (!nav) return;
         const n = nav.getBoundingClientRect();
-        const h = hero.getBoundingClientRect();
-        box.style.top = Math.round(n.bottom - h.top + 14) + "px";
-        box.style.right = Math.round(h.right - n.right) + "px";
+        box.style.top = Math.round(n.bottom + scrollY + 14) + "px";
+        box.style.right = Math.round(document.documentElement.clientWidth - n.right) + "px";
     };
     addEventListener("resize", place);
     document.fonts?.ready.then(place);
