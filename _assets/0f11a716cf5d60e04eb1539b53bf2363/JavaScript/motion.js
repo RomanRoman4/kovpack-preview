@@ -445,4 +445,26 @@ for (const list of document.querySelectorAll('.header__subnav')) {
     row.append(box);
 })();
 
+// Submenu drip (owner, 2026-11-18): the drop forms on the bar's lower edge
+// under the centre of its menu item, so each item tells its panel where that
+// is and how far down the bar's edge lies.
+(() => {
+    const header = document.querySelector(".header");
+    if (!header) return;
+    const set = (item, panel) => {
+        const gap = Math.max(0, Math.round(header.getBoundingClientRect().bottom - item.getBoundingClientRect().bottom));
+        item.style.setProperty("--drip-gap", gap + "px");
+        if (panel) panel.style.setProperty("--drip-x", Math.round(item.offsetWidth / 2) + "px");
+    };
+    const items = [
+        ...[...document.querySelectorAll(".header__nav-list-item")].map((li) => [li, li.querySelector(":scope > .header__subnav")]),
+        ...[...document.querySelectorAll(".header__language-dropdown")].map((d) => [d, null]),
+    ];
+    for (const [item, panel] of items) {
+        item.addEventListener("pointerenter", () => set(item, panel));
+        item.addEventListener("focusin", () => set(item, panel));
+        set(item, panel);
+    }
+})();
+
 })();

@@ -4131,104 +4131,137 @@ body:has(.header .header__language-dropdown--open) .kovpack-look-switches { opac
     }
 }
 
-/* Submenus on the light bar flow out of the menu (owner, 2026-11-18): the
- * hovered item's drop, a short neck and the panel are one shape in one solid
- * brand-tinted colour, a little deeper than the bar, with a soft concave
- * curve where the neck meets the panel, like a drop running down into it.
- * The language list does the same from the DE/EN button, mirrored. */
+/* Submenus on the light bar grow out of the bar itself (owner, 2026-11-18):
+ * one piece with the light navigation, in its colour. The panel starts right
+ * at the bar's lower edge (covering its hairline), meets it with soft
+ * concave curves on both sides, and pours out like a drop: a bead swells on
+ * the bar's edge under the item (motion.js sets --drip-x to the item's centre
+ * and --drip-gap to the distance down to the bar's edge), runs down, spreads
+ * into the panel and settles with a slight wobble; the items follow one by
+ * one. On close it draws back up into the bar. The language list does the
+ * same under the DE/EN button. */
 @media (min-width: 1280px) {
-    :root .header:is(.is-stuck, .is-scrolled) {
-        --kovpack-flow: color-mix(in srgb, var(--kovpack-brand) 13%, rgb(236 232 224));
-        --kovpack-flow-gap: 10px;
-        --kovpack-flow-r: 10px;
-    }
-    /* The drop under an item whose submenu is open turns solid and loses its
-     * lower corners, so it runs straight into the neck. */
-    :root .header:is(.is-stuck, .is-scrolled) .header__nav:has(.header__nav-list-item:is(:hover, :focus-within) > .header__subnav) > .kovpack-nav-drop:not(#_),
-    :root .header:is(.is-stuck, .is-scrolled) .header__nav:has(.header__nav-list-item:is(:hover, :focus-within) > .header__subnav) .kovpack-nav-drop:not(.kovpack-subnav-drop):not(#_) {
-        background: var(--kovpack-flow);
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
+    :root .header:is(.is-stuck, .is-scrolled) :is(.header__subnav, .header__language-menu):not(#_):not(#_) {
+        --drip-x: 60px;
+        --drip-r: 14px;
+        margin-top: 0;
+        top: calc(100% + var(--drip-gap, 17px) - 1px);
+        max-height: none;
+        overflow: visible;
+        border: 0;
+        border-radius: 0 0 18px 18px;
+        /* The bar as it reads over the page: a backdrop filter cannot reach
+         * the page from inside the header, so the glass is solid. */
+        background: rgb(234 229 221);
+        box-shadow: inset 0 -1px 0 rgb(255 255 255 / 55%), 0 26px 40px -26px rgb(70 52 30 / 42%), 10px 18px 30px -28px rgb(70 52 30 / 30%), -10px 18px 30px -28px rgb(70 52 30 / 30%);
         -webkit-backdrop-filter: none;
         backdrop-filter: none;
+        transform: none;
+        transform-origin: var(--drip-x) 0;
+        transition: visibility 0s linear .5s;
+        animation: kovpack-drip-out .38s cubic-bezier(.5, 0, .75, .3) .12s both;
     }
-    :root .header:is(.is-stuck, .is-scrolled) .header__nav-list-item:has(> .header__subnav)::before,
-    :root .header:is(.is-stuck, .is-scrolled) .header__nav-list-item:has(> .header__subnav)::after,
-    :root .header:is(.is-stuck, .is-scrolled) .header__language-dropdown::before,
-    :root .header:is(.is-stuck, .is-scrolled) .header__language-dropdown::after {
+    :root .header:is(.is-stuck, .is-scrolled) .header__language-menu:not(#_):not(#_) { --drip-x: calc(100% - 27px); }
+    :root .header:is(.is-stuck, .is-scrolled) .header__nav-list-item:is(:hover, :focus-within) > .header__subnav:not(#_):not(#_),
+    :root .header:is(.is-stuck, .is-scrolled) .header__language-dropdown--open .header__language-menu:not(#_):not(#_) {
+        transition: visibility 0s;
+        animation: kovpack-drip-in .78s linear both;
+    }
+    /* Concave curves where the panel meets the bar. */
+    :root .header:is(.is-stuck, .is-scrolled) :is(.header__subnav, .header__language-menu):not(#_)::before,
+    :root .header:is(.is-stuck, .is-scrolled) :is(.header__subnav, .header__language-menu):not(#_)::after {
         content: "";
         position: absolute;
-        z-index: 1;
+        top: 0;
+        width: var(--drip-r);
+        height: var(--drip-r);
         pointer-events: none;
         opacity: 0;
-        transition: opacity .22s ease .12s;
+        transition: opacity .12s ease;
     }
-    /* Neck: as wide as the item, filling the gap down to the panel. */
-    :root .header:is(.is-stuck, .is-scrolled) .header__nav-list-item:has(> .header__subnav)::after,
-    :root .header:is(.is-stuck, .is-scrolled) .header__language-dropdown::after {
+    :root .header:is(.is-stuck, .is-scrolled) :is(.header__subnav, .header__language-menu):not(#_)::before {
+        right: 100%;
+        background: radial-gradient(circle at 0 100%, transparent calc(var(--drip-r) - .5px), rgb(234 229 221) var(--drip-r));
+    }
+    :root .header:is(.is-stuck, .is-scrolled) :is(.header__subnav, .header__language-menu):not(#_)::after {
+        left: 100%;
+        background: radial-gradient(circle at 100% 100%, transparent calc(var(--drip-r) - .5px), rgb(234 229 221) var(--drip-r));
+    }
+    :root .header:is(.is-stuck, .is-scrolled) .header__nav-list-item:is(:hover, :focus-within) > .header__subnav:not(#_)::before,
+    :root .header:is(.is-stuck, .is-scrolled) .header__nav-list-item:is(:hover, :focus-within) > .header__subnav:not(#_)::after,
+    :root .header:is(.is-stuck, .is-scrolled) .header__language-dropdown--open .header__language-menu:not(#_)::before,
+    :root .header:is(.is-stuck, .is-scrolled) .header__language-dropdown--open .header__language-menu:not(#_)::after {
+        opacity: 1;
+        transition: opacity .25s ease .38s;
+    }
+    /* Items surface once the glass has spread. */
+    :root .header:is(.is-stuck, .is-scrolled) :is(.header__subnav-list-item, .header__language-menu-item):not(#_) { opacity: 0; }
+    :root .header:is(.is-stuck, .is-scrolled) .header__nav-list-item:is(:hover, :focus-within) > .header__subnav .header__subnav-list-item:not(#_),
+    :root .header:is(.is-stuck, .is-scrolled) .header__language-dropdown--open .header__language-menu-item:not(#_) {
+        animation: kovpack-drip-item .4s cubic-bezier(.2, .8, .2, 1) both;
+        animation-delay: .34s;
+    }
+    :root .header:is(.is-stuck, .is-scrolled) .header__nav-list-item:is(:hover, :focus-within) > .header__subnav .header__subnav-list-item:nth-child(2):not(#_),
+    :root .header:is(.is-stuck, .is-scrolled) .header__language-dropdown--open .header__language-menu-item:nth-child(2):not(#_) { animation-delay: .4s; }
+    :root .header:is(.is-stuck, .is-scrolled) .header__nav-list-item:is(:hover, :focus-within) > .header__subnav .header__subnav-list-item:nth-child(3):not(#_) { animation-delay: .46s; }
+    :root .header:is(.is-stuck, .is-scrolled) .header__nav-list-item:is(:hover, :focus-within) > .header__subnav .header__subnav-list-item:nth-child(n + 4):not(#_) { animation-delay: .52s; }
+
+    :root .header:is(.is-stuck, .is-scrolled) .header__subnav-item:not(#_) { background: transparent; }
+    :root .header:is(.is-stuck, .is-scrolled) .header__subnav.has-drop .kovpack-subnav-drop:not(#_),
+    :root .header:is(.is-stuck, .is-scrolled) .header__language-menu-link:is(:hover, :focus-visible):not(#_):not(#_) {
+        background: color-mix(in srgb, var(--kovpack-brand) 10%, transparent);
+        box-shadow: none;
+    }
+}
+/* An invisible bridge down to the panel, so moving there never drops the
+ * hover and restarts the drip. */
+@media (min-width: 1280px) {
+    :root .header:is(.is-stuck, .is-scrolled) :is(.header__nav-list-item:has(> .header__subnav), .header__language-dropdown)::after {
+        content: "";
+        position: absolute;
         top: 100%;
         left: 0;
         right: 0;
-        height: calc(var(--kovpack-flow-gap) + 1px);
-        background: var(--kovpack-flow);
-    }
-    /* Concave curve on the open side of the neck. */
-    :root .header:is(.is-stuck, .is-scrolled) .header__nav-list-item:has(> .header__subnav)::before {
-        top: calc(100% + var(--kovpack-flow-gap) - var(--kovpack-flow-r));
-        left: 100%;
-        width: var(--kovpack-flow-r);
-        height: var(--kovpack-flow-r);
-        background: radial-gradient(circle at 100% 0, transparent calc(var(--kovpack-flow-r) - .5px), var(--kovpack-flow) var(--kovpack-flow-r));
-    }
-    :root .header:is(.is-stuck, .is-scrolled) .header__language-dropdown::before {
-        top: calc(100% + var(--kovpack-flow-gap) - var(--kovpack-flow-r));
-        right: 100%;
-        width: var(--kovpack-flow-r);
-        height: var(--kovpack-flow-r);
-        background: radial-gradient(circle at 0 0, transparent calc(var(--kovpack-flow-r) - .5px), var(--kovpack-flow) var(--kovpack-flow-r));
-    }
-    :root .header:is(.is-stuck, .is-scrolled) .header__nav-list-item:is(:hover, :focus-within):has(> .header__subnav)::before,
-    :root .header:is(.is-stuck, .is-scrolled) .header__nav-list-item:is(:hover, :focus-within):has(> .header__subnav)::after,
-    :root .header:is(.is-stuck, .is-scrolled) .header__language-dropdown--open::before,
-    :root .header:is(.is-stuck, .is-scrolled) .header__language-dropdown--open::after {
-        opacity: 1;
-        transition: opacity .18s ease;
-    }
-
-    /* The panels: the same solid colour, square on the neck side, shadow
-     * only downwards so no line shows where the neck joins. */
-    :root .header:is(.is-stuck, .is-scrolled) .header__subnav:not(#_):not(#_),
-    :root .header:is(.is-stuck, .is-scrolled) .header__language-menu:not(#_):not(#_) {
-        margin-top: 0;
-        border: 0;
-        background: var(--kovpack-flow);
-        box-shadow: 0 26px 40px -26px rgb(0 40 42 / 40%);
-        -webkit-backdrop-filter: none;
-        backdrop-filter: none;
-    }
-    :root .header:is(.is-stuck, .is-scrolled) .header__subnav:not(#_):not(#_) { top: calc(100% + var(--kovpack-flow-gap)); border-top-left-radius: 0; transform-origin: 0 0; }
-    :root .header:is(.is-stuck, .is-scrolled) .header__language-menu:not(#_):not(#_) { top: calc(100% + var(--kovpack-flow-gap)); border-top-right-radius: 0; transform-origin: 100% 0; }
-    /* It pours down rather than sliding in. */
-    :root .header:is(.is-stuck, .is-scrolled) .header__nav-list-item:not(:hover, :focus-within) > .header__subnav:not(#_):not(#_),
-    :root .header:is(.is-stuck, .is-scrolled) .header__language-dropdown:not(.header__language-dropdown--open) .header__language-menu:not(#_):not(#_) {
-        transform: scaleY(.9);
-    }
-    :root .header:is(.is-stuck, .is-scrolled) .header__subnav-item:not(#_) { background: transparent; }
-    :root .header:is(.is-stuck, .is-scrolled) .header__subnav.has-drop .kovpack-subnav-drop:not(#_) {
-        background: color-mix(in srgb, var(--kovpack-brand) 11%, transparent);
-        box-shadow: none;
-    }
-    /* The open DE/EN button is the top of the drop. */
-    :root .header:is(.is-stuck, .is-scrolled) .header__language-dropdown--open .header__language-button:not(#_):not(#_) {
-        background: var(--kovpack-flow);
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
-    }
-    :root .header:is(.is-stuck, .is-scrolled) .header__language-menu-link:is(:hover, :focus-visible):not(#_):not(#_) {
-        background: color-mix(in srgb, var(--kovpack-brand) 11%, transparent);
+        height: var(--drip-gap, 17px);
     }
 }
+@keyframes kovpack-drip-in {
+    0% {
+        opacity: 1;
+        clip-path: inset(0 calc(100% - var(--drip-x) - 12px) calc(100% - 3px) calc(var(--drip-x) - 12px) round 0 0 12px 12px);
+        animation-timing-function: cubic-bezier(.4, 0, .6, 1);
+    }
+    30% {
+        clip-path: inset(0 calc(100% - var(--drip-x) - 17px) calc(100% - 52px) calc(var(--drip-x) - 17px) round 0 0 17px 17px / 0 0 26px 26px);
+        transform: scaleY(1.03);
+        animation-timing-function: cubic-bezier(.2, .7, .3, 1);
+    }
+    60% {
+        clip-path: inset(0 0 0 0 round 0 0 18px 18px);
+        transform: scale(1.012, .975);
+        animation-timing-function: cubic-bezier(.4, 0, .4, 1);
+    }
+    80% { clip-path: inset(0 -16px -40px -16px round 0); transform: scale(.996, 1.01); }
+    100% { opacity: 1; clip-path: inset(0 -16px -40px -16px round 0); transform: none; }
+}
+@keyframes kovpack-drip-out {
+    0% { opacity: 1; clip-path: inset(0 0 0 0 round 0 0 18px 18px); transform: none; }
+    45% { opacity: 1; clip-path: inset(0 calc(100% - var(--drip-x) - 17px) calc(100% - 44px) calc(var(--drip-x) - 17px) round 0 0 17px 17px); }
+    100% { opacity: 0; clip-path: inset(0 calc(100% - var(--drip-x) - 10px) calc(100% - 2px) calc(var(--drip-x) - 10px) round 0 0 10px 10px); }
+}
+@keyframes kovpack-drip-item {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: none; }
+}
 @media (min-width: 1280px) and (prefers-reduced-motion: reduce) {
-    :root .header:is(.is-stuck, .is-scrolled) .header__nav-list-item > .header__subnav:not(#_):not(#_),
-    :root .header:is(.is-stuck, .is-scrolled) .header__language-menu:not(#_):not(#_) { transform: none; }
+    :root .header:is(.is-stuck, .is-scrolled) :is(.header__subnav, .header__language-menu):not(#_):not(#_),
+    :root .header:is(.is-stuck, .is-scrolled) :is(.header__subnav-list-item, .header__language-menu-item):not(#_) {
+        animation: none !important;
+        clip-path: none;
+        transform: none;
+    }
+    :root .header:is(.is-stuck, .is-scrolled) :is(.header__subnav-list-item, .header__language-menu-item):not(#_) { opacity: 1; }
+    :root .header:is(.is-stuck, .is-scrolled) :is(.header__subnav, .header__language-menu):not(#_):not(#_) { transition: opacity .2s ease, visibility 0s linear .2s; }
+    :root .header:is(.is-stuck, .is-scrolled) .header__nav-list-item:is(:hover, :focus-within) > .header__subnav:not(#_):not(#_),
+    :root .header:is(.is-stuck, .is-scrolled) .header__language-dropdown--open .header__language-menu:not(#_):not(#_) { transition: opacity .2s ease, visibility 0s; }
 }
