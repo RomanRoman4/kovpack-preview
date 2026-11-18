@@ -46,9 +46,24 @@
     // Product pages: floated under the seal beside the title.
     for (const seal of document.querySelectorAll('.kovpack-eco--pdp')) seal.after(makeSwitch());
 
-    // The footer reserves space for both the product link and the seal switch.
+    // Product rolls. Wide screens (owner, 2026-11-18): the switch hangs under
+    // the unrolled sheet, right under the seal, so the seal stays alone on
+    // the paper while the tones are compared. It is still part of the sheet,
+    // so reaching it keeps the roll open. Phones keep it beside the seal.
+    const wide = window.matchMedia('(min-width: 901px)');
+    const sheetSwitches = [];
     for (const seal of document.querySelectorAll('.kovpack-roll__seal')) {
-        seal.prepend(makeSwitch('kovpack-eco-switch--sheet'));
+        const sheet = seal.closest('.kovpack-roll__sheet');
+        sheetSwitches.push({ seal, sheet, control: makeSwitch('kovpack-eco-switch--sheet') });
     }
+    const placeSheetSwitches = () => {
+        for (const { seal, sheet, control } of sheetSwitches) {
+            if (wide.matches && sheet) sheet.append(control);
+            else seal.prepend(control);
+            control.classList.toggle('kovpack-eco-switch--under', wide.matches && Boolean(sheet));
+        }
+    };
+    placeSheetSwitches();
+    wide.addEventListener('change', placeSheetSwitches);
     setTone(root.dataset.ecoTone, false);
 })();

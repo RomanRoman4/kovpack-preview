@@ -875,3 +875,14 @@
     .kovpack-product .kovpack-product__photo img:not(#_) { border: 0; border-radius: var(--corners-l, 16px); }
     .kovpack-product .kovpack-roll__intro > :is(.kovpack-roll__eyebrow, .kovpack-roll__name, .kovpack-roll__sheet-type):not(#_) { margin-right: 0; }
 }
+
+/* Seal colour switch under the unrolled sheet (owner, 2026-11-18): set
+ * apart from the paper, right-aligned with the seal above it, so the seal
+ * can be looked at on its own while switching. eco-switch.js moves it here
+ * on wide screens. */
+.kovpack-roll__sheet > .kovpack-eco-switch--under {
+    position: absolute;
+    z-index: 3;
+    top: calc(100% + 16px);
+    right: calc(38 * var(--u));
+}
