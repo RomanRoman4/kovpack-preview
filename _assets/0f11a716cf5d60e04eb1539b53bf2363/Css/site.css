@@ -856,8 +856,8 @@ button.header__nav-item {
     .header__subnav-item { border-radius: var(--corners-s); transition: background-color .25s ease; }
     .header__subnav-item:hover { background: rgb(255 255 255 / 10%); }
     .header:is(.is-stuck, .is-scrolled) .header__subnav {
-        --link-color: var(--kovpack-ink); --link-color-hover: var(--kovpack-ink);
-        color: var(--kovpack-ink);
+        --link-color: var(--kovpack-brand); --link-color-hover: var(--kovpack-brand);
+        color: var(--kovpack-brand);
         background: rgb(240 236 228 / 94%);
         border-color: rgb(20 26 27 / 8%);
         box-shadow: 0 22px 44px -24px rgb(15 42 51 / 35%);
@@ -1482,10 +1482,10 @@ body[class] {
     .header.is-stuck .header__content { align-items: center; }
     .header.is-stuck .header__logo { margin: 0; max-width: 190px; }
     .header:is(.is-stuck, .is-scrolled) .header__nav {
-        --link-color: var(--kovpack-ink);
-        --link-color-hover: var(--kovpack-ink);
+        --link-color: var(--kovpack-brand);
+        --link-color-hover: var(--kovpack-brand);
         margin-top: 0;
-        color: var(--kovpack-ink);
+        color: var(--kovpack-brand);
         background: rgb(20 26 27 / 4%);
         border-color: rgb(20 26 27 / 8%);
     }
@@ -1493,7 +1493,7 @@ body[class] {
     /* Soft hover like "Alle Produkte" (owner, 2026-11-09): the tint fades in
      * over .5s and the line under the link fades in while it widens from the
      * centre, instead of appearing at once. The line takes the text colour,
-     * so it is white over the hero and ink on the light bar. Links that open
+     * so it is white over the hero and teal on the light bar. Links that open
      * a submenu keep no line, as in the theme. */
     .header .header__nav-item { transition: color .5s ease, background-color .5s ease, border-color .5s ease; }
     .header .header__nav-item:not(.header__nav-item--has-subnav)::before {
@@ -3859,7 +3859,7 @@ body[class] {
  * page behind blurred through it. On the teal bar and over the photo it is
  * white glass with white text. On the light bar a teal tint looked cold and
  * hard on the warm glass, so there the drop is a raised pane of warm white
- * with ink text, lifted by a soft warm shadow. The teal bar's submenu is
+ * with brand teal text, lifted by a soft warm shadow. The teal bar's submenu is
  * teal glass in the bar's colour. */
 @media (min-width: 1280px) {
     :root .header .kovpack-nav-drop:not(#_) {
@@ -3881,7 +3881,7 @@ body[class] {
     }
     :root .header :is(.header__nav, .header__subnav).has-drop :is(.header__nav-item, .header__subnav-item) { transition: color .3s ease; }
     :root .header:is(.is-stuck, .is-scrolled) .header__nav.has-drop .header__nav-item.is-dropped,
-    :root .header:is(.is-stuck, .is-scrolled) .header__subnav.has-drop .header__subnav-item.is-dropped { color: var(--kovpack-ink); }
+    :root .header:is(.is-stuck, .is-scrolled) .header__subnav.has-drop .header__subnav-item.is-dropped { color: var(--kovpack-brand); }
     :root .header:not(:has(+ .hero:not(.hero--text-only, .hero--small))):not(.is-stuck, .is-scrolled) .header__subnav {
         background: linear-gradient(180deg, rgb(255 255 255 / 16%), rgb(255 255 255 / 0%) 45%), linear-gradient(180deg, color-mix(in srgb, var(--kovpack-brand) 74%, transparent), color-mix(in srgb, var(--kovpack-brand) 82%, transparent));
         border-color: rgb(255 255 255 / 24%);
@@ -3933,10 +3933,10 @@ body[class] {
 }
 
 /* Language button on the light bar (owner, 2026-11-17): a quiet warm tint
- * with ink text, set into the bar, so it never competes with the raised drop. */
+ * with brand teal text, set into the bar. */
 @media (min-width: 1280px) {
     :root .header:is(.is-stuck, .is-scrolled) .header__language-button:not(#_) {
-        color: var(--kovpack-ink);
+        color: var(--kovpack-brand);
         background: rgb(70 52 30 / 7%);
         box-shadow: inset 0 0 0 1px rgb(70 52 30 / 6%);
     }
@@ -4033,7 +4033,7 @@ body[class] {
  * the menu bar ("Jetzt / Wasser / Warm / Warm-Glas / Marke"). "Jetzt" is the raised white drop in
  * the grey pill. Both others drop every outline and the grey pill:
  * - Warm: the pill is only a faint warm tint; the drop is set into it as a
- *   slightly deeper warm tint, flat, with ink text.
+ *   slightly deeper warm tint, flat, with brand teal text.
  * - Marke: no pill at all, the items sit on the milky bar; the drop is a
  *   soft brand tint with brand text, like a highlighter. */
 @media (min-width: 1280px) {
@@ -4057,10 +4057,7 @@ body[class] {
         background: color-mix(in srgb, var(--kovpack-brand) 10%, transparent);
         box-shadow: none;
     }
-    :root.kovpack-light-brand .header:is(.is-stuck, .is-scrolled) .header__nav.has-drop .header__nav-item.is-dropped,
-    :root.kovpack-light-brand .header:is(.is-stuck, .is-scrolled) .header__subnav.has-drop .header__subnav-item.is-dropped { color: var(--kovpack-brand); }
     :root.kovpack-light-brand .header:is(.is-stuck, .is-scrolled) .header__language-button:not(#_) {
-        color: var(--kovpack-brand);
         background: transparent;
         box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--kovpack-brand) 22%, transparent);
     }
