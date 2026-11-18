@@ -447,7 +447,9 @@ for (const list of document.querySelectorAll('.header__subnav')) {
 
 // Submenu drip (owner, 2026-11-18): the drop forms on the bar's lower edge
 // under the centre of its menu item, so each item tells its panel where that
-// is and how far down the bar's edge lies.
+// is and how far down the bar's edge lies. Moving straight from one open
+// group to the next sets .is-menu-swap on the header, so the next panel is
+// there at once instead of dripping again.
 (() => {
     const header = document.querySelector(".header");
     if (!header) return;
@@ -459,14 +461,23 @@ for (const list of document.querySelectorAll('.header__subnav')) {
         item.style.setProperty("--drip-w", panel.offsetWidth + "px");
         item.style.setProperty("--drip-reach", gap + panel.offsetHeight + "px");
     };
-    const items = [
-        ...[...document.querySelectorAll(".header__nav-list-item")].map((li) => [li, li.querySelector(":scope > .header__subnav")]),
-        ...[...document.querySelectorAll(".header__language-dropdown")].map((d) => [d, null]),
-    ];
-    for (const [item, panel] of items) {
-        item.addEventListener("pointerenter", () => set(item, panel));
-        item.addEventListener("focusin", () => set(item, panel));
-        set(item, panel);
+    let leftGroupAt = -Infinity;
+    for (const li of document.querySelectorAll(".header__nav-list-item")) {
+        const panel = li.querySelector(":scope > .header__subnav");
+        li.addEventListener("pointerenter", () => {
+            set(li, panel);
+            // A group with a panel, reached within the old panel's close
+            // delay: swap. Anything else: the normal drip.
+            header.classList.toggle("is-menu-swap", Boolean(panel) && performance.now() - leftGroupAt < 420);
+        });
+        li.addEventListener("pointerleave", () => { if (panel) leftGroupAt = performance.now(); });
+        li.addEventListener("focusin", () => set(li, panel));
+        set(li, panel);
+    }
+    header.querySelector(".header__nav")?.addEventListener("pointerleave", () => header.classList.remove("is-menu-swap"));
+    for (const d of document.querySelectorAll(".header__language-dropdown")) {
+        d.addEventListener("pointerenter", () => set(d, null));
+        set(d, null);
     }
 })();
 
