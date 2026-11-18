@@ -57,11 +57,15 @@ header?.addEventListener('animationend', (event) => {
 });
 
 const switching = Boolean(header?.matches(':has(+ .hero:not(.hero--text-only, .hero--small))'));
+const compactLock = '.is-menu-open, :has(.header__menu--open, :focus-visible)';
 let directionAnchor = Math.max(0, window.scrollY);
+let compactHideReadyAt = 0;
+let idleTimer = 0;
 
 const updateCompactHeader = (y) => {
+    clearTimeout(idleTimer);
     if (!header) return;
-    if (y <= headerHeight || header.matches('.is-menu-open, :has(.header__menu--open, :focus-visible)')) {
+    if (y <= headerHeight || header.matches(compactLock)) {
         header.classList.remove('is-scroll-hidden');
         directionAnchor = y;
         return;
@@ -70,16 +74,29 @@ const updateCompactHeader = (y) => {
     // Measure from the last high or low point so tiny reversals do not flicker.
     const hidden = header.classList.contains('is-scroll-hidden');
     directionAnchor = hidden ? Math.max(directionAnchor, y) : Math.min(directionAnchor, y);
-    const shouldToggle = hidden ? directionAnchor - y >= 10 : y - directionAnchor >= 18;
+    const shouldToggle = hidden ? directionAnchor - y >= 10 :
+        y - directionAnchor >= 18 && performance.now() >= compactHideReadyAt;
     if (shouldToggle) {
         header.classList.toggle('is-scroll-hidden', !hidden);
         directionAnchor = y;
+    }
+    if (!header.classList.contains('is-scroll-hidden')) {
+        idleTimer = setTimeout(() => {
+            if (window.scrollY <= headerHeight || header.matches(compactLock)) return;
+            directionAnchor = y;
+            header.classList.add('is-scroll-hidden');
+        }, 1400);
     }
 };
 
 const update = () => {
     const y = window.scrollY;
-    header?.classList.toggle('is-scrolled', y > 2 && (!switching || !wideHeader.matches));
+    const scrolled = y > 2;
+    if (!wideHeader.matches && switching && scrolled && !header.classList.contains('is-scrolled')) {
+        // Let the hero's glass transition finish before the first hide.
+        compactHideReadyAt = performance.now() + (reducedMotion.matches ? 0 : 400);
+    }
+    header?.classList.toggle('is-scrolled', scrolled && (!switching || !wideHeader.matches));
 
     if (!wideHeader.matches) {
         // Safari's overscroll can report positions beyond either page edge.
@@ -170,6 +187,7 @@ measure();
 update();
 addEventListener('scroll', onScroll, { passive: true });
 wideHeader.addEventListener('change', () => {
+    clearTimeout(idleTimer);
     directionAnchor = Math.max(0, window.scrollY);
     header?.classList.remove('is-scroll-hidden', 'is-leaving', 'is-returning');
     if (!wideHeader.matches) setStuck(false);
