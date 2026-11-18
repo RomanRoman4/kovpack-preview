@@ -4187,3 +4187,95 @@ body:has(.header .header__nav-list-item:is(:hover, :focus-within) > .header__sub
         margin-left: auto;
     }
 }
+
+/* Language dropdown on wide screens (owner, 2026-11-18): it had only the
+ * theme's bare box and no hover. Now it opens like the submenus: brand teal
+ * glass over the photo and on the dark bar, the light card on the light bar,
+ * with a hover on the button and on each language, and the current language
+ * marked. The review switches step aside while it is open. */
+@media (min-width: 1280px) {
+    .header .header__language-dropdown { position: relative; }
+    :root .header .header__language-menu:not(#_) {
+        display: block;
+        top: calc(100% + 10px);
+        right: 0;
+        min-width: 10.5rem;
+        margin: 0;
+        padding: 6px;
+        list-style: none;
+        border: 1px solid rgb(255 255 255 / 24%);
+        border-radius: var(--corners-s, 8px);
+        background: linear-gradient(180deg, rgb(255 255 255 / 16%), rgb(255 255 255 / 0%) 45%), linear-gradient(180deg, color-mix(in srgb, var(--kovpack-brand) 84%, transparent), color-mix(in srgb, var(--kovpack-brand) 92%, transparent));
+        box-shadow: inset 0 1px 0 rgb(255 255 255 / 30%), 0 22px 44px -22px rgb(0 30 32 / 60%);
+        -webkit-backdrop-filter: blur(18px) saturate(170%);
+        backdrop-filter: blur(18px) saturate(170%);
+        opacity: 0; visibility: hidden; pointer-events: none;
+        transform: translateY(-6px) scale(.985); transform-origin: 100% 0;
+        transition: opacity .2s ease, transform .3s cubic-bezier(.2, .8, .2, 1), visibility 0s linear .3s;
+    }
+    :root .header .header__language-dropdown--open .header__language-menu:not(#_) {
+        opacity: 1; visibility: visible; pointer-events: auto; transform: none;
+        transition: opacity .25s ease, transform .4s cubic-bezier(.2, .8, .2, 1), visibility 0s;
+    }
+    :root .header .header__language-menu-item:not(#_) { min-height: 0; margin: 0; }
+    :root .header .header__language-menu-link:not(#_) {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 14px;
+        border-radius: calc(var(--corners-s, 8px) - 2px);
+        color: rgb(255 255 255 / 82%);
+        font-size: 15px;
+        font-weight: 500;
+        text-decoration: none;
+        transition: background-color .2s ease, color .2s ease;
+    }
+    :root .header .header__language-menu-link:not(#_)::before {
+        content: "";
+        width: 6px; height: 6px;
+        flex: none;
+        border-radius: 50%;
+        background: currentColor;
+        opacity: 0;
+        transition: opacity .2s ease;
+    }
+    :root .header .header__language-menu-link:is(:hover, :focus-visible):not(#_) { color: #fff; background: rgb(255 255 255 / 12%); }
+    :root .header .header__language-menu-link--active:not(#_) { color: #fff; font-weight: 600; }
+    :root .header .header__language-menu-link--active:not(#_)::before { opacity: 1; }
+    :root .header .header__language-menu-link:focus-visible:not(#_) { outline: 2px solid #fff; outline-offset: -2px; }
+
+    /* Light bar: the same light card as its submenus, brand text. */
+    :root .header:is(.is-stuck, .is-scrolled) .header__language-menu:not(#_) {
+        background: rgb(245 242 236 / 97%);
+        border-color: rgb(70 52 30 / 8%);
+        box-shadow: 0 1px 2px rgb(70 52 30 / 6%), 0 22px 44px -22px rgb(15 42 51 / 35%);
+    }
+    :root .header:is(.is-stuck, .is-scrolled) .header__language-menu-link:not(#_) { color: rgb(15 42 51 / 72%); }
+    :root .header:is(.is-stuck, .is-scrolled) .header__language-menu-link:is(:hover, :focus-visible):not(#_) {
+        color: var(--kovpack-brand);
+        background: color-mix(in srgb, var(--kovpack-brand) 10%, transparent);
+    }
+    :root .header:is(.is-stuck, .is-scrolled) .header__language-menu-link--active:not(#_) { color: var(--kovpack-brand); }
+    :root .header:is(.is-stuck, .is-scrolled) .header__language-menu-link:focus-visible:not(#_) { outline-color: var(--kovpack-brand); }
+
+    /* The button itself answers the pointer and shows when it is open. */
+    .header .header__language-button { transition: background-color .2s ease, color .2s ease, box-shadow .2s ease; }
+}
+@media (min-width: 1280px) and (hover: hover) {
+    :root .header:not(.is-stuck, .is-scrolled) .header__language-button:hover:not(#_) { background: rgb(255 255 255 / 26%); }
+    :root .header:is(.is-stuck, .is-scrolled) .header__language-button:hover:not(#_) {
+        color: var(--kovpack-brand);
+        background: color-mix(in srgb, var(--kovpack-brand) 12%, transparent);
+    }
+}
+@media (min-width: 1280px) {
+    :root .header:not(.is-stuck, .is-scrolled) .header__language-dropdown--open .header__language-button:not(#_) { background: rgb(255 255 255 / 26%); }
+    :root .header:is(.is-stuck, .is-scrolled) .header__language-dropdown--open .header__language-button:not(#_) {
+        color: var(--kovpack-brand);
+        background: color-mix(in srgb, var(--kovpack-brand) 12%, transparent);
+    }
+}
+@media (min-width: 1280px) and (prefers-reduced-motion: reduce) {
+    :root .header .header__language-menu:not(#_) { transform: none; }
+}
+body:has(.header .header__language-dropdown--open) :is(.kovpack-light-switch, .kovpack-look-switches) { opacity: 0; pointer-events: none; }
