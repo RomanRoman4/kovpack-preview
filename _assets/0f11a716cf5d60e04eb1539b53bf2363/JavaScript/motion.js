@@ -457,10 +457,8 @@ for (const list of document.querySelectorAll('.header__subnav')) {
     const set = (item, panel) => {
         // The edge the panel hangs from: the bar, or over the home photo
         // (no bar yet) the menu pill.
-        // On the teal bar and over the photo the panel hangs from the menu
-        // pill and takes its colour; on the light bar (no pill) from the bar.
-        const onPill = !header.matches(".is-stuck, .is-scrolled");
-        const edge = (onPill && nav ? nav : header).getBoundingClientRect().bottom;
+        // The panel hangs from the menu pill and takes its colour.
+        const edge = (nav || header).getBoundingClientRect().bottom;
         const gap = Math.max(0, Math.round(edge - item.getBoundingClientRect().bottom));
         item.style.setProperty("--drip-gap", gap + "px");
         if (!panel) return;
