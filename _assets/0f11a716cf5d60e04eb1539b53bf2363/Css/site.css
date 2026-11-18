@@ -4570,17 +4570,70 @@ body:has(.header .header__language-dropdown--open) .kovpack-look-switches { opac
 @media (min-width: 1280px) and (hover: hover) {
     :root .header:not(#_) { z-index: 30; }
 }
-/* The panel is the menu pill's colour, measured on screen (owner,
- * 2026-11-18: the panel looked greyer than the pill). At 77-91% the dimmed
- * page showed through and pulled it grey and cool; at 97% it stays the
- * pill's colour while the page still blurs faintly behind it. */
+
+/* One surface per bar (owner, 2026-11-18: the pill and its submenu must be
+ * the same material, matte on every bar, and the highlight calmer).
+ * --nav-surface paints the menu pill AND its submenu / language list, so
+ * the two can never drift apart. On the teal and the light bar the surface
+ * is opaque and matte (a translucent pill took the colour of whatever
+ * scrolled under the light bar, the panel did not). Over the home photo
+ * both are the same teal glass over the same blurred photo.
+ * The highlight (current item, hover, open DE/EN, panel hover) is the
+ * surface one step lighter with a 1px soft lift: no sheen, no white rim. */
 @media (min-width: 1280px) and (hover: hover) {
-    :root .header:is(.is-stuck, .is-scrolled):not(#_) {
-        --drip-bg: rgb(222 215 202 / 97%);
-        --drip-fillet: rgb(222 215 202 / 97%);
+    /* Light bar. */
+    :root .header:is(.is-stuck, .is-scrolled):not(#_):not(#_) {
+        --nav-surface: rgb(222 215 203);
+        --nav-surface-ring: none;
+        --nav-surface-filter: none;
+        --drip-drop-bg: rgb(232 227 218);
+        --drip-drop-shadow: 0 1px 2px rgb(70 52 30 / 14%), 0 0 0 .5px rgb(70 52 30 / 6%);
+        --drip-shadow: 0 2px 6px -2px rgb(70 52 30 / 12%), 0 18px 32px -16px rgb(70 52 30 / 32%);
     }
-    :root .header:not(:has(+ .hero:not(.hero--text-only, .hero--small))):not(.is-stuck, .is-scrolled):not(#_) {
-        --drip-bg: rgb(33 130 136 / 97%);
-        --drip-fillet: rgb(33 130 136 / 97%);
+    /* Teal bar on the inner pages. */
+    :root .header:not(:has(+ .hero:not(.hero--text-only, .hero--small))):not(.is-stuck, .is-scrolled):not(#_):not(#_) {
+        --nav-surface: color-mix(in srgb, #fff 12%, var(--kovpack-brand));
+        --nav-surface-ring: none;
+        --nav-surface-filter: none;
+        --drip-drop-bg: color-mix(in srgb, #fff 22%, var(--kovpack-brand));
+        --drip-drop-shadow: 0 1px 2px rgb(0 30 32 / 22%);
+        --drip-shadow: 0 2px 6px -2px rgb(0 30 32 / 22%), 0 18px 32px -16px rgb(0 30 32 / 50%);
+    }
+    /* Over the home photo: the teal bar's matte teal, solid, so the photo
+     * under the pill and under the panel cannot pull them apart. */
+    :root .header:has(+ .hero:not(.hero--text-only, .hero--small)):not(.is-stuck, .is-scrolled):not(#_):not(#_) {
+        --nav-surface: rgb(31 120 125);
+        --nav-surface-ring: none;
+        --nav-surface-filter: none;
+        --drip-drop-bg: rgb(54 140 145);
+        --drip-drop-shadow: 0 1px 2px rgb(0 30 32 / 22%);
+        --drip-shadow: 0 2px 6px -2px rgb(0 30 32 / 25%), 0 18px 32px -16px rgb(0 30 32 / 55%);
+    }
+    /* The "Transparent" review look over the photo keeps clear glass. */
+    :root.kovpack-nav-clear .header:has(+ .hero:not(.hero--text-only, .hero--small)):not(.is-stuck, .is-scrolled):not(#_):not(#_) {
+        --nav-surface: rgb(255 255 255 / 14%);
+        --nav-surface-filter: blur(14px) saturate(140%);
+    }
+    :root .header:not(#_):not(#_) {
+        --drip-bg: var(--nav-surface);
+        --drip-fillet: var(--nav-surface);
+        --drip-filter: var(--nav-surface-filter);
+    }
+
+    /* The pill. */
+    :root .header .header__nav:not(#_):not(#_):not(#_) {
+        background: var(--nav-surface);
+        border-color: transparent;
+        box-shadow: var(--nav-surface-ring);
+    }
+    :root .header .header__nav:not(#_):not(#_):not(#_)::before {
+        content: "";
+        -webkit-backdrop-filter: var(--nav-surface-filter);
+        backdrop-filter: var(--nav-surface-filter);
+    }
+    /* The panel: same surface, a soft shadow, no rim. */
+    :root .header :is(.header__subnav, .header__language-menu):not(#_):not(#_):not(#_) {
+        background: var(--nav-surface);
+        box-shadow: var(--drip-shadow);
     }
 }
