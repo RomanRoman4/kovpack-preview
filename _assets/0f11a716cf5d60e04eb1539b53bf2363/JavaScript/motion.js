@@ -481,24 +481,111 @@ for (const list of document.querySelectorAll('.header__subnav')) {
         item.style.setProperty("--drip-w", panel.offsetWidth + "px");
         item.style.setProperty("--drip-reach", gap + panel.offsetHeight + "px");
     };
-    let leftGroupAt = -Infinity;
+    // (.is-menu-swap is set by the flyout below.)
     for (const li of document.querySelectorAll(".header__nav-list-item")) {
         const panel = li.querySelector(":scope > .header__subnav");
-        li.addEventListener("pointerenter", () => {
-            set(li, panel);
-            // A group with a panel, reached within the old panel's close
-            // delay: swap. Anything else: the normal drip.
-            header.classList.toggle("is-menu-swap", Boolean(panel) && performance.now() - leftGroupAt < 420);
-        });
-        li.addEventListener("pointerleave", () => { if (panel) leftGroupAt = performance.now(); });
+        li.addEventListener("pointerenter", () => set(li, panel));
         li.addEventListener("focusin", () => set(li, panel));
         set(li, panel);
     }
-    header.querySelector(".header__nav")?.addEventListener("pointerleave", () => header.classList.remove("is-menu-swap"));
     for (const d of document.querySelectorAll(".header__language-dropdown")) {
         d.addEventListener("pointerenter", () => set(d, null));
         set(d, null);
     }
+})();
+
+// Menu flyout (owner, 2026-11-18: open the submenus the Apple way, and
+// moving from one open group to the next must flow, not appear anew). One
+// shared glass pane in the menu is the background of whichever submenu or
+// language list is open: it grows down from the pill on open, glides and
+// resizes to the next group's panel when the pointer moves on, and draws up
+// into the pill on close. The panels themselves only hold the labels, which
+// cross-fade. Hover intent matches the CSS (90 ms); within 260 ms of leaving
+// a group, the next one morphs instead of opening again (.is-menu-swap).
+(() => {
+    const header = document.querySelector(".header");
+    const nav = header?.querySelector(".header__nav");
+    if (!nav) return;
+    const desk = window.matchMedia("(min-width: 1280px) and (hover: hover)");
+    const fly = document.createElement("span");
+    fly.className = "kovpack-nav-flyout";
+    fly.setAttribute("aria-hidden", "true");
+    nav.append(fly);
+    nav.classList.add("has-flyout");
+    let current = null, hiddenAt = -Infinity, openTimer = 0, swapTimer = 0;
+    const box = (panel) => {
+        const n = nav.getBoundingClientRect(), p = panel.getBoundingClientRect();
+        return { left: p.left - n.left - nav.clientLeft, top: p.top - n.top - nav.clientTop, width: p.width, height: p.height };
+    };
+    const place = (r, height = r.height) => {
+        fly.style.left = r.left + "px";
+        fly.style.top = r.top + "px";
+        fly.style.width = r.width + "px";
+        fly.style.height = height + "px";
+    };
+    const show = (panel) => {
+        clearTimeout(openTimer);
+        if (!desk.matches || current === panel) return;
+        const r = box(panel);
+        fly.style.setProperty("--fly-curve-l", panel.style.getPropertyValue("--drip-curve-l") || "1");
+        fly.style.setProperty("--fly-curve-r", panel.style.getPropertyValue("--drip-curve-r") || "1");
+        const flowing = current !== null || performance.now() - hiddenAt < 260;
+        // While a pane is out, any next group is a swap. The class is on
+        // before the pointer reaches the next item, because the browser
+        // starts that item's transitions as soon as it is hovered.
+        clearTimeout(swapTimer);
+        header.classList.add("is-menu-swap");
+        if (!flowing) {
+            // Grow from the pill: start as a flat strip under the panel.
+            fly.style.transition = "none";
+            place(r, 0);
+            void fly.offsetWidth;
+            fly.style.transition = "";
+        }
+        fly.classList.add("is-shown");
+        place(r);
+        current = panel;
+    };
+    const hide = () => {
+        clearTimeout(openTimer);
+        if (!current) return;
+        const r = box(current);
+        current = null;
+        hiddenAt = performance.now();
+        fly.classList.remove("is-shown");
+        place(r, 0);
+        clearTimeout(swapTimer);
+        swapTimer = setTimeout(() => header.classList.remove("is-menu-swap"), 260);
+    };
+    for (const li of nav.querySelectorAll(".header__nav-list-item")) {
+        const panel = li.querySelector(":scope > .header__subnav");
+        li.addEventListener("pointerenter", (event) => {
+            if (event.pointerType !== "mouse") return;
+            if (!panel) { hide(); return; }
+            // Moving on from an open group flows at once; a fresh open waits
+            // for the same hover intent as the CSS.
+            if (current || performance.now() - hiddenAt < 260) show(panel);
+            else { clearTimeout(openTimer); openTimer = setTimeout(() => li.matches(":hover") && show(panel), 90); }
+        });
+        li.addEventListener("pointerleave", (event) => {
+            if (event.pointerType !== "mouse") return;
+            clearTimeout(openTimer);
+            if (current === panel) hide();
+        });
+        if (panel) {
+            li.addEventListener("focusin", () => show(panel));
+            li.addEventListener("focusout", (event) => { if (!li.contains(event.relatedTarget) && current === panel) hide(); });
+        }
+    }
+    for (const dropdown of nav.querySelectorAll(".header__language-dropdown")) {
+        const menu = dropdown.querySelector(".header__language-menu");
+        if (!menu) continue;
+        new MutationObserver(() => {
+            if (dropdown.classList.contains("header__language-dropdown--open")) show(menu);
+            else if (current === menu) hide();
+        }).observe(dropdown, { attributes: true, attributeFilter: ["class"] });
+    }
+    desk.addEventListener("change", () => { current = null; fly.classList.remove("is-shown"); header.classList.remove("is-menu-swap"); });
 })();
 
 })();
