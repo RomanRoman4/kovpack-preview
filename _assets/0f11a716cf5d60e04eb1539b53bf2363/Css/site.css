@@ -4518,3 +4518,17 @@ body:has(.header .header__language-dropdown--open) .kovpack-look-switches { opac
 @media (min-width: 1280px) {
     :root .header:not(#_) { z-index: 30; }
 }
+/* The panel is the menu pill's colour, measured on screen (owner,
+ * 2026-11-18: the panel looked greyer than the pill). At 77-91% the dimmed
+ * page showed through and pulled it grey and cool; at 97% it stays the
+ * pill's colour while the page still blurs faintly behind it. */
+@media (min-width: 1280px) {
+    :root .header:is(.is-stuck, .is-scrolled):not(#_) {
+        --drip-bg: rgb(222 215 202 / 97%);
+        --drip-fillet: rgb(222 215 202 / 97%);
+    }
+    :root .header:not(:has(+ .hero:not(.hero--text-only, .hero--small))):not(.is-stuck, .is-scrolled):not(#_) {
+        --drip-bg: rgb(33 130 136 / 97%);
+        --drip-fillet: rgb(33 130 136 / 97%);
+    }
+}
