@@ -292,9 +292,10 @@ for (const nav of document.querySelectorAll('.header__nav')) {
 
 // Submenu drop (owner, 2026-11-13): the dropdowns get the same glass drop
 // as the menu bar. It appears under the pointer, flows between the items
-// (stretching vertically) and fades out when the pointer leaves.
-for (const list of document.querySelectorAll('.header__subnav')) {
-    const items = [...list.querySelectorAll('.header__subnav-item')]
+// (stretching vertically) and fades out when the pointer leaves. The
+// language list gets the same drop (owner, 2026-11-18).
+for (const list of document.querySelectorAll('.header__subnav, .header__language-menu')) {
+    const items = [...list.querySelectorAll('.header__subnav-item, .header__language-menu-link')]
         .filter((item) => !item.closest('.header__subnav-list-item--back'));
     if (!items.length) continue;
     const drop = document.createElement('span');
@@ -561,6 +562,7 @@ for (const list of document.querySelectorAll('.header__subnav')) {
         const panel = li.querySelector(":scope > .header__subnav");
         li.addEventListener("pointerenter", (event) => {
             if (event.pointerType !== "mouse") return;
+            closeLanguages();
             if (!panel) { hide(); return; }
             // Moving on from an open group flows at once; a fresh open waits
             // for the same hover intent as the CSS.
@@ -577,7 +579,34 @@ for (const list of document.querySelectorAll('.header__subnav')) {
             li.addEventListener("focusout", (event) => { if (!li.contains(event.relatedTarget) && current === panel) hide(); });
         }
     }
-    for (const dropdown of nav.querySelectorAll(".header__language-dropdown")) {
+    // The language list opens like the other groups on a wide screen: on
+    // hover, with the same intent, and the pane flows to it from an open
+    // group. (The theme opens it on a click; that stays for keyboard and
+    // touch.) A click on DE/EN while it is open by hover keeps it open.
+    const languageOpen = (dropdown, open) => {
+        dropdown.classList.toggle("header__language-dropdown--open", open);
+        dropdown.querySelector(".header__language-button")?.setAttribute("aria-expanded", String(open));
+        dropdown.querySelector(".header__language-menu")?.setAttribute("aria-hidden", String(!open));
+    };
+    const dropdowns = [...nav.querySelectorAll(".header__language-dropdown")];
+    const closeLanguages = () => { for (const d of dropdowns) if (d.classList.contains("header__language-dropdown--open")) languageOpen(d, false); };
+    for (const dropdown of dropdowns) {
+        dropdown.addEventListener("pointerenter", (event) => {
+            if (event.pointerType !== "mouse" || !desk.matches) return;
+            clearTimeout(openTimer);
+            if (current || performance.now() - hiddenAt < 260) languageOpen(dropdown, true);
+            else openTimer = setTimeout(() => dropdown.matches(":hover") && languageOpen(dropdown, true), 90);
+        });
+        dropdown.addEventListener("pointerleave", (event) => {
+            if (event.pointerType !== "mouse" || !desk.matches) return;
+            clearTimeout(openTimer);
+            if (!dropdown.contains(document.activeElement)) languageOpen(dropdown, false);
+        });
+        dropdown.querySelector(".header__language-button")?.addEventListener("click", (event) => {
+            if (desk.matches && event.pointerType === "mouse" && dropdown.classList.contains("header__language-dropdown--open")) event.stopImmediatePropagation();
+        }, true);
+    }
+    for (const dropdown of dropdowns) {
         const menu = dropdown.querySelector(".header__language-menu");
         if (!menu) continue;
         new MutationObserver(() => {

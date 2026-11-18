@@ -4796,3 +4796,26 @@ body:has(.header .header__language-dropdown--open) .kovpack-look-switches { opac
     :root .header .kovpack-nav-flyout,
     :root .header .kovpack-nav-flyout.is-shown { transition: opacity .2s ease; }
 }
+
+/* The language list behaves like the submenus (owner, 2026-11-18): the same
+ * drop slides between the languages (motion.js), the links keep no hover
+ * fill of their own, and a move from an open group flows over to it. */
+@media (min-width: 1280px) and (hover: hover) {
+    :root .header .header__language-menu.has-drop:not(#_) { isolation: isolate; }
+    :root .header .header__language-menu.has-drop .kovpack-subnav-drop:not(#_):not(#_) {
+        border-radius: 12px;
+        transition-property: left, right, top, bottom, opacity;
+    }
+    :root .header .header__language-menu.has-drop .header__language-menu-link:not(#_):not(#_):not(#_) {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+        box-shadow: none;
+    }
+    :root .header .header__language-menu.has-drop .header__language-menu-item:not(#_) { position: relative; z-index: 1; }
+    /* Flowing over from an open group: no wait, quick labels. */
+    :root .header.is-menu-swap .header__nav.has-flyout .header__language-dropdown--open .header__language-menu .header__language-menu-item:not(#_):not(#_) {
+        --nav-d: calc(.02s + var(--nav-i, 0) * 20ms);
+        transition: opacity .22s var(--nav-ease) var(--nav-d), filter .22s var(--nav-ease) var(--nav-d), translate .32s var(--nav-ease-out) var(--nav-d);
+    }
+}
