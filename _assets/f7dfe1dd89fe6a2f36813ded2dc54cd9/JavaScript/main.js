@@ -1,6 +1,6 @@
 (() => {
 "use strict";
-const BREAKPOINT = 1280;
+const wideMenu = window.matchMedia('(min-width: 1280px) and (hover: hover)');
 
 const body         = document.body;
 const menuButtons  = document.querySelectorAll('.JS_header-menu-button');
@@ -89,8 +89,6 @@ if (menuButtons.length && nav) {
     }
   });
 
-  const isMobile = () => window.innerWidth < BREAKPOINT;
-
   const updateScrollLock = () => {
     const menuOpen = nav.classList.contains('header__menu--open');
     body.style.overflow = menuOpen ? 'hidden' : '';
@@ -99,7 +97,7 @@ if (menuButtons.length && nav) {
   // menu buttons
   menuButtons.forEach(menuButton => {
     menuButton.addEventListener('click', event => {
-      if (!isMobile()) return;
+      if (wideMenu.matches) return;
       event.preventDefault();
 
       nav.classList.toggle('header__menu--open');
@@ -112,44 +110,41 @@ if (menuButtons.length && nav) {
 
   // toggle subnavigation
   subnavLinks.forEach(link => {
-    link.addEventListener('click', event => {
-      if (!isMobile()) return;
-      event.preventDefault();
-
-      const targetId = link.dataset.target;
-      if (!targetId) return;
-
-      const subnav = document.getElementById(targetId);
-      if (!subnav) return;
-
-      const open = subnav.classList.toggle('header__subnav--active');
-      if (link instanceof HTMLButtonElement) {
-        link.setAttribute('aria-expanded', String(open));
+    const subnav = document.getElementById(link.dataset.target);
+    if (!subnav) return;
+    const syncTrigger = () => {
+      if (wideMenu.matches && link instanceof HTMLAnchorElement) {
+        link.removeAttribute('aria-controls');
+        link.removeAttribute('aria-expanded');
+      } else {
+        link.setAttribute('aria-controls', subnav.id);
+        link.setAttribute('aria-expanded', String(subnav.classList.contains('header__subnav--active')));
       }
+    };
+    wideMenu.addEventListener('change', syncTrigger);
+    syncTrigger();
+
+    link.addEventListener('click', event => {
+      if (wideMenu.matches) return;
+      event.preventDefault();
+      subnav.classList.toggle('header__subnav--active');
+      syncTrigger();
     });
   });
 
-  // Reset at desktop viewport
-  window.addEventListener('resize', () => {
-    if (!isMobile()) {
-      closeAllLanguageDropdowns();
-      nav.classList.remove('header__menu--open');
-      body.classList.remove('body--menu-open');
-      body.style.overflow = '';
-
-      menuButtons.forEach(btn => {
-        btn.classList.remove('header__menu-button--open');
-      });
-
-      document
-        .querySelectorAll('.JS_header-subnav.header__subnav--active')
-        .forEach(openSubnav => {
-          openSubnav.classList.remove('header__subnav--active');
-        });
-      subnavLinks.forEach(link => {
-        if (link instanceof HTMLButtonElement) link.setAttribute('aria-expanded', 'false');
-      });
-    }
+  // Reset disclosures and scroll lock when switching navigation modes.
+  wideMenu.addEventListener('change', () => {
+    closeAllLanguageDropdowns();
+    nav.classList.remove('header__menu--open');
+    body.classList.remove('body--menu-open');
+    body.style.overflow = '';
+    menuButtons.forEach(button => button.classList.remove('header__menu-button--open'));
+    nav.querySelectorAll('.JS_header-subnav.header__subnav--active').forEach(subnav => {
+      subnav.classList.remove('header__subnav--active');
+    });
+    subnavLinks.forEach(link => {
+      if (link.hasAttribute('aria-expanded')) link.setAttribute('aria-expanded', 'false');
+    });
   });
 }
 

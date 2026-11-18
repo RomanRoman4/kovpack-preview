@@ -398,6 +398,9 @@
 }
 .kovpack-roll__specs dd { margin: 0; color: #1d1710; font-size: max(12px, calc(14 * var(--u))); font-weight: 600; line-height: 1.45; text-align: right; }
 .kovpack-roll__action { border-top: 1px solid rgb(36 26 15 / 22%); padding-top: calc(12 * var(--u)); }
+.kovpack-roll__footer { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 12px 16px; }
+.kovpack-roll__footer .kovpack-roll__action { flex: 1 1 180px; min-width: 0; }
+.kovpack-roll__action .button__content { min-width: 0; overflow-wrap: anywhere; }
 .kovpack-roll__action-note { display: block; color: rgb(36 26 15 / 84%); font-size: max(11px, calc(12 * var(--u))); }
 /* The product link is the sheet's call to action: a light paper tab with
  * dark kraft type and the arrow in a dark disc. It stays in the paper palette
@@ -465,11 +468,11 @@
 .kovpack-roll__action .button:focus-visible { outline: 3px solid var(--kovpack-kraft-ink, #241a0f); outline-offset: 3px; }
 
 /* Wide desktop sheets: name, text and link on the left, specifications on the right. */
-@media (min-width: 901px) {
+@media (width > 900px) {
     @container kovpack-roll (min-width: 740px) {
         .kovpack-roll__sheet-content {
             grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-            grid-template-rows: auto 1fr;
+            grid-template-rows: auto 1fr auto;
             column-gap: calc(40 * var(--u));
         }
         .kovpack-roll__eyebrow { margin-bottom: calc(26 * var(--u)); }
@@ -479,7 +482,7 @@
         .kovpack-roll__action { padding-top: calc(16 * var(--u)); }
         .kovpack-roll__action .button { margin-top: calc(8 * var(--u)); }
         .kovpack-roll__specs { grid-column: 2; grid-row: 1 / span 2; align-self: center; margin: 0; }
-        .kovpack-roll__action { grid-column: 1; grid-row: 2; align-self: end; }
+        .kovpack-roll__footer { grid-column: 1 / -1; grid-row: 3; }
     }
 }
 
@@ -508,12 +511,41 @@
 }
 .kovpack-roll:is(.is-open, :not(.is-ready):hover, :not(.is-ready):focus-within) .kovpack-roll__handle { opacity: 0; }
 
-@media (min-width: 901px) {
+@media (width > 900px) {
     .kovpack-roll:is(.is-open, :not(.is-ready):hover, :not(.is-ready):focus-within) .kovpack-roll__label {
         opacity: 0;
         transform: translateX(24px);
         pointer-events: none;
     }
+
+    /* Both faces size the same grid cell. Long copy and the open sheet can
+     * grow the card without a layout jump when the roll opens. */
+    .kovpack-roll__stage { display: grid; align-items: center; }
+    .kovpack-roll__stage > :is(.kovpack-roll__label, .kovpack-roll__scene) { grid-area: 1 / 1; min-width: 0; }
+    .kovpack-roll__label {
+        position: relative;
+        inset: auto;
+        margin-inline: calc((var(--rest) + var(--body) + 44) * var(--u)) calc(24 * var(--u));
+        padding-block: calc(16 * var(--u));
+    }
+    .kovpack-roll__scene {
+        height: auto;
+        min-height: calc(600 * var(--u));
+        padding-block: calc(12.5 * var(--u)) calc(22 * var(--u));
+    }
+    .kovpack-roll__shadow { bottom: auto; top: calc(570 * var(--u)); }
+    .kovpack-roll__sheet {
+        position: relative;
+        top: auto;
+        height: auto;
+        min-height: calc(518 * var(--u));
+        display: grid;
+        pointer-events: none;
+    }
+    .kovpack-roll__sheet-content { height: auto; min-width: 0; }
+    .kovpack-roll:is(.is-open, :not(.is-ready):hover, :not(.is-ready):focus-within) .kovpack-roll__sheet { pointer-events: auto; }
+    .kovpack-roll__specs :is(dt, dd) { min-width: 0; overflow-wrap: anywhere; }
+    .kovpack-roll__specs dt { flex: 0 1 auto; }
 }
 
 /* Product photo (owner request 2026-11-04). With a visible image on the record
@@ -537,7 +569,7 @@
         6px 22px 36px -12px rgb(45 30 15 / 26%),
         14px 48px 70px -36px rgb(45 30 15 / 42%);
 }
-@media (min-width: 901px) {
+@media (width > 900px) {
     .kovpack-product__layout--photo {
         display: grid;
         /* A square photo exactly as tall as the roll (565 units). The stage is
@@ -545,15 +577,9 @@
          * photo = 565 / (565 + 640) of the width left after the gap. */
         grid-template-columns: min(565px, (100% - 40px) * 565 / 1205) minmax(0, 1fr);
         column-gap: 40px;
+        align-items: center;
     }
-    .kovpack-product__photo { position: relative; margin: 0; }
-    /* Same height as the roll photo: 15 to 580 of the 600-unit scene. */
-    .kovpack-product .kovpack-product__photo img {
-        position: absolute;
-        top: 2.5%;
-        left: 0;
-        height: 94.17%;
-    }
+    .kovpack-product__photo { margin: 0; }
     /* Its own container name: beside a photo the sheet is narrower, so the
      * two-column sheet only starts at 960px instead of 740px. */
     /* Closed, the roll stands a little away from the photo and slides back to
@@ -561,13 +587,26 @@
      * above the middle (owner, 2026-11-09). */
     .kovpack-product__layout--photo .kovpack-roll__stage { --slide: 44; container-name: kovpack-roll-photo; }
     .kovpack-product__layout--photo .kovpack-roll__label {
-        left: calc((var(--rest) + var(--body) + 104) * var(--u));
-        padding-bottom: calc(40 * var(--u));
+        margin-inline-start: calc((var(--rest) + var(--body) + 104) * var(--u));
+        padding-bottom: calc(56 * var(--u));
+    }
+    @container kovpack-roll-photo (max-width: 620px) {
+        .kovpack-product__layout--photo .kovpack-roll__label {
+            margin-inline-start: calc((var(--rest) + var(--body) + 50) * var(--u));
+            padding-bottom: calc(16 * var(--u));
+        }
+        .kovpack-roll .kovpack-roll__title { font-size: clamp(26px, 5.5cqw, 36px); }
+        .kovpack-roll .kovpack-roll__type { font-size: clamp(17px, 4cqw, 22px); hyphens: auto; overflow-wrap: anywhere; }
+        .kovpack-roll__teaser { font-size: 15px; line-height: 1.48; }
+        .kovpack-roll__uses { gap: 12px 0; margin-top: 20px; padding-top: 14px; }
+        .kovpack-roll__use { gap: 6px; padding-inline: 10px; font-size: 13px; hyphens: auto; overflow-wrap: anywhere; }
+        .kovpack-roll__use:nth-child(odd) { padding-inline-start: 0; }
+        .kovpack-roll__use-icon { width: 44px; height: 44px; }
     }
     @container kovpack-roll-photo (min-width: 960px) {
         .kovpack-roll__sheet-content {
             grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-            grid-template-rows: auto 1fr;
+            grid-template-rows: auto 1fr auto;
             column-gap: calc(40 * var(--u));
         }
         .kovpack-roll__eyebrow { margin-bottom: calc(26 * var(--u)); }
@@ -576,7 +615,7 @@
         .kovpack-roll__specs > div { padding-block: calc(7 * var(--u)); }
         .kovpack-roll__action { padding-top: calc(16 * var(--u)); }
         .kovpack-roll__specs { grid-column: 2; grid-row: 1 / span 2; align-self: center; margin: 0; }
-        .kovpack-roll__action { grid-column: 1; grid-row: 2; align-self: end; }
+        .kovpack-roll__footer { grid-column: 1 / -1; grid-row: 3; }
     }
     /* Narrow desktops scale the roll down beside the photo; the sheet keeps
      * readable type and drops the button note and the last specifications. */
@@ -606,13 +645,13 @@
     font-weight: 500;
     line-height: 1.2;
 }
-@media (min-width: 901px) {
+@media (width > 900px) {
     @container kovpack-roll (min-width: 740px) {
         .kovpack-roll__name:has(+ .kovpack-roll__sheet-type) { margin-bottom: calc(8 * var(--u)); }
         .kovpack-roll__sheet-type { margin-bottom: calc(22 * var(--u)); font-size: calc(23 * var(--u)); }
     }
 }
-@media (min-width: 901px) {
+@media (width > 900px) {
     @container kovpack-roll-photo (min-width: 960px) {
         .kovpack-roll__name:has(+ .kovpack-roll__sheet-type) { margin-bottom: calc(8 * var(--u)); }
         .kovpack-roll__sheet-type { margin-bottom: calc(22 * var(--u)); font-size: calc(23 * var(--u)); }
@@ -772,6 +811,7 @@
     .kovpack-product .kovpack-roll__specs dt { font-size: 10.5px; }
     .kovpack-product .kovpack-roll__specs dd { font-size: 14px; text-align: left; }
     .kovpack-product .kovpack-roll__action:not(#_) { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 0; border-top: 0; }
+    .kovpack-product .kovpack-roll__footer { display: contents; }
     .kovpack-product .kovpack-roll__action-note { display: none; }
     .kovpack-product .kovpack-roll__action .button:not(#_) { gap: 18px; margin: 0; white-space: nowrap; }
 

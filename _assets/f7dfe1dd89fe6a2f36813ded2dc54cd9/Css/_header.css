@@ -294,7 +294,7 @@
  */
 
 /* Large */
-@media (min-width: 1280px) {
+@media (min-width: 1280px) and (hover: hover) {
     .header {
         --menu-display: block;
         --menu-button-display: none;

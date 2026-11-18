@@ -110,12 +110,13 @@ if (!reduced && 'IntersectionObserver' in window) {
     addEventListener('hashchange', revealAll);
 }
 
+const wideHeader = window.matchMedia('(min-width: 1280px) and (hover: hover)');
+
 // Menu drop (owner, 2026-11-12): as in the enquiry form, one glass drop
 // rests on the current page's item and flows to the item under the pointer;
 // its leading edge moves first so it stretches and settles like a drop.
 // Desktop menu only; without this script the items keep their own tint.
 for (const nav of document.querySelectorAll('.header__nav')) {
-    const wide = window.matchMedia('(min-width: 1280px)');
     const items = [...nav.querySelectorAll('.header__nav-item')];
     if (!items.length) continue;
     const drop = document.createElement('span');
@@ -129,7 +130,7 @@ for (const nav of document.querySelectorAll('.header__nav')) {
     const mark = (item) => { for (const other of items) other.classList.toggle("is-dropped", other === item); };
     let last = null;
     const place = (item, animate) => {
-        if (!item || !wide.matches) { drop.style.opacity = '0'; last = null; mark(null); return; }
+        if (!item || !wideHeader.matches) { drop.style.opacity = '0'; last = null; mark(null); return; }
         mark(item);
         const box = item.getBoundingClientRect();
         const outer = nav.getBoundingClientRect();
@@ -161,13 +162,13 @@ for (const nav of document.querySelectorAll('.header__nav')) {
     nav.addEventListener('focusout', (event) => { if (!nav.contains(event.relatedTarget)) place(active(), true); });
     const reset = () => place(active(), false);
     window.addEventListener('resize', reset);
-    wide.addEventListener('change', reset);
+    wideHeader.addEventListener('change', reset);
     document.fonts?.ready.then(reset);
     if ('ResizeObserver' in window) new ResizeObserver(() => place(nav.matches(':hover') ? items.find((i) => i.matches(':hover')) ?? active() : active(), false)).observe(nav);
     reset();
 }
 
-// Liquid-glass menu below 1280px (owner, 2026-11-12). The theme script
+// Liquid-glass menu for narrow and touch-only viewports (owner, 2026-11-12). The theme script
 // (main.js) still opens and closes it; this layer adds what a floating pane
 // needs: the bar stays pinned while the pane fades out (.is-menu-open is
 // removed after the close animation), the pane starts right under the bar,
@@ -180,7 +181,6 @@ for (const nav of document.querySelectorAll('.header__nav')) {
     const button = document.querySelector('.JS_header-menu-button');
     const pane = menu?.querySelector('.header__nav');
     if (!header || !menu || !button || !pane) return;
-    const narrow = window.matchMedia('(max-width: 1279px)');
     const isOpen = () => menu.classList.contains('header__menu--open');
 
     button.setAttribute('role', 'button');
@@ -196,14 +196,14 @@ for (const nav of document.querySelectorAll('.header__nav')) {
     // Language choices: always listed in the pane, never hidden from readers.
     const languageMenus = [...menu.querySelectorAll('.JS_header-language-menu')];
     const showLanguages = () => {
-        if (!narrow.matches) return;
+        if (wideHeader.matches) return;
         for (const list of languageMenus) if (list.getAttribute('aria-hidden') !== 'false') list.setAttribute('aria-hidden', 'false');
     };
     for (const list of languageMenus) new MutationObserver(showLanguages).observe(list, { attributes: true, attributeFilter: ['aria-hidden'] });
     for (const languageButton of menu.querySelectorAll('.JS_header-language-button')) {
-        const sync = () => { if (narrow.matches) languageButton.tabIndex = -1; else languageButton.removeAttribute('tabindex'); };
+        const sync = () => { if (!wideHeader.matches) languageButton.tabIndex = -1; else languageButton.removeAttribute('tabindex'); };
         sync();
-        narrow.addEventListener('change', sync);
+        wideHeader.addEventListener('change', sync);
     }
 
     // The current page in a submenu is marked (the theme only marks the group).
@@ -221,7 +221,7 @@ for (const nav of document.querySelectorAll('.header__nav')) {
     const current = () => items.find((item) => item.classList.contains('header__nav-item--active'));
     let dropItem = null;
     const place = (item, animate) => {
-        if (!item || !narrow.matches) { drop.style.opacity = '0'; dropItem = null; return; }
+        if (!item || wideHeader.matches) { drop.style.opacity = '0'; dropItem = null; return; }
         const row = item.offsetParent === pane ? item : item.closest('.header__nav-list-item');
         const top = (row === item ? 0 : item.offsetTop) + (row?.offsetTop ?? 0);
         if (!animate) drop.style.transition = 'none';
@@ -283,8 +283,8 @@ for (const nav of document.querySelectorAll('.header__nav')) {
         button.click();
         button.focus();
     });
-    narrow.addEventListener('change', () => {
-        if (narrow.matches) return;
+    wideHeader.addEventListener('change', () => {
+        if (!wideHeader.matches) return;
         header.classList.remove('is-menu-open');
         document.documentElement.style.overflow = '';
     });
@@ -294,7 +294,6 @@ for (const nav of document.querySelectorAll('.header__nav')) {
 // as the menu bar. It appears under the pointer, flows between the items
 // (stretching vertically) and fades out when the pointer leaves.
 for (const list of document.querySelectorAll('.header__subnav')) {
-    const wide = window.matchMedia('(min-width: 1280px)');
     const items = [...list.querySelectorAll('.header__subnav-item')]
         .filter((item) => !item.closest('.header__subnav-list-item--back'));
     if (!items.length) continue;
@@ -308,7 +307,7 @@ for (const list of document.querySelectorAll('.header__subnav')) {
     const mark = (item) => { for (const other of items) other.classList.toggle("is-dropped", other === item); };
     let last = null;
     const place = (item, animate) => {
-        if (!item || !wide.matches) { drop.style.opacity = '0'; last = null; mark(null); return; }
+        if (!item || !wideHeader.matches) { drop.style.opacity = '0'; last = null; mark(null); return; }
         mark(item);
         const box = item.getBoundingClientRect();
         const outer = list.getBoundingClientRect();
@@ -337,7 +336,7 @@ for (const list of document.querySelectorAll('.header__subnav')) {
     }
     list.addEventListener('pointerleave', () => place(null, true));
     list.addEventListener('focusout', (event) => { if (!list.contains(event.relatedTarget)) place(null, true); });
-    wide.addEventListener('change', () => place(null, false));
+    wideHeader.addEventListener('change', () => place(null, false));
 }
 
 // Product page actions (owner, 2026-11-17): no flowing drop any more.

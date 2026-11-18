@@ -16,6 +16,7 @@ import crypto from 'node:crypto';
 
 const root = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1')), '..');
 const ASSET = /((?:\.\.\/|\.\/)*(?:_assets|fileadmin|typo3temp|Images|Fonts)\/[^"'\s,()?#]+\.(?:css|json|js|webp|avif|png|jpe?g|gif|svg|mp4|webm|woff2?))(\?v=[0-9a-f]+)?/g;
+const CSS_IMPORT = /(@import\s+["'])(\.\/[^"'\s?#]+\.css)(?:\?v=[0-9a-f]+)?(?=["'])/g;
 const hashes = new Map();
 
 function hashOf(file) {
@@ -32,11 +33,16 @@ function stamp(file) {
     const dir = path.dirname(file);
     const before = fs.readFileSync(file, 'utf8');
     let missing = 0;
-    const after = before.replace(ASSET, (match, url) => {
+    const withAssets = before.replace(ASSET, (match, url) => {
         const h = hashOf(path.resolve(dir, decodeURI(url)));
         if (!h) { missing++; return match; }
         return `${url}?v=${h}`;
     });
+    const after = file.endsWith('.css') ? withAssets.replace(CSS_IMPORT, (match, prefix, url) => {
+        const h = hashOf(path.resolve(dir, decodeURI(url)));
+        if (!h) { missing++; return match; }
+        return `${prefix}${url}?v=${h}`;
+    }) : withAssets;
     if (after !== before) fs.writeFileSync(file, after);
     if (missing) console.warn(`${path.relative(root, file)}: ${missing} asset URL(s) point to missing files`);
     return after !== before;

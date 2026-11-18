@@ -362,10 +362,10 @@ button.header__nav-item {
     outline-color: var(--kovpack-on-primary);
 }
 
-/* Keep Camino's JS/CSS navigation breakpoint (1280px) in sync. The demo's
+/* Keep Camino's JS/CSS navigation mode in sync: wide with hover, compact otherwise. The demo's
  * 900px breakpoint controls only typography, insets and section spacing.
  */
-@media (min-width: 1280px) {
+@media (min-width: 1280px) and (hover: hover) {
     .header__content {
         gap: 32px;
     }
@@ -425,7 +425,8 @@ button.header__nav-item {
     }
 }
 
-@media (max-width: 1279px) {
+@media (width < 1280px), (hover: none) {
+    .header .kovpack-nav-drop { display: none; }
     .header__menu--open {
         --nav-width: min(380px, calc(100vw - var(--spacing-s) - var(--spacing-s)));
     }
@@ -579,6 +580,50 @@ button.header__nav-item {
 .kovpack-news__arrow:disabled { opacity: .5; }
 .kovpack-news__arrow[hidden] { display: none; }
 
+.page__content > .kovpack-editorial {
+    grid-column: content;
+    min-width: 0;
+    padding-block: clamp(36px, 6vw, 80px);
+    overflow-wrap: anywhere;
+}
+.kovpack-editorial > h1 {
+    margin: 0 0 clamp(24px, 4vw, 48px);
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 1.05;
+}
+.kovpack-editorial__posts {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--kovpack-gutter, 20px);
+}
+@media (min-width: 768px) {
+    .kovpack-editorial__posts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.kovpack-editorial :is(.kovpack-editorial__post, .kovpack-editorial__certificate) {
+    padding: clamp(16px, 2vw, 24px);
+    border: 1px solid var(--kovpack-line);
+    border-radius: var(--corners-l);
+    background: var(--kovpack-paper);
+}
+.kovpack-editorial__post { scroll-margin-top: 88px; }
+.kovpack-editorial__post:target { border-color: var(--kovpack-brand); }
+.kovpack-editorial__post img { display: block; width: 100%; height: auto; border-radius: var(--corners-s); }
+.kovpack-editorial__post time { display: block; margin-top: 16px; color: var(--kovpack-muted); font-size: 14px; }
+.kovpack-editorial :is(.kovpack-editorial__post, .kovpack-editorial__certificate) h2 {
+    margin: 6px 0 8px;
+    font-size: clamp(22px, 2.25vw, 30px);
+    line-height: 1.18;
+}
+.kovpack-editorial p { margin: 0; color: var(--kovpack-muted); }
+.kovpack-editorial__certificate {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: clamp(16px, 4vw, 36px);
+    max-width: 600px;
+}
+.kovpack-editorial__certificate img { display: block; width: clamp(82px, 18vw, 148px); height: auto; }
+
 .page__content > .frame-kovpack-contact-info,
 .page__content > .frame-kovpack-contact-form {
     margin: var(--kovpack-section-gap) 0 0;
@@ -615,7 +660,7 @@ button.header__nav-item {
 .footer__col--1 .ce-gallery img { width: 88px; height: 88px; object-fit: contain; filter: brightness(0) invert(1); }
 
 @media (max-width: 1100px) { .kovpack-news__track { grid-auto-columns: calc((100% - 20px) / 2); } }
-@media (max-width: 1279px) {
+@media (width < 1280px), (hover: none) {
     .header__menu--open { min-height: calc(100dvh - var(--header-height) - 2 * var(--header-padding-vertical)); overflow-y: auto; }
 }
 @media (max-width: 900px) {
@@ -824,7 +869,7 @@ button.header__nav-item {
     .component--page-footer .footer__meta { margin-right: 0; }
 }
 
-@media (min-width: 1280px) {
+@media (min-width: 1280px) and (hover: hover) {
     .header__content { align-items: flex-start; }
     .header__logo { margin: 34px 0 0; max-width: min(42vw, 409px); height: auto; line-height: normal; }
     .header__nav { margin-top: 15px; gap: 4px; }
@@ -872,7 +917,7 @@ button.header__nav-item {
         box-shadow: 0 22px 44px -22px rgb(10 24 30 / 55%);
     }
 }
-@media (min-width: 1280px) and (prefers-reduced-motion: reduce) {
+@media (min-width: 1280px) and (hover: hover) and (prefers-reduced-motion: reduce) {
     .header .header__subnav, .header .header__nav-list-item:is(:hover, :focus-within) > .header__subnav { transform: none; }
 }
 @media (max-width: 900px) {
@@ -890,7 +935,7 @@ button.header__nav-item {
     .kovpack-news__arrow, .kovpack-news__arrow:hover { transform: translateY(-50%); }
 }
 
-@media (max-width: 1279px) {
+@media (width < 1280px), (hover: none) {
     .header__menu--open .header__language-button { color: var(--kovpack-ink); background: var(--kovpack-line); }
 }
 
@@ -901,7 +946,7 @@ button.header__nav-item {
 .hero:not(.hero--text-only, .hero--small) .hero__content { align-self: flex-end; }
 .hero:not(.hero--text-only, .hero--small) .button { line-height: 18px; }
 .hero:not(.hero--text-only, .hero--small) .button__text { border-bottom: 0; }
-@media (min-width: 1280px) {
+@media (min-width: 1280px) and (hover: hover) {
     .header__nav-list-item { min-height: 0; }
     .header__nav-item { line-height: 16px; }
 }
@@ -952,7 +997,7 @@ body[class] {
 .frame-kovpack-contact-form button[type=submit] { transition: background .25s, transform .25s var(--kovpack-ease); }
 .frame-kovpack-contact-form button[type=submit]:hover { background: var(--kovpack-accent); transform: translateY(-2px); }
 
-@media (min-width: 1280px) {
+@media (min-width: 1280px) and (hover: hover) {
     .header__nav-item { font-weight: 450; }
 }
 
@@ -988,7 +1033,7 @@ body[class] {
 /* With the menu open Camino locks the body (overflow: hidden), which turns
  * sticky off; the bar is pinned to the viewport until the menu closes. */
 .header:not(:has(+ .hero:not(.hero--text-only, .hero--small))):has(.header__menu--open) { position: fixed; right: 0; left: 0; }
-@media (max-width: 1279px) {
+@media (width < 1280px), (hover: none) {
     .header:not(:has(+ .hero:not(.hero--text-only, .hero--small))) .header__logo { max-width: min(48vw, 150px); }
 }
 
@@ -1009,21 +1054,17 @@ body[class] {
 .hero:not(.hero--text-only, .hero--small) .hero__content > :nth-child(3) { animation-delay: .24s; }
 .hero:not(.hero--text-only, .hero--small) .hero__content > :nth-child(n + 4) { animation-delay: .36s; }
 @keyframes kovpack-rise { from { opacity: 0; transform: translateY(32px); } to { opacity: 1; transform: none; } }
-/* Headline lines (owner, 2026-11-13): the heading is set as two phrases,
- * each kept whole from tablet up, and the block grows with its text instead
- * of being squeezed by the wide-screen edge padding. Key words take the
- * brand mint. */
+/* The headline has two balanced phrases that can wrap in a narrow column. */
 .hero:not(.hero--text-only, .hero--small) .kovpack-hero-line { display: block; }
 /* Lighter brand teal: the dark brand colour is hard to read on the photo. */
 .hero:not(.hero--text-only, .hero--small) .kovpack-accent-word { font-style: normal; color: #4fbdb8; }
-.hero:not(.hero--text-only, .hero--small) .kovpack-hero-line { white-space: nowrap; }
 @media (min-width: 768px) {
-    .hero:not(.hero--text-only, .hero--small) .hero__content { width: auto; overflow-wrap: normal; }
+    .hero:not(.hero--text-only, .hero--small) .hero__content { width: auto; }
 }
 /* Phones: the same two lines, the type scaled to the screen (a phrase runs
  * about ten times the font size) instead of a ragged four-line break. */
 @media (max-width: 767px) {
-    .hero:not(.hero--text-only, .hero--small) .headline { font-size: min(36px, calc((100vw - 2 * var(--kovpack-inset, 20px)) / 10.4)); }
+    .hero:not(.hero--text-only, .hero--small) .headline { font-size: min(36px, calc((100vw - 2 * var(--kovpack-inset, 20px)) / 10.65)); }
 }
 @media (min-width: 1920px) {
     .hero:not(.hero--text-only, .hero--small) .headline { font-size: clamp(68px, 3.6vw, 96px); }
@@ -1115,6 +1156,19 @@ body[class] {
 @media (max-width: 900px) {
     .kovpack-hero-controls { bottom: 24px; }
     .kovpack-hero-dot { width: 32px; }
+}
+
+/* Short windows need room for the menu, the action and the slide controls. */
+@media (min-width: 481px) and (max-height: 740px) {
+    .hero:not(.hero--text-only, .hero--small) .hero__content { padding-block: 156px clamp(50px, 10svh, 76px); }
+    .hero:not(.hero--text-only, .hero--small) .subline { margin-block: clamp(12px, 3svh, 24px) clamp(14px, 4svh, 28px); }
+    .kovpack-hero-controls { bottom: 16px; }
+}
+@media (min-width: 481px) and (max-width: 900px) and (max-height: 740px) {
+    .hero:not(.hero--text-only, .hero--small) .hero__content { padding-block-start: 100px; }
+}
+@media (min-width: 1280px) and (hover: hover) and (max-height: 740px) {
+    .hero:not(.hero--text-only, .hero--small) .hero__content { padding-block-start: 212px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1418,10 +1472,10 @@ body[class] {
 /* The white logo file is turned to the brand colour on the light glass bar (owner, 2026-11-16). */
 .header:is(.is-stuck, .is-scrolled) .header__logo :is(img, svg) { filter: brightness(0) saturate(100%) invert(28%) sepia(47%) saturate(991%) hue-rotate(136deg) brightness(98%) contrast(99%); opacity: 1; }
 .header:is(.is-stuck, .is-scrolled) .header__language-button { color: var(--kovpack-ink); background: rgb(20 26 27 / 8%); }
-@media (max-width: 1279px) {
+@media (width < 1280px), (hover: none) {
     .header:is(.is-stuck, .is-scrolled) .header__menu-button .button { --button-primary-content-color: var(--kovpack-ink); --button-primary-border-color: rgb(20 26 27 / 22%); }
 }
-@media (min-width: 1280px) {
+@media (min-width: 1280px) and (hover: hover) {
     .header.is-stuck .header__content { align-items: center; }
     .header.is-stuck .header__logo { margin: 0; max-width: 190px; }
     .header:is(.is-stuck, .is-scrolled) .header__nav {
@@ -1447,7 +1501,7 @@ body[class] {
     }
     .header .header__nav-item:not(.header__nav-item--has-subnav):is(:hover, :focus-visible, .header__nav-item--active)::before { opacity: 1; transform: none; }
 }
-@media (min-width: 1280px) and (prefers-reduced-motion: reduce) {
+@media (min-width: 1280px) and (hover: hover) and (prefers-reduced-motion: reduce) {
     .header .header__nav-item:not(.header__nav-item--has-subnav)::before { transform: none; }
 }
 
@@ -1610,7 +1664,7 @@ body[class] {
 /* First screen (owner, 2026-11-06): photo, specs and the enquiry button fit in
  * one desktop viewport. The photo stack is capped by the viewport height and a
  * long spec list runs in two columns (top to bottom, then the next column). */
-@media (min-width: 901px) {
+@media (width > 900px) {
     .kovpack-pdp__photo { width: min(100%, max(380px, calc(100svh - 320px))); }
 }
 @media (min-width: 1101px) {
@@ -1621,7 +1675,7 @@ body[class] {
     .kovpack-pdp__specs > [data-num] + :not([data-num]) { break-before: column; }
     .kovpack-pdp__actions { margin-top: 26px; }
 }
-@media (min-width: 901px) and (max-height: 820px) {
+@media (width > 900px) and (max-height: 820px) {
     .kovpack-pdp { padding-top: 18px; }
     .kovpack-pdp__crumbs { margin-bottom: 16px; }
     .kovpack-pdp .kovpack-pdp__title { margin-top: 12px; }
@@ -1719,7 +1773,7 @@ body[class] {
 .kovpack-pdp__use-icon { display: block; width: clamp(64px, 5.4vw, 84px); height: clamp(64px, 5.4vw, 84px); color: var(--kovpack-ink); }
 /* Between tablet and wide desktop five or six tiles would leave one alone in a
  * second row; three columns split them evenly instead. */
-@media (min-width: 901px) and (max-width: 1279px) {
+@media (width > 900px) and (max-width: 1279px) {
     .kovpack-pdp__uses-list:has(> :nth-child(5)) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 .kovpack-pdp .kovpack-pdp__use-title { align-self: start; max-width: 24ch; margin: 16px 0 0; font-family: var(--kovpack-font); font-size: clamp(16px, 1.1vw, 19px); font-weight: 600; line-height: 1.25; hyphens: auto; overflow-wrap: normal; text-wrap: balance; }
@@ -1763,7 +1817,7 @@ body[class] {
 .kovpack-pdp__video-play::before { content: ""; margin-left: 4px; border-style: solid; border-width: 9px 0 9px 15px; border-color: transparent transparent transparent currentColor; }
 .kovpack-pdp__video-soon { position: absolute; z-index: 1; left: 14px; right: 14px; bottom: 12px; font-size: 12px; font-weight: 600; line-height: 1.4; letter-spacing: .12em; text-transform: uppercase; color: #fff; }
 .kovpack-pdp__video-caption { margin: 10px 0 0; font-size: 15px; font-weight: 600; }
-@media (max-width: 1100px) and (min-width: 901px) {
+@media (max-width: 1100px) and (width > 900px) {
     .kovpack-pdp__videos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 900px) {
@@ -1793,7 +1847,6 @@ body[class] {
 .kovpack-offer--teal { --offer-color: var(--kovpack-label-teal); }
 .kovpack-offer--blue { --offer-color: var(--kovpack-label-blue); }
 .kovpack-visually-hidden { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
-.kovpack-offer__name { white-space: nowrap; }
 
 /* The block follows the videos directly: no stacked section gaps. */
 .page__content > .kovpack-pdp:has(~ .kovpack-offer) { margin-bottom: 0; padding-bottom: 64px; }
@@ -1814,6 +1867,20 @@ body[class] {
 .kovpack-offer__summary dd { margin: 0; color: var(--kovpack-ink); font-size: 14px; font-weight: 600; line-height: 1.35; text-align: right; overflow-wrap: anywhere; }
 .kovpack-offer__summary dd.is-empty { color: var(--kovpack-muted); font-weight: 400; }
 .frame-kovpack-contact-info.kovpack-offer p.kovpack-offer__personal { margin-top: 18px; font-size: 14px; }
+
+@media (width > 900px) and (width <= 1100px) {
+    .page__content > :is(.frame-kovpack-contact-info, .frame-kovpack-contact-form).kovpack-offer {
+        grid-column: full;
+        display: block;
+        padding-inline: var(--kovpack-edge);
+        border-radius: 0;
+    }
+    .page__content > .frame-kovpack-contact-info.kovpack-offer { padding-bottom: 16px; }
+    .page__content > .frame-kovpack-contact-form.kovpack-offer { padding-top: 24px; }
+    .frame-kovpack-contact-info.kovpack-offer > .kovpack-offer__summary { position: static; }
+    .kovpack-offer__summary dl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; }
+    .kovpack-offer__summary dl > div:nth-child(2) { border-top: 0; }
+}
 
 /* Right column: three short sections. */
 .frame-kovpack-contact-form.kovpack-offer form.kovpack-offer__form { display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; }
@@ -1906,7 +1973,7 @@ body[class] {
 
 /* Text fields and the select: name in the placeholder, compact height, same box. */
 .frame-kovpack-contact-form.kovpack-offer :is(input.form-control, select.form-control, textarea) { padding: 12px 14px; font-size: 15px; line-height: 1.3; }
-.frame-kovpack-contact-form.kovpack-offer select.form-control { height: calc(15px * 1.3 + 26px); line-height: 1.3; }
+.frame-kovpack-contact-form.kovpack-offer select.form-control { height: calc(1.3em + 26px); line-height: 1.3; }
 .frame-kovpack-contact-form.kovpack-offer textarea { min-height: 0; }
 .kovpack-offer__fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 10px; margin-top: 4px; }
 .frame-kovpack-contact-form.kovpack-offer .kovpack-offer__field { min-width: 0; margin: 0; }
@@ -2647,30 +2714,21 @@ body[class] {
  * product link, the corner that stays free in every sheet layout. It is
  * pressed on just after the sheet's text appears. */
 .kovpack-eco--sheet {
-    position: absolute;
-    z-index: 2;
-    bottom: calc(30 * var(--u));
-    right: calc(40 * var(--u));
-    width: max(64px, calc(108 * var(--u)));
+    width: clamp(56px, 12cqw, 94px);
     opacity: 0;
     scale: 1.3;
 }
+.kovpack-roll__seal { display: flex; flex-wrap: wrap; align-items: center; justify-content: end; gap: 8px; margin-inline-start: auto; }
 .kovpack-roll:is(.is-ready, :hover, :focus-within) .kovpack-eco--sheet { transition: opacity .3s, scale .45s cubic-bezier(.3, 1.4, .5, 1); }
 .kovpack-roll:is(.is-open, :not(.is-ready):hover, :not(.is-ready):focus-within) .kovpack-eco--sheet {
     opacity: 1;
     scale: 1;
     transition-delay: .85s;
 }
-/* Wide two-column sheets: the upper right corner, above the specifications
- * (owner, 2026-11-11). Narrower single-column sheets keep the lower right. */
-@media (min-width: 901px) {
-    @container kovpack-roll (min-width: 740px) { .kovpack-eco--sheet { top: calc(30 * var(--u)); bottom: auto; } }
-    @container kovpack-roll-photo (min-width: 960px) { .kovpack-eco--sheet { top: calc(30 * var(--u)); bottom: auto; } }
-}
 @media (max-width: 900px) {
     /* The narrow sheet has no free corner beside the link: the seal is stuck
      * over its upper edge instead, above the short eyebrow. */
-    .kovpack-eco--sheet { top: calc(-14 * var(--u)); bottom: auto; right: calc(16 * var(--u)); width: max(58px, calc(80 * var(--u))); }
+    .kovpack-roll__seal { display: none; }
 }
 
 /* Product pages: floated beside the eyebrow and title, so the heading wraps
@@ -2713,10 +2771,9 @@ body[class] {
 .kovpack-eco-switch button[aria-pressed="true"] { background: var(--eco-switch, #01666b); color: #fff; }
 .kovpack-eco-switch button[data-tone="green"][aria-pressed="true"] { --eco-switch: #2f7a3d; }
 @media (max-width: 700px) { .kovpack-eco-switch { margin: 0 0 8px 14px; } }
-/* On the product rolls the switch sits under the sheet seal and appears with it. */
-.kovpack-eco-switch--sheet { position: absolute; z-index: 3; float: none; margin: 0; opacity: 0; pointer-events: none; transition: opacity .3s; }
+/* The switch uses its own space beside the seal. */
+.kovpack-eco-switch--sheet { float: none; margin: 0; opacity: 0; pointer-events: none; transition: opacity .3s; }
 .kovpack-roll:is(.is-open, :not(.is-ready):hover, :not(.is-ready):focus-within) .kovpack-eco-switch--sheet { opacity: 1; pointer-events: auto; transition-delay: .95s; }
-.kovpack-eco-switch--sheet[hidden] { display: none; }
 @media (max-width: 700px) {
     .kovpack-eco--pdp { width: 76px; margin: 0 0 8px 14px; }
 }
@@ -2866,7 +2923,7 @@ body[class] {
 /* Menu drop (motion.js): one glass pane flows between the menu items, as
  * the enquiry form's choices. White glass over the hero, ink glass on the
  * light bar. The items themselves then keep no tint of their own. */
-@media (min-width: 1280px) {
+@media (min-width: 1280px) and (hover: hover) {
     .header__nav.has-drop { position: relative; }
     .kovpack-nav-drop {
         position: absolute;
@@ -2916,26 +2973,24 @@ body[class] {
 /* "Alle Produkte" on the product page: only the soft tint, no line. */
 .kovpack-pdp__back::before { content: none; }
 
-/* The phone menu's glass drop (motion.js) exists only below 1280px, the
- * product page's enquiry bar (product-page.js) only below 900px. */
+/* Each drop is displayed only in its own menu mode. The enquiry bar is
+ * displayed in the compact product layout. */
 .kovpack-menu-drop,
 .kovpack-pdp-bar { display: none; }
 
 /* ------------------------------------------------------------------------
- * Phone layer (owner, 2026-11-12): the desktop design stays as it is. Below
- * the 1280px menu breakpoint the burger menu is a floating liquid-glass
- * pane; below 900px fixes and below 600px compact layouts make the
- * long blocks shorter for one-hand reading. Every rule sits in a max-width
- * query, so nothing here reaches the desktop layout.
+ * Compact navigation and phone layout. The floating glass pane serves
+ * narrow and touch-only viewports. The width queries keep the mobile
+ * content layouts independent of the navigation mode.
  * ---------------------------------------------------------------------- */
-@media (max-width: 1279px) {
+@media (width < 1280px), (hover: none) {
     /* Liquid-glass menu (owner, 2026-11-12: replaces the dark full-height
      * sheet). The bar keeps its own look; the page behind dims, and one
      * floating pane of tinted glass drops from the menu button. Inside it a
      * glass drop rests on the current page and flows to the item under the
      * finger (motion.js), as in the desktop menu and the enquiry form. The
      * open and close states both animate: the menu stays rendered and only
-     * fades, so nothing jumps. Every rule sits below the menu breakpoint. */
+     * fades, so the layout stays stable. */
     .header { --glass-ease: cubic-bezier(.2, .9, .25, 1); }
 
     /* Menu button: a small pill of glass with two lines that turn into a cross. */
@@ -3354,22 +3409,21 @@ body[class] {
         box-shadow: 0 1px 0 rgb(255 255 255 / 60%) inset, 0 4px 12px -4px rgb(0 0 0 / 40%);
     }
 }
-@media (max-width: 1279px) and (prefers-reduced-motion: reduce) {
+@media (width < 1280px) and (prefers-reduced-motion: reduce), (hover: none) and (prefers-reduced-motion: reduce) {
     :root .header .header__menu .header__nav,
     :root .header .header__menu .header__nav-list-item { transform: none; }
 }
 /* The group page with its own content (Produkte) opens its submenu on a tap,
  * so the submenu's first item links the group page itself. */
-@media (min-width: 1280px) {
+@media (min-width: 1280px) and (hover: hover) {
     .header__subnav-list-item--overview { display: none; }
 }
 @keyframes kovpack-menu-in { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
 @keyframes kovpack-menu-item { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 
-@media (max-width: 900px) {
-    /* 16px text in form fields: iOS zooms into any smaller field on focus. */
+@media (max-width: 900px), (any-pointer: coarse) {
+    /* Keep editable fields at 16px on touch layouts, including wide iPads. */
     :root .page__content :is(input:not([type=checkbox], [type=radio], [type=hidden]), select, textarea):not(#_) { font-size: 16px; }
-
 }
 @media (min-width: 601px) and (max-width: 900px) {
 
@@ -3383,8 +3437,6 @@ body[class] {
 @media (max-width: 600px) {
     :root { --kovpack-section-gap: 56px; }
 
-    /* Long product names in the enquiry heading may wrap on narrow phones. */
-    .kovpack-offer__name { white-space: normal; }
     .page__content .frame-kovpack-contact-info.kovpack-offer h2 { font-size: clamp(28px, 8.6vw, 36px); }
 
 
@@ -3695,8 +3747,8 @@ body[class] {
     .kovpack-qty:not(#_) { height: 36px; }
     .kovpack-offer__hint:not(#_) { font-size: 12px; }
 
-    .frame-kovpack-contact-form.kovpack-offer :is(input.form-control, select.form-control, textarea):not(#_) { padding: 10px 12px; font-size: 15px; }
-    .frame-kovpack-contact-form.kovpack-offer select.form-control:not(#_) { height: calc(15px * 1.3 + 22px); }
+    .frame-kovpack-contact-form.kovpack-offer :is(input.form-control, select.form-control, textarea):not(#_) { padding: 10px 12px; }
+    .frame-kovpack-contact-form.kovpack-offer select.form-control:not(#_) { height: calc(1.3em + 22px); }
     .frame-kovpack-contact-form.kovpack-offer .kovpack-offer__date > label:not(#_) { padding-left: 12px; }
     .kovpack-offer__fields:not(#_) { gap: 7px; }
     .frame-kovpack-contact-form.kovpack-offer .kovpack-offer__field-hint:not(#_) { margin-top: 4px; font-size: 11.5px; line-height: 1.35; }
@@ -3746,7 +3798,7 @@ body[class] {
 /* Brand colour on the light glass bar (owner, 2026-11-16): the menu drop and
  * the language and menu buttons take the brand colour with white text, so
  * the bar matches the brand logo. Over the hero photo they stay white glass. */
-@media (min-width: 1280px) {
+@media (min-width: 1280px) and (hover: hover) {
     :root .header:is(.is-stuck, .is-scrolled) .kovpack-nav-drop:not(.kovpack-subnav-drop) {
         background: var(--kovpack-brand);
         box-shadow: inset 0 1px 0 rgb(255 255 255 / 18%);
@@ -3762,7 +3814,7 @@ body[class] {
     }
     :root .header:is(.is-stuck, .is-scrolled) .header__language-button { color: #fff; background: var(--kovpack-brand); }
 }
-@media (max-width: 1279px) {
+@media (width < 1280px), (hover: none) {
     :root .header:is(.is-stuck, .is-scrolled):not(.is-menu-open) .header__menu-button .button:not(#_) {
         color: #fff;
         background: var(--kovpack-brand);
@@ -3785,7 +3837,7 @@ body[class] {
  * hard on the warm glass, so there the drop is a raised pane of warm white
  * with brand teal text, lifted by a soft warm shadow. The teal bar's submenu is
  * teal glass in the bar's colour. */
-@media (min-width: 1280px) {
+@media (min-width: 1280px) and (hover: hover) {
     :root .header .kovpack-nav-drop:not(#_) {
         -webkit-backdrop-filter: blur(8px) saturate(170%);
         backdrop-filter: blur(8px) saturate(170%);
@@ -3820,7 +3872,7 @@ body[class] {
  * and the footer. On hover a white drop wells up from the bottom edge and
  * fills the button as white glass: the same glass drop as the menu on the
  * teal bar. Phones keep their light round pane. */
-@media (min-width: 901px) {
+@media (width > 900px) {
     .kovpack-to-top:not(#_) {
         isolation: isolate;
         background: color-mix(in srgb, var(--kovpack-brand) 88%, transparent);
@@ -3843,7 +3895,7 @@ body[class] {
     }
     .kovpack-to-top__arrow { position: relative; transition: transform .3s var(--kovpack-ease), color .3s ease; }
 }
-@media (min-width: 901px) and (hover: hover) {
+@media (width > 900px) and (hover: hover) {
     .kovpack-to-top.is-visible:not(#_):hover {
         background: color-mix(in srgb, var(--kovpack-brand) 88%, transparent);
         box-shadow: inset 0 1px 0 rgb(255 255 255 / 30%), 0 18px 34px -14px rgb(0 40 42 / 75%);
@@ -3851,14 +3903,14 @@ body[class] {
     .kovpack-to-top:not(#_):hover::before { transform: translate(-50%, 18%) scale(1); }
 
 }
-@media (min-width: 901px) and (prefers-reduced-motion: reduce) {
+@media (width > 900px) and (prefers-reduced-motion: reduce) {
     .kovpack-to-top:not(#_)::before { transform: translate(-50%, 18%) scale(1); opacity: 0; transition: opacity .2s ease; }
     .kovpack-to-top:not(#_):hover::before { opacity: 1; }
 }
 
 /* Language button on the light bar (owner, 2026-11-17): a quiet warm tint
  * with brand teal text, set into the bar. */
-@media (min-width: 1280px) {
+@media (min-width: 1280px) and (hover: hover) {
     :root .header:is(.is-stuck, .is-scrolled) .header__language-button:not(#_) {
         color: var(--kovpack-brand);
         background: rgb(70 52 30 / 7%);
@@ -3869,7 +3921,7 @@ body[class] {
 /* Menu over the home photo (owner, 2026-11-17): brand teal glass instead of
  * clear white glass, so the bar reads in the brand colour over the photo.
  * The photo still shows blurred through it; the submenu takes the same glass. */
-@media (min-width: 1280px) {
+@media (min-width: 1280px) and (hover: hover) {
     :root:not(.kovpack-nav-clear) .header:has(+ .hero:not(.hero--text-only, .hero--small)):not(.is-stuck, .is-scrolled) .header__nav {
         background: linear-gradient(180deg, color-mix(in srgb, var(--kovpack-brand) 74%, transparent), color-mix(in srgb, var(--kovpack-brand) 60%, transparent));
         border-color: rgb(255 255 255 / 20%);
@@ -3887,7 +3939,7 @@ body[class] {
 /* Menu look switch (motion.js, owner 2026-11-17): a small glass pill on the
  * photo, right under the menu bar, to compare the teal and the clear menu. */
 .kovpack-look-switches { display: none; }
-@media (min-width: 1280px) {
+@media (min-width: 1280px) and (hover: hover) {
     .kovpack-look-switches {
         position: absolute;
         top: 120px;
@@ -3937,7 +3989,7 @@ body[class] {
  * home switch "Kontur / Ohne"): over the home photo the bar, the submenu and
  * the drop lose their white edge; a soft top sheen and the shadow carry the
  * glass instead. */
-@media (min-width: 1280px) {
+@media (min-width: 1280px) and (hover: hover) {
     :root.kovpack-nav-noline .header:has(+ .hero:not(.hero--text-only, .hero--small)):not(.is-stuck, .is-scrolled) .header__nav:not(#_) {
         border-color: transparent;
         box-shadow: inset 0 1px 0 rgb(255 255 255 / 10%), 0 14px 34px -20px rgb(0 30 32 / 60%);
@@ -3956,7 +4008,7 @@ body[class] {
 /* Light bar (owner, 2026-11-18: "Marke" kept from the variants, then a pill
  * under the items like on the teal bar): the items sit on a soft warm pill
  * with a faint top sheen; the drop is a soft brand tint with brand text. */
-@media (min-width: 1280px) {
+@media (min-width: 1280px) and (hover: hover) {
     :root .header:is(.is-stuck, .is-scrolled) .header__nav:not(#_) {
         border-color: transparent;
         background: rgb(70 52 30 / 6%);
@@ -4012,7 +4064,7 @@ body:has(.header .header__nav-list-item:is(:hover, :focus-within) > .header__sub
 .kovpack-look-switch button:not(#_) { padding: 7px 11px; font-size: 12px; white-space: nowrap; }
 /* The "Alle Produkte" switch sits in the action row, pushed to its right end. */
 .kovpack-back-switch { display: none; }
-@media (min-width: 901px) and (hover: hover) {
+@media (width > 900px) and (hover: hover) {
     .kovpack-pdp__actions .kovpack-back-switch:not(#_) {
         position: static;
         display: flex;
@@ -4025,7 +4077,7 @@ body:has(.header .header__nav-list-item:is(:hover, :focus-within) > .header__sub
  * glass over the photo and on the dark bar, the light card on the light bar,
  * with a hover on the button and on each language, and the current language
  * marked. The review switches step aside while it is open. */
-@media (min-width: 1280px) {
+@media (min-width: 1280px) and (hover: hover) {
     .header .header__language-dropdown { position: relative; }
     :root .header .header__language-menu:not(#_) {
         display: block;
@@ -4092,10 +4144,10 @@ body:has(.header .header__nav-list-item:is(:hover, :focus-within) > .header__sub
 @media (min-width: 1280px) and (hover: hover) {
     :root .header:not(.is-stuck, .is-scrolled) .header__language-button:hover:not(#_) { background: rgb(255 255 255 / 26%); }
 }
-@media (min-width: 1280px) {
+@media (min-width: 1280px) and (hover: hover) {
     :root .header:not(.is-stuck, .is-scrolled) .header__language-dropdown--open .header__language-button:not(#_) { background: rgb(255 255 255 / 26%); }
 }
-@media (min-width: 1280px) and (prefers-reduced-motion: reduce) {
+@media (min-width: 1280px) and (hover: hover) and (prefers-reduced-motion: reduce) {
     :root .header .header__language-menu:not(#_) { transform: none; }
 }
 body:has(.header .header__language-dropdown--open) .kovpack-look-switches { opacity: 0; pointer-events: none; }
@@ -4103,7 +4155,7 @@ body:has(.header .header__language-dropdown--open) .kovpack-look-switches { opac
 /* Language button on the light bar (owner, 2026-11-18): like the menu
  * items, no fill at rest, and the brand tint drop on hover, while open and on
  * each language. */
-@media (min-width: 1280px) {
+@media (min-width: 1280px) and (hover: hover) {
     :root .header:is(.is-stuck, .is-scrolled) {
         --lang-rest-bg: transparent;
         --lang-rest-shadow: none;
@@ -4147,7 +4199,7 @@ body:has(.header .header__language-dropdown--open) .kovpack-look-switches { opac
  * --drip-gap (item bottom to the edge), --drip-w and --drip-reach (the hover
  * bridge) and .is-menu-swap, which swaps straight to the next group's panel
  * without pouring again. The language list pours the same way from DE/EN. */
-@media (min-width: 1280px) {
+@media (min-width: 1280px) and (hover: hover) {
     /* Colours per surface. Light bar: */
     :root .header {
         /* The light bar's menu pill as frosted glass: the bar's glass with
@@ -4369,7 +4421,7 @@ body:has(.header .header__language-dropdown--open) .kovpack-look-switches { opac
     100% { transform: scaleX(.4); }
 }
 /* Reduced motion: no pour, no spring, only a cross-fade. */
-@media (min-width: 1280px) and (prefers-reduced-motion: reduce) {
+@media (min-width: 1280px) and (hover: hover) and (prefers-reduced-motion: reduce) {
     :root .header :is(.header__subnav, .header__language-menu):not(#_):not(#_) {
         clip-path: none;
         transform: none;
@@ -4390,7 +4442,7 @@ body:has(.header .header__language-dropdown--open) .kovpack-look-switches { opac
  * with the blur on the header itself the submenu could only be a flat
  * colour. Moved to a layer behind the content, the bar looks the same and
  * the submenu below it can be frosted glass too. */
-@media (min-width: 1280px) {
+@media (min-width: 1280px) and (hover: hover) {
     :root .header:not(#_) {
         -webkit-backdrop-filter: none;
         backdrop-filter: none;
@@ -4419,7 +4471,7 @@ body:has(.header .header__language-dropdown--open) .kovpack-look-switches { opac
  *   and a two-step soft shadow, tinted per surface;
  * - DE/EN is a bare label at rest like the menu items, and takes the drop on
  *   hover and while open. */
-@media (min-width: 1280px) {
+@media (min-width: 1280px) and (hover: hover) {
     :root .header {
         --nav-ease: cubic-bezier(.25, .1, .25, 1);
         --nav-ease-out: cubic-bezier(.2, .8, .2, 1);
@@ -4458,7 +4510,7 @@ body:has(.header .header__language-dropdown--open) .kovpack-look-switches { opac
         box-shadow: var(--drip-drop-shadow);
     }
 }
-@media (min-width: 1280px) and (prefers-reduced-motion: no-preference) {
+@media (min-width: 1280px) and (hover: hover) and (prefers-reduced-motion: no-preference) {
     /* Hover intent: the pour, its curves and the labels wait a beat. */
     :root .header .header__nav-list-item:is(:hover, :focus-within) > .header__subnav:not(#_):not(#_) {
         transition:
@@ -4493,7 +4545,7 @@ body:has(.header .header__language-dropdown--open) .kovpack-look-switches { opac
 /* The page under the bar rests while a menu is open: soft blur, light dim.
  * It starts at the bar's lower edge (motion.js sets --kovpack-header-bottom;
  * over the home photo, with no bar yet, from the top). */
-@media (min-width: 1280px) {
+@media (min-width: 1280px) and (hover: hover) {
     body::after {
         content: "";
         position: fixed;
@@ -4515,14 +4567,14 @@ body:has(.header .header__language-dropdown--open) .kovpack-look-switches { opac
 }
 @media print { body::after { content: none; } }
 /* The header always sits above the resting page layer, over the photo too. */
-@media (min-width: 1280px) {
+@media (min-width: 1280px) and (hover: hover) {
     :root .header:not(#_) { z-index: 30; }
 }
 /* The panel is the menu pill's colour, measured on screen (owner,
  * 2026-11-18: the panel looked greyer than the pill). At 77-91% the dimmed
  * page showed through and pulled it grey and cool; at 97% it stays the
  * pill's colour while the page still blurs faintly behind it. */
-@media (min-width: 1280px) {
+@media (min-width: 1280px) and (hover: hover) {
     :root .header:is(.is-stuck, .is-scrolled):not(#_) {
         --drip-bg: rgb(222 215 202 / 97%);
         --drip-fillet: rgb(222 215 202 / 97%);
