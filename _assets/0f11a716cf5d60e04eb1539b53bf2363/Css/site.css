@@ -4206,40 +4206,31 @@ body:has(.header .header__language-dropdown--open) .kovpack-look-switches { opac
         opacity: 0;
         visibility: hidden;
         pointer-events: none;
-        clip-path: none;
-        /* Two motions on two properties, so each has its own timing:
-         * transform carries the fall (height), scale the spread (width).
-         * Closed it is a thin drop under the item with a round end. */
-        transform: scaleY(.04);
-        scale: .08 1;
-        transform-origin: var(--drip-x) 0;
-        border-radius: 0 0 50% 50% / 0 0 14px 14px;
+        /* Closed it is a short strip exactly as wide as its item, right
+         * under it (motion.js sets --drip-cl / --drip-cr, the strip's
+         * insets from the panel's sides). It flows out of the item. */
+        clip-path: inset(0 var(--drip-cr, 50%) calc(100% - 10px) var(--drip-cl, 0px) round 0 0 12px 12px);
+        transform: none;
+        scale: none;
         animation: none;
-        /* Closing: pulls in to a drop and is sucked back up. */
+        /* Closing: flows back up into the item. */
         transition:
-            scale .15s cubic-bezier(.5, 0, .9, .5),
-            border-radius .15s ease,
-            transform .14s cubic-bezier(.5, 0, 1, .6) .1s,
-            opacity .06s ease .22s,
-            visibility 0s linear .28s;
+            clip-path .2s cubic-bezier(.4, 0, 1, 1),
+            opacity .08s ease .14s,
+            visibility 0s linear .22s;
     }
-    :root .header .header__language-menu:not(#_):not(#_) { --drip-x: calc(100% - 27px); }
+    :root .header .header__language-menu:not(#_):not(#_) { --drip-x: calc(100% - 27px); --drip-cl: calc(100% - 55px); --drip-cr: 0px; }
     :root .header .header__nav-list-item:is(:hover, :focus-within) > .header__subnav:not(#_):not(#_),
     :root .header .header__language-dropdown--open .header__language-menu:not(#_):not(#_) {
         opacity: 1;
         visibility: visible;
         pointer-events: auto;
-        transform: none;
-        scale: 1 1;
-        border-radius: 0 0 20px 20px;
-        /* Opening: a drop falls with gravity, and before it has quite
-         * landed it splashes sideways into the panel with a springy
-         * overshoot. About .4s in all. */
+        clip-path: inset(0 -24px -48px -24px round 0 0 40px 40px);
+        /* Opening: the liquid flows out of the item, down and outwards,
+         * and settles with a soft spring. */
         transition:
-            transform .2s cubic-bezier(.6, 0, 1, .55),
-            scale .34s linear(0, .06 10%, .3 25%, .78 45%, 1.06 62%, 1.015 78%, .998 90%, 1) .13s,
-            border-radius .26s cubic-bezier(.2, 0, 0, 1) .13s,
-            opacity .05s ease,
+            clip-path .44s linear(0, .09 6%, .3 14%, .58 24%, .82 35%, .96 46%, 1.02 57%, 1.012 70%, 1),
+            opacity .06s ease,
             visibility 0s;
     }
 
@@ -4299,21 +4290,28 @@ body:has(.header .header__language-dropdown--open) .kovpack-look-switches { opac
     :root .header .header__nav-list-item:is(:hover, :focus-within) > .header__subnav:not(#_)::after,
     :root .header .header__language-dropdown--open .header__language-menu:not(#_)::before,
     :root .header .header__language-dropdown--open .header__language-menu:not(#_)::after {
-        opacity: 1;
-        transition: opacity .14s ease .34s;
+        transition: opacity .16s ease .3s;
     }
+    :root .header .header__nav-list-item:is(:hover, :focus-within) > .header__subnav:not(#_)::before,
+    :root .header .header__language-dropdown--open .header__language-menu:not(#_)::before { opacity: var(--drip-curve-l, 1); }
+    :root .header .header__nav-list-item:is(:hover, :focus-within) > .header__subnav:not(#_)::after,
+    :root .header .header__language-dropdown--open .header__language-menu:not(#_)::after { opacity: var(--drip-curve-r, 1); }
 
     /* The labels come up with the glass, no stagger: this is a routine hover. */
     :root .header :is(.header__subnav-list-item, .header__language-menu-item):not(#_) {
         position: relative;
         z-index: 1;
         opacity: 0;
-        transition: opacity .1s ease;
+        filter: blur(4px);
+        translate: 0 -6px;
+        transition: opacity .1s ease, filter .1s ease, translate .1s ease;
     }
     :root .header .header__nav-list-item:is(:hover, :focus-within) > .header__subnav .header__subnav-list-item:not(#_),
     :root .header .header__language-dropdown--open .header__language-menu-item:not(#_) {
         opacity: 1;
-        transition: opacity .18s ease .26s;
+        filter: none;
+        translate: none;
+        transition: opacity .24s ease .12s, filter .24s ease .12s, translate .3s cubic-bezier(.2, 0, 0, 1) .12s;
     }
 
     /* One drop look everywhere on a surface: the bar's drop, the drop in

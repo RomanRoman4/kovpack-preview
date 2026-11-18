@@ -461,8 +461,20 @@ for (const list of document.querySelectorAll('.header__subnav')) {
         const edge = (nav || header).getBoundingClientRect().bottom;
         const gap = Math.max(0, Math.round(edge - item.getBoundingClientRect().bottom));
         item.style.setProperty("--drip-gap", gap + "px");
+        // The curves only where the pill reaches at least a curve's width
+        // past the panel's side; else they would stick out beyond it.
+        const target = panel || item.querySelector(".header__language-menu");
+        if (target && nav) {
+            const p = nav.getBoundingClientRect(), i = item.getBoundingClientRect();
+            const w = target.offsetWidth;
+            const left = panel ? i.left : i.right - w;
+            target.style.setProperty("--drip-curve-l", left - p.left >= 14 ? "1" : "0");
+            target.style.setProperty("--drip-curve-r", p.right - (left + w) >= 14 ? "1" : "0");
+        }
         if (!panel) return;
         panel.style.setProperty("--drip-x", Math.round(item.offsetWidth / 2) + "px");
+        panel.style.setProperty("--drip-cl", "0px");
+        panel.style.setProperty("--drip-cr", "calc(100% - " + item.offsetWidth + "px)");
         item.style.setProperty("--drip-w", panel.offsetWidth + "px");
         item.style.setProperty("--drip-reach", gap + panel.offsetHeight + "px");
     };
