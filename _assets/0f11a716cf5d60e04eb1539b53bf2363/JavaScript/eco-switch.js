@@ -1,69 +1,69 @@
-// Recycled seal colour: a design preview switch (owner, 2026-11-17).
-// Brand teal or the earlier grass green, kept per visitor, so the seals on
-// the product rolls follow the choice made on a product page.
+// Seal preview preferences shared by the product cards and detail pages.
 (() => {
     const root = document.documentElement;
-    const KEY = 'kovpack-eco-tone';
-    const TONES = { brand: { de: 'Türkis', en: 'Teal' }, green: { de: 'Grün', en: 'Green' } };
     const lang = root.lang === 'de' ? 'de' : 'en';
-    const switches = [];
 
-    const setTone = (tone, remember) => {
-        if (!(tone in TONES)) tone = 'brand';
-        root.dataset.ecoTone = tone;
-        for (const option of switches.flatMap((s) => [...s.children])) {
-            option.setAttribute('aria-pressed', String(option.dataset.tone === tone));
-        }
-        if (remember) {
-            try { window.localStorage.setItem(KEY, tone); } catch { /* private mode: this page only */ }
-        }
-    };
+    function makePreference(name, label, options, apply) {
+        const key = 'kovpack-eco-' + name;
+        const buttons = [];
+        let stored;
+        try { stored = window.localStorage.getItem(key); } catch { /* private mode */ }
+        let current = Object.hasOwn(options, stored) ? stored : Object.keys(options)[0];
+        apply(current);
 
-    let stored = null;
-    try { stored = window.localStorage.getItem(KEY); } catch { /* private mode */ }
-    setTone(stored, false);
-
-    const makeSwitch = (extraClass) => {
-        const control = document.createElement('div');
-        control.className = 'kovpack-eco-switch' + (extraClass ? ' ' + extraClass : '');
-        control.setAttribute('role', 'group');
-        control.setAttribute('aria-label', lang === 'de' ? 'Farbe des Siegels' : 'Seal colour');
-        for (const [tone, text] of Object.entries(TONES)) {
-            const option = document.createElement('button');
-            option.type = 'button';
-            option.dataset.tone = tone;
-            option.textContent = text[lang];
-            control.append(option);
-        }
-        control.addEventListener('click', (event) => {
-            const option = event.target.closest('[data-tone]');
-            if (option) setTone(option.dataset.tone, true);
-        });
-        switches.push(control);
-        return control;
-    };
-
-    // Product pages: floated under the seal beside the title.
-    for (const seal of document.querySelectorAll('.kovpack-eco--pdp')) seal.after(makeSwitch());
-
-    // Product rolls. Wide screens (owner, 2026-11-18): the switch hangs under
-    // the unrolled sheet, right under the seal, so the seal stays alone on
-    // the paper while the tones are compared. It is still part of the sheet,
-    // so reaching it keeps the roll open. Phones keep it beside the seal.
-    const wide = window.matchMedia('(min-width: 901px)');
-    const sheetSwitches = [];
-    for (const seal of document.querySelectorAll('.kovpack-roll__seal')) {
-        const sheet = seal.closest('.kovpack-roll__sheet');
-        sheetSwitches.push({ seal, sheet, control: makeSwitch('kovpack-eco-switch--sheet') });
+        return (onSheet = false) => {
+            const control = document.createElement('div');
+            control.className = 'kovpack-eco-switch';
+            if (onSheet) control.classList.add('kovpack-eco-switch--sheet');
+            control.setAttribute('role', 'group');
+            control.setAttribute('aria-label', label[lang]);
+            for (const [value, text] of Object.entries(options)) {
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.dataset[name] = value;
+                button.textContent = text[lang];
+                button.setAttribute('aria-pressed', String(value === current));
+                button.addEventListener('click', () => {
+                    if (value === current) return;
+                    current = value;
+                    apply(current);
+                    for (const option of buttons) {
+                        option.setAttribute('aria-pressed', String(option.dataset[name] === current));
+                    }
+                    try { window.localStorage.setItem(key, current); } catch { /* private mode */ }
+                });
+                buttons.push(button);
+                control.append(button);
+            }
+            return control;
+        };
     }
-    const placeSheetSwitches = () => {
-        for (const { seal, sheet, control } of sheetSwitches) {
-            if (wide.matches && sheet) sheet.append(control);
-            else seal.prepend(control);
-            control.classList.toggle('kovpack-eco-switch--under', wide.matches && Boolean(sheet));
+
+    const toneSwitch = makePreference('tone', { de: 'Farbe des Siegels', en: 'Seal colour' }, {
+        brand: { de: 'Türkis', en: 'Teal' },
+        green: { de: 'Grün', en: 'Green' }
+    }, (tone) => { root.dataset.ecoTone = tone; });
+    for (const seal of document.querySelectorAll('.kovpack-eco--pdp')) seal.after(toneSwitch());
+
+    const sheets = [...document.querySelectorAll('.kovpack-roll__seal')].map((seal) => ({
+        seal,
+        footer: seal.closest('.kovpack-roll__footer'),
+        content: seal.closest('.kovpack-roll__sheet-content'),
+        sheet: seal.closest('.kovpack-roll__sheet')
+    })).filter(({ footer, content, sheet }) => footer && content && sheet);
+    const positionSwitch = makePreference('position', { de: 'Position des Siegels', en: 'Seal position' }, {
+        bottom: { de: 'Unten', en: 'Bottom' },
+        top: { de: 'Oben rechts', en: 'Top right' }
+    }, (position) => {
+        for (const { seal, footer, content } of sheets) {
+            if (position === 'top') content.prepend(seal);
+            else footer.append(seal);
         }
-    };
-    placeSheetSwitches();
-    wide.addEventListener('change', placeSheetSwitches);
-    setTone(root.dataset.ecoTone, false);
+    });
+    for (const { sheet } of sheets) {
+        const controls = document.createElement('div');
+        controls.className = 'kovpack-roll__seal-controls';
+        controls.append(toneSwitch(true), positionSwitch(true));
+        sheet.append(controls);
+    }
 })();

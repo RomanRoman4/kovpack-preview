@@ -876,13 +876,44 @@
     .kovpack-product .kovpack-roll__intro > :is(.kovpack-roll__eyebrow, .kovpack-roll__name, .kovpack-roll__sheet-type):not(#_) { margin-right: 0; }
 }
 
-/* Seal colour switch under the unrolled sheet (owner, 2026-11-18): set
- * apart from the paper, right-aligned with the seal above it, so the seal
- * can be looked at on its own while switching. eco-switch.js moves it here
- * on wide screens. */
-.kovpack-roll__sheet > .kovpack-eco-switch--under {
-    position: absolute;
-    z-index: 3;
-    top: calc(100% + 16px);
-    right: calc(38 * var(--u));
+.kovpack-roll__seal-controls { display: none; }
+@media (width > 900px) {
+    /* Keep the comparison controls below the paper in both positions. */
+    .kovpack-roll__scene:has(.kovpack-roll__seal-controls) { padding-block-end: max(calc(22 * var(--u)), 52px); }
+    .kovpack-roll__seal-controls {
+        position: absolute;
+        z-index: 3;
+        inset-block-start: calc(100% + 16px);
+        inset-inline-end: calc(38 * var(--u));
+        display: flex;
+        justify-content: flex-end;
+        gap: 6px;
+    }
+    .kovpack-roll__seal-controls button { white-space: nowrap; }
+
+    /* Moving the seal into the grid reserves a corner clear of the text. */
+    .kovpack-roll__sheet-content:has(> .kovpack-roll__seal) {
+        grid-template-columns: minmax(0, 1fr) auto;
+        column-gap: clamp(10px, 2cqw, 24px);
+    }
+    .kovpack-roll__sheet-content:has(> .kovpack-roll__seal) > .kovpack-roll__intro {
+        grid-area: 1 / 1;
+        overflow-wrap: anywhere;
+    }
+    .kovpack-roll__sheet-content > .kovpack-roll__seal { grid-area: 1 / 2; align-self: start; }
+    .kovpack-roll__sheet-content:has(> .kovpack-roll__seal) > .kovpack-roll__specs { grid-area: 2 / 1 / 3 / -1; }
+    .kovpack-roll__sheet-content:has(> .kovpack-roll__seal) > .kovpack-roll__footer { grid-area: 3 / 1 / 4 / -1; }
+
+    @container (max-width: 550px) {
+        .kovpack-roll__sheet-content > .kovpack-roll__seal .kovpack-eco--sheet { width: 52px; }
+    }
+    @container (min-width: 960px) {
+        .kovpack-roll__sheet-content:has(> .kovpack-roll__seal) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .kovpack-roll__sheet-content:has(> .kovpack-roll__seal) > .kovpack-roll__intro { grid-row: 1 / 3; }
+        .kovpack-roll__sheet-content:has(> .kovpack-roll__seal) > .kovpack-roll__specs { grid-area: 2 / 2; }
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .kovpack-roll:is(.is-ready, .is-open, :not(.is-ready):hover, :not(.is-ready):focus-within)
+        :is(.kovpack-eco--sheet, .kovpack-eco-switch--sheet) { transition: none; }
 }
