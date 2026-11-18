@@ -453,8 +453,13 @@ for (const list of document.querySelectorAll('.header__subnav')) {
 (() => {
     const header = document.querySelector(".header");
     if (!header) return;
+    const nav = header.querySelector(".header__nav");
     const set = (item, panel) => {
-        const gap = Math.max(0, Math.round(header.getBoundingClientRect().bottom - item.getBoundingClientRect().bottom));
+        // The edge the panel hangs from: the bar, or over the home photo
+        // (no bar yet) the menu pill.
+        const overPhoto = !header.matches(".is-stuck, .is-scrolled") && header.matches(":has(+ .hero:not(.hero--text-only, .hero--small))");
+        const edge = (overPhoto && nav ? nav : header).getBoundingClientRect().bottom;
+        const gap = Math.max(0, Math.round(edge - item.getBoundingClientRect().bottom));
         item.style.setProperty("--drip-gap", gap + "px");
         if (!panel) return;
         panel.style.setProperty("--drip-x", Math.round(item.offsetWidth / 2) + "px");
