@@ -400,78 +400,13 @@ for (const list of document.querySelectorAll('.header__subnav')) {
     const place = () => {
         if (!nav) return;
         const n = nav.getBoundingClientRect();
-        // Below the light bar switch, which sits right under the menu bar.
-        const light = document.querySelector(".kovpack-light-switch");
-        wrap.style.top = Math.round(n.bottom + scrollY + 8 + (light ? light.offsetHeight + 8 : 6)) + "px";
+        wrap.style.top = Math.round(n.bottom + scrollY + 14) + "px";
         wrap.style.right = Math.round(document.documentElement.clientWidth - n.right) + "px";
     };
     addEventListener("resize", place);
     document.fonts?.ready.then(place);
     place();
     setTimeout(place, 0);
-})();
-
-// Light bar variant switch (owner, 2026-11-17): under the menu bar on every page,
-// to compare the looks of the light (scrolled) menu bar. Kept per browser.
-(() => {
-    const root = document.documentElement;
-    const key = "kovpack-light-look";
-    const looks = [
-        ["now", "Сейчас", ""],
-        ["water", "Вода", "kovpack-light-water"],
-        ["warm", "Тёплая", "kovpack-light-warm"],
-        ["warmglass", "Тёпл. стекло", "kovpack-light-warm kovpack-light-warmglass"],
-        ["brand", "Бренд", "kovpack-light-brand"],
-    ];
-    let saved = null;
-    try { saved = localStorage.getItem(key); } catch (e) {}
-    // A look may set several classes (Warm-Glas builds on Warm).
-    const apply = (value) => {
-        const on = new Set((looks.find(([v]) => v === value)?.[2] || "").split(" ").filter(Boolean));
-        for (const [, , cls] of looks) for (const c of cls.split(" ").filter(Boolean)) root.classList.toggle(c, on.has(c));
-    };
-    apply(saved || "now");
-    const box = document.createElement("div");
-    box.className = "kovpack-light-switch";
-    box.setAttribute("role", "group");
-    box.setAttribute("aria-label", "Светлая шапка");
-    const caption = document.createElement("span");
-    caption.className = "kovpack-switch-label";
-    caption.textContent = "Светлая шапка";
-    box.append(caption);
-    const buttons = looks.map(([value, label]) => {
-        const b = document.createElement("button");
-        b.type = "button";
-        b.textContent = label;
-        b.addEventListener("click", () => {
-            apply(value);
-            try { localStorage.setItem(key, value); } catch (e) {}
-            for (const other of buttons) other.setAttribute("aria-pressed", String(other === b));
-        });
-        b.setAttribute("aria-pressed", String(value === (saved || "now")));
-        return b;
-    });
-    box.append(...buttons);
-    document.body.append(box);
-    // Right under the menu bar, lined up with its right edge, and it follows
-    // the bar while the page scrolls, so each look can be tried in place.
-    const nav = document.querySelector(".header__nav");
-    let frame = 0;
-    const place = () => {
-        frame = 0;
-        if (!nav) return;
-        const n = nav.getBoundingClientRect();
-        box.style.top = Math.round(n.bottom + 8) + "px";
-        box.style.right = Math.round(document.documentElement.clientWidth - n.right) + "px";
-    };
-    const queue = () => { if (!frame) frame = requestAnimationFrame(place); };
-    addEventListener("scroll", queue, { passive: true });
-    addEventListener("resize", queue);
-    document.fonts?.ready.then(place);
-    if ("ResizeObserver" in window && nav) new ResizeObserver(queue).observe(nav);
-    nav?.closest(".header")?.addEventListener("animationend", place);
-    nav?.closest(".header")?.addEventListener("transitionend", place);
-    place();
 })();
 
 // "Alle Produkte" hover switch (owner, 2026-11-17): on product pages, at the
