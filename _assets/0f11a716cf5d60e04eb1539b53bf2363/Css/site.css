@@ -4211,18 +4211,35 @@ body:has(.header .header__language-dropdown--open) .kovpack-look-switches { opac
     :root .header:is(.is-stuck, .is-scrolled) .header__language-menu-link:is(:hover, :focus-visible):not(#_):not(#_) {
         background: color-mix(in srgb, var(--kovpack-brand) 10%, transparent);
         box-shadow: none;
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
     }
+    /* The items fade in on their own layer, so they must sit above the hover
+     * drop, or its tint covers the label. */
+    :root .header:is(.is-stuck, .is-scrolled) :is(.header__subnav-list-item, .header__language-menu-item):not(#_) { position: relative; z-index: 1; }
 }
 /* An invisible bridge down to the panel, so moving there never drops the
- * hover and restarts the drip. */
+ * hover. While a submenu is open it covers the whole panel (motion.js sets
+ * --drip-w and --drip-reach), because the drip clips the panel and a clipped
+ * panel cannot hold the pointer while it is still a small drop. It sits
+ * under the panel, so the links stay clickable. */
 @media (min-width: 1280px) {
-    :root .header:is(.is-stuck, .is-scrolled) :is(.header__nav-list-item:has(> .header__subnav), .header__language-dropdown)::after {
+    :root .header:is(.is-stuck, .is-scrolled) .header__language-dropdown::after {
         content: "";
         position: absolute;
         top: 100%;
         left: 0;
         right: 0;
         height: var(--drip-gap, 17px);
+    }
+    :root .header:is(.is-stuck, .is-scrolled) .header__nav-list-item:is(:hover, :focus-within):has(> .header__subnav)::after {
+        content: "";
+        position: absolute;
+        z-index: -1;
+        top: 100%;
+        left: 0;
+        width: max(100%, var(--drip-w, 100%));
+        height: var(--drip-reach, 17px);
     }
 }
 @keyframes kovpack-drip-in {

@@ -454,7 +454,10 @@ for (const list of document.querySelectorAll('.header__subnav')) {
     const set = (item, panel) => {
         const gap = Math.max(0, Math.round(header.getBoundingClientRect().bottom - item.getBoundingClientRect().bottom));
         item.style.setProperty("--drip-gap", gap + "px");
-        if (panel) panel.style.setProperty("--drip-x", Math.round(item.offsetWidth / 2) + "px");
+        if (!panel) return;
+        panel.style.setProperty("--drip-x", Math.round(item.offsetWidth / 2) + "px");
+        item.style.setProperty("--drip-w", panel.offsetWidth + "px");
+        item.style.setProperty("--drip-reach", gap + panel.offsetHeight + "px");
     };
     const items = [
         ...[...document.querySelectorAll(".header__nav-list-item")].map((li) => [li, li.querySelector(":scope > .header__subnav")]),
