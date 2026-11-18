@@ -1,19 +1,12 @@
 (() => {
 "use strict";
-// Sticky header and back-to-top button (owner request 2026-11-04). Home page
-// only switches the bar: inner pages keep one sticky slim bar that fades from
-// dark to light (.is-scrolled) once the page scrolls (2026-11-05).
-//
-// Once the full header has scrolled out of view, it returns as a compact bar
-// fixed to the top (.is-stuck) and stays until the visitor is back at the top
-// of the page. Pages whose header sits in the document flow get a spacer of the
-// same height, so nothing below jumps. The back-to-top button appears after
-// roughly one screen and glides back with an ease-in-out curve: it speeds up,
-// then settles softly. Reduced motion jumps straight to the top.
+// The wide homepage swaps its full header for a compact fixed bar. The compact
+// navigation uses one bar and hides or reveals it with the scroll direction.
 
 const header = document.querySelector('.header');
 const toTop = document.querySelector('[data-to-top]');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+const wideHeader = matchMedia('(min-width: 1280px) and (hover: hover)');
 
 let spacer = null;
 let headerHeight = 0;
@@ -63,21 +56,42 @@ header?.addEventListener('animationend', (event) => {
     }
 });
 
-// Inner pages (no full-height hero) have a slim bar that site.css keeps
-// sticky at the top; it never switches, so only the home page header does.
 const switching = Boolean(header?.matches(':has(+ .hero:not(.hero--text-only, .hero--small))'));
+let directionAnchor = Math.max(0, window.scrollY);
+
+const updateCompactHeader = (y) => {
+    if (!header) return;
+    if (y <= headerHeight || header.matches('.is-menu-open, :has(.header__menu--open, :focus-visible)')) {
+        header.classList.remove('is-scroll-hidden');
+        directionAnchor = y;
+        return;
+    }
+
+    // Measure from the last high or low point so tiny reversals do not flicker.
+    const hidden = header.classList.contains('is-scroll-hidden');
+    directionAnchor = hidden ? Math.max(directionAnchor, y) : Math.min(directionAnchor, y);
+    const shouldToggle = hidden ? directionAnchor - y >= 10 : y - directionAnchor >= 18;
+    if (shouldToggle) {
+        header.classList.toggle('is-scroll-hidden', !hidden);
+        directionAnchor = y;
+    }
+};
 
 const update = () => {
     const y = window.scrollY;
-    // Stick once the full header is gone; release only back at the very top.
-    if (!switching) {
-        // Inner pages: the bar stays in place and only fades from dark to light.
-        header?.classList.toggle('is-scrolled', y > 2);
-    } else if (y > headerHeight) {
-        cancelRelease();
-        header?.classList.remove('is-returning');
-        setStuck(true);
-    } else if (y <= 2) release();
+    header?.classList.toggle('is-scrolled', y > 2 && (!switching || !wideHeader.matches));
+
+    if (!wideHeader.matches) {
+        // Safari's overscroll can report positions beyond either page edge.
+        const page = document.scrollingElement;
+        updateCompactHeader(Math.max(0, Math.min(y, page.scrollHeight - page.clientHeight)));
+    } else if (switching) {
+        if (y > headerHeight) {
+            cancelRelease();
+            header.classList.remove('is-returning');
+            setStuck(true);
+        } else if (y <= 2) release();
+    }
     if (toTop) toTop.classList.toggle('is-visible', y > window.innerHeight * 0.8);
 };
 
@@ -155,6 +169,13 @@ else addEventListener('load', () => setTimeout(landOnAnchor, 0), { once: true })
 measure();
 update();
 addEventListener('scroll', onScroll, { passive: true });
+wideHeader.addEventListener('change', () => {
+    directionAnchor = Math.max(0, window.scrollY);
+    header?.classList.remove('is-scroll-hidden', 'is-leaving', 'is-returning');
+    if (!wideHeader.matches) setStuck(false);
+    measure();
+    update();
+});
 addEventListener('resize', () => {
     measure();
     update();

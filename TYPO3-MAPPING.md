@@ -13,7 +13,11 @@ liquid-glass pane (motion.js): the page behind dims and blurs, a glass drop rest
 current item and flows to the item touched, submenus fold open in place, the current
 page in a submenu is marked, the language choices sit side by side on one segmented
 pill, and a tap outside or Escape closes it (with a close animation); the menu button is
-a keyboard-operable glass pill whose two lines turn into a cross. Under 900px the home
+a keyboard-operable glass pill in brand teal whose two lines turn into a cross. In compact
+navigation the bar keeps one height. It overlays the home hero and picks up a light glass
+surface as the page scrolls, while inner pages start on a light paper surface. `scroll.js`
+adds `.is-scroll-hidden` on downward scrolling below the bar and removes it on upward
+scrolling. An open menu or visible keyboard focus keeps the bar available. Under 900px the home
 page shows the roll cards instead of the shelf, and every roll card unrolls with the
 scroll (product-roll.js sets `--unroll` 0-1 on the product record; no JS or reduced
 motion = open): the roll lies across the top, the kraft sheet with eyebrow, name, type,

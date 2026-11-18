@@ -258,8 +258,7 @@ for (const nav of document.querySelectorAll('.header__nav')) {
             document.body.style.overflow = '';
             document.documentElement.style.overflow = 'hidden';
             header.classList.add('is-menu-open');
-            const bottom = header.getBoundingClientRect().bottom;
-            menu.style.setProperty('--menu-top', `${Math.round(bottom + 6)}px`);
+            menu.style.setProperty('--menu-top', `${header.offsetHeight + 6}px`);
             showLanguages();
             place(current(), false);
         } else {

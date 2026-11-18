@@ -79,6 +79,7 @@
     /* Product colours, sampled from the printed label on the roll photos (lit middle of the band). Every product-coloured button, icon, mark and chip uses them. */
     /* Brand colour (owner, 2026-11-16): logo on the light bar, menu highlight, buttons, eyebrow marks. */
     --kovpack-brand: #01666b;
+    --kovpack-logo-teal: brightness(0) saturate(100%) invert(28%) sepia(47%) saturate(991%) hue-rotate(136deg) brightness(98%) contrast(99%);
     --kovpack-label-orange: #e89357;
     --kovpack-label-teal: #22b4a9;
     --kovpack-label-blue: #61a6cc;
@@ -1025,7 +1026,7 @@ body[class] {
     box-shadow: inset 0 -1px 0 rgb(20 26 27 / 7%), 0 10px 30px -24px rgb(15 42 51 / 40%);
 }
 .header:not(:has(+ .hero:not(.hero--text-only, .hero--small))) .header__logo :is(img, svg) { filter: brightness(1); opacity: 1; transition: filter .5s ease, opacity .5s ease; }
-.header:not(:has(+ .hero:not(.hero--text-only, .hero--small))).is-scrolled .header__logo :is(img, svg) { filter: brightness(0) saturate(100%) invert(28%) sepia(47%) saturate(991%) hue-rotate(136deg) brightness(98%) contrast(99%); opacity: 1; }
+.header:not(:has(+ .hero:not(.hero--text-only, .hero--small))).is-scrolled .header__logo :is(img, svg) { filter: var(--kovpack-logo-teal); opacity: 1; }
 .header:not(:has(+ .hero:not(.hero--text-only, .hero--small))) :is(.header__nav, .header__nav-item, .header__language-button, .header__menu-button .button) { transition: color .5s ease, background-color .5s ease, border-color .5s ease; }
 .header:not(:has(+ .hero:not(.hero--text-only, .hero--small))) .header__content { align-items: center; }
 .header:not(:has(+ .hero:not(.hero--text-only, .hero--small))) .header__logo { height: auto; margin: 0; max-width: min(48vw, 190px); line-height: normal; }
@@ -1557,11 +1558,8 @@ body[class] {
 @keyframes kovpack-header-return { from { opacity: 0; } to { opacity: 1; } }
 .header.is-stuck .header__logo { max-width: 150px; }
 /* The white logo file is turned to the brand colour on the light glass bar (owner, 2026-11-16). */
-.header:is(.is-stuck, .is-scrolled) .header__logo :is(img, svg) { filter: brightness(0) saturate(100%) invert(28%) sepia(47%) saturate(991%) hue-rotate(136deg) brightness(98%) contrast(99%); opacity: 1; }
+.header:is(.is-stuck, .is-scrolled) .header__logo :is(img, svg) { filter: var(--kovpack-logo-teal); opacity: 1; }
 .header:is(.is-stuck, .is-scrolled) .header__language-button { color: var(--kovpack-ink); background: rgb(20 26 27 / 8%); }
-@media (width < 1280px), (hover: none) {
-    .header:is(.is-stuck, .is-scrolled) .header__menu-button .button { --button-primary-content-color: var(--kovpack-ink); --button-primary-border-color: rgb(20 26 27 / 22%); }
-}
 @media (min-width: 1280px) and (hover: hover) {
     .header.is-stuck .header__content { align-items: center; }
     .header.is-stuck .header__logo { margin: 0; max-width: 190px; }
@@ -3071,6 +3069,56 @@ body[class] {
  * content layouts independent of the navigation mode.
  * ---------------------------------------------------------------------- */
 @media (width < 1280px), (hover: none) {
+    /* One bar on the hero and while scrolling. The surface fades independently
+     * so the menu pane can still blur the page when open. */
+    :root .header:not(#_) {
+        --compact-header-row: 52px;
+        --header-padding-vertical: 10px;
+        --glass-ease: cubic-bezier(.2, .9, .25, 1);
+        position: sticky;
+        top: 0;
+        z-index: 30;
+        padding-block: var(--header-padding-vertical);
+        background: transparent;
+        box-shadow: none;
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+        transition: top .34s var(--glass-ease);
+    }
+    :root .header:has(+ .hero:not(.hero--text-only, .hero--small)):not(#_) {
+        position: fixed;
+        inset-inline: 0;
+    }
+    :root .header.is-scroll-hidden:not(#_):not(.is-menu-open, :has(.header__menu--open, :focus-visible)) {
+        top: calc(-1 * (var(--compact-header-row) + 2 * var(--header-padding-vertical) + 12px));
+        pointer-events: none;
+    }
+    .header .header__content { min-height: var(--compact-header-row); }
+    .header .header__logo { height: auto; max-width: min(48vw, 190px); line-height: normal; }
+    .header .header__logo :is(img, svg) { transition: filter .4s ease; }
+    .header:has(+ .hero:not(.hero--text-only, .hero--small)):not(.is-scrolled) .header__logo :is(img, svg) { filter: none; }
+    .header:not(:has(+ .hero:not(.hero--text-only, .hero--small))) .header__logo :is(img, svg) { filter: var(--kovpack-logo-teal); }
+    .header .header__logo:focus-visible { outline-color: var(--kovpack-focus); }
+    .header:has(+ .hero:not(.hero--text-only, .hero--small)):not(.is-scrolled) .header__logo:focus-visible,
+    .header.is-menu-open .header__logo:focus-visible { outline-color: var(--kovpack-on-primary); }
+    .header::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+        background-color: var(--kovpack-bg);
+        -webkit-backdrop-filter: blur(18px) saturate(150%);
+        backdrop-filter: blur(18px) saturate(150%);
+        transition: opacity .4s ease, background-color .4s ease, box-shadow .4s ease;
+    }
+    .header.is-scrolled::before {
+        background-color: rgb(242 239 232 / 88%);
+        box-shadow: inset 0 -1px 0 rgb(20 26 27 / 7%), 0 8px 12px -10px rgb(15 42 51 / 22%);
+    }
+    .header:has(+ .hero:not(.hero--text-only, .hero--small)):not(.is-scrolled)::before,
+    .header.is-menu-open::before { opacity: 0; }
+
     /* Liquid-glass menu (owner, 2026-11-12: replaces the dark full-height
      * sheet). The bar keeps its own look; the page behind dims, and one
      * floating pane of tinted glass drops from the menu button. Inside it a
@@ -3078,21 +3126,20 @@ body[class] {
      * finger (motion.js), as in the desktop menu and the enquiry form. The
      * open and close states both animate: the menu stays rendered and only
      * fades, so the layout stays stable. */
-    .header { --glass-ease: cubic-bezier(.2, .9, .25, 1); }
-
     /* Menu button: a small pill of glass with two lines that turn into a cross. */
-    .header__menu-button .button:not(#_) {
+    :root .header .header__menu-button .button:not(#_) {
         position: relative;
         display: inline-flex;
         align-items: center;
         height: 44px;
         min-height: 0;
         padding: 0 46px 0 18px;
-        color: #fff;
-        background: linear-gradient(180deg, rgb(255 255 255 / 20%), rgb(255 255 255 / 8%));
-        border: 1px solid rgb(255 255 255 / 28%);
+        color: var(--kovpack-brand);
+        background-image: linear-gradient(155deg, rgb(255 255 255 / 64%), transparent 80%);
+        background-color: rgb(248 250 246 / 38%);
+        border: 1px solid rgb(255 255 255 / 62%);
         border-radius: 14px;
-        box-shadow: inset 0 1px 0 rgb(255 255 255 / 30%), 0 8px 24px -14px rgb(0 0 0 / 50%);
+        box-shadow: inset 0 1px 0 rgb(255 255 255 / 70%), inset 0 -1px 0 rgb(1 102 107 / 7%), 0 3px 12px -7px rgb(15 42 51 / 38%);
         -webkit-backdrop-filter: blur(14px) saturate(160%);
         backdrop-filter: blur(14px) saturate(160%);
         font-size: 15px;
@@ -3102,7 +3149,10 @@ body[class] {
         cursor: pointer;
         user-select: none;
         -webkit-tap-highlight-color: transparent;
-        transition: background-color .3s ease, border-color .3s ease, color .3s ease, transform .25s var(--glass-ease);
+        transition: background-color .4s ease, transform .25s var(--glass-ease);
+    }
+    :root .header:is(.is-menu-open, :has(+ .hero:not(.hero--text-only, .hero--small)):not(.is-scrolled)) .header__menu-button .button:not(#_) {
+        background-color: rgb(248 250 246 / 88%);
     }
     .header__menu-button .button:not(#_):active { transform: scale(.96); }
     .header__menu-button .button:not(#_):focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
@@ -3126,33 +3176,8 @@ body[class] {
     .header__menu-button .button__text::after { transform: translateY(4px); }
     .header__menu-button .header__menu-button--open .button__text::before { transform: rotate(45deg); }
     .header__menu-button .header__menu-button--open .button__text::after { transform: rotate(-45deg); }
-    /* On the light glass bar the pill turns to ink. */
-    .header:is(.is-stuck, .is-scrolled):not(.is-menu-open) .header__menu-button .button:not(#_) {
-        color: var(--kovpack-ink);
-        background: linear-gradient(180deg, rgb(255 255 255 / 55%), rgb(255 255 255 / 25%));
-        border-color: rgb(20 26 27 / 12%);
-        box-shadow: inset 0 1px 0 rgb(255 255 255 / 80%), 0 8px 22px -16px rgb(15 42 51 / 60%);
-    }
-
-    /* The bar the menu hangs from stays where it is while the menu is open or
-     * closing; it only drops its own glass, so the dimmed page shows through. */
-    .header.is-menu-open:not(#_) {
-        position: fixed;
-        top: 0;
-        right: 0;
-        left: 0;
-        z-index: 60;
-        color: #fff;
-        background: transparent;
-        border-bottom-color: transparent;
-        box-shadow: none;
-        -webkit-backdrop-filter: none;
-        backdrop-filter: none;
-        animation: none;
-    }
+    :root .header.is-menu-open:not(#_) { z-index: 60; }
     .header.is-menu-open:not(#_) .header__logo :is(img, svg) { filter: none; opacity: 1; }
-    /* Inner pages keep their sticky bar in the flow, so the page never shifts. */
-    .header.is-menu-open:not(:has(+ .hero:not(.hero--text-only, .hero--small))):not(#_) { position: sticky; }
 
     /* The veil: always rendered below the breakpoint, faded in and out. It is
      * only tinted (no blur of its own and no opacity change), so the pane
@@ -3882,9 +3907,7 @@ body[class] {
     .kovpack-news__card:not(:first-child) .kovpack-news__link:focus-visible { outline: 2px solid var(--kovpack-ink); outline-offset: 2px; }
 }
 
-/* Brand colour on the light glass bar (owner, 2026-11-16): the menu drop and
- * the language and menu buttons take the brand colour with white text, so
- * the bar matches the brand logo. Over the hero photo they stay white glass. */
+/* Brand colour on the wide light glass bar (owner, 2026-11-16). */
 @media (min-width: 1280px) and (hover: hover) {
     :root .header:is(.is-stuck, .is-scrolled) .kovpack-nav-drop:not(.kovpack-subnav-drop) {
         background: var(--kovpack-brand);
@@ -3900,14 +3923,6 @@ body[class] {
         box-shadow: inset 0 1px 0 rgb(255 255 255 / 18%);
     }
     :root .header:is(.is-stuck, .is-scrolled) .header__language-button { color: #fff; background: var(--kovpack-brand); }
-}
-@media (width < 1280px), (hover: none) {
-    :root .header:is(.is-stuck, .is-scrolled):not(.is-menu-open) .header__menu-button .button:not(#_) {
-        color: #fff;
-        background: var(--kovpack-brand);
-        border-color: transparent;
-        box-shadow: none;
-    }
 }
 
 /* Brand colour on the dark bars (owner, 2026-11-17): the dark top bar of the
