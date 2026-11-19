@@ -240,6 +240,36 @@ for (const nav of document.querySelectorAll('.header__nav')) {
         item.addEventListener('pointerdown', () => place(item, true));
         item.addEventListener('focus', () => place(item, true));
     }
+    // Liquid-glass submenus (owner, 2026-11-19): each list opens to its
+    // measured height (--sub-h) on a spring, its row turns into a glass well
+    // (.is-unfolded) and only one group stays open at a time.
+    const subnavs = [...pane.querySelectorAll('.header__subnav')];
+    const measure = (list) => {
+        const last = [...list.querySelectorAll(':scope > li')].pop(); // not the drop span
+        list.style.setProperty('--sub-h', `${last ? last.offsetTop + last.offsetHeight : 0}px`);
+    };
+    const measureAll = () => { if (!wideHeader.matches) subnavs.forEach(measure); };
+    for (const list of subnavs) {
+        const row = list.closest('.header__nav-list-item');
+        const syncList = () => {
+            const open = list.classList.contains('header__subnav--active') && !wideHeader.matches;
+            if (open) {
+                measure(list);
+                for (const other of subnavs) {
+                    if (other === list || !other.classList.contains('header__subnav--active')) continue;
+                    other.classList.remove('header__subnav--active');
+                    pane.querySelector(`[data-target="${other.id}"]`)?.setAttribute('aria-expanded', 'false');
+                }
+            }
+            row?.classList.toggle('is-unfolded', open);
+        };
+        new MutationObserver(syncList).observe(list, { attributes: true, attributeFilter: ['class'] });
+        syncList();
+    }
+    window.addEventListener('resize', measureAll);
+    document.fonts?.ready.then(measureAll);
+    wideHeader.addEventListener('change', () => subnavs.forEach((list) => list.closest('.header__nav-list-item')?.classList.remove('is-unfolded')));
+
     // Submenus fold open and shift the rows below: follow them.
     if ('ResizeObserver' in window) new ResizeObserver(() => dropItem && place(dropItem, false)).observe(pane);
     pane.addEventListener('transitionend', (event) => {
@@ -260,6 +290,7 @@ for (const nav of document.querySelectorAll('.header__nav')) {
             header.classList.add('is-menu-open');
             menu.style.setProperty('--menu-top', `${header.offsetHeight + 6}px`);
             showLanguages();
+            measureAll();
             place(current(), false);
         } else {
             document.documentElement.style.overflow = '';

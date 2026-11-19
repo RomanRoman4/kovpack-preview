@@ -10,7 +10,7 @@ the desktop look unchanged: all phone rules sit in max-width queries, and elemen
 phone scripts create are hidden on desktop. The horizontal menu requires at least
 1280 CSS px and a primary input with hover. In other viewports the menu opens as a floating
 liquid-glass pane (motion.js): the page behind dims and blurs, a glass drop rests on the
-current item and flows to the item touched, submenus fold open in place, the current
+current item and flows to the item touched, submenus unfold in place as liquid glass (motion.js measures the list into `--sub-h` and marks the row `.is-unfolded`: the row and its list sit in a lighter glass well that swells out of the row, the list opens on a soft settling spring, a light streak crosses the glass once, the labels come out of a blur one after another; closing draws it back quickly; one group open at a time; reduced motion: no growth, blur or streak), the current
 page in a submenu is marked, the language choices sit side by side on one segmented
 pill, and a tap outside or Escape closes it (with a close animation); the menu button is
 a keyboard-operable glass pill whose two lines turn into a cross. In compact navigation
