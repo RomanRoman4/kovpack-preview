@@ -1564,7 +1564,7 @@ body[class] {
 }
 .header.is-docked .header__logo :is(img, svg) { transition: filter .5s ease, opacity .5s ease; }
 /* Past the photo: away on the way down or after a pause, back on the way up. */
-.header.is-docked.is-scroll-hidden:not(.is-menu-open, :has(.header__menu--open, :focus-visible)) {
+.header.is-docked.is-scroll-hidden:not(.is-pointer-in, .is-menu-open, :has(.header__menu--open, .header__language-dropdown--open, :focus-visible)) {
     translate: 0 calc(-100% - 12px);
     pointer-events: none;
 }

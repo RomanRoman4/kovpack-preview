@@ -62,7 +62,11 @@ header?.addEventListener('animationend', (event) => {
 });
 
 const switching = Boolean(header?.matches(':has(+ .hero:not(.hero--text-only, .hero--small))'));
-const compactLock = '.is-menu-open, :has(.header__menu--open, :focus-visible)';
+const lockBase = '.is-menu-open, :has(.header__menu--open, .header__language-dropdown--open, :focus-visible)';
+// On the wide bar the pointer on the menu or an open submenu keeps it in view.
+let compactLock = lockBase;
+const setLock = () => { compactLock = wideHeader.matches ? `${lockBase}, .is-pointer-in` : lockBase; };
+setLock();
 let directionAnchor = Math.max(0, window.scrollY);
 let compactHideReadyAt = 0;
 let idleTimer = 0;
@@ -207,8 +211,17 @@ else addEventListener('load', () => setTimeout(landOnAnchor, 0), { once: true })
 measure();
 update();
 addEventListener('scroll', onScroll, { passive: true });
+// Leaving the menu starts the pause again, so the bar then hides as usual.
+header?.addEventListener('pointerenter', (event) => {
+    if (event.pointerType === 'mouse') header.classList.add('is-pointer-in');
+});
+header?.addEventListener('pointerleave', () => {
+    header.classList.remove('is-pointer-in');
+    onScroll();
+});
 wideHeader.addEventListener('change', () => {
     clearTimeout(idleTimer);
+    setLock();
     directionAnchor = Math.max(0, window.scrollY);
     header?.classList.remove('is-scroll-hidden', 'is-leaving', 'is-returning');
     if (!wideHeader.matches) setStuck(false);

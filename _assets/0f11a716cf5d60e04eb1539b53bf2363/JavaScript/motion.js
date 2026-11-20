@@ -427,8 +427,8 @@ for (const list of document.querySelectorAll('.header__subnav, .header__language
         const gap = Math.max(0, Math.round(edge - item.getBoundingClientRect().bottom));
         item.style.setProperty("--drip-gap", gap + "px");
         // The resting page starts under the bar; over the home photo (no
-        // bar yet) it covers the whole view.
-        const bar = header.matches(".is-docked, .is-stuck, .is-scrolled") || !header.matches(":has(+ .hero:not(.hero--text-only, .hero--small))");
+        // bar yet, or the clear docked bar) it covers the whole view.
+        const bar = header.matches(".is-stuck, .is-scrolled") || !header.matches(":has(+ .hero:not(.hero--text-only, .hero--small))");
         document.documentElement.style.setProperty("--kovpack-header-bottom", bar ? Math.max(0, Math.round(header.getBoundingClientRect().bottom)) + "px" : "0px");
         // The curves only where the pill reaches at least a curve's width
         // past the panel's side; else they would stick out beyond it.
