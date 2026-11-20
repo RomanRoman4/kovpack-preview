@@ -4961,10 +4961,12 @@ body[class] {
     }
     :root .header .header__language-menu-link:not(#_):not(#_) { transition: background-color .2s ease, color .24s ease .14s; }
 }
-/* The page under an open menu only blurs: a tint would show through the
- * glass panel and turn it greyer than the pill. */
+/* No resting layer under an open menu any more (owner, 2026-11-20: no blur
+ * over the whole page while hovering the menu; the tint had gone earlier, it
+ * turned the glass panel greyer than the pill). The page stays sharp. */
 @media (min-width: 1280px) and (hover: hover) {
-    body::after { background: transparent; }
+    body::after,
+    body:has(.header .header__nav-list-item:is(:hover, :focus-within) > .header__subnav, .header .header__language-dropdown--open)::after { content: none; }
 }
 
 /* Menu flyout (owner, 2026-11-18: Apple-like opening, and the submenu flows
