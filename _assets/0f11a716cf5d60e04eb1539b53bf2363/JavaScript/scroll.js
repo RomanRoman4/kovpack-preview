@@ -8,6 +8,7 @@
 
 const header = document.querySelector('.header');
 const toTop = document.querySelector('[data-to-top]');
+const footer = document.querySelector('.component--page-footer');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const wideHeader = matchMedia('(min-width: 1280px) and (hover: hover)');
 
@@ -135,6 +136,12 @@ const update = () => {
         }
     }
     if (toTop) toTop.classList.toggle('is-visible', y > window.innerHeight * 0.8);
+    if (toTop && footer) {
+        // Over the teal footer the button turns to glass; it switches once
+        // the footer lies under all of it, so no edge ever runs through it.
+        const b = toTop.getBoundingClientRect();
+        toTop.classList.toggle('is-on-dark', footer.getBoundingClientRect().top <= b.top - 4);
+    }
 };
 
 let ticking = false;
