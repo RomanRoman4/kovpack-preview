@@ -5093,3 +5093,22 @@ body[class] {
         transition: opacity .22s var(--nav-ease) var(--nav-d), filter .22s var(--nav-ease) var(--nav-d), translate .32s var(--nav-ease-out) var(--nav-d);
     }
 }
+
+/* DE/EN gets the same thin rim as the back-to-top button (owner,
+ * 2026-11-20): white over the photo and on the teal bar, a faint brand
+ * line on the light bar. Drawn as an inset outline, so the button keeps its
+ * size and its hover shadows; keyboard focus still shows the full ring. */
+@media (min-width: 1280px) and (hover: hover) {
+    :root .header .header__language-button:not(#_):not(#_):not(#_) {
+        outline: 1px solid rgb(255 255 255 / 22%);
+        outline-offset: -1px;
+        transition: background .3s var(--nav-ease), box-shadow .3s var(--nav-ease), color .24s ease .14s, outline-color .5s ease;
+    }
+    :root .header:is(.is-stuck, .is-scrolled) .header__language-button:not(#_):not(#_):not(#_) {
+        outline-color: color-mix(in srgb, var(--kovpack-brand) 24%, transparent);
+    }
+    :root .header .header__language-button:focus-visible:not(#_):not(#_):not(#_) {
+        outline: 2px solid currentColor;
+        outline-offset: 2px;
+    }
+}
