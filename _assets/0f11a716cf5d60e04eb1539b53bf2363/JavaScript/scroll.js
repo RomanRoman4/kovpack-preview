@@ -1,7 +1,10 @@
 (() => {
 "use strict";
-// The wide homepage swaps its full header for a compact fixed bar. The compact
-// navigation uses one bar and hides or reveals it with the scroll direction.
+// The wide homepage swaps its full header for a compact fixed bar (.is-docked).
+// While the hero photo is still under it the bar stays clear glass; once the
+// photo has passed it fades into the light bar (.is-stuck) and from then on,
+// like the compact navigation, hides on the way down or after a pause and
+// comes back when scrolling up (owner, 2026-11-20).
 
 const header = document.querySelector('.header');
 const toTop = document.querySelector('[data-to-top]');
@@ -13,13 +16,13 @@ let headerHeight = 0;
 let inFlow = false;
 
 const measure = () => {
-    if (!header || header.classList.contains('is-stuck')) return;
+    if (!header || header.classList.contains('is-docked')) return;
     headerHeight = header.offsetHeight;
     inFlow = !['absolute', 'fixed'].includes(getComputedStyle(header).position);
 };
 
 const setStuck = (stuck) => {
-    if (!header || header.classList.contains('is-stuck') === stuck) return;
+    if (!header || header.classList.contains('is-docked') === stuck) return;
     if (stuck) measure();
     if (inFlow) {
         if (!spacer) {
@@ -31,13 +34,15 @@ const setStuck = (stuck) => {
         }
         spacer.style.height = stuck ? `${headerHeight}px` : '0px';
     }
-    header.classList.toggle('is-stuck', stuck);
+    header.classList.toggle('is-docked', stuck);
+    if (!stuck) header.classList.remove('is-stuck', 'is-scroll-hidden');
 };
 
 // Back at the top the bar dissolves first (.is-leaving), then the full header
 // fades in at its place (.is-returning), so nothing switches abruptly.
 const release = () => {
-    if (!header?.classList.contains('is-stuck') || header.classList.contains('is-leaving')) return;
+    if (!header?.classList.contains('is-docked') || header.classList.contains('is-leaving')) return;
+    header.classList.remove('is-stuck', 'is-scroll-hidden');
     if (reducedMotion.matches) {
         setStuck(false);
         return;
@@ -62,10 +67,12 @@ let directionAnchor = Math.max(0, window.scrollY);
 let compactHideReadyAt = 0;
 let idleTimer = 0;
 
-const updateCompactHeader = (y) => {
+const hero = switching ? header.nextElementSibling : null;
+
+const updateCompactHeader = (y, floor = headerHeight) => {
     clearTimeout(idleTimer);
     if (!header) return;
-    if (y <= headerHeight || header.matches(compactLock)) {
+    if (y <= floor || header.matches(compactLock)) {
         header.classList.remove('is-scroll-hidden');
         directionAnchor = y;
         return;
@@ -82,7 +89,7 @@ const updateCompactHeader = (y) => {
     }
     if (!header.classList.contains('is-scroll-hidden')) {
         idleTimer = setTimeout(() => {
-            if (window.scrollY <= headerHeight || header.matches(compactLock)) return;
+            if (window.scrollY <= floor || header.matches(compactLock)) return;
             directionAnchor = y;
             header.classList.add('is-scroll-hidden');
         }, 1400);
@@ -108,6 +115,20 @@ const update = () => {
             header.classList.remove('is-returning');
             setStuck(true);
         } else if (y <= 2) release();
+        if (header.classList.contains('is-docked') && !header.classList.contains('is-leaving')) {
+            // The light bar only once the photo's lower edge has passed under it.
+            const bar = header.offsetHeight;
+            const heroEnd = hero ? hero.getBoundingClientRect().bottom + y : 0;
+            const floor = Math.max(headerHeight, heroEnd - bar);
+            const light = y >= floor;
+            if (light && !header.classList.contains('is-stuck')) {
+                // Let the glass fade to the light bar before the first hide.
+                compactHideReadyAt = performance.now() + (reducedMotion.matches ? 0 : 600);
+            }
+            header.classList.toggle('is-stuck', light);
+            const page = document.scrollingElement;
+            updateCompactHeader(Math.max(0, Math.min(y, page.scrollHeight - page.clientHeight)), floor);
+        }
     }
     if (toTop) toTop.classList.toggle('is-visible', y > window.innerHeight * 0.8);
 };
