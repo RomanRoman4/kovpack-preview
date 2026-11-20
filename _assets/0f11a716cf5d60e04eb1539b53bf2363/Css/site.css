@@ -1507,7 +1507,7 @@ body[class] {
  * next one. */
 .page__content > .kovpack-product { background: transparent; }
 @media (min-width: 1280px) {
-    .page__content > .kovpack-product { padding-bottom: calc(2 * var(--kovpack-gutter)); }
+    .page__content > .kovpack-product { padding-bottom: 72px; }
     .page__content > .kovpack-product:first-child { padding-top: 64px; }
     .page__content > .kovpack-product:last-child { padding-bottom: 128px; }
 }
