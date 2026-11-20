@@ -4178,7 +4178,8 @@ body[class] {
 @media (min-width: 1280px) and (hover: hover) {
     .kovpack-look-switches {
         position: absolute;
-        z-index: 29;
+        /* Above the header, whose tall box with the large logo reaches over it. */
+        z-index: 31;
         display: flex;
         align-items: center;
         transition: opacity .2s ease;
