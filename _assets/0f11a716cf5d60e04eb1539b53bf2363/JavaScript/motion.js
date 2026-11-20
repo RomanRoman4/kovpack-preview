@@ -425,42 +425,6 @@ for (const list of document.querySelectorAll('.header__subnav, .header__language
     setTimeout(place, 0);
 })();
 
-// "Alle Produkte" hover switch (owner, 2026-11-17): on product pages, at the
-// right end of the action row, to compare the brand-teal hover with a hover in
-// the product's own colour. Kept per browser.
-(() => {
-    const row = document.querySelector(".kovpack-pdp__actions");
-    if (!row || !row.querySelector(".kovpack-pdp__back")) return;
-    const root = document.documentElement;
-    const key = "kovpack-back-hover";
-    let saved = null;
-    try { saved = localStorage.getItem(key); } catch (e) {}
-    root.classList.toggle("kovpack-back-product", saved === "product");
-    const box = document.createElement("div");
-    box.className = "kovpack-look-switch kovpack-back-switch";
-    box.setAttribute("role", "group");
-    box.setAttribute("aria-label", "Ховер «Alle Produkte»");
-    const caption = document.createElement("span");
-    caption.className = "kovpack-switch-label";
-    caption.textContent = "Ховер «Alle Produkte»";
-    box.append(caption);
-    const buttons = [["brand", "Бренд"], ["product", "Цвет продукта"]].map(([value, text]) => {
-        const b = document.createElement("button");
-        b.type = "button";
-        b.textContent = text;
-        b.dataset.look = value;
-        b.addEventListener("click", () => {
-            root.classList.toggle("kovpack-back-product", value === "product");
-            try { localStorage.setItem(key, value); } catch (e) {}
-            for (const other of buttons) other.setAttribute("aria-pressed", String(other === b));
-        });
-        b.setAttribute("aria-pressed", String((value === "product") === root.classList.contains("kovpack-back-product")));
-        return b;
-    });
-    box.append(...buttons);
-    row.append(box);
-})();
-
 // Submenu drip (owner, 2026-11-18): the drop forms on the bar's lower edge
 // under the centre of its menu item, so each item tells its panel where that
 // is and how far down the bar's edge lies. Moving straight from one open
