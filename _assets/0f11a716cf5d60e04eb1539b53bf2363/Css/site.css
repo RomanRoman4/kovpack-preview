@@ -1501,6 +1501,16 @@ body[class] {
 .page__content > .kovpack-product { display: flex; flex-direction: column; }
 .kovpack-product > .component__content { flex: 1 1 auto; display: flex; flex-direction: column; box-sizing: border-box; width: 100%; }
 .kovpack-product .anchor { display: none; }
+/* More air between the product rows (owner, 2026-11-20): twice the gap, and
+ * more again before the first and after the last row. The rows carry no
+ * background of their own, so a row's soft shadow is never cut off by the
+ * next one. */
+.page__content > .kovpack-product { background: transparent; }
+@media (min-width: 1280px) {
+    .page__content > .kovpack-product { padding-bottom: calc(2 * var(--kovpack-gutter)); }
+    .page__content > .kovpack-product:first-child { padding-top: 64px; }
+    .page__content > .kovpack-product:last-child { padding-bottom: 128px; }
+}
 
 /* The roll cards themselves are the self-contained product-roll.css component. */
 
