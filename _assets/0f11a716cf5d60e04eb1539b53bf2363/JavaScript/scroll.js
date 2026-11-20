@@ -74,6 +74,16 @@ let idleTimer = 0;
 
 const hero = switching ? header.nextElementSibling : null;
 
+// Teal glass bar switch (owner, 2026-11-20): on the inner pages the wide bar
+// can stay teal frosted glass while scrolling, so the page runs blurred under
+// it, instead of turning into the light bar. Kept per browser.
+const root = document.documentElement;
+const tealBarKey = "kovpack-bar-look";
+let tealBarSaved = null;
+try { tealBarSaved = localStorage.getItem(tealBarKey); } catch (e) { /* private mode */ }
+root.classList.toggle("kovpack-bar-teal", tealBarSaved !== "light");
+const keepTeal = () => !switching && wideHeader.matches && root.classList.contains("kovpack-bar-teal");
+
 const updateCompactHeader = (y, floor = headerHeight) => {
     clearTimeout(idleTimer);
     if (!header) return;
@@ -108,7 +118,7 @@ const update = () => {
         // Let the hero's glass transition finish before the first hide.
         compactHideReadyAt = performance.now() + (reducedMotion.matches ? 0 : 400);
     }
-    header?.classList.toggle('is-scrolled', scrolled && (!switching || !wideHeader.matches));
+    header?.classList.toggle('is-scrolled', scrolled && (!switching || !wideHeader.matches) && !keepTeal());
 
     if (!wideHeader.matches) {
         // Safari's overscroll can report positions beyond either page edge.
@@ -239,5 +249,36 @@ addEventListener('resize', () => {
     measure();
     update();
 });
+
+// The switch for the teal glass bar: inner pages, wide screens, bottom left.
+if (header && !switching) {
+    const box = document.createElement("div");
+    box.className = "kovpack-look-switch kovpack-bar-switch";
+    box.setAttribute("role", "group");
+    box.setAttribute("aria-label", "Бар при прокрутке");
+    const caption = document.createElement("span");
+    caption.className = "kovpack-switch-label";
+    caption.textContent = "Бар при прокрутке";
+    const buttons = [["teal", "Бирюзовое стекло"], ["light", "Светлый (как было)"]].map(([value, text]) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.textContent = text;
+        b.dataset.look = value;
+        b.addEventListener("click", () => {
+            root.classList.toggle("kovpack-bar-teal", value === "teal");
+            try { localStorage.setItem(tealBarKey, value); } catch (e) { /* private mode */ }
+            sync();
+            update();
+        });
+        return b;
+    });
+    const sync = () => {
+        const teal = root.classList.contains("kovpack-bar-teal");
+        for (const b of buttons) b.setAttribute("aria-pressed", String((b.dataset.look === "teal") === teal));
+    };
+    box.append(caption, ...buttons);
+    sync();
+    document.body.append(box);
+}
 
 })();

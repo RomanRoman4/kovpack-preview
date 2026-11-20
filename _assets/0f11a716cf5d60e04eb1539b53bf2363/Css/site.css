@@ -1327,144 +1327,49 @@ body[class] {
     padding: 0;
     list-style: none;
 }
-/* Product-line tiles: a satin label in the roll colour with a short looping scene of the paper at work. */
+/* Product-line tiles: a close-up of the paper at work over a matte label in the roll colour. */
 .kovpack-hero-tile {
     --tile: var(--kovpack-label-teal);
-    --tile-deep: color-mix(in oklch, var(--tile) 86%, black);
     --tile-ink: #10282b;
-    position: relative;
-    isolation: isolate;
     display: grid;
-    grid-template-rows: auto auto auto;
-    align-content: space-between;
+    grid-template-rows: auto 1fr auto;
     min-width: 0;
-    padding: clamp(18px, 1.35vw, 26px);
     margin: 0;
     overflow: hidden;
-    border: 1px solid transparent;
     border-radius: 16px;
     color: var(--tile-ink);
-    background:
-        radial-gradient(110% 85% at 0% 0%, color-mix(in srgb, var(--tile) 62%, white), transparent 62%),
-        linear-gradient(155deg, var(--tile) 30%, var(--tile-deep));
-    box-shadow: inset 0 1px 0 rgb(255 255 255 / 40%), 0 1px 2px rgb(16 40 43 / 10%);
+    background: var(--tile);
+    box-shadow: 0 1px 2px rgb(16 40 43 / 10%);
 }
 .kovpack-hero-tile--orange { --tile: var(--kovpack-label-orange); }
 .kovpack-hero-tile--blue { --tile: var(--kovpack-label-blue); }
+.kovpack-hero-tile__image {
+    display: block;
+    grid-row: 1;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 7 / 4;
+    object-fit: cover;
+    background: #b98d5e;
+}
 .kovpack-hero-tile__name {
     grid-row: 2;
-    margin: 22px 0 0;
-    font: 600 clamp(24px, 1.65vw, 32px)/1.05 var(--kovpack-font-display);
+    align-self: end;
+    margin: 0;
+    padding: clamp(14px, 1.1vw, 20px) clamp(18px, 1.35vw, 26px) 0;
+    font: 600 clamp(22px, 1.5vw, 29px)/1.05 var(--kovpack-font-display);
     letter-spacing: -.01em;
     text-wrap: balance;
     overflow-wrap: anywhere;
 }
 .kovpack-hero-tile__type {
     grid-row: 3;
-    margin: 6px 0 0;
+    margin: 0;
+    padding: 5px clamp(18px, 1.35vw, 26px) clamp(16px, 1.25vw, 22px);
     font: 500 15px/1.35 var(--kovpack-font);
     color: color-mix(in srgb, var(--tile-ink) 80%, var(--tile));
     overflow-wrap: anywhere;
 }
-
-/* Scenes: kraft paper, ink outlines, paint in the deep product colour. The resting state is the finished job. */
-.kovpack-hero-scene {
-    --kp-ink: var(--tile-ink);
-    --kp-paper: #f4e5c9;
-    --kp-card: #d9b483;
-    --kp-paint: color-mix(in oklch, var(--tile) 58%, black);
-    --kp-glass: color-mix(in srgb, var(--tile) 35%, white);
-    display: block;
-    grid-row: 1;
-    align-self: center;
-    width: 100%;
-    height: auto;
-    overflow: visible;
-}
-.kovpack-hero-scene * { transform-box: fill-box; transform-origin: center; }
-.kovpack-hero-scene .kp-z { transform-box: view-box; transform-origin: 0 0; }
-.kovpack-hero-scene :is(.kp-line, .kp-tie) { fill: none; stroke: var(--kp-ink); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
-.kovpack-hero-scene .kp-thin { stroke-width: 1.4; opacity: .55; }
-.kovpack-hero-scene .kp-faint { stroke-width: 1.6; opacity: .35; }
-.kovpack-hero-scene :is(.kp-paper, .kp-card, .kp-glass, .kp-stroke) { stroke: var(--kp-ink); stroke-width: 2.2; stroke-linejoin: round; }
-.kovpack-hero-scene .kp-paper { fill: var(--kp-paper); }
-.kovpack-hero-scene .kp-card { fill: var(--kp-card); }
-.kovpack-hero-scene .kp-back { fill: color-mix(in srgb, var(--kp-card) 55%, var(--kp-paper)); stroke: none; }
-.kovpack-hero-scene .kp-wet { opacity: .5; }
-.kovpack-hero-scene .kp-glass { fill: var(--kp-glass); }
-.kovpack-hero-scene .kp-paint { fill: var(--kp-paint); }
-.kovpack-hero-scene .kp-ink { fill: var(--kp-ink); }
-.kovpack-hero-scene .kp-tie { stroke: var(--kp-paint); stroke-width: 2.4; }
-.kovpack-hero-scene .pr-drop { opacity: 0; }
-.kovpack-hero-scene :is(.pr-sheet, .pk-sheet) { transform-origin: 0 50%; }
-.kovpack-hero-scene :is(.pr-stripe, .pk-parcel, .pk-wrap) { transform-origin: 50% 100%; }
-.kovpack-hero-scene .fl-flap--l { transform-origin: 0 50%; rotate: -125deg; }
-.kovpack-hero-scene .fl-flap--r { transform-origin: 100% 50%; rotate: 125deg; }
-
-@media (prefers-reduced-motion: no-preference) {
-    .kovpack-hero-tile:nth-child(2) { --kp-delay: -3s; }
-    .kovpack-hero-tile:nth-child(3) { --kp-delay: -6s; }
-    .kovpack-hero-scene .kp-s,
-    .kovpack-hero-scene .kp-s * {
-        animation-duration: 9s;
-        animation-delay: var(--kp-delay, 0s);
-        animation-iteration-count: infinite;
-        animation-fill-mode: both;
-        animation-timing-function: cubic-bezier(.45, 0, .25, 1);
-    }
-    .kovpack-hero-scene .kp-s { animation-name: kp-scene; }
-    .kovpack-hero-scene .pr-sheet { animation-name: kp-unroll; }
-    .kovpack-hero-scene .pr-roll { animation-name: kp-pr-roll; }
-    .kovpack-hero-scene .pr-spin { animation-name: kp-pr-spin; }
-    .kovpack-hero-scene .pr-roller { animation-name: kp-pr-roller; }
-    .kovpack-hero-scene .pr-stripe { animation-name: kp-pr-stripe; }
-    .kovpack-hero-scene .pr-drop1 { animation-name: kp-pr-drop1; }
-    .kovpack-hero-scene .pr-splat1 { animation-name: kp-pr-splat1; }
-    .kovpack-hero-scene .pr-drop2 { animation-name: kp-pr-drop2; }
-    .kovpack-hero-scene .pr-splat2 { animation-name: kp-pr-splat2; }
-    .kovpack-hero-scene .pr-drop3 { animation-name: kp-pr-drop3; }
-    .kovpack-hero-scene .pr-splat3 { animation-name: kp-pr-splat3; }
-    .kovpack-hero-scene .pk-sheet { animation-name: kp-pk-sheet; }
-    .kovpack-hero-scene .pk-spin { animation-name: kp-pk-spin; }
-    .kovpack-hero-scene .pk-wrap { animation-name: kp-pk-wrap; }
-    .kovpack-hero-scene .kp-tie { stroke-dasharray: 1; animation-name: kp-pk-tie; }
-    .kovpack-hero-scene .pk-parcel { animation-name: kp-pk-parcel; }
-    .kovpack-hero-scene .fl-p1 { animation-name: kp-fl-p1; }
-    .kovpack-hero-scene .fl-p2 { animation-name: kp-fl-p2; }
-    .kovpack-hero-scene .fl-p3 { animation-name: kp-fl-p3; }
-    .kovpack-hero-scene .fl-p4 { animation-name: kp-fl-p4; }
-    .kovpack-hero-scene .fl-p5 { animation-name: kp-fl-p5; }
-    .kovpack-hero-scene .fl-p6 { animation-name: kp-fl-p6; }
-    .kovpack-hero-scene .fl-p7 { animation-name: kp-fl-p7; }
-    .kovpack-hero-scene .fl-flap--l { animation-name: kp-fl-left; }
-    .kovpack-hero-scene .fl-flap--r { animation-name: kp-fl-right; }
-}
-@keyframes kp-scene { 0% { opacity: 0; } 4%, 88% { opacity: 1; } 96%, 100% { opacity: 0; } }
-@keyframes kp-unroll { 0%, 4% { scale: 0 1; } 40%, 100% { scale: 1 1; } }
-@keyframes kp-pr-roll { 0%, 4% { translate: -238px 0; } 40%, 100% { translate: 0 0; } }
-@keyframes kp-pr-spin { 0%, 4% { rotate: -757deg; } 40%, 100% { rotate: 0deg; } }
-@keyframes kp-pr-roller { 0%, 40% { opacity: 0; translate: 0 82px; } 46% { opacity: 1; translate: 0 82px; } 76%, 100% { opacity: 1; translate: 0 0; } }
-@keyframes kp-pr-stripe { 0%, 46% { scale: 1 0; } 76%, 100% { scale: 1 1; } }
-@keyframes kp-pk-sheet { 0%, 4% { scale: 0 1; } 26%, 100% { scale: 1 1; } }
-@keyframes kp-pk-spin { 0%, 4% { rotate: -1100deg; } 26%, 100% { rotate: 0deg; } }
-@keyframes kp-pk-wrap { 0%, 30% { scale: 1.25 0; } 44% { scale: 1.12 .8; } 52%, 100% { scale: 1 1; } }
-@keyframes kp-pk-tie { 0%, 54% { stroke-dashoffset: 1; } 64%, 100% { stroke-dashoffset: 0; } }
-@keyframes kp-pk-parcel { 0%, 66% { scale: 1; } 70% { scale: 1.05 .96; } 74% { scale: .98 1.03; } 78%, 100% { scale: 1; } }
-@keyframes kp-fl-left { 0%, 66% { rotate: -125deg; } 74%, 100% { rotate: 0deg; } }
-@keyframes kp-fl-right { 0%, 70% { rotate: 125deg; } 78%, 100% { rotate: 0deg; } }
-@keyframes kp-pr-drop1 { 0%, 52% { opacity: 0; translate: 0 0; animation-timing-function: cubic-bezier(.5, 0, 1, 1); } 52.5% { opacity: 1; } 57% { opacity: 1; translate: 0 30px; } 57.5%, 100% { opacity: 0; translate: 0 30px; } }
-@keyframes kp-pr-splat1 { 0%, 57% { scale: 0; } 58.5% { scale: 1.25 1; } 60%, 100% { scale: 1; } }
-@keyframes kp-pr-drop2 { 0%, 60% { opacity: 0; translate: 0 0; animation-timing-function: cubic-bezier(.5, 0, 1, 1); } 60.5% { opacity: 1; } 65% { opacity: 1; translate: 0 52px; } 65.5%, 100% { opacity: 0; translate: 0 52px; } }
-@keyframes kp-pr-splat2 { 0%, 65% { scale: 0; } 66.5% { scale: 1.25 1; } 68%, 100% { scale: 1; } }
-@keyframes kp-pr-drop3 { 0%, 68% { opacity: 0; translate: 0 0; animation-timing-function: cubic-bezier(.5, 0, 1, 1); } 68.5% { opacity: 1; } 73% { opacity: 1; translate: 0 74px; } 73.5%, 100% { opacity: 0; translate: 0 74px; } }
-@keyframes kp-pr-splat3 { 0%, 73% { scale: 0; } 74.5% { scale: 1.25 1; } 76%, 100% { scale: 1; } }
-@keyframes kp-fl-p1 { 0%, 8% { opacity: 0; translate: 0 -154px; rotate: -30deg; animation-timing-function: cubic-bezier(.5, 0, 1, 1); } 9% { opacity: 1; } 14% { translate: 0 0; rotate: 0deg; animation-timing-function: ease-out; } 15.5% { translate: 0 -3px; } 17%, 100% { opacity: 1; translate: 0 0; rotate: 0deg; } }
-@keyframes kp-fl-p2 { 0%, 15% { opacity: 0; translate: 0 -154px; rotate: 36deg; animation-timing-function: cubic-bezier(.5, 0, 1, 1); } 16% { opacity: 1; } 21% { translate: 0 0; rotate: 0deg; animation-timing-function: ease-out; } 22.5% { translate: 0 -3px; } 24%, 100% { opacity: 1; translate: 0 0; rotate: 0deg; } }
-@keyframes kp-fl-p3 { 0%, 22% { opacity: 0; translate: 0 -138px; rotate: -42deg; animation-timing-function: cubic-bezier(.5, 0, 1, 1); } 23% { opacity: 1; } 28% { translate: 0 0; rotate: 0deg; animation-timing-function: ease-out; } 29.5% { translate: 0 -3px; } 31%, 100% { opacity: 1; translate: 0 0; rotate: 0deg; } }
-@keyframes kp-fl-p4 { 0%, 29% { opacity: 0; translate: 0 -140px; rotate: 48deg; animation-timing-function: cubic-bezier(.5, 0, 1, 1); } 30% { opacity: 1; } 35% { translate: 0 0; rotate: 0deg; animation-timing-function: ease-out; } 36.5% { translate: 0 -3px; } 38%, 100% { opacity: 1; translate: 0 0; rotate: 0deg; } }
-@keyframes kp-fl-p5 { 0%, 36% { opacity: 0; translate: 0 -126px; rotate: -54deg; animation-timing-function: cubic-bezier(.5, 0, 1, 1); } 37% { opacity: 1; } 42% { translate: 0 0; rotate: 0deg; animation-timing-function: ease-out; } 43.5% { translate: 0 -3px; } 45%, 100% { opacity: 1; translate: 0 0; rotate: 0deg; } }
-@keyframes kp-fl-p6 { 0%, 43% { opacity: 0; translate: 0 -126px; rotate: 60deg; animation-timing-function: cubic-bezier(.5, 0, 1, 1); } 44% { opacity: 1; } 49% { translate: 0 0; rotate: 0deg; animation-timing-function: ease-out; } 50.5% { translate: 0 -3px; } 52%, 100% { opacity: 1; translate: 0 0; rotate: 0deg; } }
-@keyframes kp-fl-p7 { 0%, 50% { opacity: 0; translate: 0 -114px; rotate: -66deg; animation-timing-function: cubic-bezier(.5, 0, 1, 1); } 51% { opacity: 1; } 56% { translate: 0 0; rotate: 0deg; animation-timing-function: ease-out; } 57.5% { translate: 0 -3px; } 59%, 100% { opacity: 1; translate: 0 0; rotate: 0deg; } }
 @media (max-width: 1100px) {
     .hero.hero--small:has(.kovpack-hero-tiles) {
         grid-template-columns: minmax(0, 1fr);
@@ -1477,14 +1382,11 @@ body[class] {
     .kovpack-hero-tiles { grid-template-columns: minmax(0, 1fr); }
     .kovpack-hero-tile {
         grid-template-columns: 132px minmax(0, 1fr);
-        grid-template-rows: auto auto;
-        column-gap: 16px;
-        align-content: center;
-        padding: 12px 18px;
+        grid-template-rows: 1fr auto 1fr;
     }
-    .kovpack-hero-scene { grid-row: 1 / 3; overflow: hidden; }
-    .kovpack-hero-tile__name { grid-row: 1; align-self: end; margin: 0; font-size: 22px; }
-    .kovpack-hero-tile__type { grid-row: 2; align-self: start; margin-top: 2px; }
+    .kovpack-hero-tile__image { grid-row: 1 / 4; grid-column: 1; height: 100%; aspect-ratio: auto; min-height: 84px; }
+    .kovpack-hero-tile__name { grid-row: 2; grid-column: 2; padding: 0 16px; font-size: 22px; }
+    .kovpack-hero-tile__type { grid-row: 3; grid-column: 2; align-self: start; padding: 2px 16px 0; }
 }
 
 /* Section intro before the products: display heading plus eyebrow. */
@@ -5142,3 +5044,29 @@ body[class] {
         font-weight: 500;
     }
 }
+
+/* Teal frosted glass bar (owner, 2026-11-20), chosen with the switch at the
+ * bottom left (scroll.js): on the inner pages the wide bar stays teal while
+ * scrolling instead of turning light, and the page runs blurred under it, as
+ * under the light bar. The teal lets a little more through than at the top
+ * and a soft sheen runs down from its bright top edge. */
+@media (min-width: 1280px) and (hover: hover) {
+    :root.kovpack-bar-teal .header:not(:has(+ .hero:not(.hero--text-only, .hero--small))):not(.is-scrolled):not(#_) {
+        background-color: rgb(0 70 75 / 68%);
+        background-image: linear-gradient(180deg, rgb(255 255 255 / 9%), rgb(255 255 255 / 0%) 70%);
+        box-shadow: inset 0 1px 0 rgb(255 255 255 / 14%), inset 0 -1px 0 rgb(255 255 255 / 10%), 0 14px 32px -20px rgb(0 40 42 / 55%);
+        -webkit-backdrop-filter: blur(22px) saturate(170%);
+        backdrop-filter: blur(22px) saturate(170%);
+    }
+}
+.kovpack-bar-switch { display: none; }
+@media (min-width: 1280px) and (hover: hover) {
+    .kovpack-bar-switch:not(#_) {
+        display: flex;
+        position: fixed;
+        left: 24px;
+        bottom: 24px;
+        z-index: 40;
+    }
+}
+@media print { .kovpack-bar-switch { display: none !important; } }
