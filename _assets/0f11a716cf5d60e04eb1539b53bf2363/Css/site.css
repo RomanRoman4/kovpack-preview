@@ -5112,3 +5112,23 @@ body[class] {
         outline-offset: 2px;
     }
 }
+
+/* The teal top bar of the inner pages as glass too (owner, 2026-11-20: the
+ * light bar's frosted glass looked right, the teal bar was a flat slab). The
+ * page head slides up under the bar, so the bar has something to frost; the
+ * teal is a little deeper and lets 14% through, which lands close to the
+ * brand colour over the light page head. A bright top edge, a faint lower
+ * rim and a soft shadow onto the page carry the glass. On scrolling it still
+ * fades into the light bar, which keeps its own look. */
+@media (min-width: 1280px) and (hover: hover) {
+    :root .header:not(:has(+ .hero:not(.hero--text-only, .hero--small))) + .hero {
+        /* Up by the bar's height; a clear top border of the same height
+         * (the head's own background paints under it) keeps its padding. */
+        margin-top: -72px;
+        border-top: 72px solid transparent;
+    }
+    :root .header:not(:has(+ .hero:not(.hero--text-only, .hero--small))):not(.is-scrolled):not(#_) {
+        background-color: rgb(0 84 89 / 86%);
+        box-shadow: inset 0 1px 0 rgb(255 255 255 / 10%), inset 0 -1px 0 rgb(255 255 255 / 8%), 0 14px 32px -20px rgb(0 40 42 / 55%);
+    }
+}
