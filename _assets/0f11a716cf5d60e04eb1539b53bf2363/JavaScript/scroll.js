@@ -124,6 +124,14 @@ const update = () => {
         // Safari's overscroll can report positions beyond either page edge.
         const page = document.scrollingElement;
         updateCompactHeader(Math.max(0, Math.min(y, page.scrollHeight - page.clientHeight)));
+    } else if (keepTeal()) {
+        // The teal glass bar of the inner pages hides on the way down and
+        // after a pause, and comes back on the way up, as on the home page.
+        const page = document.scrollingElement;
+        updateCompactHeader(Math.max(0, Math.min(y, page.scrollHeight - page.clientHeight)));
+    } else if (!switching) {
+        clearTimeout(idleTimer);
+        header?.classList.remove("is-scroll-hidden");
     } else if (switching) {
         if (y > headerHeight) {
             cancelRelease();
@@ -250,7 +258,7 @@ addEventListener('resize', () => {
     update();
 });
 
-// The switch for the teal glass bar: inner pages, wide screens, bottom left.
+// The switch for the teal glass bar: inner pages, wide screens, under the bar at the top left.
 if (header && !switching) {
     const box = document.createElement("div");
     box.className = "kovpack-look-switch kovpack-bar-switch";

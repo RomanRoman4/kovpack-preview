@@ -4814,16 +4814,19 @@ body[class] {
         --nav-pill-filter: blur(14px) saturate(140%);
         --nav-surface-filter: blur(14px) saturate(140%);
     }
-    /* "Бирюза" in the photo switch: the earlier brand-teal glass for pill
-     * and panel (owner, 2026-11-20). */
+    /* "Бирюза" in the photo switch: brand-teal frosted glass for pill and
+     * panel (owner, 2026-11-20: more glass and see-through, as the teal bar
+     * of the inner pages). The photo shows blurred through the teal; a
+     * brighter sheen and rim carry the glass edge. */
     :root.kovpack-nav-teal .header:has(+ .hero:not(.hero--text-only, .hero--small)):not(.is-stuck, .is-scrolled) .header__nav:not(#_):not(#_) {
-        --nav-pill: color-mix(in srgb, var(--kovpack-brand) 86%, transparent);
-        --nav-sheen: rgb(255 255 255 / 10%);
-        --nav-rim-hi: rgb(255 255 255 / 22%);
-        --nav-rim-line: rgb(255 255 255 / 6%);
-        --nav-surface: color-mix(in srgb, var(--kovpack-brand) 86%, transparent);
-        --nav-pill-filter: blur(20px) saturate(140%);
-        --nav-surface-filter: blur(20px) saturate(140%);
+        --nav-pill: color-mix(in srgb, var(--kovpack-brand) 54%, transparent);
+        --nav-sheen: rgb(255 255 255 / 16%);
+        --nav-rim-hi: rgb(255 255 255 / 30%);
+        --nav-rim-line: rgb(255 255 255 / 10%);
+        --nav-surface: color-mix(in srgb, var(--kovpack-brand) 58%, transparent);
+        --nav-panel-edge: rgb(255 255 255 / 12%);
+        --nav-pill-filter: blur(22px) saturate(170%);
+        --nav-surface-filter: blur(22px) saturate(170%);
     }
     /* Everything in the menu reads its colours from here. */
     :root .header .header__nav:not(#_):not(#_) {
@@ -5045,8 +5048,8 @@ body[class] {
     }
 }
 
-/* Teal frosted glass bar (owner, 2026-11-20), chosen with the switch at the
- * bottom left (scroll.js): on the inner pages the wide bar stays teal while
+/* Teal frosted glass bar (owner, 2026-11-20), chosen with the switch under the
+ * bar at the top left (scroll.js): on the inner pages the wide bar stays teal while
  * scrolling instead of turning light, and the page runs blurred under it, as
  * under the light bar. The teal lets a little more through than at the top
  * and a soft sheen runs down from its bright top edge. */
@@ -5063,10 +5066,23 @@ body[class] {
 @media (min-width: 1280px) and (hover: hover) {
     .kovpack-bar-switch:not(#_) {
         display: flex;
+        /* Right under the bar, in line with the logo, so it is seen at once. */
         position: fixed;
-        left: 24px;
-        bottom: 24px;
-        z-index: 40;
+        top: 86px;
+        left: max(24px, calc((100vw - 1616px) / 2));
+        z-index: 29;
     }
 }
 @media print { .kovpack-bar-switch { display: none !important; } }
+
+/* The teal glass bar of the inner pages slides away on the way down and back
+ * on the way up (scroll.js, owner 2026-11-20), as the bar of the home page. */
+@media (min-width: 1280px) and (hover: hover) {
+    :root.kovpack-bar-teal .header:not(:has(+ .hero:not(.hero--text-only, .hero--small))):not(#_) {
+        transition: background-color .5s ease, box-shadow .5s ease, translate .55s var(--kovpack-ease);
+    }
+    :root.kovpack-bar-teal .header.is-scroll-hidden:not(:has(+ .hero:not(.hero--text-only, .hero--small))):not(.is-pointer-in, .is-menu-open, :has(.header__menu--open, .header__language-dropdown--open, :focus-visible)):not(#_) {
+        translate: 0 calc(-100% - 12px);
+        pointer-events: none;
+    }
+}
