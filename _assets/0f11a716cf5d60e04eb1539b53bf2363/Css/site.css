@@ -4702,20 +4702,22 @@ body[class] {
         --nav-panel-edge: rgb(255 255 255 / 8%);
         --nav-surface-filter: none;
     }
-    /* Over the home photo: one teal glass for pill and panel. */
+    /* Over the home photo: clear white glass, no outline (owner, 2026-11-20:
+     * the earlier "Transparent" look is the better one there). Pill and
+     * panel are the same glass over the same blurred photo. */
     :root .header:has(+ .hero:not(.hero--text-only, .hero--small)):not(.is-stuck, .is-scrolled) .header__nav:not(#_):not(#_) {
-        --nav-pill: color-mix(in srgb, var(--kovpack-brand) 86%, transparent);
-        --nav-sheen: rgb(255 255 255 / 10%);
-        --nav-rim-hi: rgb(255 255 255 / 22%);
-        --nav-rim-line: rgb(255 255 255 / 6%);
-        --nav-surface: color-mix(in srgb, var(--kovpack-brand) 86%, transparent);
+        --nav-pill: rgb(255 255 255 / 14%);
+        --nav-sheen: rgb(255 255 255 / 6%);
+        --nav-rim-hi: rgb(255 255 255 / 12%);
+        --nav-rim-line: transparent;
+        --nav-surface: rgb(255 255 255 / 14%);
         --nav-hl-top: rgb(255 255 255 / 22%);
         --nav-hl-bottom: rgb(255 255 255 / 10%);
         --nav-hl-rim: rgb(255 255 255 / 24%);
         --nav-shadow: rgb(0 30 32);
         --nav-panel-edge: rgb(255 255 255 / 8%);
-        --nav-pill-filter: blur(20px) saturate(140%);
-        --nav-surface-filter: blur(20px) saturate(140%);
+        --nav-pill-filter: blur(14px) saturate(140%);
+        --nav-surface-filter: blur(14px) saturate(140%);
     }
     /* Everything in the menu reads its colours from here. */
     :root .header .header__nav:not(#_):not(#_) {
