@@ -5133,13 +5133,12 @@ body[class] {
     }
 }
 
-/* DE/EN in the same type as the menu items (owner, 2026-11-20: it read too
- * thin at 12px): 16px, weight 450, no extra tracking. */
+/* DE/EN keeps its small size but gets the stroke of the menu items (owner,
+ * 2026-11-20: it read too thin). At 12px the same weight number looks
+ * lighter than at 16px, so it takes a slightly heavier cut to match by eye. */
 @media (min-width: 1280px) and (hover: hover) {
     :root .header .header__language-button:not(#_):not(#_):not(#_),
     :root .header .header__language-button:not(#_):not(#_):not(#_) * {
-        font-size: 16px;
-        font-weight: 450;
-        letter-spacing: normal;
+        font-weight: 500;
     }
 }
