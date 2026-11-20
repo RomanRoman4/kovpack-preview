@@ -308,16 +308,13 @@ button.header__nav-item {
 }
 
 .component--page-footer > .component__content {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 32px;
+    display: block;
 }
 
 .footer {
-    flex: 1 1 20rem;
     padding: 0;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+    grid-template-columns: minmax(0, 1.5fr) repeat(2, minmax(0, 1fr));
+    gap: 24px clamp(24px, 4vw, 64px);
 }
 
 .footer__col--1 {
@@ -335,9 +332,9 @@ button.header__nav-item {
 }
 
 .footer__meta {
-    flex: 0 1 auto;
-    border-top: 0;
-    padding: 0;
+    margin-top: 24px;
+    border-top: 1px solid rgb(255 255 255 / 18%);
+    padding: 16px 0 0;
     font-size: 14px;
 }
 
@@ -351,6 +348,36 @@ button.header__nav-item {
 
 .footer__meta .frame-type-menu_pages li {
     margin: 0;
+}
+
+.footer__meta .frame-type-menu_pages li:first-child {
+    margin-inline-end: auto;
+}
+
+.footer__heading {
+    margin: 0 0 8px;
+    font: inherit;
+    font-weight: 600;
+}
+
+.footer__address {
+    margin: 0;
+    font-size: 14px;
+    font-style: normal;
+    line-height: 1.55;
+}
+
+.footer__address a {
+    display: block;
+    width: fit-content;
+    min-height: 24px;
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: .2em;
+}
+
+.footer__address a:hover {
+    color: var(--link-color-hover);
 }
 
 :focus-visible {
@@ -813,16 +840,13 @@ button.header__nav-item {
 .footer__col--1 .ce-bodytext { min-width: 0; }
 .footer__col--1 .ce-bodytext p { margin: 0; font-size: 12px; letter-spacing: .14em; }
 .footer__col--1 .ce-bodytext p + p { font-size: 10px; letter-spacing: 0; max-width: 14rem; opacity: .8; }
-.footer__meta a { opacity: .85; }
+.footer__meta a { display: inline-block; min-height: 24px; opacity: .85; }
 .footer__meta a:hover { opacity: 1; }
-/* Phone and tablet footer (owner, 2026-11-13): compact. The logo and the FSC mark
- * share one row (the mark with its licence code only; the icon itself reads
- * "FSC Recycled"), then the legal links under a hairline, kept clear of the
- * floating back-to-top button. */
+/* Keep the brand and certification together above the contact columns. */
 @media (max-width: 1023px) {
     .component--page-footer { --component-padding-vertical: 28px; }
-    .component--page-footer > .component__content { display: block; }
-    .component--page-footer .footer { display: block; }
+    .component--page-footer .footer { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 16px; }
+    .component--page-footer .footer__col--1 { grid-column: 1 / -1; }
     .component--page-footer .footer__col--1:has(.frame-type-textmedia) { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px 16px; }
     .component--page-footer .footer__logo { display: block; height: 28px; line-height: 0; }
     .component--page-footer .footer__logo img { width: auto; height: 28px; }
@@ -832,16 +856,12 @@ button.header__nav-item {
     .component--page-footer .footer__col--1 .ce-gallery img { width: 40px; height: 40px; }
     .component--page-footer .footer__col--1 .ce-bodytext p:first-child:not(:only-child) { display: none; }
     .component--page-footer .footer__col--1 .ce-bodytext p + p { font-size: 10px; opacity: .75; }
-    .component--page-footer .footer__meta { margin-top: 20px; padding: 16px 58px 0 0; border-top: 1px solid rgb(255 255 255 / 12%); font-size: 13px; }
-    .component--page-footer .footer__meta .frame-type-menu_pages ul { gap: 8px 20px; }
-    /* Contact on the left, the legal links grouped on the right, up to the
-     * back-to-top button that shares their row (owner, 2026-11-13: no
-     * extra space below the links). */
-    .component--page-footer .footer__meta .frame-type-menu_pages li:first-child { margin-right: auto; }
-    .component--page-footer .footer__meta .frame-type-menu_pages ul { column-gap: 16px; }
+    .component--page-footer .footer__meta { margin-top: 20px; padding-right: 58px; font-size: 13px; }
+    .component--page-footer .footer__meta .frame-type-menu_pages ul { gap: 8px 12px; }
 }
 @media (max-width: 359px) {
     .component--page-footer .footer__logo, .component--page-footer .footer__logo img { height: 22px; }
+    .component--page-footer .footer { grid-template-columns: minmax(0, 1fr); }
     /* Too narrow to share the row with the back-to-top button: the links
      * take the full width and the button rests below them. */
     .component--page-footer { padding-bottom: 66px; }
