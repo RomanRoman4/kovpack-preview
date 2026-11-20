@@ -4173,6 +4173,21 @@ body[class] {
     }
 }
 
+/* Menu look switch on the home photo (motion.js, owner 2026-11-20). */
+.kovpack-look-switches { display: none; }
+@media (min-width: 1280px) and (hover: hover) {
+    .kovpack-look-switches {
+        position: absolute;
+        z-index: 29;
+        display: flex;
+        align-items: center;
+        transition: opacity .2s ease;
+    }
+    /* Steps aside while a submenu or the language list is open. */
+    body:has(.header .header__nav-list-item:is(:hover, :focus-within) > .header__subnav, .header .header__language-dropdown--open) .kovpack-look-switches { opacity: 0; pointer-events: none; }
+}
+@media print { .kovpack-look-switches { display: none; } }
+
 /* Review switch pill (motion.js): used by the "Alle Produkte" hover switch. */
 @media (min-width: 1280px) and (hover: hover) {
     .kovpack-look-switch {
@@ -4842,6 +4857,17 @@ body[class] {
         --nav-panel-edge: rgb(255 255 255 / 8%);
         --nav-pill-filter: blur(14px) saturate(140%);
         --nav-surface-filter: blur(14px) saturate(140%);
+    }
+    /* "Бирюза" in the photo switch: the earlier brand-teal glass for pill
+     * and panel (owner, 2026-11-20). */
+    :root.kovpack-nav-teal .header:has(+ .hero:not(.hero--text-only, .hero--small)):not(.is-stuck, .is-scrolled) .header__nav:not(#_):not(#_) {
+        --nav-pill: color-mix(in srgb, var(--kovpack-brand) 86%, transparent);
+        --nav-sheen: rgb(255 255 255 / 10%);
+        --nav-rim-hi: rgb(255 255 255 / 22%);
+        --nav-rim-line: rgb(255 255 255 / 6%);
+        --nav-surface: color-mix(in srgb, var(--kovpack-brand) 86%, transparent);
+        --nav-pill-filter: blur(20px) saturate(140%);
+        --nav-surface-filter: blur(20px) saturate(140%);
     }
     /* Everything in the menu reads its colours from here. */
     :root .header .header__nav:not(#_):not(#_) {
