@@ -4842,10 +4842,15 @@ body[class] {
     }
 
     /* The pill, cross-fading with the bar. */
+    /* The tint, sheen and rim are painted on the blur layer (::before), over
+     * the blurred page, as on the open panel (owner, 2026-11-21: the bar
+     * should be the same glass as the submenu). Painted on the bar itself
+     * they sat under the blur and were blurred and saturated with the page,
+     * so the bar read denser and darker than the panel. */
     :root .header .header__nav:not(#_):not(#_):not(#_) {
-        background: linear-gradient(180deg, var(--nav-sheen), transparent 60%), var(--nav-pill);
+        background: transparent;
         border-color: transparent;
-        box-shadow: inset 0 1px 0 var(--nav-rim-hi), inset 0 0 0 1px var(--nav-rim-line);
+        box-shadow: none;
         transition:
             --nav-pill .5s ease, --nav-sheen .5s ease, --nav-rim-hi .5s ease, --nav-rim-line .5s ease,
             --nav-surface .5s ease, --nav-hl-top .5s ease, --nav-hl-bottom .5s ease, --nav-hl-rim .5s ease,
@@ -4853,6 +4858,8 @@ body[class] {
     }
     :root .header .header__nav:not(#_):not(#_):not(#_)::before {
         content: "";
+        background: linear-gradient(180deg, var(--nav-sheen), transparent 60%), var(--nav-pill);
+        box-shadow: inset 0 1px 0 var(--nav-rim-hi), inset 0 0 0 1px var(--nav-rim-line);
         -webkit-backdrop-filter: var(--nav-pill-filter, none);
         backdrop-filter: var(--nav-pill-filter, none);
     }
