@@ -374,56 +374,8 @@ for (const list of document.querySelectorAll('.header__subnav, .header__language
 // "Angebot anfragen" keeps its product colour and its own hover; "Alle
 // Produkte" keeps its own soft tint.
 
-// Menu look switch over the home photo (owner, 2026-11-20): compare the
-// clear white glass menu (as now, the default) with the earlier brand-teal
-// glass. Only where the photo hero is and on wide screens; the choice is kept
-// for this browser. It sits on the photo right under the menu bar.
-(() => {
-    if (!document.querySelector(".header + .hero:not(.hero--text-only, .hero--small)")) return;
-    const root = document.documentElement;
-    const key = "kovpack-nav-photo-look";
-    let saved = null;
-    try { saved = localStorage.getItem(key); } catch (e) {}
-    root.classList.toggle("kovpack-nav-teal", saved === "teal");
-    const box = document.createElement("div");
-    box.className = "kovpack-look-switch kovpack-look-switches";
-    box.setAttribute("role", "group");
-    box.setAttribute("aria-label", "Меню на фото");
-    const caption = document.createElement("span");
-    caption.className = "kovpack-switch-label";
-    caption.textContent = "Меню на фото";
-    const buttons = [["clear", "Прозрачное"], ["teal", "Бирюза"]].map(([value, text]) => {
-        const b = document.createElement("button");
-        b.type = "button";
-        b.textContent = text;
-        b.dataset.look = value;
-        b.addEventListener("click", () => {
-            root.classList.toggle("kovpack-nav-teal", value === "teal");
-            try { localStorage.setItem(key, value); } catch (e) {}
-            sync();
-        });
-        return b;
-    });
-    const sync = () => {
-        const teal = root.classList.contains("kovpack-nav-teal");
-        for (const b of buttons) b.setAttribute("aria-pressed", String((b.dataset.look === "teal") === teal));
-    };
-    box.append(caption, ...buttons);
-    sync();
-    // On the page itself, so the header's tall box never covers it.
-    const nav = document.querySelector(".header__nav");
-    document.body.append(box);
-    const place = () => {
-        if (!nav || document.querySelector(".header.is-docked")) return;
-        const n = nav.getBoundingClientRect();
-        box.style.top = Math.round(n.bottom + scrollY + 14) + "px";
-        box.style.right = Math.round(root.clientWidth - n.right) + "px";
-    };
-    addEventListener("resize", place);
-    document.fonts?.ready.then(place);
-    place();
-    setTimeout(place, 0);
-})();
+// The menu look switch over the home photo is gone (owner, 2026-11-21): the
+// brand-teal glass is the one look there.
 
 // Submenu drip (owner, 2026-11-18): the drop forms on the bar's lower edge
 // under the centre of its menu item, so each item tells its panel where that
