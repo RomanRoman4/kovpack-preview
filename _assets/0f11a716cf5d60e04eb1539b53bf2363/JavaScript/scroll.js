@@ -39,16 +39,35 @@ const setStuck = (stuck) => {
     if (!stuck) header.classList.remove('is-stuck', 'is-scroll-hidden');
 };
 
-// Back at the top the bar dissolves first (.is-leaving), then the full header
-// fades in at its place (.is-returning), so nothing switches abruptly.
+// Back at the top the bar turns into the full header in one move (owner,
+// 2026-11-23: fading the bar out and the header in made the menu jump 35 px
+// down). The logo and the menu glide and grow from where they sat in the bar
+// to their places in the full header (measured before and after, FLIP).
+const glideParts = () => [header.querySelector('.header__logo'), header.querySelector('.header__nav')].filter(Boolean);
 const release = () => {
     if (!header?.classList.contains('is-docked') || header.classList.contains('is-leaving')) return;
     header.classList.remove('is-stuck', 'is-scroll-hidden');
-    if (reducedMotion.matches) {
+    if (reducedMotion.matches || !wideHeader.matches) {
         setStuck(false);
         return;
     }
-    header.classList.add('is-leaving');
+    const parts = glideParts();
+    const from = parts.map((el) => el.getBoundingClientRect());
+    setStuck(false);
+    parts.forEach((el, i) => {
+        const a = from[i];
+        const b = el.getBoundingClientRect();
+        if (!b.width || !b.height) return;
+        const dx = a.left - b.left;
+        const dy = a.top - b.top;
+        const sx = a.width / b.width;
+        const sy = a.height / b.height;
+        if (Math.abs(dx) < 1 && Math.abs(dy) < 1 && Math.abs(sx - 1) < .01 && Math.abs(sy - 1) < .01) return;
+        el.animate([
+            { transformOrigin: '0 0', transform: `translate(${dx}px, ${dy}px) scale(${sx}, ${sy})` },
+            { transformOrigin: '0 0', transform: 'none' },
+        ], { duration: 520, easing: 'cubic-bezier(.32, .72, 0, 1)', fill: 'backwards' });
+    });
 };
 const cancelRelease = () => header?.classList.remove('is-leaving');
 header?.addEventListener('animationend', (event) => {
