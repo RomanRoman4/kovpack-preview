@@ -4107,6 +4107,37 @@ body[class] {
     .kovpack-to-top.is-visible:not(#_):hover { background: var(--kovpack-brand); }
     .kovpack-to-top.is-visible.is-on-dark:not(#_):hover { background: rgb(255 255 255 / 10%); }
 }
+/* On the light page the button is quiet light glass with a brand-teal arrow
+ * (owner, 2026-11-23: the solid teal drew the eye), like DE/EN on the light
+ * bar; over the footer it still fades to white glass on the teal. Only
+ * colours change, so the switch cross-fades. On hover a soft brand-tinted
+ * drop wells up instead of the white one. */
+@media (width > 900px) {
+    .kovpack-to-top:not(#_):not(.is-on-dark) {
+        color: var(--kovpack-brand);
+        background: rgb(248 246 241 / 74%);
+        border-color: rgb(255 255 255 / 70%);
+        box-shadow: inset 0 1px 0 rgb(255 255 255 / 90%), 0 1px 2px rgb(20 26 27 / 8%), 0 14px 30px -16px rgb(15 42 51 / 35%);
+        -webkit-backdrop-filter: blur(18px) saturate(170%);
+        backdrop-filter: blur(18px) saturate(170%);
+    }
+    .kovpack-to-top:not(#_):not(.is-on-dark)::before {
+        background: radial-gradient(circle at 50% 30%, color-mix(in srgb, var(--kovpack-brand) 16%, transparent), color-mix(in srgb, var(--kovpack-brand) 8%, transparent) 70%);
+        box-shadow: none;
+    }
+    .kovpack-to-top:not(#_) {
+        transition: opacity .3s, transform .45s var(--kovpack-ease), visibility 0s .45s, color .45s ease, background .45s ease, border-color .45s ease, box-shadow .45s ease;
+    }
+    .kovpack-to-top.is-visible:not(#_) {
+        transition: opacity .3s, transform .45s var(--kovpack-ease), visibility 0s, color .45s ease, background .45s ease, border-color .45s ease, box-shadow .45s ease;
+    }
+}
+@media (width > 900px) and (hover: hover) {
+    .kovpack-to-top.is-visible:not(#_):not(.is-on-dark):hover {
+        background: rgb(250 248 244 / 86%);
+        box-shadow: inset 0 1px 0 rgb(255 255 255 / 95%), 0 1px 2px rgb(20 26 27 / 8%), 0 18px 34px -16px rgb(15 42 51 / 42%);
+    }
+}
 @media (width > 900px) and (prefers-reduced-motion: reduce) {
     .kovpack-to-top:not(#_)::before { transform: translate(-50%, 18%) scale(1); opacity: 0; transition: opacity .2s ease; }
     .kovpack-to-top:not(#_):hover::before { opacity: 1; }
