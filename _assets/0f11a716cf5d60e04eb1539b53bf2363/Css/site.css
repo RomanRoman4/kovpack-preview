@@ -4797,20 +4797,22 @@ body[class] {
     /* Over the home photo: brand-teal frosted glass for pill and panel, the
      * one look there (owner, 2026-11-21; the switch to the clear white glass
      * is gone). The photo shows blurred through the teal; a brighter sheen
-     * and rim carry the glass edge. */
+     * and rim carry the glass edge. Pill and panel share one tint and a light
+     * blur, so the photo reads through the panel at the top of the page too
+     * (owner, 2026-11-23: the panel looked matte there). */
     :root .header:has(+ .hero:not(.hero--text-only, .hero--small)):not(.is-stuck, .is-scrolled) .header__nav:not(#_):not(#_) {
-        --nav-pill: color-mix(in srgb, var(--kovpack-brand) 54%, transparent);
+        --nav-pill: color-mix(in srgb, var(--kovpack-brand) 48%, transparent);
         --nav-sheen: rgb(255 255 255 / 16%);
         --nav-rim-hi: rgb(255 255 255 / 30%);
         --nav-rim-line: rgb(255 255 255 / 10%);
-        --nav-surface: color-mix(in srgb, var(--kovpack-brand) 58%, transparent);
+        --nav-surface: color-mix(in srgb, var(--kovpack-brand) 48%, transparent);
         --nav-hl-top: rgb(255 255 255 / 22%);
         --nav-hl-bottom: rgb(255 255 255 / 10%);
         --nav-hl-rim: rgb(255 255 255 / 24%);
         --nav-shadow: rgb(0 30 32);
         --nav-panel-edge: rgb(255 255 255 / 12%);
-        --nav-pill-filter: blur(22px) saturate(170%);
-        --nav-surface-filter: blur(22px) saturate(170%);
+        --nav-pill-filter: blur(12px) saturate(160%);
+        --nav-surface-filter: blur(12px) saturate(160%);
     }
     /* Everything in the menu reads its colours from here. */
     :root .header .header__nav:not(#_):not(#_) {
