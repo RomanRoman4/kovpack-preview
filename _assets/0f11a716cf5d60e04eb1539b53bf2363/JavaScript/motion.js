@@ -452,7 +452,15 @@ for (const list of document.querySelectorAll('.header__subnav, .header__language
     let current = null, hiddenAt = -Infinity, openTimer = 0, swapTimer = 0;
     const box = (panel) => {
         const n = nav.getBoundingClientRect(), p = panel.getBoundingClientRect();
-        return { left: p.left - n.left - nav.clientLeft, top: p.top - n.top - nav.clientTop, width: p.width, height: p.height };
+        const r = { left: p.left - n.left - nav.clientLeft, top: p.top - n.top - nav.clientTop, width: p.width, height: p.height };
+        // On a full-width bar (CSS sets --fly-from-bar) the pane flows out of
+        // the bar's lower edge instead of starting inside the bar, so bar and
+        // pane read as one surface (owner, 2026-11-23).
+        if (parseFloat(getComputedStyle(fly).getPropertyValue("--fly-from-bar"))) {
+            const inside = header.getBoundingClientRect().bottom - p.top;
+            if (inside > 0 && inside < p.height) { r.top += inside; r.height -= inside; }
+        }
+        return r;
     };
     const place = (r, height = r.height) => {
         fly.style.left = r.left + "px";

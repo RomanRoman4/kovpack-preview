@@ -5101,14 +5101,26 @@ body[class] {
         --nav-sheen: rgb(255 255 255 / 16%);
         --nav-rim-hi: rgb(255 255 255 / 30%);
         --nav-rim-line: rgb(255 255 255 / 10%);
-        --nav-surface: color-mix(in srgb, var(--kovpack-brand) 58%, transparent);
+        /* The submenu is the bar running on downwards (owner, 2026-11-23: it
+         * looked pasted on, a separate dark card under a lighter bar). It
+         * flows out of the bar's lower edge (motion.js, --fly-from-bar) in
+         * the bar's own glass, so there is no seam, and the concave curves
+         * sit on the bar edge. The bar's blur layer lies over its own teal
+         * and saturates it too, so it reads livelier than its 68%; this
+         * colour lands on the same value over the page. */
+        --nav-surface: rgb(26 117 121 / 86%);
         --nav-hl-top: rgb(255 255 255 / 22%);
         --nav-hl-bottom: rgb(255 255 255 / 10%);
         --nav-hl-rim: rgb(255 255 255 / 24%);
         --nav-shadow: rgb(0 30 32);
         --nav-panel-edge: rgb(255 255 255 / 12%);
         --nav-pill-filter: blur(12px) saturate(160%);
-        --nav-surface-filter: blur(14px) saturate(160%) brightness(.45);
+        --nav-surface-filter: blur(22px) saturate(170%);
+    }
+    :root.kovpack-bar-teal .header:not(:has(+ .hero:not(.hero--text-only, .hero--small))):not(.is-stuck, .is-scrolled) .kovpack-nav-flyout:not(#_) {
+        --fly-from-bar: 1;
+        /* Only a soft shadow below; no rim, the pane is the bar itself. */
+        box-shadow: 0 24px 40px -24px rgb(0 30 32 / 55%), 0 10px 16px -14px rgb(0 30 32 / 30%);
     }
 }
 .kovpack-bar-switch { display: none; }
