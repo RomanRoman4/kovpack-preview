@@ -1517,6 +1517,10 @@ body[class] {
 @media (min-width: 1280px) and (hover: hover) {
     .header.is-docked .header__content { align-items: center; }
     .header.is-docked .header__logo { margin: 0; max-width: 190px; }
+    /* Same height in both looks: the menu's top margin of the full header
+     * made the glass bar 15 px taller than the light one, so the menu jumped
+     * when the bar switched over the photo's edge (owner, 2026-11-23). */
+    .header.is-docked .header__nav { margin-top: 0; }
     .header:is(.is-stuck, .is-scrolled) .header__nav {
         --link-color: var(--kovpack-brand);
         --link-color-hover: var(--kovpack-brand);
