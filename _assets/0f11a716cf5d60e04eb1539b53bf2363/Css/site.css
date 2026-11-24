@@ -5221,7 +5221,7 @@ body[class] {
         --nav-sheen: rgb(255 255 255 / 14%);
         --nav-rim-hi: rgb(255 255 255 / 34%);
         --nav-rim-line: rgb(255 255 255 / 12%);
-        --nav-surface: color-mix(in srgb, var(--kovpack-brand) 80%, transparent);
+        --nav-surface: var(--kovpack-brand);
         --nav-hl-top: rgb(255 255 255 / 22%);
         --nav-hl-bottom: rgb(255 255 255 / 10%);
         --nav-hl-rim: rgb(255 255 255 / 26%);
