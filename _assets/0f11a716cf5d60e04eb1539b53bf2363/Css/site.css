@@ -1110,6 +1110,13 @@ button.header__nav-item {
     .component--page-footer .footer:not(#_) { grid-template-columns: minmax(0, 1.7fr) repeat(2, minmax(0, 1fr)); gap: 24px 32px; }
     .component--page-footer .footer__contact:not(#_) { grid-column: auto; }
 }
+/* Phones (owner, 2026-11-24): no sitemap link groups in the footer; the
+ * menu already carries those pages. Logo, contact panel and the bottom
+ * row remain; the bottom row needs no rule under the panel. */
+@media (max-width: 639px) {
+    .component--page-footer .footer__links:not(#_) { display: none; }
+    .component--page-footer .footer__meta:not(#_) { margin-top: 16px; padding-top: 0; border-top: 0; }
+}
 /* The narrowest phones: a smaller logo keeps the brand row on one line. */
 @media (max-width: 359px) {
     .component--page-footer .footer__logo:not(#_),
