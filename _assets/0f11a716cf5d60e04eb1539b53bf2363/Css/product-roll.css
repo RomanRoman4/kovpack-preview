@@ -740,7 +740,10 @@
         z-index: 2;
         width: auto;
         height: auto;
-        margin: 0 3.4%;
+        /* Seen from the roll's open end on the right, the paper runs off flush
+         * with that end and stops short of the far end on the left, as the
+         * desktop sheet starts at the roll's near point (owner, 2026-11-24). */
+        margin: 0 1% 0 7%;
         opacity: 1;
         transform: none;
         transition: none;
