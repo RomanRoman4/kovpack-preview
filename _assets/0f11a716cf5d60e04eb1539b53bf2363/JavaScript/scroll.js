@@ -1,10 +1,8 @@
 (() => {
 "use strict";
 // The wide homepage swaps its full header for a compact fixed bar (.is-docked).
-// While the hero photo is still under it the bar stays clear glass; once the
-// photo has passed it fades into the light bar (.is-stuck) and from then on,
-// like the compact navigation, hides on the way down or after a pause and
-// comes back when scrolling up (owner, 2026-11-20).
+// That bar is the brand teal bar of the inner pages. The bar never hides anywhere on the site
+// (owner, 2026-11-24).
 
 const header = document.querySelector('.header');
 const toTop = document.querySelector('[data-to-top]');
@@ -82,95 +80,28 @@ header?.addEventListener('animationend', (event) => {
 });
 
 const switching = Boolean(header?.matches(':has(+ .hero:not(.hero--text-only, .hero--small))'));
-const lockBase = '.is-menu-open, :has(.header__menu--open, .header__language-dropdown--open, :focus-visible)';
-// On the wide bar the pointer on the menu or an open submenu keeps it in view.
-let compactLock = lockBase;
-const setLock = () => { compactLock = wideHeader.matches ? `${lockBase}, .is-pointer-in` : lockBase; };
-setLock();
-let directionAnchor = Math.max(0, window.scrollY);
-let compactHideReadyAt = 0;
-let idleTimer = 0;
 
-const hero = switching ? header.nextElementSibling : null;
-
-// Teal glass bar switch (owner, 2026-11-20): on the inner pages the wide bar
-// can stay teal frosted glass while scrolling, so the page runs blurred under
-// it, instead of turning into the light bar. Kept per browser.
+// The wide bar of the inner pages is always the brand teal bar (owner,
+// 2026-11-24; the switch to the light bar is gone).
 const root = document.documentElement;
-const tealBarKey = "kovpack-bar-look";
-let tealBarSaved = null;
-try { tealBarSaved = localStorage.getItem(tealBarKey); } catch (e) { /* private mode */ }
-root.classList.toggle("kovpack-bar-teal", tealBarSaved !== "light");
+root.classList.add("kovpack-bar-teal");
 const keepTeal = () => !switching && wideHeader.matches && root.classList.contains("kovpack-bar-teal");
 
-const updateCompactHeader = (y, floor = headerHeight) => {
-    clearTimeout(idleTimer);
-    if (!header) return;
-    if (y <= floor || header.matches(compactLock)) {
-        header.classList.remove('is-scroll-hidden');
-        directionAnchor = y;
-        return;
-    }
-
-    // Measure from the last high or low point so tiny reversals do not flicker.
-    const hidden = header.classList.contains('is-scroll-hidden');
-    directionAnchor = hidden ? Math.max(directionAnchor, y) : Math.min(directionAnchor, y);
-    const shouldToggle = hidden ? directionAnchor - y >= 10 :
-        y - directionAnchor >= 18 && performance.now() >= compactHideReadyAt;
-    if (shouldToggle) {
-        header.classList.toggle('is-scroll-hidden', !hidden);
-        directionAnchor = y;
-    }
-    if (!header.classList.contains('is-scroll-hidden')) {
-        idleTimer = setTimeout(() => {
-            if (window.scrollY <= floor || header.matches(compactLock)) return;
-            directionAnchor = y;
-            header.classList.add('is-scroll-hidden');
-        }, 1400);
-    }
-};
 
 const update = () => {
     const y = window.scrollY;
     const scrolled = y > 2;
-    if (!wideHeader.matches && switching && scrolled && !header.classList.contains('is-scrolled')) {
-        // Let the hero's glass transition finish before the first hide.
-        compactHideReadyAt = performance.now() + (reducedMotion.matches ? 0 : 400);
-    }
     header?.classList.toggle('is-scrolled', scrolled && (!switching || !wideHeader.matches) && !keepTeal());
 
-    if (!wideHeader.matches) {
-        // Safari's overscroll can report positions beyond either page edge.
-        const page = document.scrollingElement;
-        updateCompactHeader(Math.max(0, Math.min(y, page.scrollHeight - page.clientHeight)));
-    } else if (keepTeal()) {
-        // The teal glass bar of the inner pages hides on the way down and
-        // after a pause, and comes back on the way up, as on the home page.
-        const page = document.scrollingElement;
-        updateCompactHeader(Math.max(0, Math.min(y, page.scrollHeight - page.clientHeight)));
-    } else if (!switching) {
-        clearTimeout(idleTimer);
-        header?.classList.remove("is-scroll-hidden");
-    } else if (switching) {
+    // The bar stays in view everywhere (owner, 2026-11-24).
+    header?.classList.remove('is-scroll-hidden');
+    if (wideHeader.matches && switching) {
         if (y > headerHeight) {
             cancelRelease();
             header.classList.remove('is-returning');
             setStuck(true);
         } else if (y <= 2) release();
-        if (header.classList.contains('is-docked') && !header.classList.contains('is-leaving')) {
-            // The light bar only once the photo's lower edge has passed under it.
-            const bar = header.offsetHeight;
-            const heroEnd = hero ? hero.getBoundingClientRect().bottom + y : 0;
-            const floor = Math.max(headerHeight, heroEnd - bar);
-            const light = y >= floor;
-            if (light && !header.classList.contains('is-stuck')) {
-                // Let the glass fade to the light bar before the first hide.
-                compactHideReadyAt = performance.now() + (reducedMotion.matches ? 0 : 600);
-            }
-            header.classList.toggle('is-stuck', light);
-            const page = document.scrollingElement;
-            updateCompactHeader(Math.max(0, Math.min(y, page.scrollHeight - page.clientHeight)), floor);
-        }
+        header.classList.remove('is-stuck');
     }
     if (toTop) toTop.classList.toggle('is-visible', y > window.innerHeight * 0.8);
     if (toTop && footer) {
@@ -255,18 +186,7 @@ else addEventListener('load', () => setTimeout(landOnAnchor, 0), { once: true })
 measure();
 update();
 addEventListener('scroll', onScroll, { passive: true });
-// Leaving the menu starts the pause again, so the bar then hides as usual.
-header?.addEventListener('pointerenter', (event) => {
-    if (event.pointerType === 'mouse') header.classList.add('is-pointer-in');
-});
-header?.addEventListener('pointerleave', () => {
-    header.classList.remove('is-pointer-in');
-    onScroll();
-});
 wideHeader.addEventListener('change', () => {
-    clearTimeout(idleTimer);
-    setLock();
-    directionAnchor = Math.max(0, window.scrollY);
     header?.classList.remove('is-scroll-hidden', 'is-leaving', 'is-returning');
     if (!wideHeader.matches) setStuck(false);
     measure();
@@ -277,35 +197,5 @@ addEventListener('resize', () => {
     update();
 });
 
-// The switch for the teal glass bar: inner pages, wide screens, under the bar at the top left.
-if (header && !switching) {
-    const box = document.createElement("div");
-    box.className = "kovpack-look-switch kovpack-bar-switch";
-    box.setAttribute("role", "group");
-    box.setAttribute("aria-label", "Бар при прокрутке");
-    const caption = document.createElement("span");
-    caption.className = "kovpack-switch-label";
-    caption.textContent = "Бар при прокрутке";
-    const buttons = [["teal", "Бирюзовое стекло"], ["light", "Светлый (как было)"]].map(([value, text]) => {
-        const b = document.createElement("button");
-        b.type = "button";
-        b.textContent = text;
-        b.dataset.look = value;
-        b.addEventListener("click", () => {
-            root.classList.toggle("kovpack-bar-teal", value === "teal");
-            try { localStorage.setItem(tealBarKey, value); } catch (e) { /* private mode */ }
-            sync();
-            update();
-        });
-        return b;
-    });
-    const sync = () => {
-        const teal = root.classList.contains("kovpack-bar-teal");
-        for (const b of buttons) b.setAttribute("aria-pressed", String((b.dataset.look === "teal") === teal));
-    };
-    box.append(caption, ...buttons);
-    sync();
-    document.body.append(box);
-}
 
 })();
