@@ -36,6 +36,7 @@ const setStuck = (stuck) => {
         spacer.style.height = stuck ? `${headerHeight}px` : '0px';
     }
     header.classList.toggle('is-docked', stuck);
+    if (stuck) header.classList.remove('is-undocking');
     if (!stuck) header.classList.remove('is-stuck', 'is-scroll-hidden');
 };
 
@@ -53,7 +54,13 @@ const release = () => {
     }
     const parts = glideParts();
     const from = parts.map((el) => el.getBoundingClientRect());
+    const barHeight = header.offsetHeight;
     setStuck(false);
+    // The teal bar fades out instead of vanishing (see .is-undocking in site.css).
+    header.style.setProperty('--undock-h', `${barHeight}px`);
+    header.classList.remove('is-undocking');
+    void header.offsetWidth;
+    header.classList.add('is-undocking');
     parts.forEach((el, i) => {
         const a = from[i];
         const b = el.getBoundingClientRect();
@@ -72,6 +79,10 @@ const release = () => {
 const cancelRelease = () => header?.classList.remove('is-leaving');
 header?.addEventListener('animationend', (event) => {
     if (event.target !== header) return;
+    if (event.animationName === 'kovpack-undock') {
+        header.classList.remove('is-undocking');
+        return;
+    }
     if (event.animationName === 'kovpack-header-out' && header.classList.contains('is-leaving')) {
         header.classList.remove('is-leaving');
         setStuck(false);

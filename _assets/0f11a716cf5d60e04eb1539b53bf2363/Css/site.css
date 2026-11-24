@@ -4948,6 +4948,22 @@ body[class] {
         -webkit-backdrop-filter: blur(20px) saturate(150%);
         backdrop-filter: blur(20px) saturate(150%);
     }
+    /* Back at the top of the home page the teal bar fades out over the photo
+     * while the logo and the menu glide to their places, as softly as it came
+     * in (owner, 2026-11-24: it vanished in one frame). scroll.js sets
+     * .is-undocking and the bar's height for the fade. */
+    :root .header.is-undocking:not(.is-docked)::before {
+        content: "";
+        position: absolute;
+        inset: 0 0 auto;
+        z-index: -1;
+        height: var(--undock-h, 72px);
+        pointer-events: none;
+        background: var(--kovpack-brand);
+        box-shadow: 0 10px 30px -24px rgb(0 40 42 / 90%);
+        animation: kovpack-undock .5s ease forwards;
+    }
+    @keyframes kovpack-undock { from { opacity: 1; } to { opacity: 0; } }
     /* Over the photo the docked bar is clear; its blur fades in with the light bar. */
     :root .header.is-docked::before { opacity: 0; transition: opacity .5s ease; }
     :root .header.is-docked.is-stuck::before { opacity: 1; }
