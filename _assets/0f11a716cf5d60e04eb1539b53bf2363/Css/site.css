@@ -5174,69 +5174,112 @@ body[class] {
 }
 
 /* Menu flyout (owner, 2026-11-18: Apple-like opening, and the submenu flows
- * from one group to the next). motion.js adds one glass pane to the menu
- * (.kovpack-nav-flyout) and marks the menu .has-flyout. The pane is the
- * background of the open submenu or language list: it grows down out of the
- * pill, glides and resizes to the next group's panel, and draws back up on
- * close; Apple's sheet curve, no bounce. Its concave curves into the pill go
- * with it. The panels keep only their labels, which fade in a short
- * cascade; on a move to the next group the old labels fade out quickly and
- * the new ones fade in while the pane glides. */
+ * from one group to the next; 2026-11-24: the open item and its panel are one
+ * opaque drop). motion.js adds one pane to the menu (.kovpack-nav-flyout) and
+ * marks the menu .has-flyout. The pane paints the open item and its submenu
+ * or language list as a single solid shape in one colour: the item's
+ * highlight runs straight down through a short neck into the panel, which
+ * spreads out to the side over a concave fillet, so there is no rim or line
+ * where item and panel meet. motion.js draws the outline as a clip path and
+ * morphs it: on open it grows down out of the item (Apple's sheet curve), on
+ * a move to the next group it glides over, item and panel together, and on
+ * close it draws back up into the item and lets go. The pane's ::before only
+ * casts the panel's soft shadow. The panels keep only their labels, which
+ * fade in a short cascade. */
 .kovpack-nav-flyout { display: none; }
 @media (min-width: 1280px) and (hover: hover) {
-    :root .header .kovpack-nav-flyout {
+    :root .header .header__nav:not(#_):not(#_) {
+        /* Item bottom to the panel's top: the drop's neck. */
+        --fly-neck: 14px;
+        /* The drop: solid, a lighter brand teal on the teal bar, the docked
+         * bar and over the photo (white labels keep 4.5:1). */
+        --nav-drop-fill: color-mix(in srgb, var(--kovpack-brand) 82%, #fff);
+    }
+    :root .header:is(.is-stuck, .is-scrolled):not(.is-docked) .header__nav:not(#_):not(#_) {
+        --nav-drop-fill: rgb(250 247 242);
+    }
+    :root .header .kovpack-nav-flyout:not(#_):not(#_) {
         display: block;
         --fly-ease: cubic-bezier(.32, .72, 0, 1);
+        --fly-close: cubic-bezier(.4, 0, .2, 1);
         position: absolute;
-        z-index: 1;
+        /* Over the bar's drop and DE/EN's own fill, under the labels. */
+        z-index: 0;
         margin: 0;
         left: 0;
         top: 0;
         width: 0;
         height: 0;
-        border-radius: 0 0 20px 20px;
-        background: var(--drip-bg);
-        box-shadow: var(--drip-shadow);
-        -webkit-backdrop-filter: var(--drip-filter);
-        backdrop-filter: var(--drip-filter);
+        border-radius: 0;
+        background: none;
+        box-shadow: none;
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
         pointer-events: none;
         opacity: 0;
-        /* Closing: draws up into the pill, then lets go. */
-        transition:
-            left .3s cubic-bezier(.4, 0, .2, 1), top .3s cubic-bezier(.4, 0, .2, 1), width .3s cubic-bezier(.4, 0, .2, 1),
-            height .28s cubic-bezier(.4, 0, .2, 1), opacity .14s ease .2s;
+        /* Closing: draws back up into the item, then lets go. */
+        transition: opacity .14s ease .22s;
     }
-    :root .header .kovpack-nav-flyout.is-shown {
+    :root .header .kovpack-nav-flyout.is-shown:not(#_):not(#_) {
         opacity: 1;
-        /* Opening and gliding: Apple's sheet curve. */
-        transition:
-            left .44s var(--fly-ease), top .44s var(--fly-ease), width .44s var(--fly-ease),
-            height .44s var(--fly-ease), opacity .1s ease;
+        transition: opacity .12s ease;
     }
-    :root .header .kovpack-nav-flyout::before,
-    :root .header .kovpack-nav-flyout::after {
+    /* The panel's shadow, a box that follows the panel part of the drop. */
+    :root .header .kovpack-nav-flyout:not(#_):not(#_)::before {
         content: "";
         position: absolute;
-        top: 0;
-        width: var(--drip-r, 14px);
-        height: var(--drip-r, 14px);
-        -webkit-backdrop-filter: var(--drip-filter);
-        backdrop-filter: var(--drip-filter);
-        transition: opacity .2s ease;
+        left: var(--fly-sx, 0px);
+        top: var(--fly-sy, 0px);
+        width: var(--fly-sw, 0px);
+        height: var(--fly-sh, 0px);
+        border-radius: var(--fly-sr, 0px);
+        box-shadow:
+            0 8px 12px -10px color-mix(in srgb, var(--nav-shadow) 34%, transparent),
+            0 18px 32px -16px color-mix(in srgb, var(--nav-shadow) 50%, transparent);
+        transition:
+            left .3s var(--fly-close), top .3s var(--fly-close), width .3s var(--fly-close),
+            height .3s var(--fly-close), border-radius .3s var(--fly-close);
     }
-    :root .header .kovpack-nav-flyout::before {
-        right: 100%;
-        opacity: var(--fly-curve-l, 1);
-        background: radial-gradient(circle at 0 100%, transparent calc(var(--drip-r, 14px) - .5px), var(--drip-fillet) var(--drip-r, 14px));
-        -webkit-mask: radial-gradient(circle at 0 100%, transparent calc(var(--drip-r, 14px) - .5px), #000 var(--drip-r, 14px));
-        mask: radial-gradient(circle at 0 100%, transparent calc(var(--drip-r, 14px) - .5px), #000 var(--drip-r, 14px));
+    /* The drop itself: one solid fill, cut to the drop's outline. */
+    :root .header .kovpack-nav-flyout:not(#_):not(#_)::after {
+        content: "";
+        position: absolute;
+        left: var(--fly-fx, 0px);
+        top: var(--fly-fy, 0px);
+        width: var(--fly-fw, 0px);
+        height: var(--fly-fh, 0px);
+        background-color: var(--nav-drop-fill);
+        clip-path: var(--fly-path, inset(50%));
+        transition: clip-path .3s var(--fly-close), background-color .5s ease;
     }
-    :root .header .kovpack-nav-flyout::after {
-        left: 100%;
-        opacity: var(--fly-curve-r, 1);
-        background: radial-gradient(circle at 100% 100%, transparent calc(var(--drip-r, 14px) - .5px), var(--drip-fillet) var(--drip-r, 14px));
-        -webkit-mask: radial-gradient(circle at 100% 100%, transparent calc(var(--drip-r, 14px) - .5px), #000 var(--drip-r, 14px));
-        mask: radial-gradient(circle at 100% 100%, transparent calc(var(--drip-r, 14px) - .5px), #000 var(--drip-r, 14px));
+    /* Opening and gliding: Apple's sheet curve, no bounce. */
+    :root .header .kovpack-nav-flyout.is-shown:not(#_):not(#_)::before {
+        transition:
+            left .44s var(--fly-ease), top .44s var(--fly-ease), width .44s var(--fly-ease),
+            height .44s var(--fly-ease), border-radius .44s var(--fly-ease);
+    }
+    :root .header .kovpack-nav-flyout.is-shown:not(#_):not(#_)::after {
+        transition: clip-path .44s var(--fly-ease), background-color .5s ease;
+    }
+    /* A fresh open starts from the item without animating there. */
+    :root .header .kovpack-nav-flyout.is-instant:not(#_):not(#_),
+    :root .header .kovpack-nav-flyout.is-instant:not(#_):not(#_)::before,
+    :root .header .kovpack-nav-flyout.is-instant:not(#_):not(#_)::after { transition: none; }
+
+    /* The bar's glass drop steps aside while the solid drop holds the item. */
+    :root .header .header__nav.is-flowing > .kovpack-nav-drop:not(#_):not(#_) { opacity: 0 !important; }
+    /* DE/EN: its label stays over the drop; open, the drop is its fill. */
+    :root .header .header__nav.has-flyout .header__language-button:not(#_):not(#_):not(#_) { position: relative; z-index: 1; }
+    :root .header .header__nav.has-flyout .header__language-dropdown--open .header__language-button:not(#_):not(#_):not(#_) {
+        background: transparent;
+        box-shadow: none;
+    }
+    :root .header .header__nav.has-flyout .header__language-dropdown--open .header__language-button:not(:focus-visible):not(#_):not(#_):not(#_) {
+        outline-color: transparent;
+    }
+    /* The panels hang a neck's length below their item. */
+    :root .header .header__nav.has-flyout :is(.header__subnav, .header__language-menu):not(#_):not(#_):not(#_):not(#_) {
+        top: calc(100% + var(--fly-neck));
     }
 
     /* The panels: labels only, the pane paints them. */
@@ -5271,8 +5314,11 @@ body[class] {
     }
 }
 @media (min-width: 1280px) and (hover: hover) and (prefers-reduced-motion: reduce) {
-    :root .header .kovpack-nav-flyout,
-    :root .header .kovpack-nav-flyout.is-shown { transition: opacity .2s ease; }
+    /* No growing or gliding: the drop is simply there, cross-fading. */
+    :root .header .kovpack-nav-flyout:not(#_):not(#_):not(#_),
+    :root .header .kovpack-nav-flyout.is-shown:not(#_):not(#_):not(#_) { transition: opacity .2s ease; }
+    :root .header .kovpack-nav-flyout:not(#_):not(#_):not(#_)::before,
+    :root .header .kovpack-nav-flyout:not(#_):not(#_):not(#_)::after { transition: none; }
 }
 
 /* The language list behaves like the submenus (owner, 2026-11-18): the same
@@ -5390,12 +5436,6 @@ body[class] {
         --nav-panel-edge: rgb(255 255 255 / 12%);
         --nav-pill-filter: blur(12px) saturate(140%);
         --nav-surface-filter: blur(20px) saturate(150%);
-    }
-    :root.kovpack-bar-teal .header:not(:has(+ .hero:not(.hero--text-only, .hero--small))):not(.is-stuck, .is-scrolled) .kovpack-nav-flyout:not(#_),
-    :root .header.is-docked .kovpack-nav-flyout:not(#_):not(#_) {
-        --fly-from-bar: 1;
-        /* Only a soft shadow below; no rim, the pane is the bar itself. */
-        box-shadow: 0 24px 40px -24px rgb(0 30 32 / 55%), 0 10px 16px -14px rgb(0 30 32 / 30%);
     }
 }
 

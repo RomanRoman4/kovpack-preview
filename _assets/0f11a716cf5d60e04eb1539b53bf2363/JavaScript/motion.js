@@ -390,8 +390,10 @@ for (const list of document.querySelectorAll('.header__subnav, .header__language
         // The edge the panel hangs from: the bar, or over the home photo
         // (no bar yet) the menu pill.
         // The panel hangs from the menu pill and takes its colour.
+        // With the flyout the panel hangs a neck's length below its item.
+        const neck = nav?.classList.contains("has-flyout") && parseFloat(getComputedStyle(nav).getPropertyValue("--fly-neck"));
         const edge = (nav || header).getBoundingClientRect().bottom;
-        const gap = Math.max(0, Math.round(edge - item.getBoundingClientRect().bottom));
+        const gap = neck || Math.max(0, Math.round(edge - item.getBoundingClientRect().bottom));
         item.style.setProperty("--drip-gap", gap + "px");
         // The resting page starts under the bar; over the home photo (no
         // bar yet, or the clear docked bar) it covers the whole view.
@@ -432,73 +434,112 @@ for (const list of document.querySelectorAll('.header__subnav, .header__language
 })();
 
 // Menu flyout (owner, 2026-11-18: open the submenus the Apple way, and
-// moving from one open group to the next must flow, not appear anew). One
-// shared glass pane in the menu is the background of whichever submenu or
-// language list is open: it grows down from the pill on open, glides and
-// resizes to the next group's panel when the pointer moves on, and draws up
-// into the pill on close. The panels themselves only hold the labels, which
-// cross-fade. Hover intent matches the CSS (90 ms); within 260 ms of leaving
-// a group, the next one morphs instead of opening again (.is-menu-swap).
+// moving from one open group to the next must flow, not appear anew;
+// 2026-11-24: the open item and its panel are one opaque drop). One shared
+// pane in the menu paints the open item and its submenu or language list as
+// one solid shape: the item, a neck straight down from it, and the panel,
+// joined over concave fillets where the panel reaches past the item. The
+// outline is a clip path with the same commands in every state, so the
+// browser morphs it: it grows down out of the item on open, glides with
+// the item to the next group, and draws back up into the item on close.
+// The panels themselves only hold the labels, which cross-fade. Hover
+// intent matches the CSS (90 ms); within 260 ms of leaving a group, the
+// next one morphs instead of opening again (.is-menu-swap).
 (() => {
     const header = document.querySelector(".header");
     const nav = header?.querySelector(".header__nav");
     if (!nav) return;
     const desk = window.matchMedia("(min-width: 1280px) and (hover: hover)");
+    const still = window.matchMedia("(prefers-reduced-motion: reduce)");
     const fly = document.createElement("span");
     fly.className = "kovpack-nav-flyout";
     fly.setAttribute("aria-hidden", "true");
     nav.append(fly);
     nav.classList.add("has-flyout");
+    // Fillet into the panel, the panel's free top corner, its lower corners.
+    const FILLET = 14, CORNER = 16, BOTTOM = 20;
     let current = null, hiddenAt = -Infinity, openTimer = 0, swapTimer = 0;
-    const box = (panel) => {
-        const n = nav.getBoundingClientRect(), p = panel.getBoundingClientRect();
-        const r = { left: p.left - n.left - nav.clientLeft, top: p.top - n.top - nav.clientTop, width: p.width, height: p.height };
-        // On a full-width bar (CSS sets --fly-from-bar) the pane flows out of
-        // the bar's lower edge instead of starting inside the bar, so bar and
-        // pane read as one surface (owner, 2026-11-23).
-        if (parseFloat(getComputedStyle(fly).getPropertyValue("--fly-from-bar"))) {
-            const inside = header.getBoundingClientRect().bottom - p.top;
-            if (inside > 0 && inside < p.height) { r.top += inside; r.height -= inside; }
-        }
-        return r;
+    const itemOf = (panel) => panel.closest(".header__nav-list-item, .header__language-dropdown")
+        ?.querySelector(".header__nav-item, .header__language-button");
+    const rel = (el) => {
+        const n = nav.getBoundingClientRect(), b = el.getBoundingClientRect();
+        return { x: b.left - n.left - nav.clientLeft, y: b.top - n.top - nav.clientTop, w: b.width, h: b.height };
     };
-    const place = (r, height = r.height) => {
-        fly.style.left = r.left + "px";
-        fly.style.top = r.top + "px";
-        fly.style.width = r.width + "px";
-        fly.style.height = height + "px";
+    const n1 = (v) => Math.round(v * 10) / 10;
+    // The shape for a panel, open or drawn up into its item.
+    const shape = (panel, open) => {
+        const item = itemOf(panel) || panel;
+        const I = rel(item);
+        const rt = parseFloat(getComputedStyle(nav.querySelector(".kovpack-nav-drop") || item).borderTopLeftRadius) || 12;
+        const ix = I.x, ir = I.x + I.w, iy = I.y, ib = I.y + I.h;
+        if (!open) return { ix, ir, iy, ib, rt, L: ix, R: ir, top: ib - rt, bot: ib, fl: 0, fr: 0, cl: 0, cr: 0, rb: rt };
+        const P = rel(panel);
+        const top = Math.max(P.y, ib), bot = Math.max(P.y + P.h, top + 2 * BOTTOM);
+        const f = Math.min(FILLET, top - ib), room = f + CORNER;
+        // A side within 8 px of the item runs straight down; one further out
+        // gets a fillet and a corner, with room for both.
+        const side = (d) => (d <= 8 ? 0 : Math.max(d, room));
+        const dl = side(ix - Math.min(P.x, ix)), dr = side(Math.max(P.x + P.w, ir) - ir);
+        return {
+            ix, ir, iy, ib, rt, L: ix - dl, R: ir + dr, top, bot,
+            fl: dl ? f : 0, fr: dr ? f : 0, cl: dl ? CORNER : 0, cr: dr ? CORNER : 0, rb: BOTTOM,
+        };
+    };
+    const draw = (s) => {
+        const h = header.getBoundingClientRect(), n = nav.getBoundingClientRect();
+        const ox = h.left - n.left - nav.clientLeft, oy = h.top - n.top - nav.clientTop;
+        const X = (v) => n1(v - ox), Y = (v) => n1(v - oy);
+        const { ix, ir, iy, ib, rt, L, R, top, bot, fl, fr, cl, cr, rb } = s;
+        const path = [
+            `M${X(ix)} ${Y(iy + rt)}`, `A${rt} ${rt} 0 0 1 ${X(ix + rt)} ${Y(iy)}`,
+            `H${X(ir - rt)}`, `A${rt} ${rt} 0 0 1 ${X(ir)} ${Y(iy + rt)}`,
+            `V${Y(top - fr)}`, `A${fr} ${fr} 0 0 0 ${X(ir + fr)} ${Y(top)}`,
+            `H${X(R - cr)}`, `A${cr} ${cr} 0 0 1 ${X(R)} ${Y(top + cr)}`,
+            `V${Y(bot - rb)}`, `A${rb} ${rb} 0 0 1 ${X(R - rb)} ${Y(bot)}`,
+            `H${X(L + rb)}`, `A${rb} ${rb} 0 0 1 ${X(L)} ${Y(bot - rb)}`,
+            `V${Y(top + cl)}`, `A${cl} ${cl} 0 0 1 ${X(L + cl)} ${Y(top)}`,
+            `H${X(ix - fl)}`, `A${fl} ${fl} 0 0 0 ${X(ix)} ${Y(top - fl)}`, "Z",
+        ].join(" ");
+        fly.style.setProperty("--fly-fx", n1(ox) + "px");
+        fly.style.setProperty("--fly-fy", n1(oy) + "px");
+        fly.style.setProperty("--fly-fw", n1(h.width) + "px");
+        fly.style.setProperty("--fly-fh", n1(Math.max(bot - oy + 80, h.height)) + "px");
+        fly.style.setProperty("--fly-path", `path("${path}")`);
+        fly.style.setProperty("--fly-sx", n1(L) + "px");
+        fly.style.setProperty("--fly-sy", n1(top) + "px");
+        fly.style.setProperty("--fly-sw", n1(R - L) + "px");
+        fly.style.setProperty("--fly-sh", n1(bot - top) + "px");
+        fly.style.setProperty("--fly-sr", `${cl}px ${cr}px ${rb}px ${rb}px`);
     };
     const show = (panel) => {
         clearTimeout(openTimer);
         if (!desk.matches || current === panel) return;
-        const r = box(panel);
-        fly.style.setProperty("--fly-curve-l", panel.style.getPropertyValue("--drip-curve-l") || "1");
-        fly.style.setProperty("--fly-curve-r", panel.style.getPropertyValue("--drip-curve-r") || "1");
         const flowing = current !== null || performance.now() - hiddenAt < 260;
         // While a pane is out, any next group is a swap. The class is on
         // before the pointer reaches the next item, because the browser
         // starts that item's transitions as soon as it is hovered.
         clearTimeout(swapTimer);
         header.classList.add("is-menu-swap");
-        if (!flowing) {
-            // Grow from the pill: start as a flat strip under the panel.
-            fly.style.transition = "none";
-            place(r, 0);
-            void fly.offsetWidth;
-            fly.style.transition = "";
+        if (!flowing && !still.matches) {
+            // Grow from the item: start as the item's own highlight.
+            fly.classList.add("is-instant");
+            draw(shape(panel, false));
+            getComputedStyle(fly, "::after").clipPath;
+            fly.classList.remove("is-instant");
         }
+        nav.classList.toggle("is-flowing", panel.classList.contains("header__subnav"));
         fly.classList.add("is-shown");
-        place(r);
+        draw(shape(panel, true));
         current = panel;
     };
     const hide = () => {
         clearTimeout(openTimer);
         if (!current) return;
-        const r = box(current);
+        if (!still.matches) draw(shape(current, false));
         current = null;
         hiddenAt = performance.now();
         fly.classList.remove("is-shown");
-        place(r, 0);
+        nav.classList.remove("is-flowing");
         clearTimeout(swapTimer);
         swapTimer = setTimeout(() => header.classList.remove("is-menu-swap"), 260);
     };
@@ -558,7 +599,7 @@ for (const list of document.querySelectorAll('.header__subnav, .header__language
             else if (current === menu) hide();
         }).observe(dropdown, { attributes: true, attributeFilter: ["class"] });
     }
-    desk.addEventListener("change", () => { current = null; fly.classList.remove("is-shown"); header.classList.remove("is-menu-swap"); });
+    desk.addEventListener("change", () => { current = null; fly.classList.remove("is-shown"); nav.classList.remove("is-flowing"); header.classList.remove("is-menu-swap"); });
 })();
 
 })();
