@@ -96,6 +96,15 @@ Rules:
 - Set the page title and meta description with the same search term as the slug.
 - If an address has already been public on the live site, add a 301 redirect from the old address before changing it.
 
+Hidden pages (owner, 2026-11-24): the certificates page ("Zertifikate" `de/unternehmen/zertifikate`,
+"Certificates" `en/company/certificates`) stays in the design and must be created in TYPO3 under
+"Unternehmen"/"Company", but hidden until it has content: in the preview it is removed from the desktop
+and mobile menu and from the footer link group, and the page carries `noindex, nofollow`. In TYPO3 create the
+page (DE and EN as translations) with "Hide in menus" (`nav_hide`) on and "Disabled" or `noindex` until
+the certificate records are entered; then switch it on and it appears in the menu between "Über uns" and
+"Vertriebspartner" and in the footer group automatically, from the page tree. Its layout and the
+certificate records are described in the footer/certificates row of the component map above.
+
 Product wording: keep the three products clearly apart on every page (cards, detail pages, menus, partner pages).
 PROTECT covers surfaces during work (abdecken, schützen); PACKING wraps the goods (einschlagen, auskleiden, trennen);
 FILL fills the box (füllen, polstern, fixieren). Never describe PACKING as masking/Abdeckpapier. All three start
