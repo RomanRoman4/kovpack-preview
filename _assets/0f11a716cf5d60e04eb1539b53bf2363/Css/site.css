@@ -890,6 +890,78 @@ button.header__nav-item {
     .component--page-footer .footer__meta { margin-right: 0; }
 }
 
+/* Footer sitemap (owner, 2026-11-24): the products under their section
+ * name, the company pages, and the contact without labels. Section names
+ * are quiet small caps like the FSC line; links are plain text that
+ * brightens on hover; phone and e-mail are the largest type, the postal
+ * address sits under them in a softer tone. The bottom row carries the
+ * copyright on the left and the legal links on the right. */
+.component--page-footer .footer__heading {
+    margin: 0 0 14px;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 16px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: rgb(238 240 234 / 74%);
+}
+.component--page-footer .footer__heading a { color: inherit; text-decoration: none; transition: color .25s ease; }
+.component--page-footer .footer__heading a:hover { color: var(--kovpack-on-primary); }
+.component--page-footer .footer__list {
+    display: grid;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.component--page-footer .footer__list li { margin: 0; }
+.component--page-footer .footer__list a {
+    display: inline-block;
+    min-height: 24px;
+    font-size: 15px;
+    line-height: 24px;
+    color: rgb(238 240 234 / 88%);
+    text-decoration: none;
+    transition: color .25s ease;
+}
+.component--page-footer .footer__list a:hover,
+.component--page-footer .footer__direct:hover { color: #fff; }
+.component--page-footer .footer__contact .footer__address { display: grid; justify-items: start; gap: 4px; }
+.component--page-footer .footer__direct {
+    min-height: 0;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 30px;
+    letter-spacing: -.01em;
+    text-decoration: none;
+    transition: color .25s ease;
+}
+.component--page-footer .footer__postal {
+    margin-top: 14px;
+    font-size: 13px;
+    line-height: 20px;
+    color: rgb(238 240 234 / 74%);
+}
+.component--page-footer .footer__meta { display: flex; align-items: center; gap: 12px 24px; flex-wrap: wrap; }
+.component--page-footer .footer__copy { margin: 0 auto 0 0; font-size: 13px; color: rgb(238 240 234 / 74%); }
+.component--page-footer .footer__meta .frame-type-menu_pages li:first-child { margin-inline-end: 0; }
+@media (min-width: 1024px) {
+    .component--page-footer { --component-padding-vertical: 48px; }
+    .component--page-footer .footer {
+        grid-template-columns: minmax(0, 1.7fr) minmax(0, .8fr) minmax(0, .9fr) minmax(0, 1.1fr);
+        align-items: start;
+        gap: 32px clamp(32px, 4vw, 72px);
+    }
+    /* Brand and FSC mark stacked, top-aligned with the section names. */
+    .component--page-footer .footer__col--1:has(.frame-type-textmedia) { flex-direction: column; align-items: flex-start; gap: 24px; }
+    .component--page-footer .footer__col--1 .frame-type-textmedia { padding-left: 0; border-left: 0; }
+    .component--page-footer .footer__meta { margin-top: 40px; padding-top: 20px; }
+}
+@media (max-width: 1023px) {
+    .component--page-footer .footer__contact { grid-column: 1 / -1; }
+    .component--page-footer .footer__direct { font-size: 18px; line-height: 28px; }
+}
+
 @media (min-width: 1280px) and (hover: hover) {
     .header__content { align-items: flex-start; }
     .header__logo { margin: 34px 0 0; max-width: min(42vw, 409px); height: auto; line-height: normal; }
