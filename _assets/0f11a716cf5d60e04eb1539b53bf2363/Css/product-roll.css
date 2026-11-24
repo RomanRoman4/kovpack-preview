@@ -743,7 +743,7 @@
         /* Seen from the roll's open end on the right, the paper runs off flush
          * with that end and stops short of the far end on the left, as the
          * desktop sheet starts at the roll's near point (owner, 2026-11-24). */
-        margin: 0 1% 0 7%;
+        margin: 0 1% 0 11%;
         opacity: 1;
         transform: none;
         transition: none;
@@ -783,13 +783,13 @@
         grid-template-columns: minmax(0, 1fr);
         grid-template-rows: none;
         height: auto;
-        padding: calc(var(--r) * .5 + 22px) 22px 22px;
+        padding: calc(var(--r) * .5 + 22px) 18px 22px;
         opacity: 1;
         transform: none;
         transition: none;
     }
     .kovpack-product .kovpack-roll__intro { min-width: 0; }
-    .kovpack-product .kovpack-roll__eyebrow { display: flex; align-items: center; gap: 9px; margin: 0 0 10px; font-size: 10.5px; letter-spacing: .18em; }
+    .kovpack-product .kovpack-roll__eyebrow { display: flex; align-items: center; gap: 9px; margin: 0 0 10px; font-size: 10.5px; letter-spacing: .16em; white-space: nowrap; }
     .kovpack-product .kovpack-roll__eyebrow::before {
         content: "";
         width: 18px;

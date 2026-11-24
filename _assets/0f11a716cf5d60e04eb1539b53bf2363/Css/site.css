@@ -957,9 +957,47 @@ button.header__nav-item {
     .component--page-footer .footer__col--1 .frame-type-textmedia { padding-left: 0; border-left: 0; }
     .component--page-footer .footer__meta { margin-top: 24px; padding-top: 14px; }
 }
+/* Phones and tablets (owner, 2026-11-24: the footer looked thrown
+ * together): three calm bands with one rhythm. Logo and FSC mark on top,
+ * then the two link groups side by side and the contact, then one quiet
+ * bottom row with the copyright and the legal links in the same small
+ * type, clear of the back-to-top button. Thin rules separate the bands. */
 @media (max-width: 1023px) {
+    .component--page-footer { --component-padding-vertical: 32px; }
+    .component--page-footer .footer:not(#_) { gap: 24px 16px; }
+    .component--page-footer .footer__col--1:not(#_) {
+        padding-bottom: 22px;
+        border-bottom: 1px solid rgb(238 240 234 / 14%);
+    }
+    .component--page-footer .footer__heading { margin-bottom: 6px; }
+    .component--page-footer .footer__list { gap: 0; }
+    .component--page-footer .footer__list a { min-height: 32px; font-size: 15px; line-height: 32px; }
     .component--page-footer .footer__contact { grid-column: 1 / -1; }
-    .component--page-footer .footer__direct { font-size: 18px; line-height: 28px; }
+    .component--page-footer .footer__direct { font-size: 17px; line-height: 28px; }
+    .component--page-footer .footer__postal { margin-top: 6px; font-size: 13px; line-height: 20px; }
+    /* Legal links first, the copyright under them: side by side they do
+     * not fit beside the back-to-top button on a phone. */
+    .component--page-footer .footer__meta:not(#_) {
+        flex-direction: column-reverse;
+        flex-wrap: nowrap;
+        align-items: flex-start;
+        gap: 2px;
+        margin-top: 28px;
+        padding-top: 16px;
+        border-top: 1px solid rgb(238 240 234 / 14%);
+        font-size: 13px;
+    }
+    .component--page-footer .footer__copy { font-size: 13px; line-height: 24px; white-space: nowrap; }
+    .component--page-footer .footer__meta .frame { margin: 0; padding: 0; }
+    .component--page-footer .footer__meta .frame-type-menu_pages ul:not(#_) { display: flex; flex-wrap: wrap; gap: 0 16px; margin: 0; padding: 0; }
+    .component--page-footer .footer__meta .frame-type-menu_pages a:not(#_) {
+        min-height: 24px;
+        font-size: 13px;
+        line-height: 24px;
+        color: rgb(238 240 234 / 74%);
+        opacity: 1;
+    }
+    .component--page-footer .footer__meta .frame-type-menu_pages a:hover { color: #fff; }
 }
 
 @media (min-width: 1280px) and (hover: hover) {
