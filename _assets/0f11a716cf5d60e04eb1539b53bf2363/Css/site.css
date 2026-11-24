@@ -5130,11 +5130,15 @@ body[class] {
      * and rim carry the glass edge. Pill and panel share one tint and a light
      * blur, so the photo reads through the panel at the top of the page too
      * (owner, 2026-11-23: the panel looked matte there). */
+    /* The pill itself is the pill of the docked teal bar as it renders there,
+     * 11% white over solid brand teal, with the same sheen and rim, so the
+     * menu looks the same at the very top and once the bar has docked (owner,
+     * 2026-11-24: the see-through pill read darker over the photo). */
     :root .header:has(+ .hero:not(.hero--text-only, .hero--small)):not(.is-stuck, .is-scrolled) .header__nav:not(#_):not(#_) {
-        --nav-pill: color-mix(in srgb, var(--kovpack-brand) 48%, transparent);
-        --nav-sheen: rgb(255 255 255 / 16%);
-        --nav-rim-hi: rgb(255 255 255 / 30%);
-        --nav-rim-line: rgb(255 255 255 / 10%);
+        --nav-pill: color-mix(in srgb, #fff 11%, var(--kovpack-brand));
+        --nav-sheen: rgb(255 255 255 / 14%);
+        --nav-rim-hi: rgb(255 255 255 / 34%);
+        --nav-rim-line: rgb(255 255 255 / 12%);
         --nav-surface: color-mix(in srgb, var(--kovpack-brand) 48%, transparent);
         --nav-hl-top: rgb(255 255 255 / 22%);
         --nav-hl-bottom: rgb(255 255 255 / 10%);
