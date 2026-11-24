@@ -948,21 +948,24 @@ button.header__nav-item {
     .component--page-footer .footer__col--1 .frame-type-textmedia { padding-left: 0; border-left: 0; }
     .component--page-footer .footer__meta { margin-top: 24px; padding-top: 14px; }
 }
-/* Phones and tablets (owner, 2026-11-24, second pass: "organic, neat,
- * compact, stylish"). Four calm bands on one 20px rhythm:
- * logo and FSC mark on one line; the contact as one soft grouped panel
- * (phone, e-mail and address rows, each with a small icon tile, hairlines
- * between them, the two links tappable rows with a quiet chevron); the two
- * link groups side by side; one bottom row with the copyright and the legal
- * links, kept clear of the round back-to-top button. Any number of contact
- * rows works: every row after the first draws its own hairline. */
+/* Phones and tablets (owner, 2026-11-24, third pass: "one style with the
+ * liquid glass and the navigation"). The footer speaks the compact menu's
+ * language: phone and e-mail are pills of the same white frosted glass as
+ * the Menu button on the teal bar (11% white, top sheen, 24% rim, 14px
+ * corners, label left and line icon right, press scales to .96). Logo and
+ * FSC mark share the top line; the postal address follows in the soft
+ * tone; the bottom row carries the legal links beside the back-to-top
+ * button, which turns to the same glass over the footer. Any number of
+ * contact links works: the icon follows the link type (tel:/mailto:). */
 @media (max-width: 1023px) {
     .component--page-footer {
         --component-padding-vertical: 28px;
         --footer-soft: rgb(238 240 234 / 72%);
         --footer-line: rgb(238 240 234 / 12%);
-        --footer-tile: 32px;
-        --footer-row-x: 12px;
+        --footer-glass: rgb(255 255 255 / 11%);
+        --footer-glass-sheen: rgb(255 255 255 / 16%);
+        --footer-glass-rim: rgb(255 255 255 / 24%);
+        --footer-glass-shadow: inset 0 1px 0 rgb(255 255 255 / 30%), inset 0 -1px 0 rgb(255 255 255 / 8%), 0 6px 16px -12px rgb(0 30 32 / 60%);
     }
     /* The bottom row sits level with the back-to-top button. */
     .component--page-footer:not(#_) { padding-bottom: 20px; }
@@ -984,94 +987,71 @@ button.header__nav-item {
         opacity: 1;
     }
 
-    /* Contact panel. */
+    /* Contact: glass pills, then the address. */
     .component--page-footer .footer__contact:not(#_) { grid-column: 1 / -1; order: -1; padding: 0; border: 0; }
     .component--page-footer .footer__contact .footer__address:not(#_) {
         display: grid;
         grid-template-columns: minmax(0, 1fr);
         justify-items: stretch;
-        gap: 0;
-        padding: 4px;
-        border: 1px solid rgb(238 240 234 / 10%);
-        border-radius: var(--corners-m, 16px);
-        background: rgb(255 255 255 / 5%);
-    }
-    .component--page-footer .footer__address > * + *:not(#_) {
-        background-image: linear-gradient(var(--footer-line), var(--footer-line));
-        background-repeat: no-repeat;
-        background-position: calc(var(--footer-row-x) * 2 + var(--footer-tile)) 0;
-        background-size: calc(100% - var(--footer-row-x) * 2 - var(--footer-tile)) 1px;
-    }
-    .component--page-footer .footer__direct:not(#_),
-    .component--page-footer .footer__postal:not(#_) {
-        position: relative;
-        width: auto;
-        min-height: 48px;
-        margin: 0;
-        padding: 10px var(--footer-row-x) 10px calc(var(--footer-row-x) * 2 + var(--footer-tile));
-        border-radius: 12px;
+        gap: 8px;
+        padding: 0;
+        border: 0;
+        background: none;
     }
     .component--page-footer .footer__direct:not(#_) {
         display: flex;
         align-items: center;
+        justify-content: space-between;
         gap: 12px;
-        font-size: 16px;
-        font-weight: 500;
-        line-height: 1.25;
-        letter-spacing: -.005em;
+        width: auto;
+        min-height: 48px;
+        margin: 0;
+        padding: 0 16px 0 18px;
+        border: 1px solid var(--footer-glass-rim);
+        border-radius: 14px;
+        background-color: var(--footer-glass);
+        background-image: linear-gradient(180deg, var(--footer-glass-sheen), transparent);
+        box-shadow: var(--footer-glass-shadow);
+        font-size: 15px;
+        font-weight: 600;
+        line-height: 1.2;
+        letter-spacing: .01em;
         color: #fff;
         text-decoration: none;
         overflow-wrap: anywhere;
         -webkit-tap-highlight-color: transparent;
-        transition: background-color .15s ease;
+        transition: background-color .15s ease, transform .15s ease-out;
     }
-    .component--page-footer .footer__direct:active { background-color: rgb(255 255 255 / 7%); }
-    .component--page-footer .footer__postal:not(#_) {
-        display: block;
-        padding-block: 10px;
-        text-wrap: pretty;
-        font-size: 13px;
-        line-height: 1.5;
-        color: var(--footer-soft);
-    }
-    /* Icon tile: a soft square holding a light line icon. */
-    .component--page-footer .footer__direct::before,
-    .component--page-footer .footer__postal::before {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: var(--footer-row-x);
-        width: var(--footer-tile);
-        height: var(--footer-tile);
-        border-radius: 10px;
-        background: rgb(255 255 255 / 9%) var(--footer-icon) center / 17px no-repeat;
-        transform: translateY(-50%);
-    }
-    .component--page-footer .footer__direct[href^="tel:"] { --footer-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23eef0ea' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6.6 3.5h2.6l1.4 4.3-2 1.4a12 12 0 0 0 6.2 6.2l1.4-2 4.3 1.4v2.6a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2z'/%3E%3C/svg%3E"); }
-    .component--page-footer .footer__direct[href^="mailto:"] { --footer-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23eef0ea' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='5' width='18' height='14' rx='2.5'/%3E%3Cpath d='m4 7 8 6 8-6'/%3E%3C/svg%3E"); }
-    .component--page-footer .footer__postal { --footer-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23eef0ea' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 21s-7-6.1-7-11.5a7 7 0 0 1 14 0C19 14.9 12 21 12 21z'/%3E%3Ccircle cx='12' cy='9.5' r='2.5'/%3E%3C/svg%3E"); }
-    /* A quiet chevron marks the rows that act. */
+    .component--page-footer .footer__direct:not(#_):active { background-color: rgb(255 255 255 / 20%); transform: scale(.96); }
+    .component--page-footer .footer__direct::before { content: none; }
     .component--page-footer .footer__direct::after {
         content: "";
         flex: none;
-        width: 16px;
-        height: 16px;
-        margin-left: auto;
+        width: 20px;
+        height: 20px;
         background: currentColor;
-        opacity: .45;
-        -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 5 7 7-7 7'/%3E%3C/svg%3E") center / contain no-repeat;
-        mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 5 7 7-7 7'/%3E%3C/svg%3E") center / contain no-repeat;
-        transition: opacity .15s ease, transform .15s ease;
+        -webkit-mask: var(--footer-icon) center / contain no-repeat;
+        mask: var(--footer-icon) center / contain no-repeat;
+    }
+    .component--page-footer .footer__direct[href^="tel:"] { --footer-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6.6 3.5h2.6l1.4 4.3-2 1.4a12 12 0 0 0 6.2 6.2l1.4-2 4.3 1.4v2.6a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2z'/%3E%3C/svg%3E"); }
+    .component--page-footer .footer__direct[href^="mailto:"] { --footer-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='5' width='18' height='14' rx='2.5'/%3E%3Cpath d='m4 7 8 6 8-6'/%3E%3C/svg%3E"); }
+    .component--page-footer .footer__postal:not(#_) {
+        display: block;
+        margin: 6px 0 0;
+        padding: 0 2px;
+        font-size: 13px;
+        line-height: 1.5;
+        text-wrap: pretty;
+        color: var(--footer-soft);
     }
 
-    /* Link groups. */
+    /* Link groups (tablets; phones hide them below). */
     .component--page-footer .footer__links:not(#_) { padding-top: 4px; }
     .component--page-footer .footer__heading:not(#_) { margin: 0 0 4px; font-size: 11px; line-height: 16px; letter-spacing: .14em; color: var(--footer-soft); }
     .component--page-footer .footer__list:not(#_) { gap: 0; }
     .component--page-footer .footer__list a:not(#_) { min-height: 32px; font-size: 15px; line-height: 32px; color: rgb(238 240 234 / 92%); }
 
-    /* Bottom row: copyright and legal links on one line where they fit,
-     * clear of the back-to-top button (46px, 14px from the edge). */
+    /* Bottom row, clear of the back-to-top button (46px, 14px from the edge). */
     .component--page-footer .footer__meta:not(#_) {
         flex-direction: row;
         flex-wrap: wrap;
@@ -1094,35 +1074,38 @@ button.header__nav-item {
         opacity: 1;
         transition: color .15s ease;
     }
+    /* Over the footer the back-to-top button is the Menu button's glass. */
+    .kovpack-to-top.is-on-dark:not(#_):not(#_) {
+        color: #fff;
+        background: linear-gradient(180deg, var(--footer-glass-sheen, rgb(255 255 255 / 16%)), transparent), rgb(255 255 255 / 11%);
+        box-shadow: inset 0 0 0 1px rgb(255 255 255 / 24%), inset 0 1px 0 rgb(255 255 255 / 30%), 0 6px 16px -12px rgb(0 30 32 / 60%);
+        transition: opacity .3s, transform .45s var(--kovpack-ease), visibility 0s, color .3s ease, background .3s ease, box-shadow .3s ease;
+    }
 }
 @media (max-width: 1023px) and (hover: hover) {
-    .component--page-footer .footer__direct:hover { background-color: rgb(255 255 255 / 5%); }
-    .component--page-footer .footer__direct:hover::after { opacity: .8; transform: translateX(2px); }
+    .component--page-footer .footer__direct:not(#_):hover { background-color: rgb(255 255 255 / 16%); }
     .component--page-footer .footer__meta .frame-type-menu_pages a:hover { color: #fff; }
 }
 @media (max-width: 1023px) and (prefers-reduced-motion: reduce) {
-    .component--page-footer .footer__direct::after { transition: opacity .15s ease; }
-    .component--page-footer .footer__direct:hover::after { transform: none; }
+    .component--page-footer .footer__direct:not(#_):active { transform: none; }
 }
-/* Tablets: the contact panel and the two link groups share one row, so
- * the panel keeps a phone-like width instead of stretching. */
+/* Tablets: the contact and the two link groups share one row. */
 @media (min-width: 640px) and (max-width: 1023px) {
     .component--page-footer .footer:not(#_) { grid-template-columns: minmax(0, 1.7fr) repeat(2, minmax(0, 1fr)); gap: 24px 32px; }
     .component--page-footer .footer__contact:not(#_) { grid-column: auto; }
 }
-/* Phones (owner, 2026-11-24): no sitemap link groups in the footer; the
- * menu already carries those pages. Logo, contact panel and the bottom
- * row remain; the bottom row needs no rule under the panel. */
+/* Phones (owner, 2026-11-24): no sitemap link groups (the menu carries
+ * those pages) and no copyright line under the footer logo, which already
+ * names KOVPACK. The bottom row holds only the legal links. */
 @media (max-width: 639px) {
-    .component--page-footer .footer__links:not(#_) { display: none; }
-    .component--page-footer .footer__meta:not(#_) { margin-top: 16px; padding-top: 0; border-top: 0; }
+    .component--page-footer .footer__links:not(#_),
+    .component--page-footer .footer__copy:not(#_) { display: none; }
+    .component--page-footer .footer__meta:not(#_) { margin-top: 12px; padding-top: 0; border-top: 0; }
 }
 /* The narrowest phones: a smaller logo keeps the brand row on one line. */
 @media (max-width: 359px) {
     .component--page-footer .footer__logo:not(#_),
     .component--page-footer .footer__logo:not(#_) img { height: 22px; }
-    .component--page-footer { --footer-row-x: 10px; }
-    .component--page-footer .footer__direct:not(#_) { font-size: 15px; }
 }
 
 @media (min-width: 1280px) and (hover: hover) {
