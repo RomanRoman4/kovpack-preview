@@ -5164,59 +5164,58 @@ body[class] {
     body:has(.header .header__nav-list-item:is(:hover, :focus-within) > .header__subnav, .header .header__language-dropdown--open)::after { content: none; }
 }
 
-/* Menu flyout (owner, 2026-11-18: Apple-like opening, and the submenu flows
- * from one group to the next; 2026-11-24: the open item and its panel are one
- * opaque drop). motion.js adds one pane to the menu (.kovpack-nav-flyout) and
- * marks the menu .has-flyout. The pane paints the open item and its submenu
- * or language list as a single solid shape in one colour: the item's
- * highlight runs straight down through a short neck into the panel, which
- * spreads out to the side over a concave fillet, so there is no rim or line
- * where item and panel meet. motion.js draws the outline as a clip path and
- * morphs it: on open it grows down out of the item (Apple's sheet curve), on
- * a move to the next group it glides over, item and panel together, and on
- * close it draws back up into the item and lets go. The pane's ::before only
- * casts the panel's soft shadow. The panels keep only their labels, which
- * fade in a short cascade. */
+/* Menu flyout: one liquid-glass platter (owner, 2026-11-24: the white paper
+ * tab under the glass pill looked wrong and opened without motion; the
+ * submenu must be the same glass as the bar, the Apple way). motion.js adds
+ * one pane to the menu (.kovpack-nav-flyout) and marks the menu .has-flyout.
+ * The pane is the glass of the pill, a little denser so the labels read over
+ * any photo, floating 10px under the pill. On open it morphs out of the open
+ * item: it starts as the item's own highlight and swells down into the
+ * platter on a soft spring; on a move to the next group it glides over and
+ * resizes; on close it shrinks back into the item and fades. The panels keep
+ * only their labels, which fade in a short cascade once the glass has
+ * spread. */
 .kovpack-nav-flyout { display: none; }
 @media (min-width: 1280px) and (hover: hover) {
     :root .header .header__nav:not(#_):not(#_) {
-        /* Item bottom to the panel's top: the drop's neck. 17px puts the
-         * panel's top on the 72px bar's lower edge. */
+        /* Item bottom to the platter's top: 10px under the pill, and on the
+         * 72px bar the platter's top is the bar's lower edge. */
         --fly-neck: 17px;
-        /* The drop is a sheet of the page's own paper (owner, 2026-11-24:
-         * the teal drops read as plastic): matte, flat, no sheen or rim.
-         * The open item turns into a paper tab that runs down out of the
-         * bar into the panel, like a browser tab into its page; the labels
-         * on it are ink, the open item and the pointed row brand teal. */
-        --nav-drop-fill: var(--kovpack-paper, #fffdf8);
+        --fly-radius: 18px;
+        /* Over the light page the glass is denser, so white labels keep
+         * their contrast; over the home photo it is as clear as the pill. */
+        --fly-tint: color-mix(in srgb, var(--kovpack-brand) 80%, transparent);
+        --fly-row: 12px;
+    }
+    :root .header:has(+ .hero:not(.hero--text-only, .hero--small)):not(.is-stuck, .is-scrolled, .is-docked) .header__nav:not(#_):not(#_) {
+        --fly-tint: color-mix(in srgb, var(--kovpack-brand) 62%, transparent);
     }
     :root .header .kovpack-nav-flyout:not(#_):not(#_) {
         display: block;
+        /* A soft spring: a hair of overshoot, then it settles (Safari 17.2+,
+         * older engines take the plain curve below). */
         --fly-ease: cubic-bezier(.32, .72, 0, 1);
-        --fly-close: cubic-bezier(.4, 0, .2, 1);
+        --fly-close: cubic-bezier(.4, 0, .6, 1);
         position: absolute;
-        /* Over the bar's drop and DE/EN's own fill, under the labels. */
         z-index: 0;
+        inset: 0;
         margin: 0;
-        left: 0;
-        top: 0;
-        width: 0;
-        height: 0;
+        width: auto;
+        height: auto;
         border-radius: 0;
         background: none;
         box-shadow: none;
         -webkit-backdrop-filter: none;
         backdrop-filter: none;
         pointer-events: none;
-        opacity: 0;
-        /* Closing: draws back up into the item, then lets go. */
-        transition: opacity .14s ease .22s;
-    }
-    :root .header .kovpack-nav-flyout.is-shown:not(#_):not(#_) {
         opacity: 1;
-        transition: opacity .12s ease;
     }
-    /* The panel's shadow, a box that follows the panel part of the drop. */
+    @supports (transition-timing-function: linear(0, 1)) {
+        :root .header .kovpack-nav-flyout:not(#_):not(#_) {
+            --fly-ease: linear(0, .07 3.5%, .26 8%, .52 14%, .76 21%, .92 28.5%, 1.005 36%, 1.03 43%, 1.028 50%, 1.015 60%, 1.004 72%, .999 86%, 1);
+        }
+    }
+    /* The platter: the pill's glass. */
     :root .header .kovpack-nav-flyout:not(#_):not(#_)::before {
         content: "";
         position: absolute;
@@ -5224,76 +5223,61 @@ body[class] {
         top: var(--fly-sy, 0px);
         width: var(--fly-sw, 0px);
         height: var(--fly-sh, 0px);
-        border-radius: var(--fly-sr, 0px);
+        border-radius: var(--fly-sr, 8px);
+        background:
+            radial-gradient(140% 70% at 20% 0%, rgb(255 255 255 / 14%), rgb(255 255 255 / 0%) 62%),
+            linear-gradient(180deg, rgb(255 255 255 / 10%), rgb(255 255 255 / 2%) 40%, rgb(255 255 255 / 5%)),
+            var(--fly-tint);
+        -webkit-backdrop-filter: blur(24px) saturate(1.8);
+        backdrop-filter: blur(24px) saturate(1.8);
         box-shadow:
-            0 0 0 1px rgb(20 26 27 / 7%),
-            0 1px 2px -1px rgb(20 26 27 / 8%),
-            0 16px 32px -18px rgb(14 38 40 / 24%);
+            inset 0 1px 0 rgb(255 255 255 / 38%),
+            inset 0 0 0 1px rgb(255 255 255 / 13%),
+            inset 0 -1px 0 rgb(255 255 255 / 7%),
+            0 2px 6px rgb(0 30 32 / 12%),
+            0 26px 50px -18px rgb(0 30 32 / 50%);
+        opacity: 0;
+        /* Closing: shrinks back into the item while it fades. */
         transition:
-            left .3s var(--fly-close), top .3s var(--fly-close), width .3s var(--fly-close),
-            height .3s var(--fly-close), border-radius .3s var(--fly-close);
+            left .28s var(--fly-close), top .28s var(--fly-close), width .28s var(--fly-close),
+            height .28s var(--fly-close), border-radius .28s var(--fly-close), opacity .2s ease .06s;
     }
-    /* The drop itself: one flat fill, cut to the drop's outline. */
-    :root .header .kovpack-nav-flyout:not(#_):not(#_)::after {
-        content: "";
-        position: absolute;
-        left: var(--fly-fx, 0px);
-        top: var(--fly-fy, 0px);
-        width: var(--fly-fw, 0px);
-        height: var(--fly-fh, 0px);
-        background: var(--nav-drop-fill);
-        clip-path: var(--fly-path, inset(50%));
-        transition: clip-path .3s var(--fly-close);
-    }
-    /* Opening and gliding: Apple's sheet curve, no bounce. */
     :root .header .kovpack-nav-flyout.is-shown:not(#_):not(#_)::before {
+        opacity: 1;
         transition:
-            left .44s var(--fly-ease), top .44s var(--fly-ease), width .44s var(--fly-ease),
-            height .44s var(--fly-ease), border-radius .44s var(--fly-ease);
+            left .62s var(--fly-ease), top .62s var(--fly-ease), width .62s var(--fly-ease),
+            height .62s var(--fly-ease), border-radius .62s var(--fly-ease), opacity .12s ease;
     }
-    :root .header .kovpack-nav-flyout.is-shown:not(#_):not(#_)::after {
-        transition: clip-path .44s var(--fly-ease);
-    }
+    :root .header .kovpack-nav-flyout:not(#_):not(#_)::after { content: none; }
     /* A fresh open starts from the item without animating there. */
-    :root .header .kovpack-nav-flyout.is-instant:not(#_):not(#_),
-    :root .header .kovpack-nav-flyout.is-instant:not(#_):not(#_)::before,
-    :root .header .kovpack-nav-flyout.is-instant:not(#_):not(#_)::after { transition: none; }
+    :root .header .kovpack-nav-flyout.is-instant:not(#_):not(#_)::before { transition: none; }
 
-    /* The bar's glass drop steps aside while the solid drop holds the item. */
-    :root .header .header__nav.is-flowing > .kovpack-nav-drop:not(#_):not(#_) { opacity: 0 !important; }
-    /* DE/EN: its label stays over the drop; open, the drop is its fill. */
+    /* The open item keeps the bar's highlight and its white label: the
+     * platter grows out of it. DE/EN keeps its own look too. */
     :root .header .header__nav.has-flyout .header__language-button:not(#_):not(#_):not(#_) { position: relative; z-index: 1; }
-    :root .header .header__nav.has-flyout .header__language-dropdown--open .header__language-button:not(#_):not(#_):not(#_) {
-        background: transparent;
-        box-shadow: none;
-    }
-    :root .header .header__nav.has-flyout .header__language-dropdown--open .header__language-button:not(:focus-visible):not(#_):not(#_):not(#_) {
-        outline-color: transparent;
-    }
+
     /* The panels hang a neck's length below their item. */
     :root .header .header__nav.has-flyout :is(.header__subnav, .header__language-menu):not(#_):not(#_):not(#_):not(#_) {
         top: calc(100% + var(--fly-neck));
+        padding: 6px;
     }
-    /* On the paper: ink labels; the open item and the row under the
-     * pointer (or the current page) in brand teal. */
+    /* Labels on the glass: white, the current page a touch heavier. */
     :root .header .header__nav.has-flyout :is(.header__subnav-item, .header__language-menu-link):not(#_):not(#_):not(#_):not(#_) {
-        color: var(--kovpack-ink);
+        color: rgb(255 255 255 / 90%);
+        border-radius: var(--fly-row);
+        text-shadow: 0 1px 2px rgb(0 30 32 / 18%);
         transition: color .15s ease;
     }
-    :root .header .header__nav.has-flyout :is(.header__subnav-item, .header__language-menu-link):is(.is-dropped, [aria-current="page"], :focus-visible):not(#_):not(#_):not(#_):not(#_) {
-        color: var(--kovpack-brand);
+    :root .header .header__nav.has-flyout :is(.header__subnav-item, .header__language-menu-link):is(.is-dropped, [aria-current="page"], :hover, :focus-visible):not(#_):not(#_):not(#_):not(#_) {
+        color: #fff;
     }
-    :root .header .header__nav.has-flyout .header__nav-list-item.is-poured > .header__nav-item:not(#_):not(#_):not(#_):not(#_),
-    :root .header .header__nav.has-flyout .header__language-dropdown.is-poured .header__language-button:not(#_):not(#_):not(#_):not(#_) {
-        color: var(--kovpack-brand);
-        transition: color .15s ease;
-    }
-    /* The pointed row: a flat brand tint, no sheen, rim or shadow (radius
-     * 12 = the panel's 20 less its 8px padding). */
+    :root .header .header__nav.has-flyout :is(.header__subnav-item, .header__language-menu-link)[aria-current="page"]:not(#_):not(#_):not(#_):not(#_) { font-weight: 500; }
+    /* The pointed row: a lighter pane of the same glass that slides between
+     * the rows (radius 12 = the platter's 18 less its 6px padding). */
     :root .header .header__nav.has-flyout :is(.header__subnav, .header__language-menu) .kovpack-subnav-drop:not(#_):not(#_):not(#_) {
-        background: color-mix(in srgb, var(--kovpack-brand) 8%, transparent);
-        box-shadow: none;
-        border-radius: 12px;
+        background: linear-gradient(180deg, rgb(255 255 255 / 26%), rgb(255 255 255 / 12%));
+        box-shadow: inset 0 1px 0 rgb(255 255 255 / 32%), inset 0 0 0 1px rgb(255 255 255 / 8%);
+        border-radius: var(--fly-row);
     }
 
     /* The panels: labels only, the pane paints them. */
@@ -5314,6 +5298,12 @@ body[class] {
     :root .header .header__nav.has-flyout .header__language-dropdown--open .header__language-menu:not(#_):not(#_):not(#_) {
         transition: opacity .2s ease, visibility 0s;
     }
+    /* The labels come once the glass has spread: blur away, lift, 30ms apart. */
+    :root .header .header__nav.has-flyout .header__nav-list-item:is(:hover, :focus-within) > .header__subnav .header__subnav-list-item:not(#_):not(#_),
+    :root .header .header__nav.has-flyout .header__language-dropdown--open .header__language-menu-item:not(#_):not(#_) {
+        --nav-d: calc(.16s + var(--nav-i, 0) * 30ms);
+        transition: opacity .3s ease var(--nav-d), filter .3s ease var(--nav-d), translate .42s cubic-bezier(.2, .8, .2, 1) var(--nav-d);
+    }
     /* Moving on to the next group: the old labels go quickly, the new ones
      * come without the intent wait while the pane glides over. */
     :root .header.is-menu-swap .header__nav.has-flyout .header__subnav:not(#_):not(#_):not(#_) {
@@ -5322,17 +5312,15 @@ body[class] {
     :root .header.is-menu-swap .header__nav.has-flyout .header__nav-list-item:is(:hover, :focus-within) > .header__subnav:not(#_):not(#_):not(#_) {
         transition: opacity .14s ease, visibility 0s;
     }
-    :root .header.is-menu-swap .header__nav.has-flyout .header__nav-list-item:is(:hover, :focus-within) > .header__subnav .header__subnav-list-item:not(#_):not(#_) {
-        --nav-d: calc(.02s + var(--nav-i, 0) * 20ms);
+    :root .header.is-menu-swap .header__nav.has-flyout .header__nav-list-item:is(:hover, :focus-within) > .header__subnav .header__subnav-list-item:not(#_):not(#_):not(#_) {
+        --nav-d: calc(.06s + var(--nav-i, 0) * 25ms);
         transition: opacity .22s var(--nav-ease) var(--nav-d), filter .24s var(--nav-ease) var(--nav-d), translate .32s var(--nav-ease-out) var(--nav-d);
     }
 }
 @media (min-width: 1280px) and (hover: hover) and (prefers-reduced-motion: reduce) {
-    /* No growing or gliding: the drop is simply there, cross-fading. */
-    :root .header .kovpack-nav-flyout:not(#_):not(#_):not(#_),
-    :root .header .kovpack-nav-flyout.is-shown:not(#_):not(#_):not(#_) { transition: opacity .2s ease; }
+    /* No growing or gliding: the platter is simply there, cross-fading. */
     :root .header .kovpack-nav-flyout:not(#_):not(#_):not(#_)::before,
-    :root .header .kovpack-nav-flyout:not(#_):not(#_):not(#_)::after { transition: none; }
+    :root .header .kovpack-nav-flyout.is-shown:not(#_):not(#_):not(#_)::before { transition: opacity .2s ease; }
 }
 
 /* The language list behaves like the submenus (owner, 2026-11-18): the same
