@@ -5479,3 +5479,13 @@ body[class] {
         box-shadow: inset 0 1px 0 rgb(255 255 255 / 30%), 0 8px 24px -14px rgb(0 0 0 / 50%);
     }
 }
+/* The open menu's dim starts under the solid bar (owner, 2026-11-24: the
+ * bar turned dark when the menu opened). The bar keeps its brand teal; only
+ * the page below is dimmed. Over the home photo the clear bar still dims
+ * with the photo. */
+@media (width < 1280px), (hover: none) {
+    :root .header:is(.is-scrolled, :not(:has(+ .hero:not(.hero--text-only, .hero--small)))) .header__menu::before {
+        top: calc(var(--menu-top, 84px) - 6px);
+        background: linear-gradient(rgb(7 20 25 / 30%), rgb(7 20 25 / 22%) 120px);
+    }
+}
