@@ -859,15 +859,6 @@ button.header__nav-item {
     .component--page-footer .footer__meta { margin-top: 20px; padding-right: 58px; font-size: 13px; }
     .component--page-footer .footer__meta .frame-type-menu_pages ul { gap: 8px 12px; }
 }
-@media (max-width: 359px) {
-    .component--page-footer .footer__logo, .component--page-footer .footer__logo img { height: 22px; }
-    .component--page-footer .footer { grid-template-columns: minmax(0, 1fr); }
-    /* Too narrow to share the row with the back-to-top button: the links
-     * take the full width and the button rests below them. */
-    .component--page-footer { padding-bottom: 66px; }
-    .component--page-footer .footer__meta { padding-right: 0; }
-    .component--page-footer .footer__meta .frame-type-menu_pages ul { gap: 8px 14px; }
-}
 /* Desktop footer (owner, 2026-11-13): lighter. A slimmer band,
  * a smaller logo and FSC mark, and quieter legal links. */
 @media (min-width: 1024px) {
@@ -957,71 +948,174 @@ button.header__nav-item {
     .component--page-footer .footer__col--1 .frame-type-textmedia { padding-left: 0; border-left: 0; }
     .component--page-footer .footer__meta { margin-top: 24px; padding-top: 14px; }
 }
-/* Phones and tablets (owner, 2026-11-24: the footer looked thrown
- * together): three calm bands with one rhythm. Logo and FSC mark on top,
- * then the two link groups side by side and the contact, then one quiet
- * bottom row with the copyright and the legal links in the same small
- * type, clear of the back-to-top button. Thin rules separate the bands. */
+/* Phones and tablets (owner, 2026-11-24, second pass: "organic, neat,
+ * compact, stylish"). Four calm bands on one 20px rhythm:
+ * logo and FSC mark on one line; the contact as one soft grouped panel
+ * (phone, e-mail and address rows, each with a small icon tile, hairlines
+ * between them, the two links tappable rows with a quiet chevron); the two
+ * link groups side by side; one bottom row with the copyright and the legal
+ * links, kept clear of the round back-to-top button. Any number of contact
+ * rows works: every row after the first draws its own hairline. */
 @media (max-width: 1023px) {
-    .component--page-footer { --component-padding-vertical: 32px; }
-    .component--page-footer .footer:not(#_) { gap: 24px 16px; }
-    .component--page-footer .footer__col--1:not(#_) { padding-bottom: 4px; }
-    /* A fine rule between the contact and the link groups. */
-    .component--page-footer .footer__contact:not(#_) { padding-bottom: 24px; border-bottom: 1px solid rgb(238 240 234 / 14%); }
-    .component--page-footer .footer__heading { margin-bottom: 6px; }
-    .component--page-footer .footer__list { gap: 0; }
-    .component--page-footer .footer__list a { min-height: 32px; font-size: 15px; line-height: 32px; }
-    /* Contact first, right under the logo: phone and e-mail as plain lines
-     * with a small icon, the address under them in the softer tone. */
-    .component--page-footer .footer__contact { grid-column: 1 / -1; order: -1; }
-    .component--page-footer .footer__col--1 { order: -2; }
-    .component--page-footer .footer__contact .footer__address:not(#_) { grid-template-columns: minmax(0, 1fr); gap: 0; justify-items: start; }
+    .component--page-footer {
+        --component-padding-vertical: 28px;
+        --footer-soft: rgb(238 240 234 / 72%);
+        --footer-line: rgb(238 240 234 / 12%);
+        --footer-tile: 32px;
+        --footer-row-x: 12px;
+    }
+    /* The bottom row sits level with the back-to-top button. */
+    .component--page-footer:not(#_) { padding-bottom: 20px; }
+    .component--page-footer .footer:not(#_) { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 16px; }
+
+    /* Brand row: logo left, FSC mark and licence code right, centred. */
+    .component--page-footer .footer__col--1:not(#_) { order: -2; padding: 0; align-items: center; justify-content: space-between; gap: 12px 16px; }
+    .component--page-footer .footer__logo:not(#_) { height: 26px; }
+    .component--page-footer .footer__logo:not(#_) img { height: 26px; }
+    .component--page-footer .footer__col--1 .ce-textpic:not(#_) { align-items: center; gap: 8px; }
+    .component--page-footer .footer__col--1 .ce-gallery:not(#_) { flex-basis: 30px; }
+    .component--page-footer .footer__col--1 .ce-gallery img:not(#_) { width: 30px; height: 30px; }
+    .component--page-footer .footer__col--1 .ce-bodytext p:not(#_) {
+        font-size: 11px;
+        line-height: 1.3;
+        letter-spacing: .04em;
+        white-space: nowrap;
+        color: var(--footer-soft);
+        opacity: 1;
+    }
+
+    /* Contact panel. */
+    .component--page-footer .footer__contact:not(#_) { grid-column: 1 / -1; order: -1; padding: 0; border: 0; }
+    .component--page-footer .footer__contact .footer__address:not(#_) {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        justify-items: stretch;
+        gap: 0;
+        padding: 4px;
+        border: 1px solid rgb(238 240 234 / 10%);
+        border-radius: var(--corners-m, 16px);
+        background: rgb(255 255 255 / 5%);
+    }
+    .component--page-footer .footer__address > * + *:not(#_) {
+        background-image: linear-gradient(var(--footer-line), var(--footer-line));
+        background-repeat: no-repeat;
+        background-position: calc(var(--footer-row-x) * 2 + var(--footer-tile)) 0;
+        background-size: calc(100% - var(--footer-row-x) * 2 - var(--footer-tile)) 1px;
+    }
+    .component--page-footer .footer__direct:not(#_),
+    .component--page-footer .footer__postal:not(#_) {
+        position: relative;
+        width: auto;
+        min-height: 48px;
+        margin: 0;
+        padding: 10px var(--footer-row-x) 10px calc(var(--footer-row-x) * 2 + var(--footer-tile));
+        border-radius: 12px;
+    }
     .component--page-footer .footer__direct:not(#_) {
         display: flex;
         align-items: center;
         gap: 12px;
-        min-height: 40px;
-        padding: 0;
-        font-size: 17px;
+        font-size: 16px;
         font-weight: 500;
-        line-height: 1.2;
+        line-height: 1.25;
+        letter-spacing: -.005em;
         color: #fff;
+        text-decoration: none;
+        overflow-wrap: anywhere;
+        -webkit-tap-highlight-color: transparent;
+        transition: background-color .15s ease;
     }
-    .component--page-footer .footer__direct::before {
+    .component--page-footer .footer__direct:active { background-color: rgb(255 255 255 / 7%); }
+    .component--page-footer .footer__postal:not(#_) {
+        display: block;
+        padding-block: 10px;
+        text-wrap: pretty;
+        font-size: 13px;
+        line-height: 1.5;
+        color: var(--footer-soft);
+    }
+    /* Icon tile: a soft square holding a light line icon. */
+    .component--page-footer .footer__direct::before,
+    .component--page-footer .footer__postal::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: var(--footer-row-x);
+        width: var(--footer-tile);
+        height: var(--footer-tile);
+        border-radius: 10px;
+        background: rgb(255 255 255 / 9%) var(--footer-icon) center / 17px no-repeat;
+        transform: translateY(-50%);
+    }
+    .component--page-footer .footer__direct[href^="tel:"] { --footer-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23eef0ea' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6.6 3.5h2.6l1.4 4.3-2 1.4a12 12 0 0 0 6.2 6.2l1.4-2 4.3 1.4v2.6a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2z'/%3E%3C/svg%3E"); }
+    .component--page-footer .footer__direct[href^="mailto:"] { --footer-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23eef0ea' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='5' width='18' height='14' rx='2.5'/%3E%3Cpath d='m4 7 8 6 8-6'/%3E%3C/svg%3E"); }
+    .component--page-footer .footer__postal { --footer-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23eef0ea' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 21s-7-6.1-7-11.5a7 7 0 0 1 14 0C19 14.9 12 21 12 21z'/%3E%3Ccircle cx='12' cy='9.5' r='2.5'/%3E%3C/svg%3E"); }
+    /* A quiet chevron marks the rows that act. */
+    .component--page-footer .footer__direct::after {
         content: "";
         flex: none;
-        width: 18px;
-        height: 18px;
-        background: rgb(238 240 234 / 74%);
-        -webkit-mask: var(--footer-icon) center / contain no-repeat;
-        mask: var(--footer-icon) center / contain no-repeat;
+        width: 16px;
+        height: 16px;
+        margin-left: auto;
+        background: currentColor;
+        opacity: .45;
+        -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 5 7 7-7 7'/%3E%3C/svg%3E") center / contain no-repeat;
+        mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 5 7 7-7 7'/%3E%3C/svg%3E") center / contain no-repeat;
+        transition: opacity .15s ease, transform .15s ease;
     }
-    .component--page-footer .footer__direct[href^="tel:"] { --footer-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6.6 3.5h2.6l1.4 4.3-2 1.4a12 12 0 0 0 6.2 6.2l1.4-2 4.3 1.4v2.6a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2z'/%3E%3C/svg%3E"); }
-    .component--page-footer .footer__direct[href^="mailto:"] { --footer-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='5' width='18' height='14' rx='2.5'/%3E%3Cpath d='m4 7 8 6 8-6'/%3E%3C/svg%3E"); }
-    .component--page-footer .footer__postal:not(#_) { grid-column: 1 / -1; margin: 8px 0 0 30px; font-size: 13px; line-height: 20px; }
-    /* Legal links first, the copyright under them: side by side they do
-     * not fit beside the back-to-top button on a phone. */
+
+    /* Link groups. */
+    .component--page-footer .footer__links:not(#_) { padding-top: 4px; }
+    .component--page-footer .footer__heading:not(#_) { margin: 0 0 4px; font-size: 11px; line-height: 16px; letter-spacing: .14em; color: var(--footer-soft); }
+    .component--page-footer .footer__list:not(#_) { gap: 0; }
+    .component--page-footer .footer__list a:not(#_) { min-height: 32px; font-size: 15px; line-height: 32px; color: rgb(238 240 234 / 92%); }
+
+    /* Bottom row: copyright and legal links on one line where they fit,
+     * clear of the back-to-top button (46px, 14px from the edge). */
     .component--page-footer .footer__meta:not(#_) {
-        flex-direction: column-reverse;
-        flex-wrap: nowrap;
-        align-items: flex-start;
-        gap: 2px;
-        margin-top: 28px;
-        padding-top: 16px;
-        border-top: 1px solid rgb(238 240 234 / 14%);
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 0 16px;
+        margin: 24px 0 0;
+        padding: 14px 52px 0 0;
+        border-top: 1px solid var(--footer-line);
         font-size: 13px;
     }
-    .component--page-footer .footer__copy { font-size: 13px; line-height: 24px; white-space: nowrap; }
+    .component--page-footer .footer__copy:not(#_) { margin: 0; font-size: 13px; line-height: 32px; white-space: nowrap; color: var(--footer-soft); }
     .component--page-footer .footer__meta .frame { margin: 0; padding: 0; }
     .component--page-footer .footer__meta .frame-type-menu_pages ul:not(#_) { display: flex; flex-wrap: wrap; gap: 0 16px; margin: 0; padding: 0; }
     .component--page-footer .footer__meta .frame-type-menu_pages a:not(#_) {
-        min-height: 24px;
+        min-height: 32px;
         font-size: 13px;
-        line-height: 24px;
-        color: rgb(238 240 234 / 74%);
+        line-height: 32px;
+        color: var(--footer-soft);
         opacity: 1;
+        transition: color .15s ease;
     }
+}
+@media (max-width: 1023px) and (hover: hover) {
+    .component--page-footer .footer__direct:hover { background-color: rgb(255 255 255 / 5%); }
+    .component--page-footer .footer__direct:hover::after { opacity: .8; transform: translateX(2px); }
     .component--page-footer .footer__meta .frame-type-menu_pages a:hover { color: #fff; }
+}
+@media (max-width: 1023px) and (prefers-reduced-motion: reduce) {
+    .component--page-footer .footer__direct::after { transition: opacity .15s ease; }
+    .component--page-footer .footer__direct:hover::after { transform: none; }
+}
+/* Tablets: the contact panel and the two link groups share one row, so
+ * the panel keeps a phone-like width instead of stretching. */
+@media (min-width: 640px) and (max-width: 1023px) {
+    .component--page-footer .footer:not(#_) { grid-template-columns: minmax(0, 1.7fr) repeat(2, minmax(0, 1fr)); gap: 24px 32px; }
+    .component--page-footer .footer__contact:not(#_) { grid-column: auto; }
+}
+/* The narrowest phones: a smaller logo keeps the brand row on one line. */
+@media (max-width: 359px) {
+    .component--page-footer .footer__logo:not(#_),
+    .component--page-footer .footer__logo:not(#_) img { height: 22px; }
+    .component--page-footer { --footer-row-x: 10px; }
+    .component--page-footer .footer__direct:not(#_) { font-size: 15px; }
 }
 
 @media (min-width: 1280px) and (hover: hover) {
