@@ -2205,6 +2205,10 @@ body[class] {
 /* Left column: heading, lead, live summary, direct contact. */
 .page__content .frame-kovpack-contact-info.kovpack-offer h2 { margin-bottom: 14px; font-size: 36px; line-height: 1.08; }
 .frame-kovpack-contact-info.kovpack-offer p { line-height: 1.55; }
+/* The summary grows when a row appears ("Zusätzlich" after ticking a box);
+ * Chrome's scroll anchoring then picked this column and scrolled the page by
+ * the new row (owner, 2026-11-24: the page jumped). The form column anchors. */
+.frame-kovpack-contact-info.kovpack-offer { overflow-anchor: none; }
 .frame-kovpack-contact-info.kovpack-offer > .kovpack-offer__summary { position: sticky; top: 104px; margin-top: 22px; padding: 14px 18px 4px; border-radius: var(--corners-m); background: var(--kovpack-paper); box-shadow: 0 1px 2px rgb(20 26 27 / 8%), 0 12px 24px -18px rgb(20 26 27 / 30%); }
 .kovpack-offer .kovpack-offer__summary-title { display: flex; align-items: center; gap: 10px; margin: 0 0 4px; font-family: var(--kovpack-font); font-size: 12px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
 .kovpack-offer__summary-title::before { content: ""; width: 22px; height: 7px; border-radius: 2px; background: var(--offer-color); }
