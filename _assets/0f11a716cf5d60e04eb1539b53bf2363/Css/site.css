@@ -1691,6 +1691,16 @@ body[class] {
     transition: transform .5s var(--kovpack-ease), box-shadow .5s var(--kovpack-ease), border-color .3s;
 }
 .kovpack-news__card:hover { border-color: var(--kovpack-line); transform: translateY(-4px); box-shadow: 0 22px 40px -28px rgb(20 26 27 / 45%); }
+/* The sideways track scrolls, so it clips: room for the hover shadow below
+ * and at the sides (it reaches 34px down and 12px out), taken back with
+ * negative margins so the cards keep the page edges and the spacing. */
+@media (min-width: 901px) {
+    .kovpack-news__track:not(#_) {
+        padding: 24px 16px 40px;
+        margin: 0 -16px -32px;
+        scroll-padding-inline: 16px;
+    }
+}
 .kovpack-news__avatar { background: var(--kovpack-accent); }
 
 /* Contact: one paper surface, display heading. */
