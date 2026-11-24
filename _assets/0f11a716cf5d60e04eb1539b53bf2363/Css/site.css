@@ -5188,11 +5188,11 @@ body[class] {
 .kovpack-nav-flyout { display: none; }
 @media (min-width: 1280px) and (hover: hover) {
     :root .header .header__nav:not(#_):not(#_) {
-        /* Item bottom to the platter's top: 18px under the pill on every
-         * page, which on the 72px bar leaves 8px of page between the bar's
+        /* Item bottom to the platter's top: 15px under the pill on every
+         * page, which on the 72px bar leaves 5px of page between the bar's
          * lower edge and the platter (owner, 2026-11-24: a platter whose top
          * met the bar's edge read as stuck on some pages, loose on others). */
-        --fly-neck: 25px;
+        --fly-neck: 22px;
         --fly-radius: 18px;
         /* Over the light page the glass is denser, so white labels keep
          * their contrast; over the home photo it is as clear as the pill. */
