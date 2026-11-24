@@ -2214,9 +2214,14 @@ body[class] {
 
 /* Right column: three short sections. */
 .frame-kovpack-contact-form.kovpack-offer form.kovpack-offer__form { display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; }
-.kovpack-offer__step { display: grid; gap: 8px; min-width: 0; margin: 0; padding: 0; border: 0; }
-.kovpack-offer__step-title { float: left; width: 100%; margin: 0 0 4px; padding: 0 0 8px; border-bottom: 1px solid var(--kovpack-ink); font-size: 12px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
+/* A plain block fieldset with spacing between its rows, not a grid: iPhone
+ * Safari gives a floated legend in a grid fieldset almost no width, so the
+ * section name ran down letter by letter (owner, 2026-11-24). The floated
+ * full-width legend is the cross-browser way to lay it out as a heading. */
+.kovpack-offer__step { --offer-step-gap: 8px; display: block; min-width: 0; margin: 0; padding: 0; border: 0; }
+.kovpack-offer__step-title { display: block; float: left; box-sizing: border-box; width: 100%; margin: 0 0 calc(var(--offer-step-gap) + 4px); padding: 0 0 8px; border-bottom: 1px solid var(--kovpack-ink); font-size: 12px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; overflow-wrap: normal; word-break: normal; }
 .kovpack-offer__step-title + * { clear: both; }
+.frame-kovpack-contact-form.kovpack-offer .kovpack-offer__step > * + *:not(.kovpack-offer__step-title + *):not(#_) { margin-top: var(--offer-step-gap); }
 
 /* The theme stacks every fieldset > div as a column and widens labels;
  * this form sets its own rows. */
@@ -4194,8 +4199,8 @@ body[class] {
     .frame-kovpack-contact-info.kovpack-offer p.kovpack-offer__personal:not(#_) { margin-top: 10px; font-size: 13.5px; }
 
     .frame-kovpack-contact-form.kovpack-offer form.kovpack-offer__form:not(#_) { gap: 18px; }
-    .kovpack-offer__step:not(#_) { gap: 7px; }
-    .kovpack-offer__step-title:not(#_) { margin-bottom: 2px; padding-bottom: 6px; font-size: 11px; }
+    .kovpack-offer__step:not(#_) { --offer-step-gap: 7px; }
+    .kovpack-offer__step-title:not(#_) { margin-bottom: calc(var(--offer-step-gap) + 2px); padding-bottom: 6px; font-size: 11px; }
     .frame-kovpack-contact-form.kovpack-offer .kovpack-offer__row:not(#_) { gap: 4px 10px; }
     .kovpack-offer__row-label:not(#_),
     .frame-kovpack-contact-form.kovpack-offer label.kovpack-offer__row-label:not(#_) { font-size: 13px; }
