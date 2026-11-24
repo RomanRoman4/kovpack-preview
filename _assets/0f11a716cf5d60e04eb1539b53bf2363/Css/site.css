@@ -5224,6 +5224,10 @@ body[class] {
     }
     :root .header:has(+ .hero:not(.hero--text-only, .hero--small)):not(.is-stuck, .is-scrolled, .is-docked) .header__nav:not(#_):not(#_) {
         --fly-tint: color-mix(in srgb, var(--kovpack-brand) 62%, transparent);
+        /* Over the photo there is no bar, only the pill: the platter floats
+         * 8px under the pill instead of 15px (owner, 2026-11-24: the gap
+         * read too large there). On the 72px bar it stays 5px under the bar. */
+        --fly-neck: 15px;
     }
     :root .header .kovpack-nav-flyout:not(#_):not(#_) {
         display: block;
