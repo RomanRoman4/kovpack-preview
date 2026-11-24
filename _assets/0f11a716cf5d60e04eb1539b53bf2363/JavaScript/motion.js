@@ -481,7 +481,7 @@ for (const list of document.querySelectorAll('.header__subnav, .header__language
         const side = (d) => (d <= 8 ? 0 : Math.max(d, room));
         const dl = side(ix - Math.min(P.x, ix)), dr = side(Math.max(P.x + P.w, ir) - ir);
         return {
-            ix, ir, iy, ib, rt, L: ix - dl, R: ir + dr, top, bot,
+            open: true, ix, ir, iy, ib, rt, L: ix - dl, R: ir + dr, top, bot,
             fl: dl ? f : 0, fr: dr ? f : 0, cl: dl ? CORNER : 0, cr: dr ? CORNER : 0, rb: BOTTOM,
         };
     };
@@ -510,6 +510,11 @@ for (const list of document.querySelectorAll('.header__subnav, .header__language
         fly.style.setProperty("--fly-sw", n1(R - L) + "px");
         fly.style.setProperty("--fly-sh", n1(bot - top) + "px");
         fly.style.setProperty("--fly-sr", `${cl}px ${cr}px ${rb}px ${rb}px`);
+        // The shading runs with the item and, once open, down to the panel's
+        // foot; drawing back up keeps it, so the colours stay put.
+        fly.style.setProperty("--fly-iy", n1(iy - oy) + "px");
+        fly.style.setProperty("--fly-ib", n1(ib - oy) + "px");
+        if (s.open) fly.style.setProperty("--fly-pb", n1(bot - oy) + "px");
     };
     const show = (panel) => {
         clearTimeout(openTimer);

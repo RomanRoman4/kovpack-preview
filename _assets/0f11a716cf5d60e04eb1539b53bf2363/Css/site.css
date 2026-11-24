@@ -5191,12 +5191,28 @@ body[class] {
     :root .header .header__nav:not(#_):not(#_) {
         /* Item bottom to the panel's top: the drop's neck. */
         --fly-neck: 14px;
-        /* The drop: solid, a lighter brand teal on the teal bar, the docked
-         * bar and over the photo (white labels keep 4.5:1). */
-        --nav-drop-fill: color-mix(in srgb, var(--kovpack-brand) 82%, #fff);
+        /* The drop is the bar's glass highlight made solid (owner,
+         * 2026-11-24: a flat fill read as plastic): the same bright top
+         * edge and the same shading over the item as the highlight on the
+         * other items, taken as it renders, then the glass deepens down the
+         * panel into the pill's own tone. Teal bar and docked bar: */
+        --nav-drop-rim: rgb(96 164 169);
+        --nav-drop-top: rgb(85 158 163);
+        --nav-drop-mid: rgb(52 140 145);
+        --nav-drop-end: rgb(28 126 132);
+    }
+    /* Over the home photo: the highlight on the brand-teal glass. */
+    :root .header:has(+ .hero:not(.hero--text-only, .hero--small)):not(.is-stuck, .is-scrolled, .is-docked) .header__nav:not(#_):not(#_) {
+        --nav-drop-rim: rgb(98 134 141);
+        --nav-drop-top: rgb(89 127 133);
+        --nav-drop-mid: rgb(43 93 100);
+        --nav-drop-end: rgb(22 76 84);
     }
     :root .header:is(.is-stuck, .is-scrolled):not(.is-docked) .header__nav:not(#_):not(#_) {
-        --nav-drop-fill: rgb(250 247 242);
+        --nav-drop-rim: rgb(255 255 255);
+        --nav-drop-top: rgb(252 250 246);
+        --nav-drop-mid: rgb(244 239 231);
+        --nav-drop-end: rgb(236 230 220);
     }
     :root .header .kovpack-nav-flyout:not(#_):not(#_) {
         display: block;
@@ -5234,13 +5250,15 @@ body[class] {
         height: var(--fly-sh, 0px);
         border-radius: var(--fly-sr, 0px);
         box-shadow:
-            0 8px 12px -10px color-mix(in srgb, var(--nav-shadow) 34%, transparent),
-            0 18px 32px -16px color-mix(in srgb, var(--nav-shadow) 50%, transparent);
+            0 4px 8px -6px color-mix(in srgb, var(--nav-shadow) 22%, transparent),
+            0 14px 26px -18px color-mix(in srgb, var(--nav-shadow) 40%, transparent);
         transition:
             left .3s var(--fly-close), top .3s var(--fly-close), width .3s var(--fly-close),
             height .3s var(--fly-close), border-radius .3s var(--fly-close);
     }
-    /* The drop itself: one solid fill, cut to the drop's outline. */
+    /* The drop itself: one solid shaded fill, cut to the drop's outline.
+     * --fly-iy / --fly-ib are the item's top and bottom, --fly-pb the
+     * panel's bottom, in this box (motion.js). */
     :root .header .kovpack-nav-flyout:not(#_):not(#_)::after {
         content: "";
         position: absolute;
@@ -5248,9 +5266,14 @@ body[class] {
         top: var(--fly-fy, 0px);
         width: var(--fly-fw, 0px);
         height: var(--fly-fh, 0px);
-        background-color: var(--nav-drop-fill);
+        background: linear-gradient(180deg,
+            var(--nav-drop-rim) var(--fly-iy, 0px),
+            var(--nav-drop-rim) calc(var(--fly-iy, 0px) + 1px),
+            var(--nav-drop-top) calc(var(--fly-iy, 0px) + 3px),
+            var(--nav-drop-mid) var(--fly-ib, 0px),
+            var(--nav-drop-end) var(--fly-pb, 0px)) var(--nav-drop-end);
         clip-path: var(--fly-path, inset(50%));
-        transition: clip-path .3s var(--fly-close), background-color .5s ease;
+        transition: clip-path .3s var(--fly-close);
     }
     /* Opening and gliding: Apple's sheet curve, no bounce. */
     :root .header .kovpack-nav-flyout.is-shown:not(#_):not(#_)::before {
@@ -5259,7 +5282,7 @@ body[class] {
             height .44s var(--fly-ease), border-radius .44s var(--fly-ease);
     }
     :root .header .kovpack-nav-flyout.is-shown:not(#_):not(#_)::after {
-        transition: clip-path .44s var(--fly-ease), background-color .5s ease;
+        transition: clip-path .44s var(--fly-ease);
     }
     /* A fresh open starts from the item without animating there. */
     :root .header .kovpack-nav-flyout.is-instant:not(#_):not(#_),
