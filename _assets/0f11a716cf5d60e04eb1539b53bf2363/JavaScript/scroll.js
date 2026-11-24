@@ -1,7 +1,9 @@
 (() => {
 "use strict";
 // The wide homepage swaps its full header for a compact fixed bar (.is-docked).
-// That bar is the brand teal bar of the inner pages. The bar never hides anywhere on the site
+// That bar is the brand teal bar of the inner pages. On wide screens the bar
+// never hides; the compact bar of phones and tablets slides away on the way
+// down or after a pause and comes back on the way up, as usual on phones
 // (owner, 2026-11-24).
 
 const header = document.querySelector('.header');
@@ -87,14 +89,49 @@ const root = document.documentElement;
 root.classList.add("kovpack-bar-teal");
 const keepTeal = () => !switching && wideHeader.matches && root.classList.contains("kovpack-bar-teal");
 
+// Compact bar: an open menu or keyboard focus keeps it in view.
+const compactLock = '.is-menu-open, :has(.header__menu--open, .header__language-dropdown--open, :focus-visible)';
+let directionAnchor = Math.max(0, window.scrollY);
+let idleTimer = 0;
+const updateCompactHeader = (y, floor = headerHeight) => {
+    clearTimeout(idleTimer);
+    if (!header) return;
+    if (y <= floor || header.matches(compactLock)) {
+        header.classList.remove('is-scroll-hidden');
+        directionAnchor = y;
+        return;
+    }
+    // Measure from the last high or low point so tiny reversals do not flicker.
+    const hidden = header.classList.contains('is-scroll-hidden');
+    directionAnchor = hidden ? Math.max(directionAnchor, y) : Math.min(directionAnchor, y);
+    const shouldToggle = hidden ? directionAnchor - y >= 10 : y - directionAnchor >= 18;
+    if (shouldToggle) {
+        header.classList.toggle('is-scroll-hidden', !hidden);
+        directionAnchor = y;
+    }
+    if (!header.classList.contains('is-scroll-hidden')) {
+        idleTimer = setTimeout(() => {
+            if (window.scrollY <= floor || header.matches(compactLock)) return;
+            directionAnchor = y;
+            header.classList.add('is-scroll-hidden');
+        }, 1400);
+    }
+};
+
 
 const update = () => {
     const y = window.scrollY;
     const scrolled = y > 2;
     header?.classList.toggle('is-scrolled', scrolled && (!switching || !wideHeader.matches) && !keepTeal());
 
-    // The bar stays in view everywhere (owner, 2026-11-24).
-    header?.classList.remove('is-scroll-hidden');
+    if (!wideHeader.matches) {
+        // Safari's overscroll can report positions beyond either page edge.
+        const page = document.scrollingElement;
+        updateCompactHeader(Math.max(0, Math.min(y, page.scrollHeight - page.clientHeight)));
+    } else {
+        clearTimeout(idleTimer);
+        header?.classList.remove('is-scroll-hidden');
+    }
     if (wideHeader.matches && switching) {
         if (y > headerHeight) {
             cancelRelease();
@@ -187,6 +224,8 @@ measure();
 update();
 addEventListener('scroll', onScroll, { passive: true });
 wideHeader.addEventListener('change', () => {
+    clearTimeout(idleTimer);
+    directionAnchor = Math.max(0, window.scrollY);
     header?.classList.remove('is-scroll-hidden', 'is-leaving', 'is-returning');
     if (!wideHeader.matches) setStuck(false);
     measure();
