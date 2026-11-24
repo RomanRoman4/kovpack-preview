@@ -5194,30 +5194,15 @@ body[class] {
 .kovpack-nav-flyout { display: none; }
 @media (min-width: 1280px) and (hover: hover) {
     :root .header .header__nav:not(#_):not(#_) {
-        /* Item bottom to the panel's top: the drop's neck. */
-        --fly-neck: 14px;
-        /* The drop is the bar's glass highlight made solid (owner,
-         * 2026-11-24: a flat fill read as plastic): the same bright top
-         * edge and the same shading over the item as the highlight on the
-         * other items, taken as it renders, then the glass deepens down the
-         * panel into the pill's own tone. Teal bar and docked bar: */
-        --nav-drop-rim: rgb(96 164 169);
-        --nav-drop-top: rgb(85 158 163);
-        --nav-drop-mid: rgb(52 140 145);
-        --nav-drop-end: rgb(28 126 132);
-    }
-    /* Over the home photo: the highlight on the brand-teal glass. */
-    :root .header:has(+ .hero:not(.hero--text-only, .hero--small)):not(.is-stuck, .is-scrolled, .is-docked) .header__nav:not(#_):not(#_) {
-        --nav-drop-rim: rgb(98 134 141);
-        --nav-drop-top: rgb(89 127 133);
-        --nav-drop-mid: rgb(43 93 100);
-        --nav-drop-end: rgb(22 76 84);
-    }
-    :root .header:is(.is-stuck, .is-scrolled):not(.is-docked) .header__nav:not(#_):not(#_) {
-        --nav-drop-rim: rgb(255 255 255);
-        --nav-drop-top: rgb(252 250 246);
-        --nav-drop-mid: rgb(244 239 231);
-        --nav-drop-end: rgb(236 230 220);
+        /* Item bottom to the panel's top: the drop's neck. 17px puts the
+         * panel's top on the 72px bar's lower edge. */
+        --fly-neck: 17px;
+        /* The drop is a sheet of the page's own paper (owner, 2026-11-24:
+         * the teal drops read as plastic): matte, flat, no sheen or rim.
+         * The open item turns into a paper tab that runs down out of the
+         * bar into the panel, like a browser tab into its page; the labels
+         * on it are ink, the open item and the pointed row brand teal. */
+        --nav-drop-fill: var(--kovpack-paper, #fffdf8);
     }
     :root .header .kovpack-nav-flyout:not(#_):not(#_) {
         display: block;
@@ -5255,15 +5240,14 @@ body[class] {
         height: var(--fly-sh, 0px);
         border-radius: var(--fly-sr, 0px);
         box-shadow:
-            0 4px 8px -6px color-mix(in srgb, var(--nav-shadow) 22%, transparent),
-            0 14px 26px -18px color-mix(in srgb, var(--nav-shadow) 40%, transparent);
+            0 0 0 1px rgb(20 26 27 / 7%),
+            0 1px 2px -1px rgb(20 26 27 / 8%),
+            0 16px 32px -18px rgb(14 38 40 / 24%);
         transition:
             left .3s var(--fly-close), top .3s var(--fly-close), width .3s var(--fly-close),
             height .3s var(--fly-close), border-radius .3s var(--fly-close);
     }
-    /* The drop itself: one solid shaded fill, cut to the drop's outline.
-     * --fly-iy / --fly-ib are the item's top and bottom, --fly-pb the
-     * panel's bottom, in this box (motion.js). */
+    /* The drop itself: one flat fill, cut to the drop's outline. */
     :root .header .kovpack-nav-flyout:not(#_):not(#_)::after {
         content: "";
         position: absolute;
@@ -5271,12 +5255,7 @@ body[class] {
         top: var(--fly-fy, 0px);
         width: var(--fly-fw, 0px);
         height: var(--fly-fh, 0px);
-        background: linear-gradient(180deg,
-            var(--nav-drop-rim) var(--fly-iy, 0px),
-            var(--nav-drop-rim) calc(var(--fly-iy, 0px) + 1px),
-            var(--nav-drop-top) calc(var(--fly-iy, 0px) + 3px),
-            var(--nav-drop-mid) var(--fly-ib, 0px),
-            var(--nav-drop-end) var(--fly-pb, 0px)) var(--nav-drop-end);
+        background: var(--nav-drop-fill);
         clip-path: var(--fly-path, inset(50%));
         transition: clip-path .3s var(--fly-close);
     }
@@ -5308,6 +5287,27 @@ body[class] {
     /* The panels hang a neck's length below their item. */
     :root .header .header__nav.has-flyout :is(.header__subnav, .header__language-menu):not(#_):not(#_):not(#_):not(#_) {
         top: calc(100% + var(--fly-neck));
+    }
+    /* On the paper: ink labels; the open item and the row under the
+     * pointer (or the current page) in brand teal. */
+    :root .header .header__nav.has-flyout :is(.header__subnav-item, .header__language-menu-link):not(#_):not(#_):not(#_):not(#_) {
+        color: var(--kovpack-ink);
+        transition: color .15s ease;
+    }
+    :root .header .header__nav.has-flyout :is(.header__subnav-item, .header__language-menu-link):is(.is-dropped, [aria-current="page"], :focus-visible):not(#_):not(#_):not(#_):not(#_) {
+        color: var(--kovpack-brand);
+    }
+    :root .header .header__nav.has-flyout .header__nav-list-item.is-poured > .header__nav-item:not(#_):not(#_):not(#_):not(#_),
+    :root .header .header__nav.has-flyout .header__language-dropdown.is-poured .header__language-button:not(#_):not(#_):not(#_):not(#_) {
+        color: var(--kovpack-brand);
+        transition: color .15s ease;
+    }
+    /* The pointed row: a flat brand tint, no sheen, rim or shadow (radius
+     * 12 = the panel's 20 less its 8px padding). */
+    :root .header .header__nav.has-flyout :is(.header__subnav, .header__language-menu) .kovpack-subnav-drop:not(#_):not(#_):not(#_) {
+        background: color-mix(in srgb, var(--kovpack-brand) 8%, transparent);
+        box-shadow: none;
+        border-radius: 12px;
     }
 
     /* The panels: labels only, the pane paints them. */

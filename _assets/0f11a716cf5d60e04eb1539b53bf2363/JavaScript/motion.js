@@ -458,7 +458,11 @@ for (const list of document.querySelectorAll('.header__subnav, .header__language
     nav.classList.add("has-flyout");
     // Fillet into the panel, the panel's free top corner, its lower corners.
     const FILLET = 14, CORNER = 16, BOTTOM = 20;
-    let current = null, hiddenAt = -Infinity, openTimer = 0, swapTimer = 0;
+    let current = null, hiddenAt = -Infinity, openTimer = 0, swapTimer = 0, pourTimer = 0;
+    // The item the paper runs out of keeps its paper label colour until
+    // the paper has gone (.is-poured), also while it draws back up.
+    const owners = [...nav.querySelectorAll(".header__nav-list-item, .header__language-dropdown")];
+    const pour = (owner) => { clearTimeout(pourTimer); for (const o of owners) o.classList.toggle("is-poured", o === owner); };
     const itemOf = (panel) => panel.closest(".header__nav-list-item, .header__language-dropdown")
         ?.querySelector(".header__nav-item, .header__language-button");
     const rel = (el) => {
@@ -481,7 +485,7 @@ for (const list of document.querySelectorAll('.header__subnav, .header__language
         const side = (d) => (d <= 8 ? 0 : Math.max(d, room));
         const dl = side(ix - Math.min(P.x, ix)), dr = side(Math.max(P.x + P.w, ir) - ir);
         return {
-            open: true, ix, ir, iy, ib, rt, L: ix - dl, R: ir + dr, top, bot,
+            ix, ir, iy, ib, rt, L: ix - dl, R: ir + dr, top, bot,
             fl: dl ? f : 0, fr: dr ? f : 0, cl: dl ? CORNER : 0, cr: dr ? CORNER : 0, rb: BOTTOM,
         };
     };
@@ -510,11 +514,6 @@ for (const list of document.querySelectorAll('.header__subnav, .header__language
         fly.style.setProperty("--fly-sw", n1(R - L) + "px");
         fly.style.setProperty("--fly-sh", n1(bot - top) + "px");
         fly.style.setProperty("--fly-sr", `${cl}px ${cr}px ${rb}px ${rb}px`);
-        // The shading runs with the item and, once open, down to the panel's
-        // foot; drawing back up keeps it, so the colours stay put.
-        fly.style.setProperty("--fly-iy", n1(iy - oy) + "px");
-        fly.style.setProperty("--fly-ib", n1(ib - oy) + "px");
-        if (s.open) fly.style.setProperty("--fly-pb", n1(bot - oy) + "px");
     };
     const show = (panel) => {
         clearTimeout(openTimer);
@@ -533,6 +532,7 @@ for (const list of document.querySelectorAll('.header__subnav, .header__language
             fly.classList.remove("is-instant");
         }
         nav.classList.toggle("is-flowing", panel.classList.contains("header__subnav"));
+        pour(panel.closest(".header__nav-list-item, .header__language-dropdown"));
         fly.classList.add("is-shown");
         draw(shape(panel, true));
         current = panel;
@@ -545,6 +545,8 @@ for (const list of document.querySelectorAll('.header__subnav, .header__language
         hiddenAt = performance.now();
         fly.classList.remove("is-shown");
         nav.classList.remove("is-flowing");
+        clearTimeout(pourTimer);
+        pourTimer = setTimeout(() => pour(null), 340);
         clearTimeout(swapTimer);
         swapTimer = setTimeout(() => header.classList.remove("is-menu-swap"), 260);
     };
