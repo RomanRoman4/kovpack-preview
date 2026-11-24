@@ -2864,7 +2864,9 @@ body[class] {
     border-radius: 8px;
     color: var(--kovpack-ink);
     text-decoration: none;
-    transition: background-color .25s ease;
+    /* A soft hover (owner, 2026-11-24): the tint fades in slowly, the arrow
+     * follows with its fill and a small nudge, and both ease out again. */
+    transition: background-color .45s cubic-bezier(.22, .61, .36, 1);
 }
 .kovpack-partner__line a:is(:hover, :focus-visible) { background: var(--partner-panel); }
 .kovpack-partner__line a:focus-visible { outline: 2px solid var(--kovpack-brand); outline-offset: 2px; }
@@ -2879,8 +2881,7 @@ body[class] {
     stroke-linecap: round;
     stroke-linejoin: round;
 }
-.kovpack-partner__arrow,
-.kovpack-partner__step-number {
+.kovpack-partner__arrow {
     display: grid;
     place-items: center;
     flex: none;
@@ -2890,14 +2891,19 @@ body[class] {
     background: var(--partner-soft);
     color: var(--kovpack-brand);
 }
-.kovpack-partner__arrow { position: absolute; top: 6px; inset-inline-end: 6px; }
-.kovpack-partner__line a:hover .kovpack-partner__arrow { background: var(--kovpack-brand); color: white; }
+.kovpack-partner__arrow {
+    position: absolute;
+    top: 6px;
+    inset-inline-end: 6px;
+    transition: background-color .45s cubic-bezier(.22, .61, .36, 1), color .45s cubic-bezier(.22, .61, .36, 1), translate .45s cubic-bezier(.22, .61, .36, 1);
+}
+.kovpack-partner__line a:is(:hover, :focus-visible) .kovpack-partner__arrow { background: var(--kovpack-brand); color: white; translate: 2px 0; }
 
-.kovpack-partner__steps { counter-reset: partner-step; }
-.kovpack-partner__step { display: flex; align-items: flex-start; gap: 12px; counter-increment: partner-step; }
-.kovpack-partner__step-number { font-weight: 700; }
-.kovpack-partner__step-number::before { content: counter(partner-step); }
-.kovpack-partner__step h3 { padding-top: 5px; }
+/* No visible step numbers (owner, 2026-11-24): the list stays an ordered
+ * list for screen readers; thin column rules part the steps as they part the
+ * product links above. */
+.page__content .kovpack-partner .kovpack-partner__step { padding-inline-start: 16px; border-inline-start: 1px solid var(--kovpack-line); }
+.page__content .kovpack-partner .kovpack-partner__step:first-child { padding-inline-start: 0; border-inline-start: 0; }
 .kovpack-partner__line h3 + p,
 .kovpack-partner__step h3 + p { margin-top: 5px; }
 .kovpack-partner__story h2 + p,
@@ -2939,11 +2945,14 @@ body[class] {
     .page__content .kovpack-partner .kovpack-partner__line { border-inline-start: 0; }
     .kovpack-partner__line + .kovpack-partner__line { border-top: 1px solid var(--kovpack-line); padding-top: 10px; }
     .kovpack-partner__line a { padding-inline-start: 0; }
+    .page__content .kovpack-partner .kovpack-partner__step { padding-inline-start: 0; border-inline-start: 0; }
+    .kovpack-partner__step + .kovpack-partner__step { border-top: 1px solid var(--kovpack-line); padding-top: 12px; }
     .kovpack-partner__story img { aspect-ratio: 1.9; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .kovpack-partner__line a { transition: none; }
+    .kovpack-partner__line a,
+    .kovpack-partner__arrow { transition: none; }
 }
 
 /* Home page contact section (owner mockup, 2026-11-10): on the page colour, no
