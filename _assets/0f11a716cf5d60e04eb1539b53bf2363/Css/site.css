@@ -950,6 +950,21 @@ button.header__nav-item {
     .component--page-footer .footer__col--1 .ce-bodytext p { white-space: nowrap; }
     .component--page-footer .footer__meta { margin-top: 24px; padding-top: 14px; }
 }
+/* The brand row larger and centred down the height of the link columns
+ * (owner, 2026-11-24). */
+@media (min-width: 1280px) {
+    .component--page-footer .footer__col--1:has(.frame-type-textmedia):not(#_) { align-self: center; gap: clamp(20px, 1.7vw, 32px); }
+    .component--page-footer .footer__col--1 .frame-type-textmedia:not(#_) { padding-left: clamp(20px, 1.7vw, 32px); }
+    /* Sizes scale with the width (1280 to 1920px), so the row always fits
+     * its column; the logo never shrinks out of its proportions. */
+    .component--page-footer .footer__logo:not(#_) { flex: none; height: clamp(30px, 2.1vw, 40px); }
+    .component--page-footer .footer__logo:not(#_) img { width: auto; height: 100%; }
+    .component--page-footer .footer__col--1 .ce-textpic:not(#_) { gap: 14px; }
+    .component--page-footer .footer__col--1 .ce-gallery:not(#_) { flex-basis: clamp(48px, 3.4vw, 64px); }
+    .component--page-footer .footer__col--1 .ce-gallery img:not(#_) { width: clamp(48px, 3.4vw, 64px); height: clamp(48px, 3.4vw, 64px); }
+    .component--page-footer .footer__col--1 .ce-bodytext p:not(#_) { font-size: clamp(11px, .63vw, 12px); }
+    .component--page-footer .footer__col--1 .ce-bodytext p + p:not(#_) { font-size: clamp(11px, .63vw, 12px); margin-top: 2px; }
+}
 /* Too narrow for one line: brand and FSC mark stacked again. */
 @media (min-width: 1024px) and (max-width: 1279px) {
     .component--page-footer .footer__col--1:has(.frame-type-textmedia) { flex-direction: column; align-items: flex-start; gap: 16px; }
@@ -1952,7 +1967,8 @@ body[class] {
 .kovpack-pdp { overflow-x: clip; }
 .kovpack-pdp__deck { touch-action: pan-y; user-select: none; }
 .kovpack-pdp__gallery:not(.is-ready) .kovpack-pdp__card:not(:first-child) { visibility: hidden; }
-.kovpack-pdp__gallery-nav { display: flex; align-items: center; justify-content: center; gap: 18px; margin-top: 30px; }
+/* Clear of the tilted cards under the photo (owner, 2026-11-24). */
+.kovpack-pdp__gallery-nav { display: flex; align-items: center; justify-content: center; gap: 18px; margin-top: 50px; }
 .kovpack-pdp__gallery-nav[hidden] { display: none; }
 .kovpack-pdp .kovpack-pdp__gallery-count { min-width: 4.5em; margin: 0; color: var(--kovpack-muted); font-size: 14px; font-variant-numeric: tabular-nums; text-align: center; }
 .kovpack-pdp__gallery-count [data-pdp-gallery-current] { color: var(--kovpack-ink); font-weight: 600; }
