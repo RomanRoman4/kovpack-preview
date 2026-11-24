@@ -1529,8 +1529,12 @@ body[class] {
         grid-template-rows: 1fr auto 1fr;
     }
     .kovpack-hero-tile__image { grid-row: 1 / 4; grid-column: 1; height: 100%; aspect-ratio: auto; min-height: 84px; }
-    .kovpack-hero-tile__name { grid-row: 2; grid-column: 2; padding: 0 16px; font-size: 22px; }
-    .kovpack-hero-tile__label { grid-row: 3; grid-column: 2; align-self: start; padding: 6px 16px 0; }
+    .kovpack-hero-tile__name { grid-row: 2; grid-column: 2; padding: 0 16px; font-size: min(22px, 4.9cqi); }
+    /* Narrow strips wrap the uses: commas, so no line starts with a bullet. */
+    .kovpack-hero-tile__uses { gap: 0 .3em; }
+    .kovpack-hero-tile__uses span + span::before { content: none; }
+    .kovpack-hero-tile__uses span:not(:last-child)::after { content: ","; }
+    .kovpack-hero-tile__label { grid-row: 3; grid-column: 2; align-self: start; padding: 6px 16px 14px; }
     .kovpack-hero-tile__icon { width: 30px; }
     .kovpack-hero-tile__name { text-align: left; }
 }
@@ -5285,5 +5289,34 @@ body[class] {
     :root.kovpack-bar-teal .header.is-scroll-hidden:not(:has(+ .hero:not(.hero--text-only, .hero--small))):not(.is-pointer-in, .is-menu-open, :has(.header__menu--open, .header__language-dropdown--open, :focus-visible)):not(#_) {
         translate: 0 calc(-100% - 12px);
         pointer-events: none;
+    }
+}
+
+/* Compact navigation in the brand style of the wide bar (owner, 2026-11-24):
+ * the bar on the inner pages and, once the home page scrolls, the bar there
+ * is solid brand teal like the footer, with the white logo; the Menu button
+ * is white frosted glass on it. Over the home photo the clear bar with the
+ * brand-teal glass button stays. */
+@media (width < 1280px), (hover: none) {
+    :root .header:not(#_)::before {
+        background-color: var(--kovpack-brand);
+        box-shadow: 0 8px 14px -10px rgb(0 40 42 / 45%);
+    }
+    /* The bar stays while the menu is open, so the white logo keeps its ground. */
+    :root .header.is-menu-open:is(.is-scrolled, :not(:has(+ .hero:not(.hero--text-only, .hero--small)))):not(#_)::before { opacity: 1; }
+    :root .header:not(#_) .header__logo :is(img, svg) { filter: none; opacity: 1; }
+    :root .header:not(#_) .header__logo:focus-visible { outline-color: var(--kovpack-on-primary); }
+    :root .header .header__menu-button .button:not(#_):not(#_) {
+        --compact-menu-sheen: rgb(255 255 255 / 16%);
+        color: #fff;
+        background-color: rgb(255 255 255 / 11%);
+        border-color: rgb(255 255 255 / 24%);
+        box-shadow: inset 0 1px 0 rgb(255 255 255 / 30%), inset 0 -1px 0 rgb(255 255 255 / 8%), 0 6px 16px -12px rgb(0 30 32 / 60%);
+    }
+    :root .header.is-menu-open .header__menu-button .button:not(#_):not(#_) { background-color: rgb(255 255 255 / 20%); }
+    :root .header:has(+ .hero:not(.hero--text-only, .hero--small)):not(.is-scrolled) .header__menu-button .button:not(#_):not(#_) {
+        background-color: color-mix(in srgb, var(--kovpack-brand) 54%, transparent);
+        border-color: rgb(255 255 255 / 26%);
+        box-shadow: inset 0 1px 0 rgb(255 255 255 / 30%), 0 8px 24px -14px rgb(0 0 0 / 50%);
     }
 }
