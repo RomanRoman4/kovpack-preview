@@ -114,9 +114,10 @@ if (!reduced && 'IntersectionObserver' in window) {
 // its line runs from station to station and each dot lights up as the line
 // reaches it. Each item gets its place (--i) for the CSS delays, so any
 // number of steps works. Without JavaScript or with reduced motion the
-// timeline simply stands fully drawn.
+// timeline simply stands fully drawn. A [data-cascade] list (the
+// distributor benefits) uses the same arming: its rows come in one by one.
 if (!reduced && 'IntersectionObserver' in window) {
-    const timelines = document.querySelectorAll('[data-timeline]');
+    const timelines = document.querySelectorAll('[data-timeline], [data-cascade]');
     const drawObserver = new IntersectionObserver((entries) => {
         for (const entry of entries) {
             if (!entry.isIntersecting) continue;

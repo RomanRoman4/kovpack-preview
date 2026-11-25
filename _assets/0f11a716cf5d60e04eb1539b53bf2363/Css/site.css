@@ -3074,6 +3074,44 @@ body[class] {
     transition: transform .5s cubic-bezier(.55, 0, .3, 1) calc(.3s + var(--i, 0) * .6s);
 }
 @keyframes kovpack-step-lit { 0% { scale: 1; } 45% { scale: 1.28; } 100% { scale: 1; } }
+
+/* Benefits cascade (owner, 2026-11-25: the points should come in nicely on
+ * scroll). motion.js arms the [data-cascade] list and draws it in view: row
+ * by row the hairline runs out from the left, the check pops in on a teal
+ * flash and settles into its soft disc, and the text rises out of a light
+ * blur. Without JavaScript or with reduced motion the list simply stands. */
+.page__content .kovpack-partner .kovpack-partner__benefit-list.is-armed {
+    border-top-color: transparent;
+    background: linear-gradient(var(--kovpack-line), var(--kovpack-line)) left top / 0 1px no-repeat;
+}
+.page__content .kovpack-partner .kovpack-partner__benefit-list.is-armed li {
+    border-bottom-color: transparent;
+    background: linear-gradient(var(--kovpack-line), var(--kovpack-line)) left bottom / 0 1px no-repeat;
+}
+.page__content .kovpack-partner .kovpack-partner__benefit-list.is-armed .kovpack-partner__check { opacity: 0; scale: .3; }
+.page__content .kovpack-partner .kovpack-partner__benefit-list.is-armed li > span:not(.kovpack-partner__check) { opacity: 0; translate: 0 16px; filter: blur(6px); }
+.page__content .kovpack-partner .kovpack-partner__benefit-list.is-armed.is-drawn { background-size: 100% 1px; transition: background-size .9s cubic-bezier(.65, 0, .25, 1); }
+.page__content .kovpack-partner .kovpack-partner__benefit-list.is-armed.is-drawn li {
+    background-size: 100% 1px;
+    transition: background-size .9s cubic-bezier(.65, 0, .25, 1) calc(.15s + var(--i, 0) * .14s);
+}
+.page__content .kovpack-partner .kovpack-partner__benefit-list.is-armed.is-drawn .kovpack-partner__check {
+    opacity: 1;
+    scale: 1;
+    animation: kovpack-check-in .7s cubic-bezier(.3, 1.4, .5, 1) calc(.2s + var(--i, 0) * .14s) both;
+}
+.page__content .kovpack-partner .kovpack-partner__benefit-list.is-armed.is-drawn li > span:not(.kovpack-partner__check) {
+    opacity: 1;
+    translate: none;
+    filter: none;
+    transition: opacity .6s ease, translate .8s cubic-bezier(.2, .8, .2, 1), filter .6s ease;
+    transition-delay: calc(.28s + var(--i, 0) * .14s);
+}
+@keyframes kovpack-check-in {
+    0% { opacity: 0; scale: .3; rotate: -30deg; background-color: var(--kovpack-brand); color: #fff; }
+    50% { opacity: 1; scale: 1.18; rotate: 0deg; background-color: var(--kovpack-brand); color: #fff; }
+    100% { opacity: 1; scale: 1; rotate: 0deg; background-color: var(--partner-soft); color: var(--kovpack-brand); }
+}
 .page__content .kovpack-partner .kovpack-partner__step h3 + p { margin-top: 12px; max-width: 32ch; }
 
 /* Story: the photo large on the left, the copy beside it. */
