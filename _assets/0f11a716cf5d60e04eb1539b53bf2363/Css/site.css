@@ -2776,7 +2776,7 @@ body[class] {
 .kovpack-partner .kovpack-about__cta:hover { background: var(--kovpack-primary); }
 .kovpack-partner .kovpack-about__cta svg { flex: none; }
 .kovpack-partner .kovpack-about__hero-media { aspect-ratio: 16 / 10; border-radius: 16px; box-shadow: none; }
-.kovpack-partner .kovpack-about__hero-media img { object-position: center 60%; transform: none; }
+.kovpack-partner .kovpack-about__hero-media img { object-position: 80% 50%; transform: none; }
 
 /* Body: one column of sections, each parted from the last by a hairline. */
 .kovpack-partner__body {
@@ -3108,7 +3108,7 @@ body[class] {
     .kovpack-partner .kovpack-about__hero { padding-block: 32px 56px; }
     .kovpack-partner .kovpack-about__hero-inner { grid-template-columns: minmax(0, 1fr); gap: 40px; }
     .page__content .kovpack-partner .kovpack-about__hero h1 { font-size: clamp(38px, 7vw, 60px); }
-    .kovpack-partner .kovpack-about__hero-media { aspect-ratio: 4 / 3; }
+    .kovpack-partner .kovpack-about__hero-media { aspect-ratio: 3 / 2; }
     .kovpack-partner__story { grid-template-columns: minmax(0, 1fr); row-gap: 36px; }
     .kovpack-partner__contact { grid-template-columns: minmax(0, 1fr); }
 }
