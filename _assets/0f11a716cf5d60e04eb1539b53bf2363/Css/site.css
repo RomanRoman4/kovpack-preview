@@ -3120,7 +3120,7 @@ body[class] {
 /* Story: the photo large on the left, the copy beside it. */
 .kovpack-partner__story { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: center; }
 .kovpack-partner__story:has(> :only-child) { grid-template-columns: minmax(0, 1fr); }
-.kovpack-partner__story img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: 50% 0; border-radius: 16px; }
+.kovpack-partner__story img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: 50% 50%; border-radius: 16px; }
 .kovpack-partner__story .kovpack-about__eyebrow { margin-bottom: clamp(18px, 1.6vw, 26px); }
 .page__content .kovpack-partner .kovpack-partner__story h2 { font-size: clamp(32px, 3vw, 56px); }
 .page__content .kovpack-partner .kovpack-partner__story h2 + p { max-width: 40ch; margin-top: clamp(18px, 1.6vw, 26px); }
