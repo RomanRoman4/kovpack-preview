@@ -5642,82 +5642,77 @@ a[x-apple-data-detectors] { color: inherit !important; font: inherit !important;
     .frame-kovpack-contact-form.kovpack-offer .kovpack-offer__date > input[type=date]:not(#_) { min-height: calc(1.3em + 20px); }
 }
 
-/* Compact menu in the footer's style (owner, 2026-11-25: the open menu had
- * too many tones next to the bar and the Menu button). The pane is the solid
- * brand teal of the bar and the footer; every row is one of the footer's
- * glass buttons (phone, e-mail); an open group is one such button holding
- * its list; the current page is the button a step lighter, as the open Menu
- * button. No grey glass, no dark well, no white pill. */
+/* Compact menu as the desktop flyout (owner, 2026-11-25: no outline round
+ * every row; the same look and effect as the desktop submenu). The pane is
+ * the flyout's glass: brand teal with a soft sheen, a lit top rim and a long
+ * shadow. The rows are plain white labels; the current or touched row sits
+ * on the desktop's lighter glass drop, which flows to the row under the
+ * finger (motion.js). An open group rests on a faint well, without a rim. */
 @media (width < 1280px), (hover: none) {
     :root .header .header__menu .header__nav:not(#_):not(#_) {
-        --menu-glass: rgb(255 255 255 / 11%);
-        --menu-glass-on: rgb(255 255 255 / 20%);
-        --menu-glass-sheen: rgb(255 255 255 / 16%);
-        --menu-glass-rim: rgb(255 255 255 / 24%);
-        --menu-glass-shadow: inset 0 1px 0 rgb(255 255 255 / 30%), inset 0 -1px 0 rgb(255 255 255 / 8%), 0 6px 16px -12px rgb(0 30 32 / 60%);
-        padding: 12px;
-        background: var(--kovpack-brand);
+        padding: 8px;
+        background:
+            radial-gradient(140% 70% at 20% 0%, rgb(255 255 255 / 14%), rgb(255 255 255 / 0%) 62%),
+            linear-gradient(180deg, rgb(255 255 255 / 10%), rgb(255 255 255 / 2%) 40%, rgb(255 255 255 / 5%)),
+            color-mix(in srgb, var(--kovpack-brand) 82%, transparent);
         border-radius: 22px;
-        box-shadow: inset 0 0 0 1px rgb(255 255 255 / 12%), 0 30px 60px -24px rgb(0 20 22 / 70%);
-        -webkit-backdrop-filter: none;
-        backdrop-filter: none;
+        box-shadow:
+            inset 0 1px 0 rgb(255 255 255 / 38%),
+            inset 0 0 0 1px rgb(255 255 255 / 13%),
+            inset 0 -1px 0 rgb(255 255 255 / 7%),
+            0 2px 6px rgb(0 30 32 / 12%),
+            0 26px 50px -18px rgb(0 30 32 / 50%);
+        -webkit-backdrop-filter: blur(24px) saturate(1.8);
+        backdrop-filter: blur(24px) saturate(1.8);
     }
     :root .header .header__menu .header__nav::before { content: none; }
-    .kovpack-menu-drop:not(#_):not(#_) { display: none; }
 
-    :root .header .header__menu .header__nav-list:not(#_) { display: grid; gap: 8px; }
-    :root .header .header__menu .header__nav-list-item:not(#_):not(#_) { margin-block: 0; }
     :root .header .header__menu .header__nav-list-item + .header__nav-list-item::before { content: none; }
-
     :root .header .header__menu .header__nav-item:not(#_) {
         min-height: 56px;
         padding: 0 16px 0 18px;
-        border: 1px solid var(--menu-glass-rim);
         border-radius: 14px;
-        background-color: var(--menu-glass);
-        background-image: linear-gradient(180deg, var(--menu-glass-sheen), transparent);
-        box-shadow: var(--menu-glass-shadow);
-        font-family: var(--kovpack-font);
-        font-size: 17px;
-        font-weight: 600;
-        letter-spacing: .01em;
-        text-shadow: none;
-        transition: background-color .15s ease, transform .15s ease-out;
-    }
-    :root .header .header__menu .header__nav-item:not(#_):active { transform: scale(.97); }
-    :root .header .header__menu .header__nav-item--active:not(#_) { background-color: var(--menu-glass-on); }
-    :root .header .header__menu .header__nav-item .icon:not(#_) { width: 20px; height: 20px; opacity: .8; }
-    :root .header .header__menu .header__nav-item:not(.header__nav-item--has-subnav)::after { opacity: .8; }
-
-    /* An open group: the whole group is one button; its row loses its own fill. */
-    :root .header .header__menu .header__nav-list-item::after {
-        border-radius: 14px;
-        background-color: var(--menu-glass);
-        background-image: linear-gradient(180deg, var(--menu-glass-sheen), transparent 60px);
-        box-shadow: inset 0 0 0 1px var(--menu-glass-rim), var(--menu-glass-shadow);
-        transform: none;
-    }
-    :root .header .header__menu .header__nav-list-item.is-unfolded > .header__nav-item:not(#_) {
-        border-color: transparent;
+        color: rgb(255 255 255 / 92%);
         background: none;
+        font-family: var(--kovpack-font);
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: .005em;
+        text-shadow: 0 1px 2px rgb(0 30 32 / 18%);
+    }
+    :root .header .header__menu .header__nav-item--active:not(#_) { color: #fff; }
+    :root .header .header__menu .header__nav-item .icon:not(#_) { width: 20px; height: 20px; opacity: .75; }
+    :root .header .header__menu .header__nav-item:not(.header__nav-item--has-subnav)::after { opacity: .7; }
+
+    /* The drop: the desktop's lighter glass under the row. */
+    .kovpack-menu-drop:not(#_):not(#_) {
+        left: 8px;
+        right: 8px;
+        border-radius: 14px;
+        background: linear-gradient(180deg, rgb(255 255 255 / 26%), rgb(255 255 255 / 12%));
+        box-shadow: inset 0 1px 0 rgb(255 255 255 / 32%), inset 0 0 0 1px rgb(255 255 255 / 8%), 0 6px 16px -10px rgb(0 30 32 / 45%);
+    }
+
+    /* An open group: a faint well, no rim. */
+    :root .header .header__menu .header__nav-list-item::after {
+        border-radius: 16px;
+        background: rgb(255 255 255 / 7%);
         box-shadow: none;
     }
     :root .header .header__menu .header__subnav-item:not(#_) { color: rgb(255 255 255 / 85%); font-size: 16px; }
-    :root .header .header__menu .header__subnav-item[aria-current="page"]:not(#_) { background: rgb(255 255 255 / 12%); }
-    :root .header .header__menu .header__subnav-item[aria-current="page"]::before { background: currentColor; box-shadow: none; }
+    :root .header .header__menu .header__subnav-item[aria-current="page"]:not(#_) { color: #fff; font-weight: 600; background: none; }
+    :root .header .header__menu .header__subnav-item[aria-current="page"]::before { background: currentColor; opacity: 1; box-shadow: none; }
 
-    /* Language: the same glass as the rows; the current language a step lighter. */
-    :root .header .header__menu .header__language-nav:not(#_) { margin-top: 4px; padding: 12px 2px 0; border-top-color: rgb(255 255 255 / 12%); }
+    /* Language: a faint track, the current language on the same glass drop. */
+    :root .header .header__menu .header__language-nav:not(#_) { border-top-color: rgb(255 255 255 / 10%); }
     :root .header .header__menu .header__language-menu:not(#_) {
-        border: 1px solid var(--menu-glass-rim);
-        background-color: var(--menu-glass);
-        background-image: linear-gradient(180deg, var(--menu-glass-sheen), transparent);
-        box-shadow: var(--menu-glass-shadow);
+        background: rgb(255 255 255 / 7%);
+        box-shadow: none;
     }
     :root .header .header__menu .header__language-menu-link:not(#_) { color: rgb(255 255 255 / 75%); }
     :root .header .header__menu .header__language-menu-link--active:not(#_) {
         color: #fff;
-        background: rgb(255 255 255 / 20%);
-        box-shadow: inset 0 1px 0 rgb(255 255 255 / 30%), inset 0 0 0 1px rgb(255 255 255 / 18%);
+        background: linear-gradient(180deg, rgb(255 255 255 / 26%), rgb(255 255 255 / 12%));
+        box-shadow: inset 0 1px 0 rgb(255 255 255 / 32%), inset 0 0 0 1px rgb(255 255 255 / 8%);
     }
 }
