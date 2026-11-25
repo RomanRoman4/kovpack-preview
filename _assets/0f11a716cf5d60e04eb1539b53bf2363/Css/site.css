@@ -2739,8 +2739,8 @@ body[class] {
  * other; more air, calm and solid, in the site's concept"). The same rhythm
  * as the about page: generous sections parted by hairlines, a teal dash over
  * each heading, the heading in a left column and its content on the right,
- * one paper band for the product lines, and the closing call on a soft panel
- * with clear room before the footer. Text, pictures and markup unchanged. */
+ * one paper band for the product lines, and the closing call as one more
+ * section with clear room before the footer. Text, pictures and markup unchanged. */
 .page__content .kovpack-partner {
     --partner-soft: color-mix(in srgb, var(--kovpack-brand) 9%, var(--kovpack-bg));
     --partner-panel: color-mix(in srgb, var(--kovpack-brand) 5%, var(--kovpack-paper));
@@ -3082,25 +3082,64 @@ body[class] {
 .page__content .kovpack-partner .kovpack-partner__story h2 { font-size: clamp(32px, 3vw, 56px); }
 .page__content .kovpack-partner .kovpack-partner__story h2 + p { max-width: 40ch; margin-top: clamp(18px, 1.6vw, 26px); }
 
-/* The closing call: a soft teal panel with room around it. */
+/* The closing call (owner, 2026-11-25): one more section of the page, not a
+ * panel. Hairline, teal dash and heading on the left; on the right a calm
+ * lead, the CTA and the direct phone and mail lines under a hairline. */
 .kovpack-partner__contact {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: center;
-    gap: clamp(28px, 4vw, 72px);
-    padding: clamp(40px, 4.6vw, 88px) clamp(32px, 5vw, 96px);
-    border-radius: 20px;
-    background: var(--partner-soft);
+    grid-template-columns: var(--partner-columns);
+    align-items: start;
+    column-gap: var(--partner-column-gap);
+    padding-top: var(--partner-section);
+    border-top: 1px solid var(--kovpack-line);
 }
-.page__content .kovpack-partner .kovpack-partner__contact h2 { font-size: clamp(30px, 2.8vw, 52px); }
-.page__content .kovpack-partner .kovpack-partner__contact h2 + p { max-width: 48ch; margin-top: 14px; }
-.kovpack-partner__contact .kovpack-about__cta { justify-self: start; }
+.page__content .kovpack-partner .kovpack-partner__contact-body > p {
+    max-width: 34ch;
+    color: var(--kovpack-ink);
+    font-size: clamp(19px, 1.3vw, 24px);
+    line-height: 1.5;
+}
+.kovpack-partner__contact-body .kovpack-about__cta { margin-top: clamp(28px, 2.4vw, 40px); }
+.page__content .kovpack-partner .kovpack-partner__direct {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: clamp(48px, 4.2vw, 80px);
+    border-top: 1px solid var(--kovpack-line);
+}
+.page__content .kovpack-partner .kovpack-partner__direct a {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: clamp(22px, 1.8vw, 30px);
+    color: var(--kovpack-ink);
+    font-size: clamp(19px, 1.35vw, 24px);
+    font-weight: 600;
+    letter-spacing: -.01em;
+    text-decoration: none;
+    transition: color .2s ease;
+}
+.page__content .kovpack-partner .kovpack-partner__direct li + li a {
+    padding-left: clamp(24px, 2.4vw, 44px);
+    border-left: 1px solid var(--kovpack-line);
+}
+.kovpack-partner__direct span {
+    color: var(--kovpack-muted);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+}
+@media (hover: hover) {
+    .page__content .kovpack-partner .kovpack-partner__direct a:hover { color: var(--kovpack-brand); }
+}
+.page__content .kovpack-partner .kovpack-partner__direct a:focus-visible { color: var(--kovpack-brand); outline-offset: 6px; }
 
 @media (max-width: 1100px) {
     .kovpack-partner__benefits,
     .kovpack-partner__section { grid-template-columns: minmax(0, 1fr); row-gap: 36px; }
     .kovpack-partner__benefits h2 { max-width: 18ch; }
     .kovpack-partner__story { column-gap: 48px; }
+    .kovpack-partner__contact { grid-template-columns: minmax(0, 1fr); row-gap: 36px; }
 }
 
 @media (max-width: 900px) {
@@ -3110,7 +3149,6 @@ body[class] {
     .page__content .kovpack-partner .kovpack-about__hero h1 { font-size: clamp(38px, 7vw, 60px); }
     .kovpack-partner .kovpack-about__hero-media { aspect-ratio: 3 / 2; }
     .kovpack-partner__story { grid-template-columns: minmax(0, 1fr); row-gap: 36px; }
-    .kovpack-partner__contact { grid-template-columns: minmax(0, 1fr); }
 }
 
 @media (max-width: 680px) {
@@ -3129,7 +3167,10 @@ body[class] {
     .page__content .kovpack-partner .kovpack-partner__benefit-list li { gap: 14px; padding-block: 18px; }
     .kovpack-partner__check { width: 28px; height: 28px; font-size: 13px; }
     .kovpack-partner__story img { aspect-ratio: 3 / 2; border-radius: 14px; }
-    .kovpack-partner__contact { gap: 24px; padding: 32px 24px; border-radius: 16px; }
+    .kovpack-partner__contact { row-gap: 28px; }
+    .page__content .kovpack-partner .kovpack-partner__direct { grid-template-columns: minmax(0, 1fr); margin-top: 40px; }
+    .page__content .kovpack-partner .kovpack-partner__direct a { padding-block: 20px; }
+    .page__content .kovpack-partner .kovpack-partner__direct li + li a { padding-left: 0; border-left: 0; border-top: 1px solid var(--kovpack-line); }
     .kovpack-partner__body { padding-bottom: 80px; }
 }
 
