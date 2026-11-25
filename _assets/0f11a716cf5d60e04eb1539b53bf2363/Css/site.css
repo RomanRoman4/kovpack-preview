@@ -447,8 +447,10 @@ button.header__nav-item {
         overflow-y: auto;
     }
 
-    /* Add keyboard parity to Camino's hover-open desktop submenu. */
-    .header__nav-list-item:focus-within {
+    /* Add keyboard parity to Camino's hover-open desktop submenu: only for
+     * keyboard focus, so a mouse click (which leaves focus on the item)
+     * never keeps the submenu standing after the pointer has gone. */
+    .header__nav-list-item:has(:focus-visible) {
         --subnav-display: block;
     }
 }
@@ -1155,7 +1157,7 @@ button.header__nav-item {
         transform: translateY(-6px) scale(.985); transform-origin: 24px 0;
         transition: opacity .22s ease .12s, transform .3s cubic-bezier(.2, .8, .2, 1) .12s, visibility 0s linear .34s, background-color .5s ease, border-color .5s ease;
     }
-    .header .header__nav-list-item:is(:hover, :focus-within) > .header__subnav {
+    .header .header__nav-list-item:is(:hover, :has(:focus-visible)) > .header__subnav {
         opacity: 1; visibility: visible; pointer-events: auto; transform: none;
         transition: opacity .28s ease, transform .4s cubic-bezier(.2, .8, .2, 1), visibility 0s, background-color .5s ease, border-color .5s ease;
     }
@@ -1179,7 +1181,7 @@ button.header__nav-item {
     }
 }
 @media (min-width: 1280px) and (hover: hover) and (prefers-reduced-motion: reduce) {
-    .header .header__subnav, .header .header__nav-list-item:is(:hover, :focus-within) > .header__subnav { transform: none; }
+    .header .header__subnav, .header .header__nav-list-item:is(:hover, :has(:focus-visible)) > .header__subnav { transform: none; }
 }
 @media (max-width: 900px) {
     .hero:not(.hero--text-only, .hero--small) .hero__content { padding-top: 180px; }
@@ -5003,7 +5005,7 @@ body[class] {
             visibility 0s linear .22s;
     }
     :root .header .header__language-menu:not(#_):not(#_) { --drip-x: calc(100% - 27px); --drip-cl: calc(100% - 55px); --drip-cr: 0px; }
-    :root .header .header__nav-list-item:is(:hover, :focus-within) > .header__subnav:not(#_):not(#_),
+    :root .header .header__nav-list-item:is(:hover, :has(:focus-visible)) > .header__subnav:not(#_):not(#_),
     :root .header .header__language-dropdown--open .header__language-menu:not(#_):not(#_) {
         opacity: 1;
         visibility: visible;
@@ -5034,7 +5036,7 @@ body[class] {
         opacity: 0;
         transition: height .2s cubic-bezier(.3, 0, .7, .4), opacity .12s ease;
     }
-    :root .header .header__nav-list-item:is(:hover, :focus-within):has(> .header__subnav)::before,
+    :root .header .header__nav-list-item:is(:hover, :has(:focus-visible)):has(> .header__subnav)::before,
     :root .header .header__language-dropdown--open::before {
         height: calc(var(--drip-gap, 17px) + 16px);
         opacity: 1;
@@ -5069,15 +5071,15 @@ body[class] {
         -webkit-mask: radial-gradient(circle at 100% 100%, transparent calc(var(--drip-r) - .5px), #000 var(--drip-r));
         mask: radial-gradient(circle at 100% 100%, transparent calc(var(--drip-r) - .5px), #000 var(--drip-r));
     }
-    :root .header .header__nav-list-item:is(:hover, :focus-within) > .header__subnav:not(#_)::before,
-    :root .header .header__nav-list-item:is(:hover, :focus-within) > .header__subnav:not(#_)::after,
+    :root .header .header__nav-list-item:is(:hover, :has(:focus-visible)) > .header__subnav:not(#_)::before,
+    :root .header .header__nav-list-item:is(:hover, :has(:focus-visible)) > .header__subnav:not(#_)::after,
     :root .header .header__language-dropdown--open .header__language-menu:not(#_)::before,
     :root .header .header__language-dropdown--open .header__language-menu:not(#_)::after {
         transition: opacity .16s ease .3s;
     }
-    :root .header .header__nav-list-item:is(:hover, :focus-within) > .header__subnav:not(#_)::before,
+    :root .header .header__nav-list-item:is(:hover, :has(:focus-visible)) > .header__subnav:not(#_)::before,
     :root .header .header__language-dropdown--open .header__language-menu:not(#_)::before { opacity: var(--drip-curve-l, 1); }
-    :root .header .header__nav-list-item:is(:hover, :focus-within) > .header__subnav:not(#_)::after,
+    :root .header .header__nav-list-item:is(:hover, :has(:focus-visible)) > .header__subnav:not(#_)::after,
     :root .header .header__language-dropdown--open .header__language-menu:not(#_)::after { opacity: var(--drip-curve-r, 1); }
 
     /* The labels come up with the glass, no stagger: this is a routine hover. */
@@ -5089,7 +5091,7 @@ body[class] {
         translate: 0 -6px;
         transition: opacity .1s ease, filter .1s ease, translate .1s ease;
     }
-    :root .header .header__nav-list-item:is(:hover, :focus-within) > .header__subnav .header__subnav-list-item:not(#_),
+    :root .header .header__nav-list-item:is(:hover, :has(:focus-visible)) > .header__subnav .header__subnav-list-item:not(#_),
     :root .header .header__language-dropdown--open .header__language-menu-item:not(#_) {
         opacity: 1;
         filter: none;
@@ -5118,7 +5120,7 @@ body[class] {
     :root .header.is-menu-swap .header__subnav:not(#_)::after,
     :root .header.is-menu-swap .header__subnav .header__subnav-list-item:not(#_) { transition: none; }
     :root .header.is-menu-swap .header__nav-list-item:has(> .header__subnav)::before { transition: none; animation: none; opacity: 0; }
-    :root .header.is-menu-swap .header__nav-list-item:is(:hover, :focus-within) > .header__subnav:not(#_):not(#_) {
+    :root .header.is-menu-swap .header__nav-list-item:is(:hover, :has(:focus-visible)) > .header__subnav:not(#_):not(#_) {
         transition: opacity .14s ease, visibility 0s;
     }
     /* Labels and curves wait until the liquid has spread. */
@@ -5136,7 +5138,7 @@ body[class] {
         right: 0;
         height: var(--drip-gap, 17px);
     }
-    :root .header .header__nav-list-item:is(:hover, :focus-within):has(> .header__subnav)::after {
+    :root .header .header__nav-list-item:is(:hover, :has(:focus-visible)):has(> .header__subnav)::after {
         content: "";
         position: absolute;
         z-index: -1;
@@ -5160,7 +5162,7 @@ body[class] {
         border-radius: 0 0 20px 20px;
         transition: opacity .2s ease .1s, visibility 0s linear .3s;
     }
-    :root .header .header__nav-list-item:is(:hover, :focus-within) > .header__subnav:not(#_):not(#_),
+    :root .header .header__nav-list-item:is(:hover, :has(:focus-visible)) > .header__subnav:not(#_):not(#_),
     :root .header .header__language-dropdown--open .header__language-menu:not(#_):not(#_) {
         clip-path: none;
         transition: opacity .2s ease, visibility 0s;
@@ -5241,7 +5243,7 @@ body[class] {
     /* Item text and the chevron move with the drop. */
     :root .header :is(.header__nav, .header__subnav).has-drop :is(.header__nav-item, .header__subnav-item):not(#_) { transition: color .3s var(--nav-ease); }
     :root .header .header__nav-item .icon:not(#_) { transition: rotate .35s var(--nav-ease-out); }
-    :root .header .header__nav-list-item:is(:hover, :focus-within) > .header__nav-item .icon:not(#_) { rotate: 180deg; transition-delay: var(--nav-intent); }
+    :root .header .header__nav-list-item:is(:hover, :has(:focus-visible)) > .header__nav-item .icon:not(#_) { rotate: 180deg; transition-delay: var(--nav-intent); }
 
     /* DE/EN: bare at rest, the drop on hover and while open, on every bar. */
     :root .header .header__language-button:not(#_):not(#_):not(#_) {
@@ -5262,14 +5264,14 @@ body[class] {
 }
 @media (min-width: 1280px) and (hover: hover) and (prefers-reduced-motion: no-preference) {
     /* Hover intent: the pour, its curves and the labels wait a beat. */
-    :root .header .header__nav-list-item:is(:hover, :focus-within) > .header__subnav:not(#_):not(#_) {
+    :root .header .header__nav-list-item:is(:hover, :has(:focus-visible)) > .header__subnav:not(#_):not(#_) {
         transition:
             clip-path .44s linear(0, .09 6%, .3 14%, .58 24%, .82 35%, .96 46%, 1.02 57%, 1.012 70%, 1) var(--nav-intent),
             opacity .06s ease var(--nav-intent),
             visibility 0s var(--nav-intent);
     }
-    :root .header .header__nav-list-item:is(:hover, :focus-within) > .header__subnav:not(#_)::before,
-    :root .header .header__nav-list-item:is(:hover, :focus-within) > .header__subnav:not(#_)::after {
+    :root .header .header__nav-list-item:is(:hover, :has(:focus-visible)) > .header__subnav:not(#_)::before,
+    :root .header .header__nav-list-item:is(:hover, :has(:focus-visible)) > .header__subnav:not(#_)::after {
         transition: opacity .16s ease calc(.3s + var(--nav-intent));
     }
     /* The labels cascade in, 25 ms apart. */
@@ -5277,7 +5279,7 @@ body[class] {
     :root .header :is(.header__subnav-list-item, .header__language-menu-item):nth-child(3 of :not(.header__subnav-list-item--back, .header__subnav-list-item--overview)) { --nav-i: 2; }
     :root .header :is(.header__subnav-list-item, .header__language-menu-item):nth-child(4 of :not(.header__subnav-list-item--back, .header__subnav-list-item--overview)) { --nav-i: 3; }
     :root .header :is(.header__subnav-list-item, .header__language-menu-item):nth-child(n+5 of :not(.header__subnav-list-item--back, .header__subnav-list-item--overview)) { --nav-i: 4; }
-    :root .header .header__nav-list-item:is(:hover, :focus-within) > .header__subnav .header__subnav-list-item:not(#_) {
+    :root .header .header__nav-list-item:is(:hover, :has(:focus-visible)) > .header__subnav .header__subnav-list-item:not(#_) {
         --nav-d: calc(.12s + var(--nav-intent) + var(--nav-i, 0) * 25ms);
         transition: opacity .26s var(--nav-ease) var(--nav-d), filter .26s var(--nav-ease) var(--nav-d), translate .34s var(--nav-ease-out) var(--nav-d);
     }
@@ -5286,10 +5288,10 @@ body[class] {
         transition: opacity .26s var(--nav-ease) var(--nav-d), filter .26s var(--nav-ease) var(--nav-d), translate .34s var(--nav-ease-out) var(--nav-d);
     }
     /* Swap to the next group: no wait, the labels simply settle. */
-    :root .header.is-menu-swap .header__nav-list-item:is(:hover, :focus-within) > .header__subnav .header__subnav-list-item:not(#_) {
+    :root .header.is-menu-swap .header__nav-list-item:is(:hover, :has(:focus-visible)) > .header__subnav .header__subnav-list-item:not(#_) {
         transition: opacity .18s var(--nav-ease), filter .18s var(--nav-ease), translate .24s var(--nav-ease-out);
     }
-    :root .header.is-menu-swap .header__nav-list-item:is(:hover, :focus-within) > .header__nav-item .icon:not(#_) { transition-delay: 0s; }
+    :root .header.is-menu-swap .header__nav-list-item:is(:hover, :has(:focus-visible)) > .header__nav-item .icon:not(#_) { transition-delay: 0s; }
 }
 
 /* The page under the bar rests while a menu is open: soft blur, light dim.
@@ -5309,7 +5311,7 @@ body[class] {
         visibility: hidden;
         transition: opacity .24s cubic-bezier(.25, .1, .25, 1), visibility 0s linear .24s;
     }
-    body:has(.header .header__nav-list-item:is(:hover, :focus-within) > .header__subnav, .header .header__language-dropdown--open)::after {
+    body:has(.header .header__nav-list-item:hover > .header__subnav, .header .header__nav-item:focus-visible ~ .header__subnav, .header .header__subnav :focus-visible, .header .header__language-dropdown--open)::after {
         opacity: 1;
         visibility: visible;
         transition: opacity .34s cubic-bezier(.25, .1, .25, 1) 90ms, visibility 0s 90ms;
@@ -5453,7 +5455,7 @@ body[class] {
  * turned the glass panel greyer than the pill). The page stays sharp. */
 @media (min-width: 1280px) and (hover: hover) {
     body::after,
-    body:has(.header .header__nav-list-item:is(:hover, :focus-within) > .header__subnav, .header .header__language-dropdown--open)::after { content: none; }
+    body:has(.header .header__nav-list-item:hover > .header__subnav, .header .header__nav-item:focus-visible ~ .header__subnav, .header .header__subnav :focus-visible, .header .header__language-dropdown--open)::after { content: none; }
 }
 
 /* Menu flyout: one liquid-glass platter (owner, 2026-11-24: the white paper
@@ -5590,14 +5592,14 @@ body[class] {
     }
     :root .header .header__nav.has-flyout :is(.header__subnav, .header__language-menu):not(#_):not(#_):not(#_)::before,
     :root .header .header__nav.has-flyout :is(.header__subnav, .header__language-menu):not(#_):not(#_):not(#_)::after { content: none; }
-    :root .header .header__nav.has-flyout .header__nav-list-item:is(:hover, :focus-within) > .header__subnav:not(#_):not(#_):not(#_) {
+    :root .header .header__nav.has-flyout .header__nav-list-item:is(:hover, :has(:focus-visible)) > .header__subnav:not(#_):not(#_):not(#_) {
         transition: opacity .2s ease var(--nav-intent), visibility 0s var(--nav-intent);
     }
     :root .header .header__nav.has-flyout .header__language-dropdown--open .header__language-menu:not(#_):not(#_):not(#_) {
         transition: opacity .2s ease, visibility 0s;
     }
     /* The labels come once the glass has spread: blur away, lift, 30ms apart. */
-    :root .header .header__nav.has-flyout .header__nav-list-item:is(:hover, :focus-within) > .header__subnav .header__subnav-list-item:not(#_):not(#_),
+    :root .header .header__nav.has-flyout .header__nav-list-item:is(:hover, :has(:focus-visible)) > .header__subnav .header__subnav-list-item:not(#_):not(#_),
     :root .header .header__nav.has-flyout .header__language-dropdown--open .header__language-menu-item:not(#_):not(#_) {
         --nav-d: calc(.16s + var(--nav-i, 0) * 30ms);
         transition: opacity .3s ease var(--nav-d), filter .3s ease var(--nav-d), translate .42s cubic-bezier(.2, .8, .2, 1) var(--nav-d);
@@ -5607,10 +5609,10 @@ body[class] {
     :root .header.is-menu-swap .header__nav.has-flyout .header__subnav:not(#_):not(#_):not(#_) {
         transition: opacity .1s ease, visibility 0s linear .1s;
     }
-    :root .header.is-menu-swap .header__nav.has-flyout .header__nav-list-item:is(:hover, :focus-within) > .header__subnav:not(#_):not(#_):not(#_) {
+    :root .header.is-menu-swap .header__nav.has-flyout .header__nav-list-item:is(:hover, :has(:focus-visible)) > .header__subnav:not(#_):not(#_):not(#_) {
         transition: opacity .14s ease, visibility 0s;
     }
-    :root .header.is-menu-swap .header__nav.has-flyout .header__nav-list-item:is(:hover, :focus-within) > .header__subnav .header__subnav-list-item:not(#_):not(#_):not(#_) {
+    :root .header.is-menu-swap .header__nav.has-flyout .header__nav-list-item:is(:hover, :has(:focus-visible)) > .header__subnav .header__subnav-list-item:not(#_):not(#_):not(#_) {
         --nav-d: calc(.06s + var(--nav-i, 0) * 25ms);
         transition: opacity .22s var(--nav-ease) var(--nav-d), filter .24s var(--nav-ease) var(--nav-d), translate .32s var(--nav-ease-out) var(--nav-d);
     }

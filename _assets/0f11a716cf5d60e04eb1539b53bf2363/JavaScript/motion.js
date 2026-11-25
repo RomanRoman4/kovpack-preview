@@ -475,6 +475,7 @@ for (const list of document.querySelectorAll('.header__subnav, .header__language
     nav.append(fly);
     nav.classList.add("has-flyout");
     let current = null, hiddenAt = -Infinity, openTimer = 0, swapTimer = 0;
+    const keyboardFocus = (el) => { try { return el.matches(":focus-visible"); } catch { return true; } };
     const itemOf = (panel) => panel.closest(".header__nav-list-item, .header__language-dropdown")
         ?.querySelector(".header__nav-item, .header__language-button");
     const rel = (el) => {
@@ -542,9 +543,15 @@ for (const list of document.querySelectorAll('.header__subnav, .header__language
             if (event.pointerType !== "mouse") return;
             clearTimeout(openTimer);
             if (current === panel) hide();
+            // A mouse click leaves focus on the item; let it go with the
+            // pointer, so nothing of the submenu stays behind.
+            const focused = document.activeElement;
+            if (li.contains(focused) && !keyboardFocus(focused)) focused.blur();
         });
         if (panel) {
-            li.addEventListener("focusin", () => show(panel));
+            // Only keyboard focus opens the pane (as in the CSS); focus from
+            // a click comes while the pointer already holds it open.
+            li.addEventListener("focusin", (event) => { if (keyboardFocus(event.target)) show(panel); });
             li.addEventListener("focusout", (event) => { if (!li.contains(event.relatedTarget) && current === panel) hide(); });
         }
     }
@@ -584,6 +591,15 @@ for (const list of document.querySelectorAll('.header__subnav, .header__language
         }).observe(dropdown, { attributes: true, attributeFilter: ["class"] });
     }
     desk.addEventListener("change", () => { current = null; fly.classList.remove("is-shown"); header.classList.remove("is-menu-swap"); });
+    // Coming back through the browser history restores the page with focus
+    // still on the menu link that was clicked: let it go, so the submenu
+    // does not stand open without its pane.
+    window.addEventListener("pageshow", (event) => {
+        if (!event.persisted) return;
+        const focused = document.activeElement;
+        if (focused && nav.contains(focused) && !keyboardFocus(focused)) focused.blur();
+        if (current) hide();
+    });
 })();
 
 })();
