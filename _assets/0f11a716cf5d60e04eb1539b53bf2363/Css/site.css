@@ -3019,22 +3019,41 @@ body[class] {
     rotate: -45deg;
 }
 
-/* Steps: no visible numbers (owner, 2026-11-24); each step under a hairline
- * with a short teal segment, so the order reads left to right. */
-.page__content .kovpack-partner .kovpack-partner__steps { column-gap: clamp(28px, 3vw, 56px); row-gap: 40px; }
+/* Steps as a timeline (owner, 2026-11-25: the separate short lines had no
+ * clear meaning). No visible numbers (owner, 2026-11-24): one thin line runs
+ * through all steps, each step is a station on it, a teal dot in a soft
+ * disc, with its title and text below. On phones the line runs down the
+ * left side. Works for any number of steps in editor order. */
+.page__content .kovpack-partner .kovpack-partner__steps {
+    --step-gap: clamp(28px, 3vw, 56px);
+    --step-dot: 28px;
+    column-gap: var(--step-gap);
+    row-gap: 40px;
+}
 .page__content .kovpack-partner .kovpack-partner__step {
     position: relative;
-    padding-top: clamp(24px, 2vw, 32px);
-    border-top: 1px solid var(--kovpack-line);
+    padding-top: calc(var(--step-dot) + clamp(22px, 1.8vw, 30px));
 }
-.kovpack-partner__step::after {
+.page__content .kovpack-partner .kovpack-partner__step::before {
     content: "";
     position: absolute;
-    top: -1px;
+    z-index: 1;
+    top: 0;
     left: 0;
-    width: 40px;
-    height: 2px;
-    background: var(--kovpack-brand);
+    width: var(--step-dot);
+    height: var(--step-dot);
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--kovpack-brand) 0 5px, var(--partner-soft) 5.5px);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--kovpack-brand) 22%, transparent), 0 0 0 8px var(--kovpack-bg);
+}
+.kovpack-partner__step:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: calc(var(--step-dot) / 2);
+    left: 0;
+    right: calc(-1 * var(--step-gap));
+    height: 1px;
+    background: color-mix(in srgb, var(--kovpack-brand) 30%, var(--kovpack-line));
 }
 .page__content .kovpack-partner .kovpack-partner__step h3 + p { margin-top: 12px; max-width: 32ch; }
 
@@ -3087,6 +3106,8 @@ body[class] {
     .kovpack-partner__line-icon { width: 64px; height: 64px; margin-bottom: 26px; padding: 13px; border-radius: 18px; }
     .kovpack-partner__arrow { top: 22px; inset-inline-end: 22px; width: 38px; height: 38px; }
     .page__content .kovpack-partner .kovpack-partner__steps { row-gap: 32px; }
+    .page__content .kovpack-partner .kovpack-partner__step { padding: 2px 0 0 calc(var(--step-dot) + 20px); }
+    .kovpack-partner__step:not(:last-child)::after { top: var(--step-dot); right: auto; bottom: -32px; left: calc(var(--step-dot) / 2); width: 1px; height: auto; }
     .page__content .kovpack-partner .kovpack-partner__benefit-list li { gap: 14px; padding-block: 18px; }
     .kovpack-partner__check { width: 28px; height: 28px; font-size: 13px; }
     .kovpack-partner__story img { aspect-ratio: 3 / 2; border-radius: 14px; }
