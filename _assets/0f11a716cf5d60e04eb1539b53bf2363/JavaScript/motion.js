@@ -110,6 +110,27 @@ if (!reduced && 'IntersectionObserver' in window) {
     addEventListener('hashchange', revealAll);
 }
 
+// Timeline (owner, 2026-11-25): when a [data-timeline] list comes into view,
+// its line runs from station to station and each dot lights up as the line
+// reaches it. Each item gets its place (--i) for the CSS delays, so any
+// number of steps works. Without JavaScript or with reduced motion the
+// timeline simply stands fully drawn.
+if (!reduced && 'IntersectionObserver' in window) {
+    const timelines = document.querySelectorAll('[data-timeline]');
+    const drawObserver = new IntersectionObserver((entries) => {
+        for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            entry.target.classList.add('is-drawn');
+            drawObserver.unobserve(entry.target);
+        }
+    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.5 });
+    for (const list of timelines) {
+        [...list.children].forEach((item, index) => item.style.setProperty('--i', index));
+        list.classList.add('is-armed');
+        drawObserver.observe(list);
+    }
+}
+
 const wideHeader = window.matchMedia('(min-width: 1280px) and (hover: hover)');
 
 // Menu drop (owner, 2026-11-12): as in the enquiry form, one glass drop
