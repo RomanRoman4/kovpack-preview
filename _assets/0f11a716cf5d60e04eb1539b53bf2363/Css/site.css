@@ -1696,6 +1696,9 @@ body[class] {
  * background of their own, so a row's soft shadow is never cut off by the
  * next one. */
 .page__content > .kovpack-product { background: transparent; }
+/* Below desktop the last roll got only the 20px gutter before the footer
+ * (owner, 2026-11-25: more air there). */
+.page__content > .kovpack-product:last-child { padding-bottom: 64px; }
 @media (min-width: 1280px) {
     .page__content > .kovpack-product { padding-bottom: 72px; }
     .page__content > .kovpack-product:first-child { padding-top: 64px; }
