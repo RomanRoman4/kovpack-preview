@@ -2895,53 +2895,128 @@ body[class] {
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
     gap: clamp(16px, 1.4vw, 24px);
 }
+/* Product line cards (owner, 2026-11-25: "too plain; bigger icons, and a
+ * hover on the icons and the cards"). Each card carries its product colour
+ * (data-partner-tone: orange | teal | blue, the label colours; brand teal
+ * without one): a faint glow of it in the top corner, the icon on a tile of
+ * it. On hover the card rises a little on a soft shadow of its colour, the
+ * glow warms, a line of the colour runs along the foot, the tile fills with
+ * the colour while the icon redraws itself in white, and the arrow turns to
+ * point out. Everything eases in and out softly. */
+.kovpack-partner__line { --tone: var(--kovpack-brand); }
+.kovpack-partner__line[data-partner-tone="orange"] { --tone: var(--kovpack-label-orange); }
+.kovpack-partner__line[data-partner-tone="teal"] { --tone: var(--kovpack-label-teal); }
+.kovpack-partner__line[data-partner-tone="blue"] { --tone: var(--kovpack-label-blue); }
+.kovpack-partner__line {
+    --tone-ink: color-mix(in srgb, var(--tone) 62%, var(--kovpack-ink));
+    --tone-soft: color-mix(in srgb, var(--tone) 15%, #fff);
+    --card-ease: cubic-bezier(.22, .61, .36, 1);
+}
 .kovpack-partner__line a {
     position: relative;
+    isolation: isolate;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
     height: 100%;
-    min-height: clamp(240px, 15vw, 290px);
-    padding: clamp(24px, 1.9vw, 34px);
+    min-height: clamp(280px, 17vw, 330px);
+    padding: clamp(26px, 2vw, 36px);
+    overflow: hidden;
     border: 1px solid var(--kovpack-line);
-    border-radius: 16px;
+    border-radius: 20px;
     color: var(--kovpack-ink);
     background: var(--kovpack-bg);
     text-decoration: none;
-    /* A soft hover (owner, 2026-11-24): the tint fades in slowly, the arrow
-     * follows with its fill and a small nudge, and both ease out again. */
-    transition: background-color .45s cubic-bezier(.22, .61, .36, 1), border-color .45s cubic-bezier(.22, .61, .36, 1);
+    transition: transform .6s var(--card-ease), box-shadow .6s var(--card-ease), border-color .6s var(--card-ease), background-color .6s var(--card-ease);
 }
-.kovpack-partner__line a:is(:hover, :focus-visible) { background: var(--partner-panel); border-color: color-mix(in srgb, var(--kovpack-brand) 28%, var(--kovpack-line)); }
-.kovpack-partner__line a:focus-visible { outline: 2px solid var(--kovpack-brand); outline-offset: 2px; }
+.kovpack-partner__line a::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    background: radial-gradient(90% 70% at 100% 0%, color-mix(in srgb, var(--tone) 22%, transparent), transparent 70%);
+    opacity: .45;
+    transition: opacity .6s var(--card-ease);
+    pointer-events: none;
+}
+.kovpack-partner__line a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 3px;
+    background: var(--tone);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform .7s var(--card-ease);
+    pointer-events: none;
+}
+.kovpack-partner__line a:is(:hover, :focus-visible) {
+    border-color: color-mix(in srgb, var(--tone) 38%, var(--kovpack-line));
+    background-color: #fff;
+    box-shadow: 0 30px 50px -32px color-mix(in srgb, var(--tone) 60%, rgb(0 30 32)), 0 2px 6px -2px rgb(0 30 32 / 8%);
+    transform: translateY(-6px);
+}
+.kovpack-partner__line a:is(:hover, :focus-visible)::before { opacity: 1; }
+.kovpack-partner__line a:is(:hover, :focus-visible)::after { transform: scaleX(1); }
+.kovpack-partner__line a:focus-visible { outline: 2px solid var(--kovpack-brand); outline-offset: 3px; }
+
+/* The icon on its tile. */
 .kovpack-partner__line-icon {
     display: block;
-    width: 44px;
-    height: 44px;
-    margin-bottom: 28px;
+    box-sizing: border-box;
+    width: clamp(68px, 4.4vw, 80px);
+    height: clamp(68px, 4.4vw, 80px);
+    margin-bottom: clamp(32px, 2.4vw, 44px);
+    padding: clamp(14px, .9vw, 17px);
+    border-radius: 20px;
+    background: var(--tone-soft);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tone) 18%, transparent);
     fill: none;
-    stroke: var(--kovpack-brand);
-    stroke-width: 2.4;
+    stroke: var(--tone-ink);
+    stroke-width: 2.2;
     stroke-linecap: round;
     stroke-linejoin: round;
+    transition: background-color .5s var(--card-ease), stroke .5s var(--card-ease), box-shadow .5s var(--card-ease), transform .6s var(--card-ease);
 }
+.kovpack-partner__line a:is(:hover, :focus-visible) .kovpack-partner__line-icon {
+    background-color: var(--tone);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 35%), 0 12px 22px -12px color-mix(in srgb, var(--tone) 80%, rgb(0 30 32));
+    stroke: #fff;
+    transform: translateY(-2px) rotate(-4deg) scale(1.05);
+}
+.kovpack-partner__line a:is(:hover, :focus-visible) .kovpack-partner__line-icon > * {
+    stroke-dasharray: 140;
+    animation: kovpack-partner-draw 1s var(--card-ease) both;
+}
+@keyframes kovpack-partner-draw { from { stroke-dashoffset: 140; } to { stroke-dashoffset: 0; } }
+
 .page__content .kovpack-partner .kovpack-partner__line h3 { margin-top: auto; }
 .page__content .kovpack-partner .kovpack-partner__line h3 + p { margin-top: 10px; }
 .kovpack-partner__line p { font-size: clamp(15px, .9vw, 16px); }
+
 .kovpack-partner__arrow {
     position: absolute;
-    top: clamp(20px, 1.6vw, 28px);
-    inset-inline-end: clamp(20px, 1.6vw, 28px);
+    top: clamp(26px, 2vw, 36px);
+    inset-inline-end: clamp(26px, 2vw, 36px);
     display: grid;
     place-items: center;
-    width: 38px;
-    height: 38px;
+    width: 42px;
+    height: 42px;
     border-radius: 50%;
-    background: var(--partner-soft);
-    color: var(--kovpack-brand);
-    transition: background-color .45s cubic-bezier(.22, .61, .36, 1), color .45s cubic-bezier(.22, .61, .36, 1), translate .45s cubic-bezier(.22, .61, .36, 1);
+    background: rgb(255 255 255 / 70%);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tone) 20%, transparent);
+    color: var(--tone-ink);
+    font-size: 17px;
+    transition: background-color .5s var(--card-ease), color .5s var(--card-ease), box-shadow .5s var(--card-ease), rotate .6s var(--card-ease);
 }
-.kovpack-partner__line a:is(:hover, :focus-visible) .kovpack-partner__arrow { background: var(--kovpack-brand); color: #fff; translate: 2px 0; }
+.kovpack-partner__line a:is(:hover, :focus-visible) .kovpack-partner__arrow {
+    background: var(--kovpack-ink);
+    box-shadow: none;
+    color: #fff;
+    rotate: -45deg;
+}
 
 /* Steps: no visible numbers (owner, 2026-11-24); each step under a hairline
  * with a short teal segment, so the order reads left to right. */
@@ -3007,9 +3082,9 @@ body[class] {
     .kovpack-partner__section { row-gap: 28px; }
     .kovpack-partner__benefits { padding-top: 8px; }
     .kovpack-partner__line-list { gap: 12px; }
-    .kovpack-partner__line a { min-height: 0; padding: 22px; }
-    .kovpack-partner__line-icon { width: 38px; height: 38px; margin-bottom: 22px; }
-    .kovpack-partner__arrow { top: 20px; inset-inline-end: 20px; width: 34px; height: 34px; }
+    .kovpack-partner__line a { min-height: 0; padding: 22px; border-radius: 18px; }
+    .kovpack-partner__line-icon { width: 64px; height: 64px; margin-bottom: 26px; padding: 13px; border-radius: 18px; }
+    .kovpack-partner__arrow { top: 22px; inset-inline-end: 22px; width: 38px; height: 38px; }
     .page__content .kovpack-partner .kovpack-partner__steps { row-gap: 32px; }
     .page__content .kovpack-partner .kovpack-partner__benefit-list li { gap: 14px; padding-block: 18px; }
     .kovpack-partner__check { width: 28px; height: 28px; font-size: 13px; }
@@ -3020,7 +3095,13 @@ body[class] {
 
 @media (prefers-reduced-motion: reduce) {
     .kovpack-partner__line a,
+    .kovpack-partner__line a::before,
+    .kovpack-partner__line a::after,
+    .kovpack-partner__line-icon,
     .kovpack-partner__arrow { transition: none; }
+    .kovpack-partner__line a:is(:hover, :focus-visible),
+    .kovpack-partner__line a:is(:hover, :focus-visible) .kovpack-partner__line-icon { transform: none; }
+    .kovpack-partner__line a:is(:hover, :focus-visible) .kovpack-partner__line-icon > * { animation: none; }
 }
 
 /* Home page contact section (owner mockup, 2026-11-10): on the page colour, no
