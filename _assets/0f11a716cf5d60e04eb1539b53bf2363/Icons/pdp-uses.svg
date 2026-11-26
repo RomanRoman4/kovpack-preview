@@ -113,11 +113,19 @@
   <!-- Wrapping goods (owner, 2026-11-12: clearer than the envelope): a box
        wrapped in paper with a flap folded on its end; the sheet runs on from
        the box along the floor to the roll it comes off. -->
-  <symbol id="pk-wrap" viewBox="3.5 -3 46 46">
-    <path d="M22 41h15l6-6H28z" style="fill: var(--use-accent, #e89357)"/>
-    <path d="M4 22h18v19H4zM4 22l6-6h18l-6 6zM22 22l6-6v19l-6 6z" style="fill: var(--use-accent, #e89357)"/>
-    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" style="stroke-width: calc(1.8px * var(--use-stroke, 1))"><path d="M22 41h15M28 35h9M4 22h18v19H4zM4 22l6-6h18l-6 6M22 22l6-6v19l-6 6"/><path d="M22 22l3 8 3-14"/><path d="M36.03 35.03l6-6a3.5 3.5 0 0 1 4.94 4.94l-6 6z" style="fill: var(--use-surface, #fffdf8)"/><circle cx="38.5" cy="37.5" r="3.5" style="fill: var(--use-surface, #fffdf8)"/><circle cx="38.5" cy="37.5" r="1.1"/></g>
-    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" style="stroke-width: calc(1.3px * var(--use-stroke, 1))"><path d="M13 22v19M7 19l6-3" /></g>
+  <symbol id="pk-wrap" viewBox="0 0 48 48">
+    <path d="M3 18 18 9 45 17 45 31 30 40 3 32Z" style="fill: var(--use-accent, #e89357)"/>
+    <path d="M3 18 18 9 45 17 30 26Z" fill="white" opacity=".18"/>
+    <path d="M30 26 45 17V31L30 40Z" fill="black" opacity=".12"/>
+    <g fill="none" stroke="currentColor" stroke-linejoin="round" stroke-linecap="round" style="stroke-width: calc(1.8px * var(--use-stroke, 1))">
+      <path d="M3 18 18 9 45 17V31L30 40 3 32ZM3 18 30 26 45 17M30 26V40"/>
+    </g>
+    <g fill="none" stroke="currentColor" stroke-linejoin="round" stroke-linecap="round" style="stroke-width: calc(1.3px * var(--use-stroke, 1))">
+      <path d="m30 26 8 2 7-11m-7 11 7 3"/>
+      <path d="M16.5 36V22l15-9M10.5 13.5l27 8v13.7"/>
+      <path d="M24 17.5c-3.5-.2-8.1-2.4-7.6-4.4.6-2.4 5.4-.2 7.6 4.4Zm0 0c.3-3.2 2.5-6.6 4.6-5.9 2.4.9-.3 4.5-4.6 5.9Z" style="fill: var(--use-surface, #fffdf8)"/>
+      <path d="M24 17.5q-1 3-4 3.5m4-3.5q2 .6 3.4 3.2"/>
+    </g>
   </symbol>
   <!-- Wrapping vases (owner, 2026-11-12, fourth drawing: the paper is the
        point, the vase must read as a vase): a flared vase with a zigzag
