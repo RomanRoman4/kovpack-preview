@@ -4408,7 +4408,10 @@ body[class] {
     .frame-kovpack-contact-info.kovpack-offer > .kovpack-offer__summary:not(#_) { display: none; }
     .page__content > .frame-kovpack-contact-info.kovpack-offer:not(#_) { padding-top: 32px; padding-bottom: 4px; }
     .page__content > .frame-kovpack-contact-form.kovpack-offer:not(#_) { padding-top: 18px; padding-bottom: 36px; }
-    .page__content .frame-kovpack-contact-info.kovpack-offer h2:not(#_) { margin-bottom: 8px; font-size: clamp(26px, 7.4vw, 30px); line-height: 1.1; }
+    /* Two lines (owner, 2026-11-26: three looked broken): "Angebot für" and
+     * "PROTECT PAPER anfragen." The size follows the phone width so the second
+     * line, about 13.5 em long, always fits beside the 20px page edges. */
+    .page__content .frame-kovpack-contact-info.kovpack-offer h2:not(#_) { margin-bottom: 8px; font-size: clamp(20px, calc(7.1vw - 3px), 30px); line-height: 1.1; }
     .frame-kovpack-contact-info.kovpack-offer p:not(#_) { font-size: 15px; line-height: 1.45; }
     .frame-kovpack-contact-info.kovpack-offer p.kovpack-offer__personal:not(#_) { margin-top: 10px; font-size: 13.5px; }
 
