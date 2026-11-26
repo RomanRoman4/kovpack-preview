@@ -1,12 +1,31 @@
-/* Product application photographs */
-.product-application { display: grid; gap: 16px; margin-top: 22px; }
-.product-application:has(figure:nth-child(2)) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+/* Editorial photo sequence on product pages */
+.kovpack-pdp__media:has(.product-application) {
+    display: grid;
+    grid-template-columns: minmax(11rem, 1fr) minmax(0, 3fr);
+    align-items: start;
+    gap: clamp(20px, 3vw, 48px);
+}
+.product-application {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(10px, 1.4vw, 20px);
+    max-width: 980px;
+    min-width: 0;
+}
 .product-application figure { margin: 0; min-width: 0; }
-.product-application img { display: block; width: 100%; height: auto; aspect-ratio: 2 / 1; object-fit: cover; border-radius: 8px; }
-.product-application figure:only-child { width: min(100%, 960px); margin-inline: auto; }
-.product-application figure:not(:only-child) img { aspect-ratio: 764 / 508; }
-.product-application figcaption { margin-top: 8px; font-size: 0.95rem; }
-@media (max-width: 700px) {
-    .product-application, .product-application:has(figure:nth-child(2)) { grid-template-columns: minmax(0, 1fr); gap: 20px; margin-top: 16px; }
-    .product-application figure:only-child img { aspect-ratio: 4 / 3; }
+.product-application img {
+    display: block; width: 100%; height: clamp(126px, 12vw, 176px);
+    object-fit: cover; border-radius: 6px;
+}
+.product-application figcaption { margin-top: 8px; font-size: 15px; font-weight: 600; line-height: 1.35; }
+@media (max-width: 900px) {
+    .kovpack-pdp__media:has(.product-application) { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+}
+@media (max-width: 640px) {
+    .product-application {
+        display: flex; overflow-x: auto; gap: 12px; padding-bottom: 6px;
+        scroll-snap-type: x mandatory; scrollbar-width: thin;
+    }
+    .product-application figure { flex: 0 0 min(76%, 260px); scroll-snap-align: start; }
+    .product-application img { height: auto; aspect-ratio: 1.65; }
 }
