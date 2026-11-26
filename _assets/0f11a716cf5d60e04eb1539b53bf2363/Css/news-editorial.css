@@ -8,6 +8,11 @@
     font-size: 15px;
     text-underline-offset: 3px;
 }
+.kovpack-news--editorial .kovpack-news__avatar {
+    background: transparent;
+    border-radius: 0;
+    object-fit: contain;
+}
 .kovpack-news--editorial .kovpack-news__title {
     font-size: clamp(17px, 2vw, 22px);
     margin: 0 0 8px;
