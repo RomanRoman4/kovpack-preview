@@ -1999,7 +1999,7 @@ body[class] {
 }
 .kovpack-pdp__eyebrow { display: flex; align-items: center; gap: 10px; margin: 0; color: var(--kovpack-muted); font-size: 12px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; }
 .kovpack-pdp__eyebrow::before { content: ""; width: 22px; height: 7px; border-radius: 2px; background: var(--pdp-label); }
-.kovpack-pdp .kovpack-pdp__title { margin: 16px 0 0; font-family: var(--kovpack-font-display); font-size: clamp(34px, 4vw, 56px); font-weight: 600; line-height: 1.02; overflow-wrap: normal; hyphens: auto; text-wrap: balance; }
+.kovpack-pdp .kovpack-pdp__title { margin: 16px 0 0; font-family: var(--kovpack-font-display); font-size: clamp(34px, 4vw, 56px); font-weight: 600; line-height: 1.02; overflow-wrap: normal; hyphens: manual; text-wrap: balance; }
 .kovpack-pdp__lead { max-width: 62ch; margin-top: 16px; color: var(--kovpack-muted); font-size: 18px; line-height: 1.45; text-wrap: pretty; }
 .kovpack-pdp__lead p { margin: 0; font-size: inherit; line-height: inherit; }
 /* Plain product name under the English brand name (owner, 2026-11-09): the
@@ -2135,7 +2135,7 @@ body[class] {
 @media (width > 900px) and (max-width: 1279px) {
     .kovpack-pdp__uses-list:has(> :nth-child(5)) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
-.kovpack-pdp .kovpack-pdp__use-title { align-self: start; max-width: 24ch; margin: 16px 0 0; font-family: var(--kovpack-font); font-size: clamp(16px, 1.1vw, 19px); font-weight: 600; line-height: 1.25; hyphens: auto; overflow-wrap: normal; text-wrap: balance; }
+.kovpack-pdp .kovpack-pdp__use-title { align-self: start; max-width: 24ch; margin: 16px 0 0; font-family: var(--kovpack-font); font-size: clamp(16px, 1.1vw, 19px); font-weight: 600; line-height: 1.25; hyphens: manual; overflow-wrap: normal; text-wrap: balance; }
 .kovpack-pdp__use-text { align-self: start; max-width: 32ch; margin: 8px 0 0; color: var(--kovpack-muted); font-size: clamp(14px, 1.05vw, 16px); line-height: 1.45; text-wrap: pretty; }
 /* Material properties: a quieter row under the tiles (repeatable: icon key, title, text). */
 .kovpack-pdp .kovpack-pdp__traits-title { margin-top: 36px; }

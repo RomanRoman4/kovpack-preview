@@ -62,7 +62,7 @@
     font-weight: 600;
     line-height: .98;
     letter-spacing: -.01em;
-    hyphens: auto;
+    hyphens: manual;
     overflow-wrap: anywhere;
 }
 /* Plain product type under the brand name, as on the product page (owner, 2026-11-10). */
@@ -372,7 +372,7 @@
     font-weight: 600;
     line-height: 1.04;
     letter-spacing: -.01em;
-    hyphens: auto;
+    hyphens: manual;
 }
 /* Text on the kraft sheet is a dark brown with no pale tints, so it stays
  * readable on the paper gradient and its noise (owner feedback 2026-11-04). */
@@ -596,10 +596,10 @@
             padding-bottom: calc(16 * var(--u));
         }
         .kovpack-roll .kovpack-roll__title { font-size: clamp(26px, 5.5cqw, 36px); }
-        .kovpack-roll .kovpack-roll__type { font-size: clamp(17px, 4cqw, 22px); hyphens: auto; overflow-wrap: anywhere; }
+        .kovpack-roll .kovpack-roll__type { font-size: clamp(17px, 4cqw, 22px); hyphens: manual; overflow-wrap: break-word; }
         .kovpack-roll__teaser { font-size: 15px; line-height: 1.48; }
         .kovpack-roll__uses { gap: 12px 0; margin-top: 20px; padding-top: 14px; }
-        .kovpack-roll__use { gap: 6px; padding-inline: 10px; font-size: 13px; hyphens: auto; overflow-wrap: anywhere; }
+        .kovpack-roll__use { gap: 6px; padding-inline: 10px; font-size: 13px; hyphens: manual; overflow-wrap: break-word; }
         .kovpack-roll__use:nth-child(odd) { padding-inline-start: 0; }
         .kovpack-roll__use-icon { width: 44px; height: 44px; }
     }

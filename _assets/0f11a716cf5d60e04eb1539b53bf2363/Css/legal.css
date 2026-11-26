@@ -87,8 +87,8 @@
     font-weight: 600;
     line-height: 1.25;
     letter-spacing: -.015em;
-    overflow-wrap: anywhere;
-    hyphens: auto;
+    overflow-wrap: break-word;
+    hyphens: manual;
 }
 .page__content .kovpack-legal__section :is(p, address, dl, ul) {
     color: var(--kovpack-ink);

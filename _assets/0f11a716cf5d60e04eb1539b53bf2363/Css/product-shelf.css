@@ -151,7 +151,7 @@
     line-height: 1.1;
     /* Long German compounds break at syllables, never mid-letter. */
     overflow-wrap: normal;
-    hyphens: auto;
+    hyphens: manual;
 }
 
 /* The kraft web. Seen from a little above, it leaves the roll from its very
@@ -277,8 +277,9 @@
 }
 .kovpack-shelf__photo img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 1px; }
 
-/* Words wrap whole (German compounds hyphenate), never letter by letter. */
-.kovpack-shelf__body { display: flex; flex: 1; flex-direction: column; min-width: 0; max-width: 480px; overflow-wrap: normal; hyphens: auto; }
+/* Words wrap whole, never letter by letter; no automatic hyphens, which
+ * Safari also sets in capitalised words and names (owner, 2026-11-26). */
+.kovpack-shelf__body { display: flex; flex: 1; flex-direction: column; min-width: 0; max-width: 480px; overflow-wrap: normal; hyphens: manual; }
 .kovpack-shelf__eyebrow {
     display: flex;
     align-items: center;
@@ -309,7 +310,7 @@
     font-family: var(--kovpack-font-display, sans-serif);
     font-size: clamp(30px, 5cqi, 46px);
     overflow-wrap: normal;
-    hyphens: auto;
+    hyphens: manual;
     font-weight: 600;
     line-height: 1.02;
     letter-spacing: 0;
@@ -508,7 +509,7 @@
     .kovpack-shelf__item.is-active .kovpack-shelf__photo { width: 210px; }
 }
 @media (max-width: 480px) {
-    .kovpack-shelf .kovpack-shelf__name { font-size: 25px; overflow-wrap: normal; hyphens: auto; }
+    .kovpack-shelf .kovpack-shelf__name { font-size: 25px; overflow-wrap: normal; hyphens: manual; }
     .kovpack-shelf { --roll-x: 14px; --roll-w: 68px; --roll-h: 256px; }
     .kovpack-shelf__content,
     .kovpack-shelf__item.is-active .kovpack-shelf__content { padding: 34px 22px 26px calc(var(--roll-w) / 2 + 16px); }

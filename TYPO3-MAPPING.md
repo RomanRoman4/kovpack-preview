@@ -146,3 +146,10 @@ migrate them; editors enter the real values in TYPO3. An empty value shows "auf 
   blocks/items. Verify the frontend after saving, including long/empty content and missing images.
 - Forms work through the configured CMS flow; do not mistake the static visual demo for delivery.
 - Record actual remaining differences. Do not promise exact equivalence before these checks pass.
+
+Line breaks (owner, 2026-11-26): headings, product names and labels never hyphenate automatically. WebKit, which
+every browser on an iPhone uses, hyphenates capitalised words and split "PROTECT PA-PER"; Chrome on a computer
+does not, so it hid the problem. Only the justified about story keeps `hyphens: auto`. Where a long German
+compound in a narrow label must break (e.g. the roll's sheet type "Bodenschutzpapier" at 320 px), editors place a
+soft hyphen (`&shy;`, "Bodenschutz&shy;papier"); it shows only when the word has to break. Legal references keep
+their parts together with a word joiner (`6(1)&#8288;(f)`).
