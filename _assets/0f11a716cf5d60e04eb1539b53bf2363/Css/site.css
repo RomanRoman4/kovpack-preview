@@ -2930,6 +2930,8 @@ body[class] {
 .kovpack-partner__line a:is(:hover, :focus-visible) { transform: translateY(-4px); box-shadow: 0 22px 40px -28px rgb(20 26 27 / 45%); }
 .kovpack-partner__line a:focus-visible { outline: 2px solid var(--kovpack-brand); outline-offset: 3px; }
 .kovpack-partner__line-icon {
+    scale: 1.1;
+    transform-origin: left center;
     display: block;
     flex: none;
     width: clamp(60px, 4.2vw, 76px);
